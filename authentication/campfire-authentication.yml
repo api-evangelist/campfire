@@ -1,0 +1,47 @@
+generated: '2026-07-18'
+method: searched
+source: openapi/campfire-openapi-original.json
+docs: https://docs.campfire.ai/quickstart
+summary:
+  types:
+  - apiKey
+  - oauth2
+  api_key_in:
+  - header
+  oauth2_flows:
+  - authorizationCode
+  - clientCredentials
+  primary: apiKey
+schemes:
+- name: knoxApiToken
+  type: apiKey
+  in: header
+  parameter: Authorization
+  format: 'Token <API_KEY>'
+  description: >
+    Primary auth. Django-Knox token in the Authorization header with the required
+    "Token" prefix (e.g. `Authorization: Token YOUR_API_KEY`). Keys are minted per
+    API user under Settings > API Keys (app.meetcampfire.com/v2/settings/api-keys)
+    and shown only once. Each API user carries a role (admin / clerk / view only)
+    that bounds which endpoints the key can call.
+  sources:
+  - openapi/campfire-openapi-original.json
+- name: OAuth2 / OIDC
+  type: oauth2
+  description: >
+    Advertised via /.well-known/oauth-authorization-server and
+    /.well-known/openid-configuration on api.meetcampfire.com. issuer
+    https://api.meetcampfire.com; PKCE S256; dynamic client registration
+    supported. Scopes: openid, email, profile (see scopes/campfire-scopes.yml).
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://api.meetcampfire.com/auth/authorize
+    tokenUrl: https://api.meetcampfire.com/auth/token
+  - flow: clientCredentials
+    tokenUrl: https://api.meetcampfire.com/auth/token
+  sources:
+  - https://api.meetcampfire.com/.well-known/openid-configuration
+roles:
+  - {role: admin, access: All APIs}
+  - {role: clerk, access: View all APIs and post draft entries}
+  - {role: view only, access: GET (read-only) APIs}
