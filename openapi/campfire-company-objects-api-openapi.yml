@@ -1,0 +1,4079 @@
+openapi: 3.0.3
+info:
+  title: Campfire Developer APIs Accounts Payable Company Objects API
+  version: 1.0.0
+  description: '## Introduction
+
+    Campfire''s developer APIs offer granular access to Campfire''s core accounting,
+
+    revenue recognition, and financial data features.
+
+
+    These APIs are designed to be used by developers to build custom integrations,
+
+    automate workflows, and perform any other programmatic operations.
+
+    '
+servers:
+- url: https://api.meetcampfire.com
+  description: Production server
+tags:
+- name: Company Objects
+paths:
+  /ca/api/v1/custom-fields:
+    get:
+      operationId: ca_api_v1_custom_fields_list
+      description: "\n        List all custom fields for a given app and model.\n\n        Supports including soft-deleted records for audit and recovery purposes.\n        When include_deleted=true, returns ONLY deleted records instead of active records.\n        Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp,\n        and 'last_modified_at'. When 'false' or omitted, returns ONLY active records.\n        This provides clean separation between active and deleted data.\n        "
+      summary: List Custom Fields
+      parameters:
+      - in: query
+        name: app
+        schema:
+          type: string
+        description: App name
+      - in: query
+        name: include_deleted
+        schema:
+          type: boolean
+          default: false
+        description: 'When set to ''true'', returns ONLY deleted records instead of active records. Deleted records contain minimal data: ''id'', ''is_deleted=true'', ''deleted_at'' timestamp, and ''last_modified_at''. When ''false'' or omitted, returns ONLY active records. This provides clean separation between active and deleted data.'
+      - in: query
+        name: is_active
+        schema:
+          type: boolean
+        description: Filter by active status
+      - in: query
+        name: last_modified_at__gte
+        schema:
+          type: string
+        description: 'Filter for records modified on or after this timestamp. Format: ISO 8601 (e.g., ''2024-01-01T00:00:00Z'' or ''2024-01-01''). Works with both active records and deleted records (filters by deletion time for deleted records).'
+      - in: query
+        name: last_modified_at__lte
+        schema:
+          type: string
+        description: 'Filter for records modified on or before this timestamp. Format: ISO 8601 (e.g., ''2024-12-31T23:59:59Z'' or ''2024-12-31''). Works with both active records and deleted records (filters by deletion time for deleted records).'
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: model
+        schema:
+          type: string
+        description: Model name
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - Company Objects
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCustomFieldList'
+          description: ''
+    post:
+      operationId: ca_api_v1_custom_fields_create
+      description: Create a new custom field for a given app and model
+      summary: Create Custom Field
+      tags:
+      - Company Objects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomField'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CustomField'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CustomField'
+        required: true
+      security:
+      - knoxApiToken: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomField'
+          description: ''
+  /ca/api/v1/custom-fields/{id}:
+    get:
+      operationId: ca_api_v1_custom_fields_retrieve
+      summary: Retrieve Custom Field
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Company Objects
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomField'
+          description: ''
+    put:
+      operationId: ca_api_v1_custom_fields_update
+      summary: Update Custom Field
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Company Objects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomField'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CustomField'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CustomField'
+        required: true
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomField'
+          description: ''
+    patch:
+      operationId: ca_api_v1_custom_fields_partial_update
+      summary: Partial Update Custom Field
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Company Objects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCustomField'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCustomField'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCustomField'
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomField'
+          description: ''
+    delete:
+      operationId: ca_api_v1_custom_fields_destroy
+      summary: Delete Custom Field
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Company Objects
+      security:
+      - knoxApiToken: []
+      responses:
+        '204':
+          description: No response body
+  /coa/api/account:
+    get:
+      operationId: coa_api_account_list
+      description: Lists the chart of accounts (GL accounts). Each account includes metadata about its parent account and its full lineage (the ordered chain of ancestor accounts), so parent/child account relationships can be reconstructed from the response.
+      summary: List Chart of Accounts
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - Company Objects
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedChartAccountList'
+          description: ''
+    post:
+      operationId: coa_api_account_create
+      description: Lists the chart of accounts (GL accounts). Each account includes metadata about its parent account and its full lineage (the ordered chain of ancestor accounts), so parent/child account relationships can be reconstructed from the response.
+      summary: Create Chart Account
+      tags:
+      - Company Objects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChartAccount'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ChartAccount'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ChartAccount'
+        required: true
+      security:
+      - knoxApiToken: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChartAccount'
+          description: ''
+  /coa/api/account/{id}:
+    get:
+      operationId: coa_api_account_retrieve
+      summary: Retrieve Chart Account
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Company Objects
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChartAccount'
+          description: ''
+    put:
+      operationId: coa_api_account_update
+      summary: Update Chart Account
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Company Objects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChartAccount'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ChartAccount'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ChartAccount'
+        required: true
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChartAccount'
+          description: ''
+    patch:
+      operationId: coa_api_account_partial_update
+      summary: Partial Update Chart Account
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Company Objects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedChartAccount'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedChartAccount'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedChartAccount'
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChartAccount'
+          description: ''
+    delete:
+      operationId: coa_api_account_destroy
+      summary: Delete Chart Account
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Company Objects
+      security:
+      - knoxApiToken: []
+      responses:
+        '204':
+          description: No response body
+  /coa/api/account/balance-sheet:
+    get:
+      operationId: coa_api_account_balance_sheet_list
+      description: Retrieve a list of chart accounts with optional filtering and sorting
+      summary: List Chart Accounts
+      parameters:
+      - in: query
+        name: account
+        schema:
+          type: integer
+        description: Filter by account ID. Can be specified multiple times for multiple accounts
+        explode: true
+        style: form
+      - in: query
+        name: account_subtype
+        schema:
+          type: string
+        description: Filter by account subtype. Can be specified multiple times for multiple subtypes
+        explode: true
+        style: form
+      - in: query
+        name: account_type
+        schema:
+          type: string
+        description: Filter by account type. Can be specified multiple times for multiple types
+        explode: true
+        style: form
+      - in: query
+        name: include_cost_allocation
+        schema:
+          type: boolean
+          default: false
+        description: Include accounts with cost allocation
+      - in: query
+        name: include_inactive
+        schema:
+          type: boolean
+          default: true
+        description: Include inactive accounts in results
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: q
+        schema:
+          type: string
+        description: Search query - searches by account name or number
+      tags:
+      - Company Objects
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedChartAccountList'
+          description: ''
+    post:
+      operationId: coa_api_account_balance_sheet_create
+      description: Lists the chart of accounts (GL accounts). Each account includes metadata about its parent account and its full lineage (the ordered chain of ancestor accounts), so parent/child account relationships can be reconstructed from the response.
+      summary: Create Chart Account
+      tags:
+      - Company Objects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChartAccount'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ChartAccount'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ChartAccount'
+        required: true
+      security:
+      - knoxApiToken: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChartAccount'
+          description: ''
+  /coa/api/account/income-statement:
+    get:
+      operationId: coa_api_account_income_statement_list
+      description: Lists the chart of accounts (GL accounts). Each account includes metadata about its parent account and its full lineage (the ordered chain of ancestor accounts), so parent/child account relationships can be reconstructed from the response.
+      summary: List Chart of Accounts
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - Company Objects
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedChartAccountList'
+          description: ''
+    post:
+      operationId: coa_api_account_income_statement_create
+      description: Lists the chart of accounts (GL accounts). Each account includes metadata about its parent account and its full lineage (the ordered chain of ancestor accounts), so parent/child account relationships can be reconstructed from the response.
+      summary: Create Chart Account
+      tags:
+      - Company Objects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChartAccount'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ChartAccount'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ChartAccount'
+        required: true
+      security:
+      - knoxApiToken: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChartAccount'
+          description: ''
+  /coa/api/cost-allocations:
+    get:
+      operationId: coa_api_cost_allocations_list
+      description: "\n        Retrieve a list of cost allocations with optional filtering and sorting.\n\n        Supports including soft-deleted records for audit and recovery purposes.\n        When include_deleted=true, returns ONLY deleted records instead of active records.\n        Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp,\n        and 'last_modified_at'. When 'false' or omitted, returns ONLY active records.\n        This provides clean separation between active and deleted data.\n        "
+      summary: List Cost Allocation
+      parameters:
+      - in: query
+        name: include_deleted
+        schema:
+          type: boolean
+          default: false
+        description: 'When set to ''true'', returns ONLY deleted records instead of active records. Deleted records contain minimal data: ''id'', ''is_deleted=true'', ''deleted_at'' timestamp, and ''last_modified_at''. When ''false'' or omitted, returns ONLY active records. This provides clean separation between active and deleted data.'
+      - in: query
+        name: last_modified_at__gte
+        schema:
+          type: string
+        description: 'Filter for records modified on or after this timestamp. Format: ISO 8601 (e.g., ''2024-01-01T00:00:00Z'' or ''2024-01-01''). Works with both active records and deleted records (filters by deletion time for deleted records).'
+      - in: query
+        name: last_modified_at__lte
+        schema:
+          type: string
+        description: 'Filter for records modified on or before this timestamp. Format: ISO 8601 (e.g., ''2024-12-31T23:59:59Z'' or ''2024-12-31''). Works with both active records and deleted records (filters by deletion time for deleted records).'
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - Company Objects
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCostAllocationList'
+          description: ''
+    post:
+      operationId: coa_api_cost_allocations_create
+      description: 'Complete mixin for history filtering with pagination support.
+
+        Returns either active OR deleted records based on include_deleted parameter.'
+      summary: Create Cost Allocation
+      tags:
+      - Company Objects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CostAllocation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CostAllocation'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CostAllocation'
+        required: true
+      security:
+      - knoxApiToken: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CostAllocation'
+          description: ''
+  /coa/api/cost-allocations/{id}:
+    get:
+      operationId: coa_api_cost_allocations_retrieve
+      summary: Get Cost Allocation
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Company Objects
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CostAllocation'
+          description: ''
+    put:
+      operationId: coa_api_cost_allocations_update
+      summary: Update Cost Allocation
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Company Objects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CostAllocation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CostAllocation'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CostAllocation'
+        required: true
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CostAllocation'
+          description: ''
+    patch:
+      operationId: coa_api_cost_allocations_partial_update
+      summary: Partial Update Cost Allocation
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Company Objects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCostAllocation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCostAllocation'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCostAllocation'
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CostAllocation'
+          description: ''
+    delete:
+      operationId: coa_api_cost_allocations_destroy
+      summary: Delete Cost Allocation
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Company Objects
+      security:
+      - knoxApiToken: []
+      responses:
+        '204':
+          description: No response body
+  /coa/api/department:
+    get:
+      operationId: coa_api_department_list
+      description: "\n        Retrieve a list of departments with optional filtering and sorting.\n\n        Each department includes metadata about its parent department (`parent`, `parent_name`),\n        so parent/child department relationships can be reconstructed from the response.\n\n        Supports including soft-deleted records for audit and recovery purposes.\n        When include_deleted=true, returns ONLY deleted records instead of active records.\n        Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp,\n        and 'last_modified_at'. When 'false' or omitted, returns ONLY active records.\n        This provides clean separation between active and deleted data.\n        "
+      summary: List Departments
+      parameters:
+      - in: query
+        name: include_deleted
+        schema:
+          type: boolean
+          default: false
+        description: 'When set to ''true'', returns ONLY deleted records instead of active records. Deleted records contain minimal data: ''id'', ''is_deleted=true'', ''deleted_at'' timestamp, and ''last_modified_at''. When ''false'' or omitted, returns ONLY active records. This provides clean separation between active and deleted data.'
+      - in: query
+        name: include_inactive
+        schema:
+          type: boolean
+          default: true
+        description: Include inactive departments in results
+      - in: query
+        name: last_modified_at__gte
+        schema:
+          type: string
+        description: 'Filter for records modified on or after this timestamp. Format: ISO 8601 (e.g., ''2024-01-01T00:00:00Z'' or ''2024-01-01''). Works with both active records and deleted records (filters by deletion time for deleted records).'
+      - in: query
+        name: last_modified_at__lte
+        schema:
+          type: string
+        description: 'Filter for records modified on or before this timestamp. Format: ISO 8601 (e.g., ''2024-12-31T23:59:59Z'' or ''2024-12-31''). Works with both active records and deleted records (filters by deletion time for deleted records).'
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: q
+        schema:
+          type: string
+        description: Search query - searches by department name or code
+      - in: query
+        name: sort
+        schema:
+          type: string
+          default: name
+        description: 'Sort order. Use field name for ascending, -field for descending. Supports multiple fields separated by comma. Default: name'
+      tags:
+      - Company Objects
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedDepartmentList'
+          description: ''
+      x-mint:
+        mcp:
+          enabled: true
+          name: get_departments
+          description: Retrieve department information with optional filtering
+    post:
+      operationId: coa_api_department_create
+      description: 'Complete mixin for history filtering with pagination support.
+
+        Returns either active OR deleted records based on include_deleted parameter.'
+      summary: Create Department
+      tags:
+      - Company Objects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Department'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Department'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Department'
+        required: true
+      security:
+      - knoxApiToken: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Department'
+          description: ''
+  /coa/api/department/{id}:
+    get:
+      operationId: coa_api_department_retrieve
+      summary: Retrieve Department
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Company Objects
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Department'
+          description: ''
+    put:
+      operationId: coa_api_department_update
+      summary: Update Department
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Company Objects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Department'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Department'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Department'
+        required: true
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Department'
+          description: ''
+    patch:
+      operationId: coa_api_department_partial_update
+      summary: Partial Update Department
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Company Objects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedDepartment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedDepartment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedDepartment'
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Department'
+          description: ''
+    delete:
+      operationId: coa_api_department_destroy
+      description: Delete a department and optionally reassign all related records to another department
+      summary: Delete Department
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: query
+        name: new_department
+        schema:
+          type: integer
+        description: ID of the department to reassign all related records to before deletion
+      tags:
+      - Company Objects
+      security:
+      - knoxApiToken: []
+      responses:
+        '204':
+          description: No response body
+  /coa/api/fixed-asset-class:
+    get:
+      operationId: coa_api_fixed_asset_class_list
+      description: "\n        Retrieve a list of fixed asset classes with optional filtering and sorting.\n\n        Supports including soft-deleted records for audit and recovery purposes.\n        When include_deleted=true, returns ONLY deleted records instead of active records.\n        Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp,\n        and 'last_modified_at'. When 'false' or omitted, returns ONLY active records.\n        This provides clean separation between active and deleted data.\n        "
+      summary: List Fixed Asset Classes
+      parameters:
+      - in: query
+        name: include_deleted
+        schema:
+          type: boolean
+          default: false
+        description: 'When set to ''true'', returns ONLY deleted records instead of active records. Deleted records contain minimal data: ''id'', ''is_deleted=true'', ''deleted_at'' timestamp, and ''last_modified_at''. When ''false'' or omitted, returns ONLY active records. This provides clean separation between active and deleted data.'
+      - in: query
+        name: last_modified_at__gte
+        schema:
+          type: string
+        description: 'Filter for records modified on or after this timestamp. Format: ISO 8601 (e.g., ''2024-01-01T00:00:00Z'' or ''2024-01-01''). Works with both active records and deleted records (filters by deletion time for deleted records).'
+      - in: query
+        name: last_modified_at__lte
+        schema:
+          type: string
+        description: 'Filter for records modified on or before this timestamp. Format: ISO 8601 (e.g., ''2024-12-31T23:59:59Z'' or ''2024-12-31''). Works with both active records and deleted records (filters by deletion time for deleted records).'
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - Company Objects
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedFixedAssetClassList'
+          description: ''
+    post:
+      operationId: coa_api_fixed_asset_class_create
+      description: 'Complete mixin for history filtering with pagination support.
+
+        Returns either active OR deleted records based on include_deleted parameter.'
+      summary: Create Fixed Asset Class
+      tags:
+      - Company Objects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FixedAssetClass'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FixedAssetClass'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FixedAssetClass'
+        required: true
+      security:
+      - knoxApiToken: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FixedAssetClass'
+          description: ''
+  /coa/api/fixed-asset-class/{id}:
+    get:
+      operationId: coa_api_fixed_asset_class_retrieve
+      summary: Retrieve Fixed Asset Class
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Company Objects
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FixedAssetClass'
+          description: ''
+    put:
+      operationId: coa_api_fixed_asset_class_update
+      summary: Update Fixed Asset Class
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Company Objects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FixedAssetClass'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FixedAssetClass'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FixedAssetClass'
+        required: true
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FixedAssetClass'
+          description: ''
+    patch:
+      operationId: coa_api_fixed_asset_class_partial_update
+      summary: Partial Fixed Asset Class
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Company Objects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedFixedAssetClass'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedFixedAssetClass'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedFixedAssetClass'
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FixedAssetClass'
+          description: ''
+    delete:
+      operationId: coa_api_fixed_asset_class_destroy
+      summary: Delete Fixed Asset Class
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Company Objects
+      security:
+      - knoxApiToken: []
+      responses:
+        '204':
+          description: No response body
+  /coa/api/tag:
+    get:
+      operationId: coa_api_tag_list
+      description: "\n        Retrieve a list of transaction tags (custom dimensions) with optional filtering and sorting.\n\n        Supports including soft-deleted records for audit and recovery purposes.\n        When include_deleted=true, returns ONLY deleted records instead of active records.\n        Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp,\n        and 'last_modified_at'. When 'false' or omitted, returns ONLY active records.\n        This provides clean separation between active and deleted data.\n        "
+      summary: List Custom Dimensions
+      parameters:
+      - in: query
+        name: exclude_tags
+        schema:
+          type: string
+        description: Comma-separated list of tag IDs to exclude
+      - in: query
+        name: group
+        schema:
+          type: integer
+        description: Filter by tag group ID
+      - in: query
+        name: include_deleted
+        schema:
+          type: boolean
+          default: false
+        description: 'When set to ''true'', returns ONLY deleted records instead of active records. Deleted records contain minimal data: ''id'', ''is_deleted=true'', ''deleted_at'' timestamp, and ''last_modified_at''. When ''false'' or omitted, returns ONLY active records. This provides clean separation between active and deleted data.'
+      - in: query
+        name: include_inactive
+        schema:
+          type: boolean
+          default: false
+        description: If true, include inactive tags
+      - in: query
+        name: last_modified_at__gte
+        schema:
+          type: string
+        description: 'Filter for records modified on or after this timestamp. Format: ISO 8601 (e.g., ''2024-01-01T00:00:00Z'' or ''2024-01-01''). Works with both active records and deleted records (filters by deletion time for deleted records).'
+      - in: query
+        name: last_modified_at__lte
+        schema:
+          type: string
+        description: 'Filter for records modified on or before this timestamp. Format: ISO 8601 (e.g., ''2024-12-31T23:59:59Z'' or ''2024-12-31''). Works with both active records and deleted records (filters by deletion time for deleted records).'
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: no_group
+        schema:
+          type: boolean
+        description: If true, only return tags without a group
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: parent
+        schema:
+          type: integer
+        description: Filter by parent tag ID
+      - in: query
+        name: q
+        schema:
+          type: string
+        description: Search query - searches by tag name or group name
+      - in: query
+        name: sort
+        schema:
+          type: string
+          default: name
+        description: 'Sort order. Use field name for ascending, -field for descending. Special field: group_name. Default: name'
+      tags:
+      - Company Objects
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedTransactionTagList'
+          description: ''
+      x-mint:
+        mcp:
+          enabled: true
+          name: get_tags
+          description: Retrieve transaction tags (custom dimensions) with optional filtering
+    post:
+      operationId: coa_api_tag_create
+      description: 'Complete mixin for history filtering with pagination support.
+
+        Returns either active OR deleted records based on include_deleted parameter.'
+      summary: Create Custom Dimension
+      tags:
+      - Company Objects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionTag'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TransactionTag'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TransactionTag'
+        required: true
+      security:
+      - knoxApiToken: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionTag'
+          description: ''
+  /coa/api/tag-group:
+    get:
+      operationId: coa_api_tag_group_list
+      description: "\n        Retrieve a list of transaction tag groups with optional filtering and sorting.\n\n        Supports timestamp-based filtering for synchronization and audit purposes.\n        "
+      summary: List Custom Dimension Groups
+      parameters:
+      - in: query
+        name: last_modified_at__gte
+        schema:
+          type: string
+        description: 'Filter for records modified on or after this timestamp. Format: ISO 8601 (e.g., ''2024-01-01T00:00:00Z'' or ''2024-01-01''). Works with both active records and deleted records (filters by deletion time for deleted records).'
+      - in: query
+        name: last_modified_at__lte
+        schema:
+          type: string
+        description: 'Filter for records modified on or before this timestamp. Format: ISO 8601 (e.g., ''2024-12-31T23:59:59Z'' or ''2024-12-31''). Works with both active records and deleted records (filters by deletion time for deleted records).'
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: q
+        schema:
+          type: string
+        description: Search query - searches by group name
+      - in: query
+        name: sort
+        schema:
+          type: string
+          default: name
+        description: 'Sort order. Use field name for ascending, -field for descending. Default: name'
+      tags:
+      - Company Objects
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedTransactionTagGroupList'
+          description: ''
+    post:
+      operationId: coa_api_tag_group_create
+      description: 'Mixin to provide consistent last_modified_at filtering and sorting functionality
+
+        for List APIs with comprehensive timestamp computation.'
+      summary: Create Custom Dimension Group
+      tags:
+      - Company Objects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionTagGroup'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TransactionTagGroup'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TransactionTagGroup'
+        required: true
+      security:
+      - knoxApiToken: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionTagGroup'
+          description: ''
+  /coa/api/tag-group/{id}:
+    get:
+      operationId: coa_api_tag_group_retrieve
+      summary: Retrieve Custom Dimension Group
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Company Objects
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionTagGroup'
+          description: ''
+    put:
+      operationId: coa_api_tag_group_update
+      summary: Update Custom Dimension Group
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Company Objects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionTagGroup'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TransactionTagGroup'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TransactionTagGroup'
+        required: true
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionTagGroup'
+          description: ''
+    patch:
+      operationId: coa_api_tag_group_partial_update
+      summary: Partial Update Custom Dimension Group
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Company Objects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTransactionTagGroup'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTransactionTagGroup'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTransactionTagGroup'
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionTagGroup'
+          description: ''
+    delete:
+      operationId: coa_api_tag_group_destroy
+      summary: Delete Custom Dimension Group
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Company Objects
+      security:
+      - knoxApiToken: []
+      responses:
+        '204':
+          description: No response body
+  /coa/api/tag/{id}:
+    get:
+      operationId: coa_api_tag_retrieve
+      summary: Retrieve Custom Dimension
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Company Objects
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionTag'
+          description: ''
+    put:
+      operationId: coa_api_tag_update
+      summary: Update Custom Dimension
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Company Objects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionTag'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TransactionTag'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TransactionTag'
+        required: true
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionTag'
+          description: ''
+    patch:
+      operationId: coa_api_tag_partial_update
+      summary: Partial Update Custom Dimension
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Company Objects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTransactionTag'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTransactionTag'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTransactionTag'
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionTag'
+          description: ''
+    delete:
+      operationId: coa_api_tag_destroy
+      description: Delete a transaction tag and optionally merge it with another tag
+      summary: Delete Custom Dimension
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: query
+        name: new_tag
+        schema:
+          type: integer
+        description: ID of the tag to merge with before deletion
+      tags:
+      - Company Objects
+      security:
+      - knoxApiToken: []
+      responses:
+        '204':
+          description: No response body
+  /coa/api/vendor:
+    get:
+      operationId: coa_api_vendor_list
+      description: "\n        Retrieve a list of vendors/customers with optional filtering and sorting.\n\n        Each vendor includes metadata about its parent vendor (`parent`, `parent_name`) and its\n        full `lineage` (the ordered chain of ancestor vendors), so parent/child vendor\n        relationships can be reconstructed from the response.\n\n        Supports retrieving deleted records for audit purposes. When include_deleted=true,\n        returns ONLY deleted records with minimal data (id, is_deleted, deleted_at, last_modified_at).\n        When false or omitted, returns ONLY active records.\n        "
+      summary: List Vendors
+      parameters:
+      - in: query
+        name: external_id
+        schema:
+          type: string
+        description: Filter by external ID
+      - in: query
+        name: include_deleted
+        schema:
+          type: boolean
+          default: false
+        description: 'When set to ''true'', returns ONLY deleted records instead of active records. Deleted records contain minimal data: ''id'', ''is_deleted=true'', ''deleted_at'' timestamp, and ''last_modified_at''. When ''false'' or omitted, returns ONLY active records. This provides clean separation between active and deleted data.'
+      - in: query
+        name: include_inactive
+        schema:
+          type: boolean
+          default: false
+        description: Include inactive vendors in results
+      - in: query
+        name: last_modified_at__gte
+        schema:
+          type: string
+        description: 'Filter for records modified on or after this timestamp. Format: ISO 8601 (e.g., ''2024-01-01T00:00:00Z'' or ''2024-01-01''). Works with both active records and deleted records (filters by deletion time for deleted records).'
+      - in: query
+        name: last_modified_at__lte
+        schema:
+          type: string
+        description: 'Filter for records modified on or before this timestamp. Format: ISO 8601 (e.g., ''2024-12-31T23:59:59Z'' or ''2024-12-31''). Works with both active records and deleted records (filters by deletion time for deleted records).'
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: q
+        schema:
+          type: string
+        description: Search query - searches by name, DBA, email, or company name. If numeric, also searches by ID
+      - in: query
+        name: sort
+        schema:
+          type: string
+          default: name
+        description: 'Sort order. Use field name for ascending, -field for descending. Supports multiple fields separated by comma. Default: name'
+      - in: query
+        name: vendor_type
+        schema:
+          type: string
+          enum:
+          - customer
+          - vendor
+        description: Filter by vendor type. Can be specified multiple times for multiple types
+        explode: true
+        style: form
+      tags:
+      - Company Objects
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedVendorList'
+          description: ''
+      x-mint:
+        mcp:
+          enabled: true
+          name: get_vendors
+          description: Retrieve vendor information with optional filtering
+    post:
+      operationId: coa_api_vendor_create
+      description: Create a new vendor or customer in the system
+      summary: Create Vendor
+      tags:
+      - Company Objects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vendor'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Vendor'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Vendor'
+        required: true
+      security:
+      - knoxApiToken: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vendor'
+          description: ''
+  /coa/api/vendor/{id}:
+    get:
+      operationId: coa_api_vendor_retrieve
+      summary: Retrieve Vendor
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Company Objects
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vendor'
+          description: ''
+    put:
+      operationId: coa_api_vendor_update
+      summary: Update Vendor
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Company Objects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vendor'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Vendor'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Vendor'
+        required: true
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vendor'
+          description: ''
+    patch:
+      operationId: coa_api_vendor_partial_update
+      summary: Partial Update Vendor
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Company Objects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedVendor'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedVendor'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedVendor'
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vendor'
+          description: ''
+    delete:
+      operationId: coa_api_vendor_destroy
+      description: Delete a vendor and optionally reassign all related records to another vendor. Returns 202 Accepted as deletion is processed asynchronously.
+      summary: Delete Vendor
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: query
+        name: new_vendor
+        schema:
+          type: integer
+        description: ID of the vendor to reassign all related records to before deletion
+      tags:
+      - Company Objects
+      security:
+      - knoxApiToken: []
+      responses:
+        '204':
+          description: No response body
+  /coa/api/vendor/summary:
+    get:
+      operationId: list_vendor_summaries
+      summary: List Vendor Summaries
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - Company Objects
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedVendorSummaryList'
+          description: ''
+  /coa/api/vendor_custom_field_1/:
+    get:
+      operationId: list_vendor_custom_fields
+      summary: List Vendor Custom Fields
+      tags:
+      - Company Objects
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/VendorCustomField1'
+          description: ''
+    post:
+      operationId: create_vendor_custom_field
+      summary: Create Vendor Custom Field
+      tags:
+      - Company Objects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VendorCustomField1'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/VendorCustomField1'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/VendorCustomField1'
+      security:
+      - knoxApiToken: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VendorCustomField1'
+          description: ''
+  /coa/api/vendor_custom_field_1/{id}/:
+    get:
+      operationId: get_vendor_custom_field
+      summary: Retrieve Vendor Custom Field
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Company Objects
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VendorCustomField1'
+          description: ''
+    put:
+      operationId: update_vendor_custom_field
+      summary: Update Vendor Custom Field
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Company Objects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VendorCustomField1'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/VendorCustomField1'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/VendorCustomField1'
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VendorCustomField1'
+          description: ''
+    patch:
+      operationId: partial_update_vendor_custom_field
+      summary: Partial Update Vendor Custom Field
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Company Objects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedVendorCustomField1'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedVendorCustomField1'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedVendorCustomField1'
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VendorCustomField1'
+          description: ''
+    delete:
+      operationId: delete_vendor_custom_field
+      summary: Delete Vendor Custom Field
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Company Objects
+      security:
+      - knoxApiToken: []
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    PaginatedTransactionTagList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransactionTag'
+    PatchedChartAccount:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        reconciliation_ending_date:
+          type: string
+          format: date
+          readOnly: true
+        reconciliation_ending_balance:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          readOnly: true
+        balance_ytd:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          readOnly: true
+        name_and_number:
+          type: string
+          readOnly: true
+        parent_name_and_number:
+          type: string
+          nullable: true
+          readOnly: true
+        sort_key:
+          type: string
+          readOnly: true
+        has_associated_data:
+          type: boolean
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        account_id:
+          type: string
+          format: uuid
+          readOnly: true
+        number:
+          type: string
+          nullable: true
+          maxLength: 12
+        currency:
+          type: string
+          maxLength: 3
+        name:
+          type: string
+          nullable: true
+          maxLength: 250
+        nickname:
+          type: string
+          nullable: true
+          maxLength: 250
+        description:
+          type: string
+          nullable: true
+        status:
+          $ref: '#/components/schemas/Status372Enum'
+        account_type:
+          $ref: '#/components/schemas/AccountTypeEnum'
+        account_subtype:
+          $ref: '#/components/schemas/AccountSubtypeEnum'
+        account_cashflow_classification:
+          $ref: '#/components/schemas/AccountCashflowClassificationEnum'
+        include_in_eliminations:
+          type: boolean
+        include_in_revaluations:
+          type: boolean
+        protected:
+          type: boolean
+        skip_subledger_validation:
+          type: boolean
+          description: Allow manual journal entries to post to this AR/AP account, bypassing subledger validation
+        external_id:
+          type: string
+          readOnly: true
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_recompute_balance_at:
+          type: string
+          format: date-time
+          nullable: true
+        lock_recompute_balance_key:
+          type: string
+          nullable: true
+          maxLength: 250
+        current_balance:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+        current_balance_book:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+        lineage_array:
+          type: array
+          items:
+            type: string
+            maxLength: 50
+          nullable: true
+          description: Pre-computed lineage array from root to this account
+        customer:
+          type: integer
+          readOnly: true
+        parent:
+          type: integer
+          nullable: true
+        parent_bank_account:
+          type: integer
+          nullable: true
+        default_department:
+          type: integer
+          nullable: true
+        default_tags:
+          type: array
+          items:
+            type: integer
+    PaginatedVendorList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Vendor'
+    AccountSubtypeEnum:
+      enum:
+      - BANK
+      - ACCOUNTS_RECEIVABLE
+      - OTHER_CURRENT_ASSET
+      - FIXED_ASSET
+      - OTHER_ASSET
+      - ACCOUNTS_PAYABLE
+      - UNAPPLIED_CREDITS
+      - CREDIT_CARD
+      - ACCRUED_REVENUE
+      - DEFERRED_REVENUE
+      - OTHER_CURRENT_LIABILITY
+      - LONG_TERM_LIABILITY
+      - UNBILLED_RECEIVABLE
+      - EQUITY
+      - RETAINED_EARNINGS
+      - INCOME
+      - COST_OF_GOODS_SOLD
+      - EXPENSE
+      - DEFERRED_EXPENSE
+      - OTHER_INCOME
+      - OTHER_EXPENSE
+      - REALIZED_GAIN_LOSS
+      - UNREALIZED_GAIN_LOSS
+      - PREPAID
+      - COST_ALLOCATION
+      - UNCATEGORIZED
+      type: string
+      description: '* `BANK` - Bank
+
+        * `ACCOUNTS_RECEIVABLE` - Accounts Receivable
+
+        * `OTHER_CURRENT_ASSET` - Other Current Asset
+
+        * `FIXED_ASSET` - Fixed Asset
+
+        * `OTHER_ASSET` - Other Asset
+
+        * `ACCOUNTS_PAYABLE` - Accounts Payable
+
+        * `UNAPPLIED_CREDITS` - Unapplied Credits
+
+        * `CREDIT_CARD` - Credit Card
+
+        * `ACCRUED_REVENUE` - Accrued Revenue
+
+        * `DEFERRED_REVENUE` - Deferred Revenue
+
+        * `OTHER_CURRENT_LIABILITY` - Other Current Liability
+
+        * `LONG_TERM_LIABILITY` - Long Term Liability
+
+        * `UNBILLED_RECEIVABLE` - Unbilled Receivable
+
+        * `EQUITY` - Equity
+
+        * `RETAINED_EARNINGS` - Retained Earnings
+
+        * `INCOME` - Income
+
+        * `COST_OF_GOODS_SOLD` - Cost of Goods Sold
+
+        * `EXPENSE` - Expense
+
+        * `DEFERRED_EXPENSE` - Deferred Expense
+
+        * `OTHER_INCOME` - Other Income
+
+        * `OTHER_EXPENSE` - Other Expense
+
+        * `REALIZED_GAIN_LOSS` - Realized Gain Loss
+
+        * `UNREALIZED_GAIN_LOSS` - Unrealized Gain Loss
+
+        * `PREPAID` - Prepaid
+
+        * `COST_ALLOCATION` - Cost Allocation
+
+        * `UNCATEGORIZED` - Uncategorized'
+    PaginatedCustomFieldList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomField'
+    PatchedFixedAssetClass:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        asset_account_name:
+          type: string
+          readOnly: true
+        accumulated_depreciation_account_name:
+          type: string
+          readOnly: true
+        depreciation_expense_account_name:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          maxLength: 250
+        useful_life:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        asset_account:
+          type: integer
+          nullable: true
+        accumulated_depreciation_account:
+          type: integer
+          nullable: true
+        depreciation_expense_account:
+          type: integer
+          nullable: true
+    VendorCustomField1:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        value:
+          type: string
+          nullable: true
+          maxLength: 250
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+      required:
+      - created_at
+      - customer
+      - id
+      - last_modified_at
+    Source3b3Enum:
+      enum:
+      - BILL
+      - BREX
+      - HUBSPOT
+      - MANUAL
+      - PAYROLL
+      - SALESFORCE
+      type: string
+      description: '* `BILL` - Bill
+
+        * `BREX` - Brex
+
+        * `HUBSPOT` - Hubspot
+
+        * `MANUAL` - Manual
+
+        * `PAYROLL` - Payroll
+
+        * `SALESFORCE` - Salesforce'
+    BlankEnum:
+      enum:
+      - ''
+    PatchedDepartment:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        parent_name:
+          type: string
+          readOnly: true
+        tags:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        active:
+          type: boolean
+          default: true
+        code:
+          type: string
+          maxLength: 250
+        name:
+          type: string
+          nullable: true
+          maxLength: 250
+        display_name:
+          type: string
+          nullable: true
+          maxLength: 600
+        tag_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        tag_group_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        parent:
+          type: integer
+          nullable: true
+    PatchedVendor:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        contacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/VendorContact'
+        parent_name:
+          type: string
+          readOnly: true
+        stripe_connection_name:
+          type: string
+          readOnly: true
+          nullable: true
+        stripe_connection_entity:
+          type: integer
+          readOnly: true
+          nullable: true
+        stripe_connection_portal_url:
+          type: string
+          readOnly: true
+          nullable: true
+        stripe_connection_portal_enabled:
+          type: boolean
+          readOnly: true
+          nullable: true
+        stripe_connection_invoicing_enabled:
+          type: boolean
+          readOnly: true
+          nullable: true
+        vendor_custom_field_1_name:
+          type: string
+          readOnly: true
+        payment_term_name_display:
+          type: string
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        search_vector:
+          type: string
+          readOnly: true
+          nullable: true
+        search_text:
+          type: string
+          readOnly: true
+          nullable: true
+        vendor_type:
+          nullable: true
+          default: vendor
+          title: Payee Type
+          oneOf:
+          - $ref: '#/components/schemas/VendorType391Enum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        name:
+          type: string
+          nullable: true
+          maxLength: 250
+        dba:
+          type: string
+          nullable: true
+          maxLength: 250
+        company_name:
+          type: string
+          nullable: true
+          maxLength: 250
+        website:
+          type: string
+          nullable: true
+          maxLength: 250
+        first_name:
+          type: string
+          nullable: true
+          maxLength: 250
+        last_name:
+          type: string
+          nullable: true
+          maxLength: 250
+        email:
+          type: string
+          format: email
+          nullable: true
+          maxLength: 250
+        phone_number:
+          type: string
+          nullable: true
+          maxLength: 250
+        mobile_number:
+          type: string
+          nullable: true
+          maxLength: 250
+        address_street_1:
+          type: string
+          nullable: true
+          maxLength: 250
+        address_street_2:
+          type: string
+          nullable: true
+          maxLength: 250
+        city:
+          type: string
+          nullable: true
+          maxLength: 250
+        state:
+          type: string
+          nullable: true
+          maxLength: 250
+        zip_code:
+          type: string
+          nullable: true
+          maxLength: 250
+        country:
+          type: string
+          nullable: true
+          maxLength: 250
+        billing_address_street_1:
+          type: string
+          nullable: true
+          maxLength: 250
+        billing_address_street_2:
+          type: string
+          nullable: true
+          maxLength: 250
+        billing_city:
+          type: string
+          nullable: true
+          maxLength: 250
+        billing_state:
+          type: string
+          nullable: true
+          maxLength: 250
+        billing_zip_code:
+          type: string
+          nullable: true
+          maxLength: 250
+        billing_country:
+          type: string
+          nullable: true
+          maxLength: 250
+        shipping_addressee:
+          type: string
+          nullable: true
+          maxLength: 255
+        billing_addressee:
+          type: string
+          nullable: true
+          maxLength: 255
+        notes:
+          type: string
+          nullable: true
+          maxLength: 250
+        business_id_ssn:
+          type: string
+          nullable: true
+          title: Business ID/SSN
+          maxLength: 250
+        is_1099:
+          type: boolean
+        vat_number:
+          type: string
+          nullable: true
+          maxLength: 250
+        business_type:
+          type: string
+          nullable: true
+          description: Business type classification (e.g., Korean NTS 업태)
+          maxLength: 250
+        business_category:
+          type: string
+          nullable: true
+          description: Business category classification (e.g., Korean NTS 종목)
+          maxLength: 250
+        entity_use_code:
+          type: string
+          nullable: true
+          description: Avalara entity/use code for tax exemptions (e.g., A - Federal Government, B - State/Local Govt)
+          maxLength: 25
+        withholding_tax_id:
+          type: string
+          nullable: true
+          description: Vendor's tax-authority ID for withholding (PAN for India, TZ for Israel). Dedicated field since these have format/checksum rules distinct from business_id_ssn.
+          maxLength: 250
+        stripe_customer_id:
+          type: string
+          nullable: true
+          maxLength: 250
+        use_stripe_auto_bill:
+          type: boolean
+          nullable: true
+        bill_vendor_id:
+          type: string
+          nullable: true
+          maxLength: 250
+        external_id:
+          type: string
+          nullable: true
+          maxLength: 250
+        source:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/Source3b3Enum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        invoice_message:
+          type: string
+          nullable: true
+        abbreviation:
+          type: string
+          nullable: true
+          maxLength: 250
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        status:
+          $ref: '#/components/schemas/Status372Enum'
+        anrok_customer_id:
+          type: string
+          nullable: true
+          maxLength: 250
+        terms:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/TermsEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        invoice_labels:
+          nullable: true
+        invoice_language:
+          type: string
+          nullable: true
+          maxLength: 10
+        lineage_array:
+          type: array
+          items:
+            type: string
+            maxLength: 50
+          nullable: true
+          description: Pre-computed lineage array from root to this vendor
+        customer:
+          type: integer
+          readOnly: true
+        parent:
+          type: integer
+          nullable: true
+        stripe_connection:
+          type: integer
+          nullable: true
+        default_expense_category:
+          type: integer
+          nullable: true
+        vendor_custom_field_1:
+          type: integer
+          nullable: true
+        payment_term:
+          type: integer
+          nullable: true
+          description: Payment term for this vendor
+    CustomField:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        app:
+          type: string
+          readOnly: true
+        model:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        label:
+          type: string
+          maxLength: 100
+        field_type:
+          $ref: '#/components/schemas/FieldTypeEnum'
+        options: {}
+        is_required:
+          type: boolean
+        display_order:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        is_active:
+          type: boolean
+        include_on_invoice:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+      required:
+      - app
+      - created_at
+      - deleted_at
+      - field_type
+      - id
+      - is_deleted
+      - label
+      - last_modified_at
+      - model
+      - name
+      - updated_at
+    TransactionTagGroup:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        slug:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          nullable: true
+          maxLength: 250
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+      required:
+      - created_at
+      - customer
+      - id
+      - last_modified_at
+      - name
+      - slug
+    Department:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        parent_name:
+          type: string
+          readOnly: true
+        tags:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        active:
+          type: boolean
+          default: true
+        code:
+          type: string
+          maxLength: 250
+        name:
+          type: string
+          nullable: true
+          maxLength: 250
+        display_name:
+          type: string
+          nullable: true
+          maxLength: 600
+        tag_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        tag_group_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        parent:
+          type: integer
+          nullable: true
+      required:
+      - code
+      - created_at
+      - customer
+      - id
+      - last_modified_at
+      - name
+      - parent_name
+      - tags
+    PaginatedDepartmentList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Department'
+    FixedAssetClass:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        asset_account_name:
+          type: string
+          readOnly: true
+        accumulated_depreciation_account_name:
+          type: string
+          readOnly: true
+        depreciation_expense_account_name:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          maxLength: 250
+        useful_life:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        asset_account:
+          type: integer
+          nullable: true
+        accumulated_depreciation_account:
+          type: integer
+          nullable: true
+        depreciation_expense_account:
+          type: integer
+          nullable: true
+      required:
+      - accumulated_depreciation_account_name
+      - asset_account_name
+      - created_at
+      - customer
+      - deleted_at
+      - depreciation_expense_account_name
+      - id
+      - is_deleted
+      - last_modified_at
+      - name
+    PatchedTransactionTag:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        group_name:
+          type: string
+          readOnly: true
+        parent_name:
+          type: string
+          readOnly: true
+          nullable: true
+        parent:
+          type: integer
+          nullable: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        is_active:
+          type: boolean
+          default: true
+        name:
+          type: string
+          nullable: true
+          maxLength: 250
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        group:
+          type: integer
+          nullable: true
+    PaginatedFixedAssetClassList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/FixedAssetClass'
+    TermsEnum:
+      enum:
+      - custom
+      - net_5
+      - net_7
+      - net_10
+      - net_15
+      - net_20
+      - net_30
+      - net_40
+      - net_45
+      - net_60
+      - net_90
+      - net_105
+      - net_120
+      - due_on_receipt
+      type: string
+      description: '* `custom` - Custom
+
+        * `net_5` - Net 5
+
+        * `net_7` - Net 7
+
+        * `net_10` - Net 10
+
+        * `net_15` - Net 15
+
+        * `net_20` - Net 20
+
+        * `net_30` - Net 30
+
+        * `net_40` - Net 40
+
+        * `net_45` - Net 45
+
+        * `net_60` - Net 60
+
+        * `net_90` - Net 90
+
+        * `net_105` - Net 105
+
+        * `net_120` - Net 120
+
+        * `due_on_receipt` - Due on Receipt'
+    AccountTypeEnum:
+      enum:
+      - ASSET
+      - LIABILITY
+      - EQUITY
+      - REVENUE
+      - COGS
+      - OPERATING_EXPENSES
+      - OTHER_INCOME
+      - OTHER_EXPENSE
+      - UNCATEGORIZED
+      - COST_ALLOCATION
+      type: string
+      description: '* `ASSET` - Asset
+
+        * `LIABILITY` - Liability
+
+        * `EQUITY` - Equity
+
+        * `REVENUE` - Revenue
+
+        * `COGS` - Cost of Goods Sold
+
+        * `OPERATING_EXPENSES` - Operating Expenses
+
+        * `OTHER_INCOME` - Other Income
+
+        * `OTHER_EXPENSE` - Other Expense
+
+        * `UNCATEGORIZED` - Uncategorized
+
+        * `COST_ALLOCATION` - Cost Allocation'
+    PatchedVendorCustomField1:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        value:
+          type: string
+          nullable: true
+          maxLength: 250
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+    TransactionTag:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        group_name:
+          type: string
+          readOnly: true
+        parent_name:
+          type: string
+          readOnly: true
+          nullable: true
+        parent:
+          type: integer
+          nullable: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        is_active:
+          type: boolean
+          default: true
+        name:
+          type: string
+          nullable: true
+          maxLength: 250
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        group:
+          type: integer
+          nullable: true
+      required:
+      - created_at
+      - customer
+      - deleted_at
+      - group_name
+      - id
+      - is_deleted
+      - last_modified_at
+      - name
+      - parent_name
+    PatchedTransactionTagGroup:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        slug:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          nullable: true
+          maxLength: 250
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+    FieldTypeEnum:
+      enum:
+      - text
+      - single_select
+      - date
+      - number
+      - boolean
+      type: string
+      description: '* `text` - Free Text
+
+        * `single_select` - Single Select
+
+        * `date` - Date
+
+        * `number` - Number
+
+        * `boolean` - Boolean'
+    PatchedCustomField:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        app:
+          type: string
+          readOnly: true
+        model:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        label:
+          type: string
+          maxLength: 100
+        field_type:
+          $ref: '#/components/schemas/FieldTypeEnum'
+        options: {}
+        is_required:
+          type: boolean
+        display_order:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        is_active:
+          type: boolean
+        include_on_invoice:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+    VendorType391Enum:
+      enum:
+      - vendor
+      - customer
+      - employee
+      type: string
+      description: '* `vendor` - Vendor
+
+        * `customer` - Customer
+
+        * `employee` - Employee'
+    VendorContact:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          nullable: true
+        first_name:
+          type: string
+          nullable: true
+          maxLength: 250
+        last_name:
+          type: string
+          nullable: true
+          maxLength: 250
+        email:
+          type: string
+          format: email
+          nullable: true
+          maxLength: 250
+        phone_number:
+          type: string
+          nullable: true
+          maxLength: 250
+        mobile_number:
+          type: string
+          nullable: true
+          maxLength: 250
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+      required:
+      - deleted_at
+      - id
+      - is_deleted
+      - last_modified_at
+    Status372Enum:
+      enum:
+      - ACTIVE
+      - INACTIVE
+      type: string
+      description: '* `ACTIVE` - Active
+
+        * `INACTIVE` - Inactive'
+    NullEnum:
+      enum:
+      - null
+    PaginatedCostAllocationList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CostAllocation'
+    Vendor:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        contacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/VendorContact'
+        parent_name:
+          type: string
+          readOnly: true
+        stripe_connection_name:
+          type: string
+          readOnly: true
+          nullable: true
+        stripe_connection_entity:
+          type: integer
+          readOnly: true
+          nullable: true
+        stripe_connection_portal_url:
+          type: string
+          readOnly: true
+          nullable: true
+        stripe_connection_portal_enabled:
+          type: boolean
+          readOnly: true
+          nullable: true
+        stripe_connection_invoicing_enabled:
+          type: boolean
+          readOnly: true
+          nullable: true
+        vendor_custom_field_1_name:
+          type: string
+          readOnly: true
+        payment_term_name_display:
+          type: string
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        search_vector:
+          type: string
+          readOnly: true
+          nullable: true
+        search_text:
+          type: string
+          readOnly: true
+          nullable: true
+        vendor_type:
+          nullable: true
+          default: vendor
+          title: Payee Type
+          oneOf:
+          - $ref: '#/components/schemas/VendorType391Enum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        name:
+          type: string
+          nullable: true
+          maxLength: 250
+        dba:
+          type: string
+          nullable: true
+          maxLength: 250
+        company_name:
+          type: string
+          nullable: true
+          maxLength: 250
+        website:
+          type: string
+          nullable: true
+          maxLength: 250
+        first_name:
+          type: string
+          nullable: true
+          maxLength: 250
+        last_name:
+          type: string
+          nullable: true
+          maxLength: 250
+        email:
+          type: string
+          format: email
+          nullable: true
+          maxLength: 250
+        phone_number:
+          type: string
+          nullable: true
+          maxLength: 250
+        mobile_number:
+          type: string
+          nullable: true
+          maxLength: 250
+        address_street_1:
+          type: string
+          nullable: true
+          maxLength: 250
+        address_street_2:
+          type: string
+          nullable: true
+          maxLength: 250
+        city:
+          type: string
+          nullable: true
+          maxLength: 250
+        state:
+          type: string
+          nullable: true
+          maxLength: 250
+        zip_code:
+          type: string
+          nullable: true
+          maxLength: 250
+        country:
+          type: string
+          nullable: true
+          maxLength: 250
+        billing_address_street_1:
+          type: string
+          nullable: true
+          maxLength: 250
+        billing_address_street_2:
+          type: string
+          nullable: true
+          maxLength: 250
+        billing_city:
+          type: string
+          nullable: true
+          maxLength: 250
+        billing_state:
+          type: string
+          nullable: true
+          maxLength: 250
+        billing_zip_code:
+          type: string
+          nullable: true
+          maxLength: 250
+        billing_country:
+          type: string
+          nullable: true
+          maxLength: 250
+        shipping_addressee:
+          type: string
+          nullable: true
+          maxLength: 255
+        billing_addressee:
+          type: string
+          nullable: true
+          maxLength: 255
+        notes:
+          type: string
+          nullable: true
+          maxLength: 250
+        business_id_ssn:
+          type: string
+          nullable: true
+          title: Business ID/SSN
+          maxLength: 250
+        is_1099:
+          type: boolean
+        vat_number:
+          type: string
+          nullable: true
+          maxLength: 250
+        business_type:
+          type: string
+          nullable: true
+          description: Business type classification (e.g., Korean NTS 업태)
+          maxLength: 250
+        business_category:
+          type: string
+          nullable: true
+          description: Business category classification (e.g., Korean NTS 종목)
+          maxLength: 250
+        entity_use_code:
+          type: string
+          nullable: true
+          description: Avalara entity/use code for tax exemptions (e.g., A - Federal Government, B - State/Local Govt)
+          maxLength: 25
+        withholding_tax_id:
+          type: string
+          nullable: true
+          description: Vendor's tax-authority ID for withholding (PAN for India, TZ for Israel). Dedicated field since these have format/checksum rules distinct from business_id_ssn.
+          maxLength: 250
+        stripe_customer_id:
+          type: string
+          nullable: true
+          maxLength: 250
+        use_stripe_auto_bill:
+          type: boolean
+          nullable: true
+        bill_vendor_id:
+          type: string
+          nullable: true
+          maxLength: 250
+        external_id:
+          type: string
+          nullable: true
+          maxLength: 250
+        source:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/Source3b3Enum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        invoice_message:
+          type: string
+          nullable: true
+        abbreviation:
+          type: string
+          nullable: true
+          maxLength: 250
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        status:
+          $ref: '#/components/schemas/Status372Enum'
+        anrok_customer_id:
+          type: string
+          nullable: true
+          maxLength: 250
+        terms:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/TermsEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        invoice_labels:
+          nullable: true
+        invoice_language:
+          type: string
+          nullable: true
+          maxLength: 10
+        lineage_array:
+          type: array
+          items:
+            type: string
+            maxLength: 50
+          nullable: true
+          description: Pre-computed lineage array from root to this vendor
+        customer:
+          type: integer
+          readOnly: true
+        parent:
+          type: integer
+          nullable: true
+        stripe_connection:
+          type: integer
+          nullable: true
+        default_expense_category:
+          type: integer
+          nullable: true
+        vendor_custom_field_1:
+          type: integer
+          nullable: true
+        payment_term:
+          type: integer
+          nullable: true
+          description: Payment term for this vendor
+      required:
+      - created_at
+      - customer
+      - deleted_at
+      - id
+      - is_deleted
+      - last_modified_at
+      - name
+      - parent_name
+      - payment_term_name_display
+      - search_text
+      - search_vector
+      - stripe_connection_entity
+      - stripe_connection_invoicing_enabled
+      - stripe_connection_name
+      - stripe_connection_portal_enabled
+      - stripe_connection_portal_url
+      - vendor_custom_field_1_name
+    PatchedCostAllocation:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/CostAllocationLine'
+        line_count:
+          type: integer
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        name:
+          type: string
+          maxLength: 250
+        number:
+          type: string
+          nullable: true
+          maxLength: 120
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        account:
+          type: integer
+          nullable: true
+    PaginatedTransactionTagGroupList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransactionTagGroup'
+    CostAllocation:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/CostAllocationLine'
+        line_count:
+          type: integer
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        name:
+          type: string
+          maxLength: 250
+        number:
+          type: string
+          nullable: true
+          maxLength: 120
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        account:
+          type: integer
+          nullable: true
+      required:
+      - created_at
+      - customer
+      - deleted_at
+      - id
+      - is_deleted
+      - last_modified_at
+      - line_count
+      - lines
+      - name
+    CostAllocationLine:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        allocation:
+          type: integer
+          writeOnly: true
+        account_name:
+          type: string
+          nullable: true
+          description: Combines account number and name in the format "number - name"
+          readOnly: true
+        department_name:
+          type: string
+          readOnly: true
+        tags:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          readOnly: true
+        percentage:
+          type: number
+          format: double
+          maximum: 1000
+          minimum: -1000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+        tag_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        tag_group_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        account:
+          type: integer
+        department:
+          type: integer
+          nullable: true
+      required:
+      - account
+      - account_name
+      - created_at
+      - customer
+      - department_name
+      - id
+      - last_modified_at
+      - tags
+    VendorSummary:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          nullable: true
+          maxLength: 250
+        dba:
+          type: string
+          nullable: true
+          maxLength: 250
+        total_spend:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          default: 0.0
+        total_bill_spend:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          default: 0.0
+        total_card_spend:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          default: 0.0
+        total_paid:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          default: 0.0
+        total_unpaid:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          default: 0.0
+        total_credits:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          default: 0.0
+        credit_used:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          default: 0.0
+        credit_available:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          default: 0.0
+        total_spend_book:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          default: 0.0
+        total_bill_spend_book:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          default: 0.0
+        total_card_spend_book:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          default: 0.0
+        total_paid_book:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          default: 0.0
+        total_unpaid_book:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          default: 0.0
+        total_credits_book:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          default: 0.0
+        credit_used_book:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          default: 0.0
+        credit_available_book:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          default: 0.0
+      required:
+      - id
+    AccountCashflowClassificationEnum:
+      enum:
+      - NONE
+      - OPERATING
+      - INVESTING
+      - FINANCING
+      type: string
+      description: '* `NONE` - None
+
+        * `OPERATING` - Operating
+
+        * `INVESTING` - Investing
+
+        * `FINANCING` - Financing'
+    PaginatedChartAccountList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChartAccount'
+    PaginatedVendorSummaryList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/VendorSummary'
+    ChartAccount:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        reconciliation_ending_date:
+          type: string
+          format: date
+          readOnly: true
+        reconciliation_ending_balance:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          readOnly: true
+        balance_ytd:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          readOnly: true
+        name_and_number:
+          type: string
+          readOnly: true
+        parent_name_and_number:
+          type: string
+          nullable: true
+          readOnly: true
+        sort_key:
+          type: string
+          readOnly: true
+        has_associated_data:
+          type: boolean
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        account_id:
+          type: string
+          format: uuid
+          readOnly: true
+        number:
+          type: string
+          nullable: true
+          maxLength: 12
+        currency:
+          type: string
+          maxLength: 3
+        name:
+          type: string
+          nullable: true
+          maxLength: 250
+        nickname:
+          type: string
+          nullable: true
+          maxLength: 250
+        description:
+          type: string
+          nullable: true
+        status:
+          $ref: '#/components/schemas/Status372Enum'
+        account_type:
+          $ref: '#/components/schemas/AccountTypeEnum'
+        account_subtype:
+          $ref: '#/components/schemas/AccountSubtypeEnum'
+        account_cashflow_classification:
+          $ref: '#/components/schemas/AccountCashflowClassificationEnum'
+        include_in_eliminations:
+          type: boolean
+        include_in_revaluations:
+          type: boolean
+        protected:
+          type: boolean
+        skip_subledger_validation:
+          type: boolean
+          description: Allow manual journal entries to post to this AR/AP account, bypassing subledger validation
+        external_id:
+          type: string
+          readOnly: true
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_recompute_balance_at:
+          type: string
+          format: date-time
+          nullable: true
+        lock_recompute_balance_key:
+          type: string
+          nullable: true
+          maxLength: 250
+        current_balance:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+        current_balance_book:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+        lineage_array:
+          type: array
+          items:
+            type: string
+            maxLength: 50
+          nullable: true
+          description: Pre-computed lineage array from root to this account
+        customer:
+          type: integer
+          readOnly: true
+        parent:
+          type: integer
+          nullable: true
+        parent_bank_account:
+          type: integer
+          nullable: true
+        default_department:
+          type: integer
+          nullable: true
+        default_tags:
+          type: array
+          items:
+            type: integer
+      required:
+      - account_id
+      - balance_ytd
+      - created_at
+      - customer
+      - deleted_at
+      - external_id
+      - has_associated_data
+      - id
+      - is_deleted
+      - last_modified_at
+      - name_and_number
+      - number
+      - parent_name_and_number
+      - reconciliation_ending_balance
+      - reconciliation_ending_date
+      - sort_key
+  securitySchemes:
+    knoxApiToken:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "Token"

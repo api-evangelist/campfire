@@ -1,0 +1,1047 @@
+openapi: 3.0.3
+info:
+  title: Campfire Developer APIs Accounts Payable Financial Statements API
+  version: 1.0.0
+  description: '## Introduction
+
+    Campfire''s developer APIs offer granular access to Campfire''s core accounting,
+
+    revenue recognition, and financial data features.
+
+
+    These APIs are designed to be used by developers to build custom integrations,
+
+    automate workflows, and perform any other programmatic operations.
+
+    '
+servers:
+- url: https://api.meetcampfire.com
+  description: Production server
+tags:
+- name: Financial Statements
+  description: Operations related to financial statement generation and data aggregation.
+paths:
+  /ca/api/balance-sheet/comparative:
+    get:
+      operationId: ca_api_balance_sheet_comparative_retrieve
+      description: API view for comparative balance sheet that handles budget vs actual comparisons
+      summary: Get Comparative Balance Sheet
+      parameters:
+      - in: query
+        name: cadence
+        schema:
+          type: string
+          enum:
+          - daily
+          - monthly
+          - quarterly
+          - weekly
+          - yearly
+          default: monthly
+      - in: query
+        name: entity
+        schema:
+          type: integer
+        description: Entity ID(s) to scope the report. Can be repeated (?entity=1&entity=2) or JSON array
+        explode: true
+        style: form
+      - in: query
+        name: entity_rollup
+        schema:
+          type: boolean
+          default: false
+        description: If true, includes all data of children entities in consolidation
+      - in: query
+        name: group_by
+        schema:
+          type: string
+      tags:
+      - Financial Statements
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  balance_sheet:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        account_id:
+                          type: integer
+                        account_name:
+                          type: string
+                        account_number:
+                          type: string
+                        hierarchy:
+                          type: array
+                          items:
+                            type: string
+                  headers:
+                    type: object
+                  budget_id:
+                    type: string
+                    nullable: true
+              examples:
+                Example:
+                  value:
+                    balance_sheet:
+                    - account_id: '12172'
+                      account_name: Cash and Cash Equivalents
+                      account_number: '111000'
+                      hierarchy:
+                      - ASSET
+                      - '12093'
+                      - '12172'
+                      2024-01-31_Total: 50000.0
+                      2024-02-29_Total: 55000.0
+                      comparison_1_Difference: 5000.0
+                      comparison_1_Percentage: 10.0
+                    headers:
+                      comparison_1:
+                      - 2024-01-31_Total
+                      - 2024-02-29_Total
+                      - comparison_1_Difference
+                      - comparison_1_Percentage
+                    budget_id: null
+          description: ''
+  /ca/api/cash-basis:
+    get:
+      operationId: ca_api_cash_basis_retrieve
+      summary: Get Cash Basis Income Statement
+      parameters:
+      - in: query
+        name: all_time
+        schema:
+          type: boolean
+          default: false
+        description: If true, uses full transaction date range for the customer; start_date and end_date are ignored
+      - in: query
+        name: cadence
+        schema:
+          type: string
+          enum:
+          - daily
+          - monthly
+          - quarterly
+          - weekly
+          - yearly
+          default: monthly
+      - in: query
+        name: end_date
+        schema:
+          type: string
+          format: date
+        description: Latest date (inclusive) for which to retrieve data. Defaults to end of current month
+      - in: query
+        name: entity
+        schema:
+          type: integer
+        description: Entity ID(s) to scope the report. Can be repeated (?entity=1&entity=2) or JSON array
+        explode: true
+        style: form
+      - in: query
+        name: entity_rollup
+        schema:
+          type: boolean
+          default: false
+        description: If true, includes all data of children entities in consolidation
+      - in: query
+        name: export
+        schema:
+          type: string
+          enum:
+          - xlsx
+        description: If xlsx, returns Excel file (income_statement.xlsx) instead of JSON
+      - in: query
+        name: group
+        schema:
+          type: integer
+        description: Tag group ID. Required when group_by=tag
+      - in: query
+        name: group_by
+        schema:
+          type: string
+        description: 'Breakdown dimension: vendor, department, tag, currency, entity. For tag, also pass group (tag group ID). For cash-basis, department_row_children, department_row_parents, department_only normalize to department'
+      - in: query
+        name: rollup_totals
+        schema:
+          type: boolean
+          default: true
+        description: If true, roll up child account totals to parent accounts. Set to false for export
+      - in: query
+        name: start_date
+        schema:
+          type: string
+          format: date
+        description: Earliest date (inclusive) for which to retrieve data. Defaults to six months ago
+      - in: query
+        name: use_book_values
+        schema:
+          type: boolean
+          default: false
+        description: If true, use book currency amounts instead of presentation currency
+      tags:
+      - Financial Statements
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          description: No response body
+  /ca/api/cash-basis-operating-statement:
+    get:
+      operationId: ca_api_cash_basis_operating_statement_retrieve
+      summary: Get Cash Basis Operating Statement
+      parameters:
+      - in: query
+        name: all_time
+        schema:
+          type: boolean
+          default: false
+        description: If true, uses full transaction date range for the customer; start_date and end_date are ignored
+      - in: query
+        name: cadence
+        schema:
+          type: string
+          enum:
+          - daily
+          - monthly
+          - quarterly
+          - weekly
+          - yearly
+          default: monthly
+      - in: query
+        name: end_date
+        schema:
+          type: string
+          format: date
+        description: Latest date (inclusive) for which to retrieve data. Defaults to end of current month
+      - in: query
+        name: entity
+        schema:
+          type: integer
+        description: Entity ID(s) to scope the report. Can be repeated (?entity=1&entity=2) or JSON array
+        explode: true
+        style: form
+      - in: query
+        name: entity_rollup
+        schema:
+          type: boolean
+          default: false
+        description: If true, includes all data of children entities in consolidation
+      - in: query
+        name: export
+        schema:
+          type: string
+          enum:
+          - xlsx
+        description: If xlsx, returns Excel file (income_statement.xlsx) instead of JSON
+      - in: query
+        name: group
+        schema:
+          type: integer
+        description: Tag group ID. Required when group_by=tag
+      - in: query
+        name: group_by
+        schema:
+          type: string
+        description: 'Breakdown dimension: vendor, department, tag, currency, entity. For tag, also pass group (tag group ID). For cash-basis, department_row_children, department_row_parents, department_only normalize to department'
+      - in: query
+        name: rollup_totals
+        schema:
+          type: boolean
+          default: true
+        description: If true, roll up child account totals to parent accounts. Set to false for export
+      - in: query
+        name: start_date
+        schema:
+          type: string
+          format: date
+        description: Earliest date (inclusive) for which to retrieve data. Defaults to six months ago
+      tags:
+      - Financial Statements
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          description: No response body
+  /ca/api/cash-operating-statement/transactions:
+    get:
+      operationId: ca_api_cash_operating_statement_transactions_retrieve
+      summary: Get Cash Operating Transactions with Projected Transactions
+      parameters:
+      - in: query
+        name: end_date
+        schema:
+          type: string
+          format: date
+        description: Latest date (inclusive) for which to retrieve data. Defaults to end of current month
+      - in: query
+        name: start_date
+        schema:
+          type: string
+          format: date
+        description: Earliest date (inclusive) for which to retrieve data. Defaults to six months ago
+      tags:
+      - Financial Statements
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          description: No response body
+  /ca/api/get_balance_sheet:
+    get:
+      operationId: ca_api_get_balance_sheet_retrieve
+      description: 'Returns ending account balances for each period between `start_date` and `end_date` (both inclusive), split by `cadence`. This is the recommended endpoint for balance sheet ending balances.
+
+
+        **How the date range works:** `start_date` is *not* the date balances are calculated *from*. Account balances are always accumulated from the beginning of time through each period end. `start_date`, `end_date`, and `cadence` only determine how the report is split into periods (columns).
+
+
+        **Retained earnings:** included as its own row.
+
+
+        **Breakdowns:** the report can be broken down or filtered by entity, department, and tag dimensions via `group_by` (pass `group` with a tag group ID when grouping by tag).'
+      summary: Get Balance Sheet
+      parameters:
+      - in: query
+        name: cadence
+        schema:
+          type: string
+          enum:
+          - daily
+          - monthly
+          - quarterly
+          - weekly
+          - yearly
+          default: monthly
+      - in: query
+        name: end_date
+        schema:
+          type: string
+          format: date
+        description: Latest date (inclusive) for which to retrieve data. Defaults to end of current month
+      - in: query
+        name: entity
+        schema:
+          type: integer
+        description: Entity ID(s) to scope the report. Can be repeated (?entity=1&entity=2) or JSON array
+        explode: true
+        style: form
+      - in: query
+        name: entity_rollup
+        schema:
+          type: boolean
+          default: false
+        description: If true, includes all data of children entities in consolidation
+      - in: query
+        name: group_by
+        schema:
+          type: string
+      - in: query
+        name: start_date
+        schema:
+          type: string
+          format: date
+        description: 'Earliest period (inclusive) shown in the report. NOTE: balances are NOT calculated starting from this date - account balances are always accumulated from the beginning of time through each period end. start_date, end_date, and cadence only control how the report is split into periods (columns). Defaults to six months ago.'
+      tags:
+      - Financial Statements
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  balance_sheet:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        account_id:
+                          type: integer
+                        account_name:
+                          type: string
+                        account_number:
+                          type: string
+                        hierarchy:
+                          type: array
+                          items:
+                            type: string
+                        YYYY-MM-DD:
+                          type: object
+                          properties:
+                            ending_balance:
+                              type: number
+                  start_date:
+                    type: string
+                    format: date
+                  end_date:
+                    type: string
+                    format: date
+                  cadence:
+                    type: string
+                  headers:
+                    type: object
+              examples:
+                Example:
+                  value:
+                    balance_sheet:
+                    - account_id: '12172'
+                      account_name: Bill.com Money Out Clearing
+                      account_number: '111000'
+                      hierarchy:
+                      - ASSET
+                      - '12093'
+                      - '12172'
+                      2022-11-01_Jupiter Consulting, LLC: 5.73
+                      2022-11-01_Total: 5.36
+          description: ''
+      x-mint:
+        mcp:
+          enabled: true
+          name: balance_sheet
+          description: Generate balance sheet data for a specified time period and cadence
+  /ca/api/get_cash_flow:
+    get:
+      operationId: ca_api_get_cash_flow_retrieve
+      summary: Get Cash Flow
+      parameters:
+      - in: query
+        name: cadence
+        schema:
+          type: string
+          enum:
+          - daily
+          - monthly
+          - quarterly
+          - weekly
+          - yearly
+          default: monthly
+      - in: query
+        name: end_date
+        schema:
+          type: string
+          format: date
+        description: Latest date (inclusive) for which to retrieve data. Defaults to end of current month
+      - in: query
+        name: entity
+        schema:
+          type: integer
+        description: Entity ID(s) to scope the report. Can be repeated (?entity=1&entity=2) or JSON array
+        explode: true
+        style: form
+      - in: query
+        name: entity_rollup
+        schema:
+          type: boolean
+          default: false
+        description: If true, includes all data of children entities in consolidation
+      - in: query
+        name: group_by
+        schema:
+          type: string
+      - in: query
+        name: start_date
+        schema:
+          type: string
+          format: date
+        description: Earliest date (inclusive) for which to retrieve data. Defaults to six months ago
+      tags:
+      - Financial Statements
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  cash_flow:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        account_id:
+                          type: integer
+                        account_name:
+                          type: string
+                        account_number:
+                          type: string
+                        hierarchy:
+                          type: array
+                          items:
+                            type: string
+                        transaction_activity:
+                          type: object
+                          properties:
+                            YYYY-MM-DD:
+                              type: number
+                  start_date:
+                    type: string
+                    format: date
+                  end_date:
+                    type: string
+                    format: date
+                  cadence:
+                    type: string
+              examples:
+                Example:
+                  value:
+                    cash_flow:
+                    - account_id: '12088'
+                      account_name: Accounts Receivable
+                      account_number: '120000'
+                      hierarchy:
+                      - OPERATING
+                      - ADJUSTMENTS_TO_NET_INCOME
+                      - '12088'
+                      transaction_activity:
+                        '2023-10-01': null
+                        '2023-11-01': -1400.0
+                    - account_id: '12235'
+                      account_name: Expense Card ****3293
+                      account_number: '220012'
+                      hierarchy:
+                      - OPERATING
+                      - ADJUSTMENTS_TO_NET_INCOME
+                      - '12235'
+                      transaction_activity:
+                        '2023-10-01': 4.639999999999972
+                        '2023-11-01': -104.85999999999997
+          description: ''
+      x-mint:
+        mcp:
+          enabled: true
+          name: cash_flow_statement
+          description: Generate cash flow statement data for a specified time period and cadence
+  /ca/api/get_cash_flow_activity:
+    get:
+      operationId: ca_api_get_cash_flow_activity_retrieve
+      summary: Get Cash Flow Activity
+      parameters:
+      - in: query
+        name: cadence
+        schema:
+          type: string
+          enum:
+          - daily
+          - monthly
+          - quarterly
+          - weekly
+          - yearly
+          default: monthly
+      - in: query
+        name: end_date
+        schema:
+          type: string
+          format: date
+        description: Latest date (inclusive) for which to retrieve data. Defaults to end of current month
+      - in: query
+        name: entity
+        schema:
+          type: integer
+        description: Entity ID(s) to scope the report. Can be repeated (?entity=1&entity=2) or JSON array
+        explode: true
+        style: form
+      - in: query
+        name: entity_rollup
+        schema:
+          type: boolean
+          default: false
+        description: If true, includes all data of children entities in consolidation
+      - in: query
+        name: start_date
+        schema:
+          type: string
+          format: date
+        description: Earliest date (inclusive) for which to retrieve data. Defaults to six months ago
+      tags:
+      - Financial Statements
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  transaction_activity:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      properties:
+                        total_debit:
+                          type: number
+                        total_credit:
+                          type: number
+              examples:
+                Example:
+                  value:
+                    transaction_activity:
+                      '2024-01-01':
+                        total_debit: 125000.0
+                        total_credit: -98000.0
+                      '2024-02-01':
+                        total_debit: 130000.0
+                        total_credit: -102000.0
+          description: ''
+  /ca/api/get_cash_flow_v2:
+    get:
+      operationId: ca_api_get_cash_flow_v2_retrieve
+      description: 'Sectioned cash flow statement (indirect method): operating (net income, non-cash adjustments, working-capital deltas), transactional investing and financing lines, the effect of exchange-rate changes on cash, and non-cash disclosures. The statement reconciles beginning to ending cash with a zero plug or is not rendered: an unreconciled ledger returns HTTP 422 with the plug by period and the journal entries whose accounts need cashflow classification. Monetary amounts are decimal strings. Pass export=xlsx for a workbook download.'
+      summary: Get Cash Flow Statement
+      parameters:
+      - in: query
+        name: cadence
+        schema:
+          type: string
+          enum:
+          - daily
+          - monthly
+          - quarterly
+          - weekly
+          - yearly
+          default: monthly
+      - in: query
+        name: end_date
+        schema:
+          type: string
+          format: date
+        description: Latest date (inclusive) for which to retrieve data. Defaults to end of current month
+      - in: query
+        name: entity
+        schema:
+          type: integer
+        description: Entity ID(s) to scope the report. Can be repeated (?entity=1&entity=2) or JSON array
+        explode: true
+        style: form
+      - in: query
+        name: entity_rollup
+        schema:
+          type: boolean
+          default: false
+        description: If true, includes all data of children entities in consolidation
+      - in: query
+        name: start_date
+        schema:
+          type: string
+          format: date
+        description: Earliest date (inclusive) for which to retrieve data. Defaults to six months ago
+      tags:
+      - Financial Statements
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          description: No response body
+  /ca/api/get_income_statement:
+    get:
+      operationId: ca_api_get_income_statement_retrieve
+      description: 'Returns account activity (revenue and expense movement) within the `start_date`-`end_date` range, split by `cadence`.
+
+
+        Unlike the balance sheet, the income statement reflects only the activity that falls *inside* the requested date range - `start_date` is the true start of the activity window.
+
+
+        **Breakdowns:** supports entity, department, vendor, and tag breakdowns/filters via `group_by` (pass `group` with a tag group ID when grouping by tag).'
+      summary: Get Income Statement
+      parameters:
+      - in: query
+        name: cadence
+        schema:
+          type: string
+          enum:
+          - daily
+          - monthly
+          - quarterly
+          - weekly
+          - yearly
+          default: monthly
+      - in: query
+        name: end_date
+        schema:
+          type: string
+          format: date
+        description: Latest date (inclusive) for which to retrieve data. Defaults to end of current month
+      - in: query
+        name: entity
+        schema:
+          type: integer
+        description: Entity ID(s) to scope the report. Can be repeated (?entity=1&entity=2) or JSON array
+        explode: true
+        style: form
+      - in: query
+        name: entity_rollup
+        schema:
+          type: boolean
+          default: false
+        description: If true, includes all data of children entities in consolidation
+      - in: query
+        name: group_by
+        schema:
+          type: string
+      - in: query
+        name: start_date
+        schema:
+          type: string
+          format: date
+        description: Earliest date (inclusive) for which to retrieve data. Defaults to six months ago
+      tags:
+      - Financial Statements
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  income_statement:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        account_id:
+                          type: integer
+                        account_name:
+                          type: string
+                        account_number:
+                          type: string
+                        hierarchy:
+                          type: array
+                          items:
+                            type: string
+                        YYYY-MM-DD_Group:
+                          type: number
+                  start_date:
+                    type: string
+                    format: date
+                  end_date:
+                    type: string
+                    format: date
+                  cadence:
+                    type: string
+                  headers:
+                    type: object
+              examples:
+                Example:
+                  value:
+                    income_statement:
+                    - account_id: '2555'
+                      account_name: Sales, General, and Administrative Expenses
+                      account_number: '600000'
+                      hierarchy:
+                      - OPERATING_EXPENSES
+                      - '2555'
+                      2024-01-01_Total: 14883.910000000002
+                    - account_id: '2556'
+                      account_name: Sales
+                      account_number: '400000'
+                      hierarchy:
+                      - REVENUE
+                      - '2556'
+                      2024-01-01_Total: 766651.0
+          description: ''
+      x-mint:
+        mcp:
+          enabled: true
+          name: income_statement
+          description: Generate income statement data for a specified time period and cadence
+  /ca/api/get_trial_balance:
+    get:
+      operationId: ca_api_get_trial_balance_retrieve
+      description: 'Returns debit and credit totals for each account over a date range.
+
+
+        **The summation window depends on the account type:**
+
+        - **Balance sheet accounts** (assets, liabilities, equity): totals are summed from the beginning of time through `end_date`.
+
+        - **Income statement accounts** (revenue, expenses): the window depends on `income_statement_basis`. With the default `period` basis, totals are summed from `start_date` through `end_date` and a synthetic Net Income (Prior Periods) row carries current-fiscal-year income earned before `start_date`. With `fiscal_ytd`, totals are summed from the fiscal-year start through `end_date` and no Net Income row is emitted.
+
+
+        The effective income-statement window start is returned as `income_statement_start`.
+
+
+        Retained earnings is included as its own row. For balance sheet ending balances specifically, prefer `GET /ca/api/get_balance_sheet`.'
+      summary: Get Trial Balance
+      parameters:
+      - in: query
+        name: department
+        schema:
+          type: integer
+        description: Filter by department ID. Can be specified multiple times for multiple departments
+        explode: true
+        style: form
+      - in: query
+        name: end_date
+        schema:
+          type: string
+          format: date
+        description: Latest date (inclusive) for which to retrieve data. Defaults to end of current month
+      - in: query
+        name: entity
+        schema:
+          type: integer
+        description: Entity ID(s) to scope the report. Can be repeated (?entity=1&entity=2) or JSON array
+        explode: true
+        style: form
+      - in: query
+        name: entity_rollup
+        schema:
+          type: boolean
+          default: false
+        description: If true, includes all data of children entities in consolidation
+      - in: query
+        name: group_by
+        schema:
+          type: string
+      - in: query
+        name: income_statement_basis
+        schema:
+          type: string
+          enum:
+          - fiscal_ytd
+          - period
+        description: 'Income-statement window: selected period (default) or fiscal year-to-date.'
+      - in: query
+        name: start_date
+        schema:
+          type: string
+          format: date
+        description: Earliest date (inclusive) for which to retrieve data. Defaults to six months ago
+      tags:
+      - Financial Statements
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrialBalanceResponse'
+              examples:
+                Example:
+                  value:
+                    trial_balance:
+                      accounts:
+                      - id: 2550
+                        name: Accounts Payable
+                        number: '210000'
+                        balances:
+                          '2023-08-31':
+                            debits: 0.0
+                            credits: 123.0
+                          '2023-09-30':
+                            debits: 0.0
+                            credits: 123.0
+                      - id: 2551
+                        name: Credit Cards
+                        number: '220000'
+                        balances:
+                          '2023-08-31':
+                            debits: 1700.14
+                            credits: 0.0
+                          '2023-09-30':
+                            debits: 1700.14
+                            credits: 0.0
+                    start_date: '2023-10-01'
+                    end_date: '2023-11-30'
+                ExportExample:
+                  value: GET /api/trial-balance/?export=xlsx&start_date=2023-01-01&end_date=2023-12-31
+                  summary: Export Example
+                  description: Export trial balance to Excel format
+          description: ''
+  /ca/api/income-statement/comparative:
+    get:
+      operationId: ca_api_income_statement_comparative_retrieve
+      summary: Get Comparative Income Statement
+      parameters:
+      - in: query
+        name: cadence
+        schema:
+          type: string
+          enum:
+          - daily
+          - monthly
+          - quarterly
+          - weekly
+          - yearly
+          default: monthly
+      - in: query
+        name: entity
+        schema:
+          type: integer
+        description: Entity ID(s) to scope the report. Can be repeated (?entity=1&entity=2) or JSON array
+        explode: true
+        style: form
+      - in: query
+        name: entity_rollup
+        schema:
+          type: boolean
+          default: false
+        description: If true, includes all data of children entities in consolidation
+      - in: query
+        name: group_by
+        schema:
+          type: string
+      tags:
+      - Financial Statements
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  income_statement:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        account_id:
+                          type: integer
+                        account_name:
+                          type: string
+                        account_number:
+                          type: string
+                        hierarchy:
+                          type: array
+                          items:
+                            type: string
+                  headers:
+                    type: object
+                  budget_id:
+                    type: string
+                    nullable: true
+              examples:
+                Example:
+                  value:
+                    income_statement:
+                    - account_id: '2555'
+                      account_name: Sales, General, and Administrative Expenses
+                      account_number: '600000'
+                      hierarchy:
+                      - OPERATING_EXPENSES
+                      - '2555'
+                      2024-01-01_Total: 14883.91
+                      2024-02-01_Total: 15200.0
+                      comparison_1_Difference: 316.09
+                      comparison_1_Percentage: 2.12
+                    headers:
+                      comparison_1:
+                      - 2024-01-01_Total
+                      - 2024-02-01_Total
+                      - comparison_1_Difference
+                      - comparison_1_Percentage
+                    budget_id: null
+          description: ''
+  /coa/api/general-ledger:
+    get:
+      operationId: coa_api_general_ledger_retrieve
+      summary: Get General Ledger
+      tags:
+      - Financial Statements
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          description: No response body
+components:
+  schemas:
+    TrialBalanceData:
+      type: object
+      properties:
+        accounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/TrialBalanceAccount'
+      required:
+      - accounts
+    TrialBalanceAccountBalance:
+      type: object
+      properties:
+        debits:
+          type: number
+          format: double
+          maximum: 10000000000000
+          minimum: -10000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+        credits:
+          type: number
+          format: double
+          maximum: 10000000000000
+          minimum: -10000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+      required:
+      - credits
+      - debits
+    TrialBalanceAccount:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        number:
+          type: string
+        account_type:
+          type: string
+        balances:
+          $ref: '#/components/schemas/TrialBalanceAccountBalance'
+        departments:
+          type: object
+          additionalProperties: {}
+        department:
+          type: string
+        entities:
+          type: object
+          additionalProperties: {}
+        parent:
+          type: string
+      required:
+      - id
+      - name
+      - number
+    TrialBalanceResponse:
+      type: object
+      properties:
+        trial_balance:
+          $ref: '#/components/schemas/TrialBalanceData'
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+        income_statement_start:
+          type: string
+          format: date
+        breakdown:
+          type: object
+          additionalProperties: {}
+      required:
+      - end_date
+      - income_statement_start
+      - start_date
+      - trial_balance
+  securitySchemes:
+    knoxApiToken:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "Token"

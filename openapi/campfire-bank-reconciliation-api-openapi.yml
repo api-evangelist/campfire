@@ -1,0 +1,1539 @@
+openapi: 3.0.3
+info:
+  title: Campfire Developer APIs Accounts Payable Bank Reconciliation API
+  version: 1.0.0
+  description: '## Introduction
+
+    Campfire''s developer APIs offer granular access to Campfire''s core accounting,
+
+    revenue recognition, and financial data features.
+
+
+    These APIs are designed to be used by developers to build custom integrations,
+
+    automate workflows, and perform any other programmatic operations.
+
+    '
+servers:
+- url: https://api.meetcampfire.com
+  description: Production server
+tags:
+- name: Bank Reconciliation
+paths:
+  /coa/api/v2/reconciliation:
+    get:
+      operationId: coa_api_v2_reconciliation_list
+      description: Retrieve a paginated list of bank reconciliation reports. Supports filtering by start_date, end_date, entity, account, and search query (q). Default sort is by statement_ending_date descending.
+      summary: List Bank Reconciliation Reports
+      parameters:
+      - in: query
+        name: account
+        schema:
+          type: integer
+        description: Filter by account ID
+      - in: query
+        name: end_date
+        schema:
+          type: string
+        description: Filter by maximum statement ending date (YYYY-MM-DD)
+      - in: query
+        name: entity
+        schema:
+          type: integer
+        description: Filter by entity ID
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: q
+        schema:
+          type: string
+        description: Search term for account name, number, or reconciled_by name
+      - in: query
+        name: sort
+        schema:
+          type: string
+        description: Sort field (prefix with - for descending)
+      - in: query
+        name: start_date
+        schema:
+          type: string
+        description: Filter by minimum statement ending date (YYYY-MM-DD)
+      tags:
+      - Bank Reconciliation
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedReconciliationReportV2ListList'
+          description: ''
+    post:
+      operationId: coa_api_v2_reconciliation_create
+      description: Create a new bank reconciliation report for a specific account and date range. Cannot create overlapping date ranges for the same account and entity.
+      summary: Create Bank Reconciliation Report
+      tags:
+      - Bank Reconciliation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReconciliationReportV2'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ReconciliationReportV2'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ReconciliationReportV2'
+        required: true
+      security:
+      - knoxApiToken: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReconciliationReportV2'
+          description: ''
+  /coa/api/v2/reconciliation/{id}:
+    get:
+      operationId: coa_api_v2_reconciliation_retrieve
+      description: Retrieve a specific bank reconciliation report by ID. Includes report metadata, status, async task status for PDF processing, and attached files/CSV statements.
+      summary: Get Bank Reconciliation Report
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Bank Reconciliation
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReconciliationReportV2'
+          description: ''
+    put:
+      operationId: coa_api_v2_reconciliation_update
+      description: Update a bank reconciliation report. Supports partial updates via PATCH.
+      summary: Update Bank Reconciliation Report
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Bank Reconciliation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReconciliationReportV2'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ReconciliationReportV2'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ReconciliationReportV2'
+        required: true
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReconciliationReportV2'
+          description: ''
+    patch:
+      operationId: coa_api_v2_reconciliation_partial_update
+      description: Partially update a bank reconciliation report. Only provided fields are modified.
+      summary: Partial Update Bank Reconciliation Report
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Bank Reconciliation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedReconciliationReportV2'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedReconciliationReportV2'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedReconciliationReportV2'
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReconciliationReportV2'
+          description: ''
+    delete:
+      operationId: coa_api_v2_reconciliation_destroy
+      description: Delete a bank reconciliation report and all associated data.
+      summary: Delete Bank Reconciliation Report
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Bank Reconciliation
+      security:
+      - knoxApiToken: []
+      responses:
+        '204':
+          description: No response body
+  /coa/api/v2/reconciliation/{id}/bulk-match-transactions:
+    post:
+      operationId: coa_api_v2_reconciliation_bulk_match_transactions_create
+      description: Match multiple GL transactions to statement transactions in a single request. Pairs are validated atomically — all succeed or none are created.
+      summary: Bulk Match GL Transactions to Statement Transactions
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Bank Reconciliation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkMatchTransactionRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BulkMatchTransactionRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BulkMatchTransactionRequest'
+        required: true
+      security:
+      - knoxApiToken: []
+      responses:
+        '201':
+          description: All pairs matched successfully
+        '400':
+          description: Validation error (duplicates, already reconciled, non-draft report)
+        '404':
+          description: Report, GL transaction, or statement transaction not found
+  /coa/api/v2/reconciliation/{id}/source-transactions:
+    get:
+      operationId: coa_api_v2_reconciliation_source_transactions_list
+      description: List source (GL) transactions available for reconciliation. Supports filtering by date range, bank, vendor, department, tag, currency, and reconciliation status.
+      summary: List GL Transactions for Reconciliation
+      parameters:
+      - in: query
+        name: bank
+        schema:
+          type: integer
+        description: Filter by bank account ID
+      - in: query
+        name: currency
+        schema:
+          type: string
+        description: Filter by currency code (e.g., USD, EUR)
+      - in: query
+        name: department
+        schema:
+          type: integer
+        description: Filter by department ID
+      - in: query
+        name: end_date
+        schema:
+          type: string
+        description: Filter by maximum posted date (YYYY-MM-DD)
+      - in: query
+        name: group
+        schema:
+          type: integer
+        description: Filter by tag group ID
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: matched
+        schema:
+          type: string
+        description: Set to 'true' to show only transactions with an explicit statement match, or 'false' to show transactions without an explicit statement match
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: q
+        schema:
+          type: string
+        description: Search term for bank description, journal memo, journal order, or amount
+      - in: query
+        name: reconciled_only
+        schema:
+          type: string
+        description: Set to 'true' to show only reconciled transactions for this report
+      - in: query
+        name: sort
+        schema:
+          type: string
+        description: 'Sort field(s), comma-separated (prefix with - for descending). Default: posted_at'
+      - in: query
+        name: start_date
+        schema:
+          type: string
+        description: Filter by minimum posted date (YYYY-MM-DD)
+      - in: query
+        name: tag
+        schema:
+          type: integer
+        description: Filter by tag ID
+      - in: query
+        name: unreconciled
+        schema:
+          type: string
+        description: Set to 'true' to show only unreconciled transactions
+      - in: query
+        name: vendor
+        schema:
+          type: integer
+        description: Filter by vendor/payee ID
+      tags:
+      - Bank Reconciliation
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedReconciliationReportV2SourceTransactionListList'
+          description: ''
+  /coa/api/v2/reconciliation/{id}/transactions/confirm:
+    post:
+      operationId: coa_api_v2_reconciliation_transactions_confirm_create
+      description: Confirm the selection of GL transactions for reconciliation. Pass selected transaction IDs in the request body. Selected transactions are marked as RECONCILED; deselected transactions have their status as suggested matches to this reconciliation report cleared.
+      summary: Confirm Selection of Transactions to Reconcile
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Bank Reconciliation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfirmTransactionSelectionRequest'
+            examples:
+              ConfirmSelectedTransactions:
+                value:
+                  selected:
+                  - 1001
+                  - 1002
+                  - 1003
+                  - 1004
+                  - 1005
+                summary: Confirm selected transactions
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ConfirmTransactionSelectionRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ConfirmTransactionSelectionRequest'
+        required: true
+      security:
+      - knoxApiToken: []
+      responses:
+        '204':
+          description: No response body
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /coa/api/v2/reconciliation/parse-statement-page:
+    post:
+      operationId: parse_bank_statement_page
+      description: "Parse a bank statement PDF.\n\nAccepts:\n    ``file_id`` (required) -- ID of the uploaded PDF ``File``.\n    ``pages`` (optional, int) -- How many pages to include in the first parse batch.\n        Defaults to ``BATCH_PAGE_SIZE``. Use a small value (e.g. 2) for\n        a fast initial response with just balances and dates.\n\nOnly the first batch is parsed in this request. Parsed output is cached under\n``file_id`` and the effective first-batch page count (``pages`` or default\n``BATCH_PAGE_SIZE``) so different ``pages`` values do not share one cache entry."
+      summary: Parse Bank Statement Page
+      tags:
+      - Bank Reconciliation
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          description: No response body
+components:
+  schemas:
+    PatchedReconciliationReportV2:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        entity_name:
+          type: string
+          readOnly: true
+        account_name:
+          type: string
+          readOnly: true
+        account_number:
+          type: string
+          readOnly: true
+        account_type:
+          type: string
+          readOnly: true
+        account_subtype:
+          type: string
+          readOnly: true
+        reconciled_by_name:
+          type: string
+          readOnly: true
+        reconciled_by_email:
+          type: string
+          readOnly: true
+        approved_by_name:
+          type: string
+          readOnly: true
+        approved_by_email:
+          type: string
+          readOnly: true
+        async_task:
+          allOf:
+          - $ref: '#/components/schemas/AsyncTask'
+          readOnly: true
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/File'
+          readOnly: true
+        csv_statements:
+          type: string
+          readOnly: true
+        cleared_total_debits:
+          type: string
+          readOnly: true
+        cleared_total_credits:
+          type: string
+          readOnly: true
+        cleared_activity:
+          type: string
+          readOnly: true
+        cleared_item_count:
+          type: string
+          readOnly: true
+        matched_total_debits:
+          type: string
+          readOnly: true
+        matched_total_credits:
+          type: string
+          readOnly: true
+        matched_activity:
+          type: string
+          readOnly: true
+        matched_item_count:
+          type: string
+          readOnly: true
+        unreconciled_total_debits:
+          type: string
+          readOnly: true
+        unreconciled_total_credits:
+          type: string
+          readOnly: true
+        unreconciled_activity:
+          type: string
+          readOnly: true
+        unreconciled_gl_item_count:
+          type: string
+          readOnly: true
+        unreconciled_statement_line_count:
+          type: string
+          readOnly: true
+        unreconciled_statement_activity:
+          type: string
+          readOnly: true
+        reconciliation_difference:
+          type: string
+          readOnly: true
+        open_total_debits:
+          type: string
+          readOnly: true
+        open_total_credits:
+          type: string
+          readOnly: true
+        open_activity:
+          type: string
+          readOnly: true
+        open_gl_item_count:
+          type: string
+          readOnly: true
+        open_statement_line_count:
+          type: string
+          readOnly: true
+        open_statement_activity:
+          type: string
+          readOnly: true
+        statement_activity:
+          type: string
+          readOnly: true
+        open_difference:
+          type: string
+          readOnly: true
+        currency:
+          type: string
+          maxLength: 3
+        statement_starting_date:
+          type: string
+          format: date
+          nullable: true
+        statement_ending_date:
+          type: string
+          format: date
+          nullable: true
+        starting_balance:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+        ending_balance:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+        total_credit_amount:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+        total_debit_amount:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+        adjustments:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        reconciled_on:
+          type: string
+          format: date
+          nullable: true
+        approved_on:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        status:
+          $ref: '#/components/schemas/Status8ecEnum'
+        unmatched_statement_transactions:
+          nullable: true
+        statement_recognition_cost_usd:
+          type: number
+          format: double
+          maximum: 100000000
+          minimum: -100000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+          description: Estimated USD cost of AI bank-statement parsing for this report (from summed page token usage).
+        statement_recognition_input_tokens:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+          description: Sum of input tokens from statement parsing across all pages (set on finalize).
+        statement_recognition_output_tokens:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+          description: Sum of output tokens from statement parsing across all pages (set on finalize).
+        statement_recognition_token_total:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          nullable: true
+          description: Input plus output tokens for this report (set on finalize).
+        statement_recognition_model_name:
+          type: string
+          nullable: true
+          description: LLM model used for statement parsing when token totals were recorded.
+          maxLength: 128
+        customer:
+          type: integer
+          readOnly: true
+        entity:
+          type: integer
+          nullable: true
+        account:
+          type: integer
+        matching_task:
+          type: integer
+          nullable: true
+        reconciled_by:
+          type: integer
+          nullable: true
+        approved_by:
+          type: integer
+          readOnly: true
+          nullable: true
+    ReconciliationReportV2SourceReconciliationTransactionStatusEnum:
+      enum:
+      - DRAFT
+      - RECONCILED
+      type: string
+      description: '* `DRAFT` - Draft
+
+        * `RECONCILED` - Reconciled'
+    ReconciliationReportV2:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        entity_name:
+          type: string
+          readOnly: true
+        account_name:
+          type: string
+          readOnly: true
+        account_number:
+          type: string
+          readOnly: true
+        account_type:
+          type: string
+          readOnly: true
+        account_subtype:
+          type: string
+          readOnly: true
+        reconciled_by_name:
+          type: string
+          readOnly: true
+        reconciled_by_email:
+          type: string
+          readOnly: true
+        approved_by_name:
+          type: string
+          readOnly: true
+        approved_by_email:
+          type: string
+          readOnly: true
+        async_task:
+          allOf:
+          - $ref: '#/components/schemas/AsyncTask'
+          readOnly: true
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/File'
+          readOnly: true
+        csv_statements:
+          type: string
+          readOnly: true
+        cleared_total_debits:
+          type: string
+          readOnly: true
+        cleared_total_credits:
+          type: string
+          readOnly: true
+        cleared_activity:
+          type: string
+          readOnly: true
+        cleared_item_count:
+          type: string
+          readOnly: true
+        matched_total_debits:
+          type: string
+          readOnly: true
+        matched_total_credits:
+          type: string
+          readOnly: true
+        matched_activity:
+          type: string
+          readOnly: true
+        matched_item_count:
+          type: string
+          readOnly: true
+        unreconciled_total_debits:
+          type: string
+          readOnly: true
+        unreconciled_total_credits:
+          type: string
+          readOnly: true
+        unreconciled_activity:
+          type: string
+          readOnly: true
+        unreconciled_gl_item_count:
+          type: string
+          readOnly: true
+        unreconciled_statement_line_count:
+          type: string
+          readOnly: true
+        unreconciled_statement_activity:
+          type: string
+          readOnly: true
+        reconciliation_difference:
+          type: string
+          readOnly: true
+        open_total_debits:
+          type: string
+          readOnly: true
+        open_total_credits:
+          type: string
+          readOnly: true
+        open_activity:
+          type: string
+          readOnly: true
+        open_gl_item_count:
+          type: string
+          readOnly: true
+        open_statement_line_count:
+          type: string
+          readOnly: true
+        open_statement_activity:
+          type: string
+          readOnly: true
+        statement_activity:
+          type: string
+          readOnly: true
+        open_difference:
+          type: string
+          readOnly: true
+        currency:
+          type: string
+          maxLength: 3
+        statement_starting_date:
+          type: string
+          format: date
+          nullable: true
+        statement_ending_date:
+          type: string
+          format: date
+          nullable: true
+        starting_balance:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+        ending_balance:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+        total_credit_amount:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+        total_debit_amount:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+        adjustments:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        reconciled_on:
+          type: string
+          format: date
+          nullable: true
+        approved_on:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        status:
+          $ref: '#/components/schemas/Status8ecEnum'
+        unmatched_statement_transactions:
+          nullable: true
+        statement_recognition_cost_usd:
+          type: number
+          format: double
+          maximum: 100000000
+          minimum: -100000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+          description: Estimated USD cost of AI bank-statement parsing for this report (from summed page token usage).
+        statement_recognition_input_tokens:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+          description: Sum of input tokens from statement parsing across all pages (set on finalize).
+        statement_recognition_output_tokens:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+          description: Sum of output tokens from statement parsing across all pages (set on finalize).
+        statement_recognition_token_total:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          nullable: true
+          description: Input plus output tokens for this report (set on finalize).
+        statement_recognition_model_name:
+          type: string
+          nullable: true
+          description: LLM model used for statement parsing when token totals were recorded.
+          maxLength: 128
+        customer:
+          type: integer
+          readOnly: true
+        entity:
+          type: integer
+          nullable: true
+        account:
+          type: integer
+        matching_task:
+          type: integer
+          nullable: true
+        reconciled_by:
+          type: integer
+          nullable: true
+        approved_by:
+          type: integer
+          readOnly: true
+          nullable: true
+      required:
+      - account
+      - account_name
+      - account_number
+      - account_subtype
+      - account_type
+      - approved_by
+      - approved_by_email
+      - approved_by_name
+      - approved_on
+      - async_task
+      - attachments
+      - cleared_activity
+      - cleared_item_count
+      - cleared_total_credits
+      - cleared_total_debits
+      - created_at
+      - csv_statements
+      - customer
+      - entity_name
+      - id
+      - last_modified_at
+      - matched_activity
+      - matched_item_count
+      - matched_total_credits
+      - matched_total_debits
+      - open_activity
+      - open_difference
+      - open_gl_item_count
+      - open_statement_activity
+      - open_statement_line_count
+      - open_total_credits
+      - open_total_debits
+      - reconciled_by_email
+      - reconciled_by_name
+      - reconciliation_difference
+      - statement_activity
+      - unreconciled_activity
+      - unreconciled_gl_item_count
+      - unreconciled_statement_activity
+      - unreconciled_statement_line_count
+      - unreconciled_total_credits
+      - unreconciled_total_debits
+    ReconciliationReportV2StatementTransaction:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        page_number:
+          type: integer
+          readOnly: true
+        reconciliation_transaction_id:
+          type: string
+          readOnly: true
+        source_transaction_id:
+          type: string
+          readOnly: true
+        is_matched:
+          type: string
+          readOnly: true
+        date:
+          type: string
+          format: date
+        deposit:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+        withdrawal:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        is_cleared:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        reconciliation_report:
+          type: integer
+          readOnly: true
+        page:
+          type: integer
+          readOnly: true
+      required:
+      - created_at
+      - customer
+      - date
+      - id
+      - is_matched
+      - last_modified_at
+      - page
+      - page_number
+      - reconciliation_report
+      - reconciliation_transaction_id
+      - source_transaction_id
+    File:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: integer
+          readOnly: true
+          nullable: true
+        created_by_name:
+          type: string
+          readOnly: true
+        created_by_email:
+          type: string
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        name:
+          type: string
+        url:
+          type: string
+          readOnly: true
+        s3_content_type:
+          type: string
+          nullable: true
+        s3_content_length:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+        s3_path:
+          type: string
+        object_id:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+        app:
+          type: string
+          readOnly: true
+        model:
+          type: string
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+      required:
+      - app
+      - created_at
+      - created_by
+      - created_by_email
+      - created_by_name
+      - customer
+      - deleted_at
+      - id
+      - is_deleted
+      - last_modified_at
+      - model
+      - name
+      - s3_path
+      - url
+    ReconciliationReportV2SourceReconciliationTransaction:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        status:
+          $ref: '#/components/schemas/ReconciliationReportV2SourceReconciliationTransactionStatusEnum'
+        suggestion_id:
+          type: integer
+          nullable: true
+          readOnly: true
+        suggestion:
+          allOf:
+          - $ref: '#/components/schemas/ReconciliationReportV2StatementTransaction'
+          readOnly: true
+      required:
+      - id
+      - suggestion
+      - suggestion_id
+    ErrorResponse:
+      type: object
+      description: Standard error response.
+      properties:
+        error:
+          type: string
+          description: Error message describing what went wrong
+      required:
+      - error
+    Status8ecEnum:
+      enum:
+      - DRAFT
+      - PENDING_APPROVAL
+      - APPROVED
+      - DELETED
+      type: string
+      description: '* `DRAFT` - Draft
+
+        * `PENDING_APPROVAL` - Pending Approval
+
+        * `APPROVED` - Approved
+
+        * `DELETED` - Deleted'
+    ReconciliationReportV2SourceTransactionList:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        currency:
+          type: string
+          readOnly: true
+        posted_at:
+          type: string
+          format: date
+          nullable: true
+          title: Posted Date
+        debit_amount_in_currency:
+          type: string
+          readOnly: true
+        credit_amount_in_currency:
+          type: string
+          readOnly: true
+        bank_description:
+          type: string
+          nullable: true
+        reconciliation_transaction:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReconciliationReportV2SourceReconciliationTransaction'
+          readOnly: true
+        is_cleared:
+          type: string
+          readOnly: true
+        is_matched:
+          type: string
+          readOnly: true
+        journal_id:
+          type: integer
+          readOnly: true
+        journal_order:
+          type: string
+          readOnly: true
+      required:
+      - credit_amount_in_currency
+      - currency
+      - debit_amount_in_currency
+      - id
+      - is_cleared
+      - is_matched
+      - journal_id
+      - journal_order
+      - reconciliation_transaction
+    MatchTransactionRequest:
+      type: object
+      properties:
+        transaction_id:
+          type: integer
+          description: GL transaction ID to match
+        statement_transaction_id:
+          type: integer
+          description: Statement transaction ID to match
+      required:
+      - statement_transaction_id
+      - transaction_id
+    AsyncTask:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        created_by_name:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          maxLength: 250
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        status:
+          $ref: '#/components/schemas/AsyncTaskStatusEnum'
+        error_message:
+          type: string
+          nullable: true
+        error_type:
+          type: string
+          nullable: true
+          description: Exception class name
+          maxLength: 255
+        retries:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          description: Number of retry attempts
+        completed_at:
+          type: string
+          format: date-time
+          nullable: true
+        started_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: When task execution started
+        celery_task_id:
+          type: string
+          nullable: true
+          description: Celery task UUID from self.request.id
+          maxLength: 255
+        root_task_id:
+          type: string
+          nullable: true
+          description: Root task ID in workflow chain
+          maxLength: 255
+        parent_task_id:
+          type: string
+          nullable: true
+          description: Parent task ID if chained
+          maxLength: 255
+        trace_id:
+          type: string
+          nullable: true
+          description: APM distributed trace ID
+          maxLength: 255
+        span_id:
+          type: string
+          nullable: true
+          description: APM span ID
+          maxLength: 255
+        task_args:
+          description: Task positional arguments
+        task_kwargs:
+          description: Task keyword arguments
+        result:
+          nullable: true
+          description: Task execution result
+        content:
+          nullable: true
+        customer:
+          type: integer
+          readOnly: true
+          nullable: true
+        created_by:
+          type: integer
+          readOnly: true
+          nullable: true
+      required:
+      - created_at
+      - created_by
+      - created_by_name
+      - customer
+      - id
+      - name
+    PaginatedReconciliationReportV2ListList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReconciliationReportV2List'
+    PaginatedReconciliationReportV2SourceTransactionListList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReconciliationReportV2SourceTransactionList'
+    BulkMatchTransactionRequest:
+      type: object
+      properties:
+        pairs:
+          type: array
+          items:
+            $ref: '#/components/schemas/MatchTransactionRequest'
+          description: Ordered list of GL-to-statement transaction pairs to match
+          minItems: 1
+      required:
+      - pairs
+    ReconciliationReportV2List:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        entity:
+          type: integer
+          nullable: true
+        entity_name:
+          type: string
+          readOnly: true
+        account:
+          type: integer
+        account_name:
+          type: string
+          readOnly: true
+        account_number:
+          type: string
+          readOnly: true
+        account_type:
+          type: string
+          readOnly: true
+        account_subtype:
+          type: string
+          readOnly: true
+        currency:
+          type: string
+          maxLength: 3
+        statement_starting_date:
+          type: string
+          format: date
+          nullable: true
+        statement_ending_date:
+          type: string
+          format: date
+          nullable: true
+        starting_balance:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+        ending_balance:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+        total_credit_amount:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+        total_debit_amount:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+        adjustments:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        async_task:
+          allOf:
+          - $ref: '#/components/schemas/AsyncTask'
+          readOnly: true
+        matching_task:
+          type: integer
+          nullable: true
+        reconciled_by:
+          type: integer
+          nullable: true
+        reconciled_by_name:
+          type: string
+          readOnly: true
+        reconciled_by_email:
+          type: string
+          readOnly: true
+        reconciled_on:
+          type: string
+          format: date
+          nullable: true
+        approved_by:
+          type: integer
+          readOnly: true
+          nullable: true
+        approved_by_name:
+          type: string
+          readOnly: true
+        approved_by_email:
+          type: string
+          readOnly: true
+        approved_on:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        status:
+          $ref: '#/components/schemas/Status8ecEnum'
+        unmatched_statement_transactions:
+          nullable: true
+        statement_recognition_cost_usd:
+          type: number
+          format: double
+          maximum: 100000000
+          minimum: -100000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+          description: Estimated USD cost of AI bank-statement parsing for this report (from summed page token usage).
+        statement_recognition_input_tokens:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+          description: Sum of input tokens from statement parsing across all pages (set on finalize).
+        statement_recognition_output_tokens:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+          description: Sum of output tokens from statement parsing across all pages (set on finalize).
+        statement_recognition_token_total:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          nullable: true
+          description: Input plus output tokens for this report (set on finalize).
+        statement_recognition_model_name:
+          type: string
+          nullable: true
+          description: LLM model used for statement parsing when token totals were recorded.
+          maxLength: 128
+      required:
+      - account
+      - account_name
+      - account_number
+      - account_subtype
+      - account_type
+      - approved_by
+      - approved_by_email
+      - approved_by_name
+      - approved_on
+      - async_task
+      - created_at
+      - customer
+      - entity_name
+      - id
+      - last_modified_at
+      - reconciled_by_email
+      - reconciled_by_name
+    AsyncTaskStatusEnum:
+      enum:
+      - PENDING
+      - PROCESSING
+      - COMPLETED
+      - FAILED
+      - CANCELLED
+      type: string
+      description: '* `PENDING` - Pending
+
+        * `PROCESSING` - Processing
+
+        * `COMPLETED` - Completed
+
+        * `FAILED` - Failed
+
+        * `CANCELLED` - Cancelled'
+    ConfirmTransactionSelectionRequest:
+      type: object
+      properties:
+        selected:
+          type: array
+          items:
+            type: integer
+          description: List of GL transaction IDs to mark as reconciled
+        selected_statements:
+          type: array
+          items:
+            type: integer
+          description: Statement transaction IDs to auto-match to GL selections by amount
+      required:
+      - selected
+  securitySchemes:
+    knoxApiToken:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "Token"

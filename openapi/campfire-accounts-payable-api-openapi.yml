@@ -1,0 +1,4121 @@
+openapi: 3.0.3
+info:
+  title: Campfire Developer APIs Accounts Payable API
+  version: 1.0.0
+  description: '## Introduction
+
+    Campfire''s developer APIs offer granular access to Campfire''s core accounting,
+
+    revenue recognition, and financial data features.
+
+
+    These APIs are designed to be used by developers to build custom integrations,
+
+    automate workflows, and perform any other programmatic operations.
+
+    '
+servers:
+- url: https://api.meetcampfire.com
+  description: Production server
+tags:
+- name: Accounts Payable
+  description: Operations related to billing and the AP subledger.
+paths:
+  /coa/api/v1/bill/:
+    get:
+      operationId: coa_api_v1_bill_retrieve
+      description: "\n        Retrieve a paginated list of accounting bills with comprehensive filtering, search, and sorting capabilities.\n\n        This endpoint provides complete access to your bills data with:\n        - Advanced filtering by date ranges, payment status, vendors, entities, and currency\n        - Full-text search across bill numbers, vendor names, addresses, and bill messages\n        - Flexible sorting by any field including calculated fields (totals, amounts due, etc.)\n        - Comprehensive pagination with customizable page sizes\n        - Aging calculations and payment status categorization\n        - Automatic calculation of totals, amounts paid, and amounts due\n\n        **Deleted Records Support:**\n        - When include_deleted=true: Returns ONLY deleted bills with minimal data (id, is_deleted, deleted_at, last_modified_at)\n        - When include_deleted=false or omitted: Returns ONLY active bills with full data\n        - Timestamp filtering (last_modified_at__gte/lte) works with both active and deleted records\n        "
+      summary: List Accounting Bills
+      parameters:
+      - in: query
+        name: currency
+        schema:
+          type: string
+        description: Filter by currency code (e.g., USD, EUR)
+      - in: query
+        name: download
+        schema:
+          type: boolean
+          default: false
+        description: If true, triggers async download workflow and sends bills via email
+      - in: query
+        name: end_date
+        schema:
+          type: string
+        description: Filter bills with bill_date on or before this date (YYYY-MM-DD)
+      - in: query
+        name: entity
+        schema:
+          type: integer
+        description: Filter by entity ID. Can be specified multiple times for multiple entities
+        explode: true
+        style: form
+      - in: query
+        name: include_deleted
+        schema:
+          type: boolean
+          default: false
+        description: 'When set to ''true'', returns ONLY deleted records instead of active records. Deleted records contain minimal data: ''id'', ''is_deleted=true'', ''deleted_at'' timestamp, and ''last_modified_at''. When ''false'' or omitted, returns ONLY active records. This provides clean separation between active and deleted data.'
+      - in: query
+        name: last_modified_at__gte
+        schema:
+          type: string
+        description: 'Filter for records modified on or after this timestamp. Format: ISO 8601 (e.g., ''2024-01-01T00:00:00Z'' or ''2024-01-01''). Works with both active records and deleted records (filters by deletion time for deleted records).'
+      - in: query
+        name: last_modified_at__lte
+        schema:
+          type: string
+        description: 'Filter for records modified on or before this timestamp. Format: ISO 8601 (e.g., ''2024-12-31T23:59:59Z'' or ''2024-12-31''). Works with both active records and deleted records (filters by deletion time for deleted records).'
+      - in: query
+        name: limit
+        schema:
+          type: integer
+          default: 50
+        description: 'Number of results to return per page (default: 50, max: 1000)'
+      - in: query
+        name: offset
+        schema:
+          type: integer
+          default: 0
+        description: The initial index from which to return the results
+      - in: query
+        name: q
+        schema:
+          type: string
+        description: Search query - searches by mailing address, bill number, message on bill, or vendor name
+      - in: query
+        name: sort
+        schema:
+          type: string
+          default: -bill_date
+        description: 'Sort order. Use field name for ascending, -field for descending. Special fields: vendor_name, total_amount, amount_paid, amount_due, payment. Default: -bill_date'
+      - in: query
+        name: start_date
+        schema:
+          type: string
+        description: Filter bills with bill_date on or after this date (YYYY-MM-DD)
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum:
+          - '1_30'
+          - '31_60'
+          - '61_90'
+          - '91_120'
+          - current
+          - open
+          - over_120
+          - paid
+          - partially_paid
+          - past_due
+          - payment_not_found
+          - payment_pending
+          - unpaid
+          - voided
+        description: Filter by payment status
+      - in: query
+        name: vendor
+        schema:
+          type: integer
+        description: Filter by vendor ID. Can be specified multiple times for multiple vendors
+        explode: true
+        style: form
+      tags:
+      - Accounts Payable
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: coa_api_v1_bill_create
+      description: "\n        Creates a new accounting bill with line items and automatic journal entry generation.\n\n        This endpoint allows for complex bill creation with:\n        - Multiple line items with different accounts, departments, and vendor assignments\n        - Automatic accounts payable journal entry creation\n        - Tax calculations and tax account handling\n        - Exchange rate support for multi-currency transactions\n        - Custom field support for additional bill metadata\n\n        Requirements:\n        - All referenced accounts must exist and be active\n        - Vendor must exist\n        - Entity must exist\n        - Line items must have valid amounts and descriptions\n        - Currency must be valid for the entity\n        - Accounting date must be before closed book date\n        "
+      summary: Create Accounting Bill
+      tags:
+      - Accounts Payable
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountingBill'
+            examples:
+              CreateBillRequest:
+                value:
+                  payment_term: 1234
+                  bill_date: '2025-08-01'
+                  due_date: '2025-08-24'
+                  lines:
+                  - tags:
+                    - id: '8355'
+                      name: Project A
+                      group: 727
+                    account: '2622'
+                    account_name: 6700 - Office Expenses
+                    amount: 10000
+                    description: 1x Large Expense Line
+                    bill_customer: '34182'
+                    bill_customer_name: ABC Bead Supply
+                    department: '35'
+                    department_name: Engineering
+                  entity: '54'
+                  entity_name: Top Level
+                  entity_currency: USD
+                  currency: USD
+                  exchange_rate_book: 1
+                  exchange_rate: 1
+                  vendor: '34182'
+                  vendor_name: ABC Bead Supply
+                  bill_number: '1234567'
+                  item_date: '2025-08-01'
+                  message_on_bill: A really big expense
+                  mailing_address: 1234 Campground Road. San Francisco CA 98765
+                summary: Standard bill creation with multiple line items
+                description: Example of creating a bill with multiple expense line items, vendor assignment, and payment terms
+              CreateBillResponse:
+                value:
+                  id: 31894
+                  lines:
+                  - id: 298626
+                    account_number: '6700'
+                    account_name: 6700 - Office Expenses
+                    department_name: Engineering
+                    bill_customer_name: ABC Bead Supply
+                    tags:
+                    - id: 8355
+                      group_name: Projects
+                      parent_name: null
+                      parent: null
+                      name: Project A
+                      created_at: 2025-07-17T16:21:02+0000
+                      last_modified_at: 2025-07-17T16:21:02+0000
+                      group: 727
+                    amortization_schedule: []
+                    description: 1x Large Expense Line
+                    amount: 10000
+                    tax: 0
+                    tax_description: null
+                    source: null
+                    source_id: null
+                    currency: USD
+                    created_at: 2025-07-25T04:24:32+0000
+                    last_modified_at: 2025-07-25T04:24:32+0000
+                    account: 2622
+                    bill_customer: 34182
+                    department: 35
+                  payments: []
+                  payment_journal_entries: []
+                  status: open
+                  past_due_days: null
+                  entity_name: Top Level
+                  entity_currency: USD
+                  vendor_name: ABC Bead Supply
+                  attachments: []
+                  total_amount: 10000
+                  amount_due: 10000
+                  amount_paid: 0
+                  item_date: '2025-08-01'
+                  voided_date: null
+                  search_vector: null
+                  search_text: null
+                  mailing_address: 1234 Campground Road. San Francisco CA 98765
+                  terms: null
+                  bill_number: '1234567'
+                  bill_date: '2025-08-01'
+                  due_date: '2025-08-24'
+                  paid_date: null
+                  message_on_bill: A really big expense
+                  source_id: null
+                  source: null
+                  payment_status: open
+                  currency: USD
+                  exchange_rate: 1
+                  exchange_rate_book: 1
+                  created_at: 2025-07-25T04:24:32+0000
+                  last_modified_at: 2025-07-25T04:24:32+0000
+                  entity: 54
+                  vendor: 34182
+                  payment_term: 1234
+                  payment_term_name: Net 30
+                  journal_entry: 7491951
+                  source_file: null
+                  tax_rate: null
+                  voided_journal_entry: null
+                summary: Response after successfully creating a bill
+                description: Example response showing the created bill with generated IDs, calculated totals, and journal entry information
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AccountingBill'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AccountingBill'
+        required: true
+      security:
+      - knoxApiToken: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountingBill'
+              examples:
+                CreateBillResponse:
+                  value:
+                    id: 31894
+                    lines:
+                    - id: 298626
+                      account_number: '6700'
+                      account_name: 6700 - Office Expenses
+                      department_name: Engineering
+                      bill_customer_name: ABC Bead Supply
+                      tags:
+                      - id: 8355
+                        group_name: Projects
+                        parent_name: null
+                        parent: null
+                        name: Project A
+                        created_at: 2025-07-17T16:21:02+0000
+                        last_modified_at: 2025-07-17T16:21:02+0000
+                        group: 727
+                      amortization_schedule: []
+                      description: 1x Large Expense Line
+                      amount: 10000
+                      tax: 0
+                      tax_description: null
+                      source: null
+                      source_id: null
+                      currency: USD
+                      created_at: 2025-07-25T04:24:32+0000
+                      last_modified_at: 2025-07-25T04:24:32+0000
+                      account: 2622
+                      bill_customer: 34182
+                      department: 35
+                    payments: []
+                    payment_journal_entries: []
+                    status: open
+                    past_due_days: null
+                    entity_name: Top Level
+                    entity_currency: USD
+                    vendor_name: ABC Bead Supply
+                    attachments: []
+                    total_amount: 10000
+                    amount_due: 10000
+                    amount_paid: 0
+                    item_date: '2025-08-01'
+                    voided_date: null
+                    search_vector: null
+                    search_text: null
+                    mailing_address: 1234 Campground Road. San Francisco CA 98765
+                    terms: null
+                    bill_number: '1234567'
+                    bill_date: '2025-08-01'
+                    due_date: '2025-08-24'
+                    paid_date: null
+                    message_on_bill: A really big expense
+                    source_id: null
+                    source: null
+                    payment_status: open
+                    currency: USD
+                    exchange_rate: 1
+                    exchange_rate_book: 1
+                    created_at: 2025-07-25T04:24:32+0000
+                    last_modified_at: 2025-07-25T04:24:32+0000
+                    entity: 54
+                    vendor: 34182
+                    payment_term: 1234
+                    payment_term_name: Net 30
+                    journal_entry: 7491951
+                    source_file: null
+                    tax_rate: null
+                    voided_journal_entry: null
+                  summary: Response after successfully creating a bill
+                  description: Example response showing the created bill with generated IDs, calculated totals, and journal entry information
+          description: ''
+  /coa/api/v1/bill-draft:
+    get:
+      operationId: list_bill_drafts
+      description: GET list (customer-scoped, ``status`` / ``source`` filterable) + POST UI upload.
+      summary: List Bill Drafts
+      tags:
+      - Accounts Payable
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BillDraftRead'
+          description: ''
+    post:
+      operationId: create_bill_draft
+      description: GET list (customer-scoped, ``status`` / ``source`` filterable) + POST UI upload.
+      summary: Create Bill Draft
+      tags:
+      - Accounts Payable
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BillDraftCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BillDraftCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BillDraftCreate'
+        required: true
+      security:
+      - knoxApiToken: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BillDraftCreate'
+          description: ''
+  /coa/api/v1/bill-draft/{id}:
+    get:
+      operationId: get_bill_draft
+      description: GET detail + PATCH update on a single BillDraft.
+      summary: Retrieve Bill Draft
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Accounts Payable
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BillDraftRead'
+          description: ''
+    put:
+      operationId: update_bill_draft
+      description: GET detail + PATCH update on a single BillDraft.
+      summary: Update Bill Draft
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Accounts Payable
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BillDraftWrite'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BillDraftWrite'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BillDraftWrite'
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BillDraftWrite'
+          description: ''
+    patch:
+      operationId: partial_update_bill_draft
+      description: GET detail + PATCH update on a single BillDraft.
+      summary: Partial Update Bill Draft
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Accounts Payable
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedBillDraftWrite'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedBillDraftWrite'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedBillDraftWrite'
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BillDraftWrite'
+          description: ''
+  /coa/api/v1/bill-draft/{id}/abandon:
+    post:
+      operationId: abandon_bill_draft
+      description: POST /bill-draft/<pk>/abandon — hard-delete an unfinished UI upload draft.
+      summary: Abandon Bill Draft
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Accounts Payable
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          description: No response body
+  /coa/api/v1/bill-draft/{id}/discard:
+    post:
+      operationId: discard_bill_draft
+      description: POST /bill-draft/<pk>/discard — terminal state with a required reason.
+      summary: Discard Bill Draft
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Accounts Payable
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          description: No response body
+  /coa/api/v1/bill-draft/{id}/promote:
+    post:
+      operationId: promote_bill_draft
+      description: POST /bill-draft/<pk>/promote — routes through the promote service.
+      summary: Promote Bill Draft
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Accounts Payable
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          description: No response body
+  /coa/api/v1/bill-payments:
+    get:
+      operationId: coa_api_v1_bill_payments_list
+      description: "\n        Retrieve a paginated list of bill payments (payments applied against accounts\n        payable bills), designed for syncing payment data into external systems.\n\n        Results are ordered by (last_modified_at, id) ascending, so pages are stable and\n        a sync can resume from where it left off.\n\n        **Full sync (cursor pagination):**\n        - Pass an empty cursor parameter (cursor=) on the first request\n        - Follow the 'next' URL from each response until it is null\n\n        **Incremental sync (time-based):**\n        - Store the highest last_modified_at value you have processed\n        - On the next run, pass it as last_modified_at__gte to fetch only new and updated payments\n\n        **Voids:**\n        - Voided payments are included by default with voided_date set, so integrators can\n          detect payments that were reversed after a previous sync\n        - Filter with voided=true or voided=false to fetch only one kind\n        "
+      summary: List Bill Payments
+      parameters:
+      - in: query
+        name: cursor
+        schema:
+          type: string
+        description: Opts into cursor pagination. Pass an empty value (cursor=) on the first request, then follow the 'next' URL from each response until it is null. The cursor value is opaque - do not parse or construct it. Cursor pagination is recommended for full syncs as it avoids the performance penalty of deep offsets on large result sets.
+      - in: query
+        name: last_modified_at__gte
+        schema:
+          type: string
+        description: 'Filter for payments modified on or after this timestamp. Format: ISO 8601 (e.g., ''2024-01-01T00:00:00Z'' or ''2024-01-01''). Use this for incremental syncs: store the highest last_modified_at you have processed and pass it on the next sync run.'
+      - in: query
+        name: last_modified_at__lte
+        schema:
+          type: string
+        description: 'Filter for payments modified on or before this timestamp. Format: ISO 8601 (e.g., ''2024-12-31T23:59:59Z'' or ''2024-12-31''). Date-only values are inclusive of the entire day.'
+      - in: query
+        name: limit
+        schema:
+          type: integer
+          default: 100
+        description: Maximum number of records to return per page. Default 100, maximum 10000. Use with offset to paginate
+      - in: query
+        name: offset
+        schema:
+          type: integer
+          default: 0
+        description: Number of records to skip before collecting the result page. Use with limit to paginate
+      - in: query
+        name: skip_count
+        schema:
+          type: boolean
+          default: false
+        description: When 'true', skips the total COUNT query and returns a lower-bound 'count' instead. Recommended for large syncs where the exact total is not needed.
+      - in: query
+        name: voided
+        schema:
+          type: boolean
+        description: Filter by void status. When 'true', returns only voided payments (voided_date is set). When 'false', returns only active payments. When omitted, returns both so integrators can detect and propagate voids.
+      tags:
+      - Accounts Payable
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBillPaymentSyncList'
+          description: ''
+  /coa/api/v1/bill/{bill_id}/empty-transaction-default-department-tags:
+    get:
+      operationId: coa_api_v1_bill_empty_transaction_default_department_tags_retrieve
+      description: "Get the default department and tags from the bill line with the largest total amount.\n\n        This endpoint is used to provide default values when creating empty transactions (marking as paid without a transaction).\n        The total amount is calculated as: amount + tax.\n        If multiple lines have the same total amount, the line with the lowest ID (first created) is selected.\n        The department and tags are retrieved directly from the bill line."
+      summary: Get Default Department and Tags for Empty Transaction
+      parameters:
+      - in: path
+        name: bill_id
+        schema:
+          type: integer
+        description: ID of the bill
+        required: true
+      tags:
+      - Accounts Payable
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  department:
+                    type: object
+                    nullable: true
+                    properties:
+                      id:
+                        type: integer
+                      name:
+                        type: string
+                  tags:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                        group:
+                          type: integer
+                          nullable: true
+                        group_name:
+                          type: string
+                          nullable: true
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                description: Bill not found
+          description: ''
+  /coa/api/v1/bill/{bill_id}/pay/:
+    post:
+      operationId: coa_api_v1_bill_pay_create
+      description: "Mark a bill as paid, allowing partial payments.\n\n        This endpoint supports multiple payment methods:\n        - Apply existing transactions as payments\n        - Apply debit memos to reduce the bill balance\n        - Create manual payments without a transaction\n\n        The request body should contain at least one of:\n        - transactions: List of transaction payments to apply\n        - debit_memos: List of debit memos to apply\n        - empty_transactions: List of manual payments without transactions"
+      summary: Mark Bill as Paid
+      parameters:
+      - in: path
+        name: bill_id
+        schema:
+          type: integer
+        description: ID of the bill to mark as paid
+        required: true
+      tags:
+      - Accounts Payable
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MarkPaid'
+            examples:
+              MarkBillAsPaidRequest:
+                value:
+                  bill_id: '31894'
+                  transactions:
+                  - transaction_id: 21069178
+                    transaction_description: ScholarShare ACHCONTRIB 070825
+                    account_id: '2550'
+                    account_name: 2010 - Accounts Payable
+                    amount: 8999.99
+                  debit_memos:
+                  - debit_memo_id: 343
+                    debit_memo_number: DM-0000005
+                    amount: 1000.01
+                    posted_at: '2025-07-25'
+                summary: Mark Bill as Paid Request
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MarkPaid'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MarkPaid'
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountingBill'
+          description: ''
+  /coa/api/v1/bill/{bill_id}/payment/{payment_id}/void/:
+    post:
+      operationId: coa_api_v1_bill_payment_void_create
+      description: "Void an existing bill payment.\n\n        This creates a reversing journal entry to void the payment and updates the bill status.\n\n        Optionally accepts a void_date in the request body to specify when the payment should be voided.\n        If not provided, defaults to today's date."
+      summary: Void Bill Payment
+      parameters:
+      - in: path
+        name: bill_id
+        schema:
+          type: integer
+        description: ID of the bill
+        required: true
+      - in: path
+        name: payment_id
+        schema:
+          type: integer
+        description: ID of the payment to void
+        required: true
+      tags:
+      - Accounts Payable
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VoidPayment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/VoidPayment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/VoidPayment'
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountingBillPayment'
+          description: ''
+    delete:
+      operationId: coa_api_v1_bill_payment_void_destroy
+      description: "Delete a bill payment.\n\n        This removes the payment record and updates the transaction to uncategorized."
+      summary: Delete Bill Payment
+      parameters:
+      - in: path
+        name: bill_id
+        schema:
+          type: integer
+        description: ID of the bill
+        required: true
+      - in: path
+        name: payment_id
+        schema:
+          type: integer
+        description: ID of the payment to delete
+        required: true
+      tags:
+      - Accounts Payable
+      security:
+      - knoxApiToken: []
+      responses:
+        '204':
+          description: No response body
+  /coa/api/v1/bill/{bill_id}/reopen/:
+    post:
+      operationId: coa_api_v1_bill_reopen_create
+      description: "Reopen a voided bill.\n\n        This removes the void date and void journal entry, and sets the bill status back to open.\n        The voiding journal entry will be deleted to reverse the void operation."
+      summary: Reopen Voided Bill
+      parameters:
+      - in: path
+        name: bill_id
+        schema:
+          type: integer
+        description: ID of the voided bill to reopen
+        required: true
+      tags:
+      - Accounts Payable
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountingBill'
+          description: ''
+  /coa/api/v1/bill/{bill_id}/sync-to-ramp/:
+    post:
+      operationId: coa_api_v1_bill_sync_to_ramp_create
+      description: Sync a bill without a source to Ramp using the enabled Ramp connection
+      summary: Sync Bill to Ramp
+      parameters:
+      - in: path
+        name: bill_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Accounts Payable
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          description: No response body
+        '400':
+          description: No response body
+        '404':
+          description: No response body
+  /coa/api/v1/bill/{bill_id}/void/:
+    post:
+      operationId: coa_api_v1_bill_void_create
+      description: "Void an existing bill.\n\n        This creates a reversing journal entry to void the bill by reversing all debit and credit amounts.\n        The bill status will be updated to reflect the void."
+      summary: Void Bill
+      parameters:
+      - in: path
+        name: bill_id
+        schema:
+          type: integer
+        description: ID of the bill to void
+        required: true
+      tags:
+      - Accounts Payable
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VoidBillRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/VoidBillRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/VoidBillRequest'
+        required: true
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountingBill'
+          description: ''
+  /coa/api/v1/bill/{id}/:
+    get:
+      operationId: coa_api_v1_bill_retrieve_2
+      description: "\n        Retrieve a single accounting bill by ID with complete detail including all line items, payments, and related data.\n\n        This endpoint returns comprehensive bill information including:\n        - Full bill details with vendor, entity, and customer information\n        - All line items with account details, departments, tags, and amortization schedules\n        - Complete payment history with journal entry references\n        - Calculated fields including total amounts, amounts paid, amounts due, and payment status\n        - Journal entry references for accounting integration\n        - Exchange rate information for multi-currency bills\n        "
+      summary: Retrieve Accounting Bill
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          pattern: ^\d+$
+        required: true
+      tags:
+      - Accounts Payable
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountingBill'
+              examples:
+                SingleBillResponse:
+                  value:
+                    id: 31894
+                    lines:
+                    - id: 298626
+                      account_number: '6700'
+                      account_name: 6700 - Office Expenses
+                      department_name: Engineering
+                      bill_customer_name: ABC Bead Supply
+                      tags:
+                      - id: 8355
+                        group_name: Projects
+                        parent_name: null
+                        parent: null
+                        name: Project A
+                        created_at: 2025-07-17T16:21:02+0000
+                        last_modified_at: 2025-07-17T16:21:02+0000
+                        group: 727
+                      amortization_schedule:
+                      - id: 1234
+                        date: '2025-09-01'
+                        amount: 1000
+                        description: Monthly amortization - Office equipment
+                        bill_line: 298626
+                        amortization: 567
+                      description: 1x Large Expense Line
+                      amount: 10000
+                      tax: 800
+                      tax_description: State Sales Tax
+                      source: MANUAL
+                      source_id: null
+                      currency: USD
+                      created_at: 2025-07-25T04:24:32+0000
+                      last_modified_at: 2025-07-25T04:24:32+0000
+                      account: 2622
+                      bill_customer: 34182
+                      department: 35
+                    payments:
+                    - id: 5234
+                      amount: 5400
+                      payment_date: '2025-08-15'
+                      currency: USD
+                      payment_transaction_bank_description: ACH Transfer
+                      payment_journal_entry_order: JE-2025-001345
+                      voided_journal_entry_order: null
+                      created_at: 2025-08-15T14:22:33+0000
+                      payment_journal_entry: 7491960
+                      payment_transaction: 12345678
+                      voided_journal_entry: null
+                      source: BANK_IMPORT
+                    payment_journal_entries:
+                    - 7491960
+                    status: partially_paid
+                    past_due_days: null
+                    entity_name: Top Level
+                    entity_currency: USD
+                    vendor_name: ABC Bead Supply
+                    attachments:
+                    - id: 9876
+                      name: invoice_abc_supply_20250801.pdf
+                      file_size: 234567
+                      content_type: application/pdf
+                      created_at: 2025-08-01T10:30:00+0000
+                      url: https://storage.example.com/files/invoice_abc_supply_20250801.pdf
+                    total_amount: 10800
+                    amount_due: 5400
+                    amount_paid: 5400
+                    item_date: '2025-08-01'
+                    voided_date: null
+                    voided_journal_entry_order: null
+                    search_vector: abc bead supply office expenses project
+                    search_text: ABC Bead Supply 1234567 A really big expense
+                    mailing_address: 1234 Campground Road. San Francisco CA 98765
+                    terms: null
+                    bill_number: '1234567'
+                    bill_date: '2025-08-01'
+                    due_date: '2025-08-31'
+                    paid_date: null
+                    message_on_bill: A really big expense
+                    source_id: IMPORT-2025-0001
+                    source: CSV_IMPORT
+                    payment_status: partial
+                    currency: USD
+                    exchange_rate: 1.0
+                    exchange_rate_book: 1.0
+                    created_at: 2025-07-25T04:24:32+0000
+                    last_modified_at: 2025-08-15T14:25:10+0000
+                    entity: 54
+                    vendor: 34182
+                    payment_term: 1234
+                    payment_term_name: Net 30
+                    journal_entry: 7491951
+                    source_file: 8877
+                    tax_rate: 8551
+                    custom_fields:
+                      purchase_order_number: PO-2025-001234
+                      department_approval: John Smith
+                      project_code: PROJ-A-2025
+                  summary: Complete bill details with line items and payments
+                  description: Example response showing a fully detailed bill with line items, payment history, and all related metadata
+          description: ''
+    put:
+      operationId: coa_api_v1_bill_update
+      description: "\n        Update an existing accounting bill with complete replacement of all data including line items and metadata.\n\n        This endpoint performs a full update (PUT) of an accounting bill with:\n        - Complete replacement of all bill data including vendor, entity, dates, and terms\n        - Full replacement of all line items with new account assignments, amounts, and descriptions\n        - Automatic recalculation of journal entries and accounting transactions\n        - Preservation of payment history while updating balances and amounts due\n        - Validation of all referenced accounts, vendors, entities, and departments\n        - Automatic exchange rate updates for multi-currency bills\n        - Custom field updates and attachment management\n        "
+      summary: Update Accounting Bill
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          pattern: ^\d+$
+        required: true
+      tags:
+      - Accounts Payable
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountingBill'
+            examples:
+              UpdateBillRequest:
+                value:
+                  payment_term: 1236
+                  bill_date: '2025-08-01'
+                  due_date: '2025-09-15'
+                  lines:
+                  - tags:
+                    - id: '8355'
+                      name: Project A
+                      group: 727
+                    account: '2622'
+                    account_name: 6700 - Office Expenses
+                    amount: 12000
+                    description: Updated Large Expense Line
+                    bill_customer: '34182'
+                    bill_customer_name: ABC Bead Supply
+                    department: '35'
+                    department_name: Engineering
+                  - tags: []
+                    account: '2600'
+                    account_name: 5000 - Cost of Goods Sold
+                    amount: 3000
+                    description: Additional inventory purchase
+                    bill_customer: '34182'
+                    bill_customer_name: ABC Bead Supply
+                    department: '36'
+                    department_name: Sales
+                  entity: '54'
+                  entity_name: Top Level
+                  entity_currency: USD
+                  currency: USD
+                  exchange_rate_book: 1
+                  exchange_rate: 1
+                  vendor: '34182'
+                  vendor_name: ABC Bead Supply
+                  bill_number: '1234567'
+                  item_date: '2025-08-01'
+                  message_on_bill: Updated large expense with additional items
+                  mailing_address: 1234 Campground Road. San Francisco CA 98765
+                summary: Complete bill update with modified line items
+                description: Example of updating a bill with modified amounts, line items, and vendor information
+              UpdateBillResponse:
+                value:
+                  id: 31894
+                  lines:
+                  - id: 298627
+                    account_number: '6700'
+                    account_name: 6700 - Office Expenses
+                    department_name: Engineering
+                    bill_customer_name: ABC Bead Supply
+                    tags:
+                    - id: 8355
+                      group_name: Projects
+                      parent_name: null
+                      parent: null
+                      name: Project A
+                      created_at: 2025-07-17T16:21:02+0000
+                      last_modified_at: 2025-07-17T16:21:02+0000
+                      group: 727
+                    amortization_schedule: []
+                    description: Updated Large Expense Line
+                    amount: 12000
+                    tax: 0
+                    tax_description: null
+                    source: null
+                    source_id: null
+                    currency: USD
+                    created_at: 2025-07-25T14:30:15+0000
+                    last_modified_at: 2025-07-25T14:30:15+0000
+                    account: 2622
+                    bill_customer: 34182
+                    department: 35
+                  - id: 298628
+                    account_number: '5000'
+                    account_name: 5000 - Cost of Goods Sold
+                    department_name: Sales
+                    bill_customer_name: ABC Bead Supply
+                    tags: []
+                    amortization_schedule: []
+                    description: Additional inventory purchase
+                    amount: 3000
+                    tax: 0
+                    tax_description: null
+                    source: null
+                    source_id: null
+                    currency: USD
+                    created_at: 2025-07-25T14:30:15+0000
+                    last_modified_at: 2025-07-25T14:30:15+0000
+                    account: 2600
+                    bill_customer: 34182
+                    department: 36
+                  payments:
+                  - id: 5234
+                    amount: 5400
+                    payment_date: '2025-08-15'
+                    currency: USD
+                    payment_transaction_bank_description: ACH Transfer
+                    payment_journal_entry_order: JE-2025-001345
+                    voided_journal_entry_order: null
+                    created_at: 2025-08-15T14:22:33+0000
+                    payment_journal_entry: 7491960
+                    payment_transaction: 12345678
+                    voided_journal_entry: null
+                    source: BANK_IMPORT
+                  payment_journal_entries:
+                  - 7491960
+                  status: partially_paid
+                  past_due_days: null
+                  entity_name: Top Level
+                  entity_currency: USD
+                  vendor_name: ABC Bead Supply
+                  attachments: []
+                  total_amount: 15000
+                  amount_due: 9600
+                  amount_paid: 5400
+                  item_date: '2025-08-01'
+                  voided_date: null
+                  voided_journal_entry_order: null
+                  search_vector: null
+                  search_text: null
+                  mailing_address: 1234 Campground Road. San Francisco CA 98765
+                  terms: null
+                  bill_number: '1234567'
+                  bill_date: '2025-08-01'
+                  due_date: '2025-09-15'
+                  paid_date: null
+                  message_on_bill: Updated large expense with additional items
+                  source_id: null
+                  source: null
+                  payment_status: partial
+                  currency: USD
+                  exchange_rate: 1
+                  exchange_rate_book: 1
+                  created_at: 2025-07-25T04:24:32+0000
+                  last_modified_at: 2025-07-25T14:30:15+0000
+                  entity: 54
+                  vendor: 34182
+                  payment_term: 1236
+                  payment_term_name: Net 45
+                  journal_entry: 7491951
+                  source_file: null
+                  tax_rate: null
+                  voided_journal_entry: null
+                summary: Response after successfully updating a bill
+                description: Example response showing the updated bill with new amounts, recalculated totals, and preserved payment history
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AccountingBill'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AccountingBill'
+        required: true
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountingBill'
+              examples:
+                UpdateBillResponse:
+                  value:
+                    id: 31894
+                    lines:
+                    - id: 298627
+                      account_number: '6700'
+                      account_name: 6700 - Office Expenses
+                      department_name: Engineering
+                      bill_customer_name: ABC Bead Supply
+                      tags:
+                      - id: 8355
+                        group_name: Projects
+                        parent_name: null
+                        parent: null
+                        name: Project A
+                        created_at: 2025-07-17T16:21:02+0000
+                        last_modified_at: 2025-07-17T16:21:02+0000
+                        group: 727
+                      amortization_schedule: []
+                      description: Updated Large Expense Line
+                      amount: 12000
+                      tax: 0
+                      tax_description: null
+                      source: null
+                      source_id: null
+                      currency: USD
+                      created_at: 2025-07-25T14:30:15+0000
+                      last_modified_at: 2025-07-25T14:30:15+0000
+                      account: 2622
+                      bill_customer: 34182
+                      department: 35
+                    - id: 298628
+                      account_number: '5000'
+                      account_name: 5000 - Cost of Goods Sold
+                      department_name: Sales
+                      bill_customer_name: ABC Bead Supply
+                      tags: []
+                      amortization_schedule: []
+                      description: Additional inventory purchase
+                      amount: 3000
+                      tax: 0
+                      tax_description: null
+                      source: null
+                      source_id: null
+                      currency: USD
+                      created_at: 2025-07-25T14:30:15+0000
+                      last_modified_at: 2025-07-25T14:30:15+0000
+                      account: 2600
+                      bill_customer: 34182
+                      department: 36
+                    payments:
+                    - id: 5234
+                      amount: 5400
+                      payment_date: '2025-08-15'
+                      currency: USD
+                      payment_transaction_bank_description: ACH Transfer
+                      payment_journal_entry_order: JE-2025-001345
+                      voided_journal_entry_order: null
+                      created_at: 2025-08-15T14:22:33+0000
+                      payment_journal_entry: 7491960
+                      payment_transaction: 12345678
+                      voided_journal_entry: null
+                      source: BANK_IMPORT
+                    payment_journal_entries:
+                    - 7491960
+                    status: partially_paid
+                    past_due_days: null
+                    entity_name: Top Level
+                    entity_currency: USD
+                    vendor_name: ABC Bead Supply
+                    attachments: []
+                    total_amount: 15000
+                    amount_due: 9600
+                    amount_paid: 5400
+                    item_date: '2025-08-01'
+                    voided_date: null
+                    voided_journal_entry_order: null
+                    search_vector: null
+                    search_text: null
+                    mailing_address: 1234 Campground Road. San Francisco CA 98765
+                    terms: null
+                    bill_number: '1234567'
+                    bill_date: '2025-08-01'
+                    due_date: '2025-09-15'
+                    paid_date: null
+                    message_on_bill: Updated large expense with additional items
+                    source_id: null
+                    source: null
+                    payment_status: partial
+                    currency: USD
+                    exchange_rate: 1
+                    exchange_rate_book: 1
+                    created_at: 2025-07-25T04:24:32+0000
+                    last_modified_at: 2025-07-25T14:30:15+0000
+                    entity: 54
+                    vendor: 34182
+                    payment_term: 1236
+                    payment_term_name: Net 45
+                    journal_entry: 7491951
+                    source_file: null
+                    tax_rate: null
+                    voided_journal_entry: null
+                  summary: Response after successfully updating a bill
+                  description: Example response showing the updated bill with new amounts, recalculated totals, and preserved payment history
+          description: ''
+    patch:
+      operationId: coa_api_v1_bill_partial_update
+      description: "\n        Performs a partial update of an existing accounting bill using PATCH semantics.\n\n        This endpoint allows selective modification of bill fields without requiring\n        a complete bill replacement. You can update specific aspects of the bill while\n        leaving other fields unchanged.\n\n        **Updatable Fields:**\n        - Bill metadata (number, dates, descriptions, vendor, entity)\n        - Line items (amounts, accounts, descriptions, departments)\n        - Payment terms and due dates\n        - Tax calculations and allocations\n        - Custom fields and tags\n        - Currency and exchange rates\n        "
+      summary: Partial Update Accounting Bill
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          pattern: ^\d+$
+        required: true
+      tags:
+      - Accounts Payable
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedAccountingBill'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedAccountingBill'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedAccountingBill'
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountingBill'
+          description: ''
+    delete:
+      operationId: coa_api_v1_bill_destroy
+      description: "\n        Permanently deletes an accounting bill and its associated journal entry.\n\n        This endpoint performs a complete deletion of the bill including:\n        - Removal of all bill line items and associated data\n        - Deletion of the corresponding accounts payable journal entry\n        - Cleanup of any tax calculations and allocations\n        - Removal of vendor payment allocations if applicable\n\n        **Important Notes:**\n        - This operation is irreversible and permanently removes the bill from the system\n        - The associated journal entry will be automatically deleted to maintain accounting integrity\n        - All double-entry bookkeeping records related to this bill will be removed\n        - Any payments allocated to this bill should be handled separately before deletion\n        - Deletion may affect financial reports and account balances\n\n        **Restrictions:**\n        - Bills with allocated payments may require payment reallocation first\n        - Consider the impact on historical financial reporting\n        - Bills cannot be deleted in a closed period\n        "
+      summary: Delete Accounting Bill
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          pattern: ^\d+$
+        required: true
+      tags:
+      - Accounts Payable
+      security:
+      - knoxApiToken: []
+      responses:
+        '204':
+          description: No response body
+  /coa/api/v1/bill/amortization/generate-schedule:
+    get:
+      operationId: generate_bill_amortization_schedule
+      summary: Generate Bill Amortization Schedule
+      tags:
+      - Accounts Payable
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: save_bill_amortization_schedule
+      summary: Save Bill Amortization Schedule
+      tags:
+      - Accounts Payable
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          description: No response body
+  /coa/api/v1/bill/bulk-search:
+    post:
+      operationId: coa_api_v1_bill_bulk_search_create
+      description: Search for thousands of bills by exact bill number match in a single request. Optimized for performance.
+      summary: Bulk Search Bills by Number
+      tags:
+      - Accounts Payable
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkBillSearch'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BulkBillSearch'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BulkBillSearch'
+        required: true
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+                description: Unspecified response body
+          description: ''
+  /coa/api/v1/bill/bulk-sync-to-ramp/:
+    post:
+      operationId: bulk_sync_bills_to_ramp
+      description: Sync multiple bills without a source to Ramp using the enabled Ramp connection
+      summary: Bulk Sync Bills to Ramp
+      tags:
+      - Accounts Payable
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          description: No response body
+        '400':
+          description: No response body
+  /coa/api/v1/debit-memo:
+    get:
+      operationId: coa_api_v1_debit_memo_list
+      description: "\n        Retrieves a paginated list of accounting debit memos with filtering and sorting capabilities.\n\n        Supports filtering by date ranges, status, vendors, entities, and full-text search.\n        "
+      summary: List Debit Memos
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - Accounts Payable
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedAccountingDebitMemoList'
+              examples:
+                DebitMemosListResponse:
+                  value:
+                    count: 123
+                    next: http://api.example.org/accounts/?offset=400&limit=100
+                    previous: http://api.example.org/accounts/?offset=200&limit=100
+                    results:
+                    - count: 50
+                      next: http://api.example.com/debit-memos/?limit=20&offset=20
+                      previous: null
+                      results:
+                      - id: 343
+                        lines:
+                        - id: 409
+                          account_number: '6500'
+                          account_name: 6500 - Travel Expenses
+                          department_name: Customer Support
+                          tags:
+                          - id: 8344
+                            group_name: Fund
+                            parent_name: null
+                            parent: null
+                            name: Fund 1
+                            created_at: 2025-07-15T18:40:55+0000
+                            last_modified_at: 2025-07-15T18:40:55+0000
+                            group: 696
+                          description: Debit Memo Line
+                          amount: 1000.01
+                          created_at: 2025-07-25T21:50:15+0000
+                          last_modified_at: 2025-07-25T21:50:15+0000
+                          account: 2613
+                          department: 365
+                        payments: []
+                        total_amount: 1000.01
+                        amount_used: 0
+                        amount_remaining: 1000.01
+                        entity_name: Top Level
+                        entity_currency: USD
+                        vendor_name: ABC Bead Supply
+                        debit_account_name: 5230 - Cloud Credits
+                        attachments: []
+                        debit_memo_number: DM-0000005
+                        voided_date: null
+                        ref_number: null
+                        debit_memo_date: '2025-07-01'
+                        applied_date: null
+                        message_on_debit_memo: Debit Memo Message
+                        application_status: open
+                        currency: USD
+                        exchange_rate: 1
+                        exchange_rate_book: 1
+                        created_at: 2025-07-25T21:50:15+0000
+                        last_modified_at: 2025-07-25T21:50:15+0000
+                        customer: 2
+                        entity: 54
+                        vendor: 34182
+                        debit_account: 41905
+                        journal_entry: 7491954
+                        voided_journal_entry: null
+                  summary: Debit Memos List Response
+          description: ''
+    post:
+      operationId: coa_api_v1_debit_memo_create
+      description: "\n        Creates a new accounting debit memo with line items and automatic journal entry generation.\n\n        Debit memos are used to record amounts owed to vendors or to adjust vendor account balances.\n        This endpoint handles multi-currency transactions, departmental allocations, and automatic\n        double-entry bookkeeping.\n        "
+      summary: Create Debit Memo
+      tags:
+      - Accounts Payable
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountingDebitMemo'
+            examples:
+              CreateDebitMemoRequest:
+                value:
+                  lines:
+                  - tags:
+                    - id: '8344'
+                      name: Fund 1
+                      group: 696
+                    account: '2613'
+                    account_name: 6500 - Travel Expenses
+                    description: Debit Memo Line
+                    amount: 1000.01
+                    department: '365'
+                    department_name: Customer Support
+                  entity: '54'
+                  entity_name: Top Level
+                  entity_currency: USD
+                  currency: USD
+                  vendor: '34182'
+                  vendor_name: ABC Bead Supply
+                  debit_memo_date: '2025-07-01'
+                  exchange_rate_book: 1
+                  exchange_rate: 1
+                  debit_account: '41905'
+                  debit_account_name: 5230 - Cloud Credits
+                  message_on_debit_memo: Debit Memo Message
+                summary: Create Debit Memo Request
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AccountingDebitMemo'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AccountingDebitMemo'
+        required: true
+      security:
+      - knoxApiToken: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountingDebitMemo'
+              examples:
+                CreateDebitMemoResponse:
+                  value:
+                    id: 343
+                    lines:
+                    - id: 409
+                      account_number: '6500'
+                      account_name: 6500 - Travel Expenses
+                      department_name: Customer Support
+                      tags:
+                      - id: 8344
+                        group_name: Fund
+                        parent_name: null
+                        parent: null
+                        name: Fund 1
+                        created_at: 2025-07-15T18:40:55+0000
+                        last_modified_at: 2025-07-15T18:40:55+0000
+                        group: 696
+                      description: Debit Memo Line
+                      amount: 1000.01
+                      created_at: 2025-07-25T21:50:15+0000
+                      last_modified_at: 2025-07-25T21:50:15+0000
+                      account: 2613
+                      department: 365
+                    payments: []
+                    total_amount: 1000.01
+                    amount_used: 0
+                    amount_remaining: 1000.01
+                    entity_name: Top Level
+                    entity_currency: USD
+                    vendor_name: ABC Bead Supply
+                    debit_account_name: 5230 - Cloud Credits
+                    attachments: []
+                    debit_memo_number: DM-0000005
+                    voided_date: null
+                    ref_number: null
+                    debit_memo_date: '2025-07-01'
+                    applied_date: null
+                    message_on_debit_memo: Debit Memo Message
+                    application_status: open
+                    currency: USD
+                    exchange_rate: 1
+                    exchange_rate_book: 1
+                    created_at: 2025-07-25T21:50:15+0000
+                    last_modified_at: 2025-07-25T21:50:15+0000
+                    customer: 2
+                    entity: 54
+                    vendor: 34182
+                    debit_account: 41905
+                    journal_entry: 7491954
+                    voided_journal_entry: null
+                  summary: Create Debit Memo Response
+          description: ''
+  /coa/api/v1/debit-memo/{debit_memo_id}/mark-used:
+    post:
+      operationId: coa_api_v1_debit_memo_mark_used_create
+      description: "Mark a debit memo as used by linking to an existing credit-side transaction.\n\n        The transaction's credit amount will be recategorized to A/P to clear the debit memo.\n        The debit memo's status will be updated to \"used\" or \"partially_used\" based on\n        the amount applied vs the total amount."
+      summary: Mark Debit Memo as Used
+      parameters:
+      - in: path
+        name: debit_memo_id
+        schema:
+          type: integer
+        description: ID of the debit memo to mark as used
+        required: true
+      tags:
+      - Accounts Payable
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MarkDebitMemoUsed'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MarkDebitMemoUsed'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MarkDebitMemoUsed'
+        required: true
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Debit memo marked as used successfully
+          description: ''
+  /coa/api/v1/debit-memo/{debit_memo_id}/payment/{payment_id}/void:
+    post:
+      operationId: coa_api_v1_debit_memo_payment_void_create
+      description: "Void a debit memo 'mark used' payment by creating a reversing journal entry.\n\n        This creates a reversing JE that credits the A/P account and debits Uncategorized,\n        then marks the payment as voided."
+      summary: Void Debit Memo Used Payment
+      parameters:
+      - in: path
+        name: debit_memo_id
+        schema:
+          type: integer
+        description: ID of the debit memo
+        required: true
+      - in: path
+        name: payment_id
+        schema:
+          type: integer
+        description: ID of the payment to void
+        required: true
+      tags:
+      - Accounts Payable
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VoidPayment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/VoidPayment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/VoidPayment'
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountingDebitMemoPayment'
+          description: ''
+    delete:
+      operationId: coa_api_v1_debit_memo_payment_void_destroy
+      description: "Remove a debit memo 'mark used' payment application.\n\n        This recategorizes the transaction back to Uncategorized and deletes the payment record."
+      summary: Delete Debit Memo Used Payment
+      parameters:
+      - in: path
+        name: debit_memo_id
+        schema:
+          type: integer
+        description: ID of the debit memo
+        required: true
+      - in: path
+        name: payment_id
+        schema:
+          type: integer
+        description: ID of the payment to delete
+        required: true
+      tags:
+      - Accounts Payable
+      security:
+      - knoxApiToken: []
+      responses:
+        '204':
+          description: No response body
+  /coa/api/v1/debit-memo/{debit_memo_id}/reopen/:
+    post:
+      operationId: coa_api_v1_debit_memo_reopen_create
+      description: "Reopen a voided debit memo.\n\n        This removes the void date and void journal entry, and sets the debit memo status back to open.\n        The voiding journal entry will be deleted to reverse the void operation."
+      summary: Reopen Voided Debit Memo
+      parameters:
+      - in: path
+        name: debit_memo_id
+        schema:
+          type: integer
+        description: ID of the voided debit memo to reopen
+        required: true
+      tags:
+      - Accounts Payable
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountingDebitMemo'
+          description: ''
+  /coa/api/v1/debit-memo/{debit_memo_id}/void/:
+    post:
+      operationId: coa_api_v1_debit_memo_void_create
+      description: "Void an existing debit memo.\n\n        This creates a reversing journal entry to void the debit memo by reversing all debit and credit amounts.\n        The debit memo status will be updated to reflect the void."
+      summary: Void Debit Memo
+      parameters:
+      - in: path
+        name: debit_memo_id
+        schema:
+          type: integer
+        description: ID of the debit memo to void
+        required: true
+      tags:
+      - Accounts Payable
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VoidDebitMemoRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/VoidDebitMemoRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/VoidDebitMemoRequest'
+        required: true
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountingDebitMemo'
+          description: ''
+  /coa/api/v1/debit-memo/{id}:
+    get:
+      operationId: coa_api_v1_debit_memo_retrieve
+      description: "\n        Retrieves a single accounting debit memo with complete details including line items,\n        payments, and accounting relationships.\n        "
+      summary: Retrieve Debit Memo
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Accounts Payable
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountingDebitMemo'
+              examples:
+                DebitMemoDetailsResponse:
+                  value:
+                    id: 343
+                    lines:
+                    - id: 409
+                      account_number: '6500'
+                      account_name: 6500 - Travel Expenses
+                      department_name: Customer Support
+                      tags:
+                      - id: 8344
+                        group_name: Fund
+                        parent_name: null
+                        parent: null
+                        name: Fund 1
+                        created_at: 2025-07-15T18:40:55+0000
+                        last_modified_at: 2025-07-15T18:40:55+0000
+                        group: 696
+                      description: Debit Memo Line
+                      amount: 1000.01
+                      created_at: 2025-07-25T21:50:15+0000
+                      last_modified_at: 2025-07-25T21:50:15+0000
+                      account: 2613
+                      department: 365
+                    payments:
+                    - id: 456
+                      payment_journal_entry: 7495834
+                      payment_journal_entry_order: JE-0007825
+                      payment_transaction: 19485764
+                      amount: 500.0
+                      payment_date: '2025-07-15'
+                      created_at: 2025-07-15T14:30:22+0000
+                      last_modified_at: 2025-07-15T14:30:22+0000
+                      voided_date: null
+                      voided_journal_entry: null
+                      bill:
+                        id: 47893
+                        bill_number: BILL-0000513
+                    total_amount: 1000.01
+                    amount_used: 500.0
+                    amount_remaining: 500.01
+                    entity_name: Top Level
+                    entity_currency: USD
+                    vendor_name: ABC Bead Supply
+                    debit_account_name: 5230 - Cloud Credits
+                    attachments:
+                    - id: 15644
+                      name: debit_memo_supporting_docs.pdf
+                      file_size: 245760
+                      content_type: application/pdf
+                      created_at: 2025-07-01T10:15:33+0000
+                      last_modified_at: 2025-07-01T10:15:33+0000
+                    debit_memo_number: DM-0000005
+                    voided_date: null
+                    ref_number: REF-2025-0088
+                    debit_memo_date: '2025-07-01'
+                    applied_date: '2025-07-15'
+                    message_on_debit_memo: Debit Memo Message
+                    application_status: partially_used
+                    currency: USD
+                    exchange_rate: 1
+                    exchange_rate_book: 1
+                    created_at: 2025-07-25T21:50:15+0000
+                    last_modified_at: 2025-07-15T14:30:22+0000
+                    customer: 2
+                    entity: 54
+                    vendor: 34182
+                    debit_account: 41905
+                    journal_entry: 7491954
+                    voided_journal_entry: null
+                  summary: Debit Memo Details Response
+          description: ''
+    put:
+      operationId: coa_api_v1_debit_memo_update
+      description: "\n        Performs a complete update of an existing accounting debit memo using PUT semantics.\n\n        This endpoint allows full replacement of debit memo data including line items\n        and journal entry recalculation.\n        "
+      summary: Update Debit Memo
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Accounts Payable
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountingDebitMemo'
+            examples:
+              UpdateDebitMemoRequest:
+                value:
+                  lines:
+                  - tags:
+                    - id: '8344'
+                      name: Fund 1
+                      group: 696
+                    account: '2613'
+                    account_name: 6500 - Travel Expenses
+                    description: Updated debit memo line
+                    amount: 1500.0
+                    department: '365'
+                    department_name: Customer Support
+                  entity: '54'
+                  entity_name: Top Level
+                  entity_currency: USD
+                  currency: USD
+                  vendor: '34182'
+                  vendor_name: ABC Bead Supply
+                  debit_memo_date: '2025-07-01'
+                  exchange_rate_book: 1
+                  exchange_rate: 1
+                  debit_account: '41905'
+                  debit_account_name: 5230 - Cloud Credits
+                  message_on_debit_memo: Updated debit memo message
+                summary: Update Debit Memo Request
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AccountingDebitMemo'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AccountingDebitMemo'
+        required: true
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountingDebitMemo'
+          description: ''
+    patch:
+      operationId: coa_api_v1_debit_memo_partial_update
+      description: "\n        Performs a partial update of an existing accounting debit memo using PATCH semantics.\n\n        This endpoint allows selective modification of debit memo fields without requiring\n        a complete replacement.\n        "
+      summary: Partial Update Debit Memo
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Accounts Payable
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedAccountingDebitMemo'
+            examples:
+              UpdateDebitMemoAmount:
+                value:
+                  message_on_debit_memo: Updated message for debit memo
+                summary: Update Debit Memo Amount
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedAccountingDebitMemo'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedAccountingDebitMemo'
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountingDebitMemo'
+          description: ''
+    delete:
+      operationId: coa_api_v1_debit_memo_destroy
+      summary: Delete Debit Memo
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Accounts Payable
+      security:
+      - knoxApiToken: []
+      responses:
+        '204':
+          description: No response body
+  /coa/api/v1/debit-memo/bulk-search:
+    post:
+      operationId: coa_api_v1_debit_memo_bulk_search_create
+      description: Search for thousands of debit memos by exact debit memo number match in a single request. Optimized for performance.
+      summary: Bulk Search Debit Memos by Number
+      tags:
+      - Accounts Payable
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkDebitMemoSearch'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BulkDebitMemoSearch'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BulkDebitMemoSearch'
+        required: true
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+                description: Unspecified response body
+          description: ''
+  /coa/api/v1/debit-memo/next-debit-memo-number:
+    get:
+      operationId: coa_api_v1_debit_memo_next_debit_memo_number_retrieve
+      summary: Get Next Debit Memo Number
+      tags:
+      - Accounts Payable
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          description: No response body
+components:
+  schemas:
+    ItaBillTypeEnum:
+      enum:
+      - other
+      - equipment
+      type: string
+      description: '* `other` - Other
+
+        * `equipment` - Equipment'
+    AccountingDebitMemo:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountingDebitMemoLine'
+        payments:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountingDebitMemoPayment'
+          readOnly: true
+        amount_remaining:
+          type: number
+          format: double
+          description: Calculate amount remaining from database fields
+          readOnly: true
+        entity_name:
+          type: string
+          readOnly: true
+        entity_currency:
+          type: string
+          readOnly: true
+        vendor_name:
+          type: string
+          readOnly: true
+        debit_account_number:
+          type: string
+          readOnly: true
+        debit_account_name:
+          type: string
+          nullable: true
+          description: Combines account number and name in the format "number - name"
+          readOnly: true
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/File'
+          readOnly: true
+        debit_memo_number:
+          type: string
+        migrated_journal_id:
+          type: integer
+          writeOnly: true
+          nullable: true
+        voided_date:
+          type: string
+          format: date
+          readOnly: true
+        voided_journal_entry_order:
+          type: string
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        chat_uuid:
+          type: string
+          format: uuid
+          writeOnly: true
+        search_vector:
+          type: string
+          readOnly: true
+          nullable: true
+        search_text:
+          type: string
+          readOnly: true
+          nullable: true
+        ref_number:
+          type: string
+          nullable: true
+          maxLength: 120
+        debit_memo_date:
+          type: string
+          format: date
+        applied_date:
+          type: string
+          format: date
+          nullable: true
+        message_on_debit_memo:
+          type: string
+          nullable: true
+        source_id:
+          type: string
+          nullable: true
+          maxLength: 120
+        source:
+          type: string
+          nullable: true
+          maxLength: 120
+        application_status:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/ApplicationStatusEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        currency:
+          type: string
+          maxLength: 3
+        exchange_rate:
+          type: number
+          format: double
+          maximum: 100000000000000
+          minimum: -100000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+        exchange_rate_book:
+          type: number
+          format: double
+          maximum: 100000000000000
+          minimum: -100000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        total_amount:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          description: Sum of all line item amounts
+        amount_used:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          description: Sum of all non-voided payment amounts
+        chat_id:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          nullable: true
+        tax_behavior:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/TaxBehaviorEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        customer:
+          type: integer
+          readOnly: true
+        entity:
+          type: integer
+        vendor:
+          type: integer
+          nullable: true
+        debit_account:
+          type: integer
+          nullable: true
+        journal_entry:
+          type: integer
+          nullable: true
+        voided_journal_entry:
+          type: integer
+          nullable: true
+      required:
+      - amount_remaining
+      - attachments
+      - created_at
+      - customer
+      - debit_account_name
+      - debit_account_number
+      - debit_memo_date
+      - deleted_at
+      - entity
+      - entity_currency
+      - entity_name
+      - id
+      - is_deleted
+      - last_modified_at
+      - lines
+      - payments
+      - search_text
+      - search_vector
+      - vendor_name
+      - voided_date
+      - voided_journal_entry_order
+    AccountingBill:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountingBillLine'
+        payments:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountingBillPayment'
+          readOnly: true
+        payment_journal_entries:
+          type: array
+          items:
+            type: integer
+          readOnly: true
+        status:
+          type: string
+          readOnly: true
+        past_due_days:
+          type: integer
+          nullable: true
+          readOnly: true
+        entity_name:
+          type: string
+          readOnly: true
+        entity_currency:
+          type: string
+          readOnly: true
+        vendor_name:
+          type: string
+          readOnly: true
+        ap_account_name:
+          type: string
+          nullable: true
+          description: Return AP account name with number in 'number - name' format, similar to name_and_number.
+          readOnly: true
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/File'
+          readOnly: true
+        total_amount:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          readOnly: true
+        amount_due:
+          type: number
+          format: double
+          readOnly: true
+        amount_paid:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          readOnly: true
+        item_date:
+          type: string
+          format: date
+          nullable: true
+        migrated_journal_id:
+          type: integer
+          writeOnly: true
+          nullable: true
+        voided_date:
+          type: string
+          format: date
+          readOnly: true
+        voided_journal_entry_order:
+          type: string
+          readOnly: true
+        amortizations:
+          type: string
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        ramp_use_sandbox:
+          type: string
+          readOnly: true
+        navan_region:
+          type: string
+          nullable: true
+          description: 'Navan data region (``US``/``EU``) for a Navan-sourced bill, else ``None``.
+
+
+            Mirrors ``ramp_use_sandbox``: the frontend builds the "Open in Navan" deep
+
+            link from ``source_id`` and uses this to pick the web-app host
+
+            (US -> app.navan.com, EU -> app-fra.navan.com). Navan bills carry no FK to
+
+            their connection, so the region is resolved per customer and memoized to
+
+            avoid an N+1 lookup across a bill list.'
+          readOnly: true
+        zip_metadata:
+          type: string
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        payment_term_name:
+          type: string
+          readOnly: true
+        chat_uuid:
+          type: string
+          format: uuid
+          writeOnly: true
+        withholding_info:
+          type: object
+          additionalProperties: {}
+          nullable: true
+          description: 'Withholding context for the bill''s entity (AP side).
+
+
+            ``estimated_withholding_amount`` covers only the remaining amount due (null once
+
+            fully paid); ``withheld_to_date`` is the signed sum of posted withholding (AP legs
+
+            are credits, reversals debits), so actuals replace the estimate as payments post.
+
+            Certificate-based schemes estimate from the vendor certificate''s rate valid today
+
+            (falling back to the scheme default).'
+          readOnly: true
+        search_vector:
+          type: string
+          readOnly: true
+          nullable: true
+        search_text:
+          type: string
+          readOnly: true
+          nullable: true
+        mailing_address:
+          type: string
+          nullable: true
+        terms:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/TermsEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        bill_number:
+          type: string
+          maxLength: 120
+        bill_date:
+          type: string
+          format: date
+        due_date:
+          type: string
+          format: date
+        paid_date:
+          type: string
+          format: date
+          nullable: true
+        message_on_bill:
+          type: string
+          nullable: true
+        ita_allocation_number:
+          type: string
+          nullable: true
+          pattern: ^\d{9}$
+          maxLength: 9
+        ita_bill_type:
+          nullable: true
+          description: 'Israel tax compliance: bill classification type
+
+
+            * `other` - Other
+
+            * `equipment` - Equipment'
+          oneOf:
+          - $ref: '#/components/schemas/ItaBillTypeEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        source_id:
+          type: string
+          nullable: true
+        source:
+          type: string
+          nullable: true
+          maxLength: 250
+        source_bill_data:
+          nullable: true
+        external_ramp_id:
+          type: string
+          nullable: true
+        payment_status:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AccountingBillPaymentStatusEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        currency:
+          type: string
+          maxLength: 3
+        exchange_rate:
+          type: number
+          format: double
+          maximum: 100000000000000
+          minimum: -100000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+        exchange_rate_book:
+          type: number
+          format: double
+          maximum: 100000000000000
+          minimum: -100000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        tax_behavior:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/TaxBehaviorEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        bill_type:
+          $ref: '#/components/schemas/BillTypeEnum'
+        chat_id:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          nullable: true
+        customer:
+          type: integer
+          readOnly: true
+        entity:
+          type: integer
+        vendor:
+          type: integer
+          nullable: true
+        payment_term:
+          type: integer
+          nullable: true
+          description: Payment term for this bill
+        journal_entry:
+          type: integer
+          nullable: true
+        source_file:
+          type: integer
+          nullable: true
+        tax_rate:
+          type: integer
+          nullable: true
+        ap_account:
+          type: integer
+          nullable: true
+          description: Accounts Payable account for this bill
+        voided_journal_entry:
+          type: integer
+          nullable: true
+      required:
+      - amortizations
+      - amount_due
+      - amount_paid
+      - ap_account_name
+      - attachments
+      - bill_date
+      - bill_number
+      - created_at
+      - customer
+      - deleted_at
+      - due_date
+      - entity
+      - entity_currency
+      - entity_name
+      - id
+      - is_deleted
+      - last_modified_at
+      - lines
+      - navan_region
+      - past_due_days
+      - payment_journal_entries
+      - payment_term_name
+      - payments
+      - ramp_use_sandbox
+      - search_text
+      - search_vector
+      - status
+      - total_amount
+      - vendor
+      - vendor_name
+      - voided_date
+      - voided_journal_entry_order
+      - withholding_info
+      - zip_metadata
+    AccountingDebitMemoPayment:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        payment_journal_entry_order:
+          type: string
+          readOnly: true
+        voided_journal_entry_order:
+          type: string
+          readOnly: true
+          nullable: true
+        bill:
+          type: string
+          readOnly: true
+        currency:
+          type: string
+          maxLength: 3
+        amount:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+        payment_date:
+          type: string
+          format: date
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        voided_date:
+          type: string
+          format: date
+          nullable: true
+        customer:
+          type: integer
+          readOnly: true
+        debit_memo:
+          type: integer
+        payment_journal_entry:
+          type: integer
+        payment_transaction:
+          type: integer
+          nullable: true
+        voided_journal_entry:
+          type: integer
+          nullable: true
+      required:
+      - bill
+      - created_at
+      - customer
+      - debit_memo
+      - id
+      - last_modified_at
+      - payment_journal_entry
+      - payment_journal_entry_order
+      - voided_journal_entry_order
+    BillPaymentSync:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        bill_id:
+          type: integer
+          readOnly: true
+        bill_number:
+          type: string
+          readOnly: true
+        amount:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          readOnly: true
+        currency:
+          type: string
+          readOnly: true
+        payment_date:
+          type: string
+          format: date
+          readOnly: true
+          nullable: true
+        source:
+          type: string
+          readOnly: true
+          nullable: true
+        source_id:
+          type: string
+          readOnly: true
+          nullable: true
+        voided_date:
+          type: string
+          format: date
+          readOnly: true
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - amount
+      - bill_id
+      - bill_number
+      - created_at
+      - currency
+      - id
+      - last_modified_at
+      - payment_date
+      - source
+      - source_id
+      - voided_date
+    MarkPaidCreditMemo:
+      type: object
+      properties:
+        credit_memo_id:
+          type: integer
+        amount:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+        posted_at:
+          type: string
+          format: date
+      required:
+      - amount
+      - credit_memo_id
+      - posted_at
+    BillDraftCreateSourceEnum:
+      enum:
+      - ui_upload
+      type: string
+      description: '* `ui_upload` - ui_upload'
+    BillDraftRead:
+      type: object
+      description: Full BillDraft read shape — feeds the Drafts tab and detail view.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        entity:
+          type: integer
+          nullable: true
+        source:
+          $ref: '#/components/schemas/BillDraftReadSourceEnum'
+        source_file:
+          type: integer
+          nullable: true
+        sender_email:
+          type: string
+          nullable: true
+        recipient_alias:
+          type: string
+          nullable: true
+        email_subject:
+          type: string
+          nullable: true
+        status:
+          allOf:
+          - $ref: '#/components/schemas/BillDraftReadStatusEnum'
+          readOnly: true
+        parse_error:
+          type: string
+          nullable: true
+        extracted_vendor_name:
+          type: string
+          nullable: true
+        extracted_bill_number:
+          type: string
+          nullable: true
+        extracted_bill_date:
+          type: string
+          format: date
+          nullable: true
+        extracted_due_date:
+          type: string
+          format: date
+          nullable: true
+        extracted_currency:
+          type: string
+          nullable: true
+          maxLength: 3
+        extracted_total_amount:
+          type: number
+          format: double
+          maximum: 100000000000000
+          minimum: -100000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+        extracted_line_items: {}
+        field_confidence: {}
+        resolved_vendor:
+          type: integer
+          nullable: true
+        dedup_hash:
+          type: string
+          readOnly: true
+          nullable: true
+        promoted_bill:
+          type: integer
+          readOnly: true
+          nullable: true
+        discard_reason:
+          type: string
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: integer
+          readOnly: true
+          nullable: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - created_by
+      - customer
+      - dedup_hash
+      - id
+      - last_modified_at
+      - promoted_bill
+      - source
+      - status
+    BlankEnum:
+      enum:
+      - ''
+    TaxBehaviorEnum:
+      enum:
+      - inclusive
+      - exclusive
+      type: string
+      description: '* `inclusive` - Inclusive
+
+        * `exclusive` - Exclusive'
+    PatchedAccountingBill:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountingBillLine'
+        payments:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountingBillPayment'
+          readOnly: true
+        payment_journal_entries:
+          type: array
+          items:
+            type: integer
+          readOnly: true
+        status:
+          type: string
+          readOnly: true
+        past_due_days:
+          type: integer
+          nullable: true
+          readOnly: true
+        entity_name:
+          type: string
+          readOnly: true
+        entity_currency:
+          type: string
+          readOnly: true
+        vendor_name:
+          type: string
+          readOnly: true
+        ap_account_name:
+          type: string
+          nullable: true
+          description: Return AP account name with number in 'number - name' format, similar to name_and_number.
+          readOnly: true
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/File'
+          readOnly: true
+        total_amount:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          readOnly: true
+        amount_due:
+          type: number
+          format: double
+          readOnly: true
+        amount_paid:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          readOnly: true
+        item_date:
+          type: string
+          format: date
+          nullable: true
+        migrated_journal_id:
+          type: integer
+          writeOnly: true
+          nullable: true
+        voided_date:
+          type: string
+          format: date
+          readOnly: true
+        voided_journal_entry_order:
+          type: string
+          readOnly: true
+        amortizations:
+          type: string
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        ramp_use_sandbox:
+          type: string
+          readOnly: true
+        navan_region:
+          type: string
+          nullable: true
+          description: 'Navan data region (``US``/``EU``) for a Navan-sourced bill, else ``None``.
+
+
+            Mirrors ``ramp_use_sandbox``: the frontend builds the "Open in Navan" deep
+
+            link from ``source_id`` and uses this to pick the web-app host
+
+            (US -> app.navan.com, EU -> app-fra.navan.com). Navan bills carry no FK to
+
+            their connection, so the region is resolved per customer and memoized to
+
+            avoid an N+1 lookup across a bill list.'
+          readOnly: true
+        zip_metadata:
+          type: string
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        payment_term_name:
+          type: string
+          readOnly: true
+        chat_uuid:
+          type: string
+          format: uuid
+          writeOnly: true
+        withholding_info:
+          type: object
+          additionalProperties: {}
+          nullable: true
+          description: 'Withholding context for the bill''s entity (AP side).
+
+
+            ``estimated_withholding_amount`` covers only the remaining amount due (null once
+
+            fully paid); ``withheld_to_date`` is the signed sum of posted withholding (AP legs
+
+            are credits, reversals debits), so actuals replace the estimate as payments post.
+
+            Certificate-based schemes estimate from the vendor certificate''s rate valid today
+
+            (falling back to the scheme default).'
+          readOnly: true
+        search_vector:
+          type: string
+          readOnly: true
+          nullable: true
+        search_text:
+          type: string
+          readOnly: true
+          nullable: true
+        mailing_address:
+          type: string
+          nullable: true
+        terms:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/TermsEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        bill_number:
+          type: string
+          maxLength: 120
+        bill_date:
+          type: string
+          format: date
+        due_date:
+          type: string
+          format: date
+        paid_date:
+          type: string
+          format: date
+          nullable: true
+        message_on_bill:
+          type: string
+          nullable: true
+        ita_allocation_number:
+          type: string
+          nullable: true
+          pattern: ^\d{9}$
+          maxLength: 9
+        ita_bill_type:
+          nullable: true
+          description: 'Israel tax compliance: bill classification type
+
+
+            * `other` - Other
+
+            * `equipment` - Equipment'
+          oneOf:
+          - $ref: '#/components/schemas/ItaBillTypeEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        source_id:
+          type: string
+          nullable: true
+        source:
+          type: string
+          nullable: true
+          maxLength: 250
+        source_bill_data:
+          nullable: true
+        external_ramp_id:
+          type: string
+          nullable: true
+        payment_status:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AccountingBillPaymentStatusEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        currency:
+          type: string
+          maxLength: 3
+        exchange_rate:
+          type: number
+          format: double
+          maximum: 100000000000000
+          minimum: -100000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+        exchange_rate_book:
+          type: number
+          format: double
+          maximum: 100000000000000
+          minimum: -100000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        tax_behavior:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/TaxBehaviorEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        bill_type:
+          $ref: '#/components/schemas/BillTypeEnum'
+        chat_id:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          nullable: true
+        customer:
+          type: integer
+          readOnly: true
+        entity:
+          type: integer
+        vendor:
+          type: integer
+          nullable: true
+        payment_term:
+          type: integer
+          nullable: true
+          description: Payment term for this bill
+        journal_entry:
+          type: integer
+          nullable: true
+        source_file:
+          type: integer
+          nullable: true
+        tax_rate:
+          type: integer
+          nullable: true
+        ap_account:
+          type: integer
+          nullable: true
+          description: Accounts Payable account for this bill
+        voided_journal_entry:
+          type: integer
+          nullable: true
+    BillDraftWrite:
+      type: object
+      description: Editable subset used during review (PATCH).
+      properties:
+        entity:
+          type: integer
+          nullable: true
+        extracted_vendor_name:
+          type: string
+          nullable: true
+        extracted_bill_number:
+          type: string
+          nullable: true
+        extracted_bill_date:
+          type: string
+          format: date
+          nullable: true
+        extracted_due_date:
+          type: string
+          format: date
+          nullable: true
+        extracted_currency:
+          type: string
+          nullable: true
+          maxLength: 3
+        extracted_total_amount:
+          type: number
+          format: double
+          maximum: 100000000000000
+          minimum: -100000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+        extracted_line_items: {}
+        resolved_vendor:
+          type: integer
+          nullable: true
+    BulkBillSearch:
+      type: object
+      properties:
+        bills:
+          type: array
+          items:
+            $ref: '#/components/schemas/BulkBill'
+          maxItems: 10000
+          minItems: 1
+      required:
+      - bills
+    BillDraftCreate:
+      type: object
+      description: UI-upload create shape. ``source_file`` must be an already-uploaded File row.
+      properties:
+        source:
+          $ref: '#/components/schemas/BillDraftCreateSourceEnum'
+        source_file:
+          type: integer
+          nullable: true
+        entity:
+          type: integer
+          nullable: true
+      required:
+      - source
+    ApplicationStatusEnum:
+      enum:
+      - open
+      - partially_used
+      - used
+      - voided
+      type: string
+      description: '* `open` - Open
+
+        * `partially_used` - Partially Used
+
+        * `used` - Used
+
+        * `voided` - Voided'
+    MarkPaid:
+      type: object
+      properties:
+        transaction_match_id:
+          type: integer
+          nullable: true
+        transactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/MarkPaidTransaction'
+          nullable: true
+        credit_memos:
+          type: array
+          items:
+            $ref: '#/components/schemas/MarkPaidCreditMemo'
+          nullable: true
+        debit_memos:
+          type: array
+          items:
+            $ref: '#/components/schemas/MarkPaidDebitMemo'
+          nullable: true
+        empty_transactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/MarkPaidEmptyTransaction'
+          nullable: true
+    PatchedBillDraftWrite:
+      type: object
+      description: Editable subset used during review (PATCH).
+      properties:
+        entity:
+          type: integer
+          nullable: true
+        extracted_vendor_name:
+          type: string
+          nullable: true
+        extracted_bill_number:
+          type: string
+          nullable: true
+        extracted_bill_date:
+          type: string
+          format: date
+          nullable: true
+        extracted_due_date:
+          type: string
+          format: date
+          nullable: true
+        extracted_currency:
+          type: string
+          nullable: true
+          maxLength: 3
+        extracted_total_amount:
+          type: number
+          format: double
+          maximum: 100000000000000
+          minimum: -100000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+        extracted_line_items: {}
+        resolved_vendor:
+          type: integer
+          nullable: true
+    MarkPaidEmptyTransaction:
+      type: object
+      properties:
+        account_id:
+          type: integer
+        account_name:
+          type: string
+        amount:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+        payment_date:
+          type: string
+          format: date
+        department_id:
+          type: integer
+          nullable: true
+        tag_ids:
+          type: array
+          items:
+            type: integer
+        memo:
+          type: string
+          nullable: true
+        external_id:
+          type: string
+          nullable: true
+          maxLength: 256
+        currency:
+          type: string
+          nullable: true
+        amount_in_invoice_currency:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+        amount_in_bill_currency:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+        withholding_amount:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+        withholding_tax_rate_id:
+          type: integer
+          nullable: true
+      required:
+      - account_id
+      - account_name
+      - amount
+      - payment_date
+    BulkDebitMemoSearch:
+      type: object
+      properties:
+        debit_memos:
+          type: array
+          items:
+            $ref: '#/components/schemas/BulkDebitMemo'
+          maxItems: 10000
+          minItems: 1
+      required:
+      - debit_memos
+    VoidPayment:
+      type: object
+      properties:
+        void_date:
+          type: string
+          format: date
+          nullable: true
+    BulkDebitMemo:
+      type: object
+      properties:
+        debit_memo_number:
+          type: string
+      required:
+      - debit_memo_number
+    TermsEnum:
+      enum:
+      - custom
+      - net_5
+      - net_7
+      - net_10
+      - net_15
+      - net_20
+      - net_30
+      - net_40
+      - net_45
+      - net_60
+      - net_90
+      - net_105
+      - net_120
+      - due_on_receipt
+      type: string
+      description: '* `custom` - Custom
+
+        * `net_5` - Net 5
+
+        * `net_7` - Net 7
+
+        * `net_10` - Net 10
+
+        * `net_15` - Net 15
+
+        * `net_20` - Net 20
+
+        * `net_30` - Net 30
+
+        * `net_40` - Net 40
+
+        * `net_45` - Net 45
+
+        * `net_60` - Net 60
+
+        * `net_90` - Net 90
+
+        * `net_105` - Net 105
+
+        * `net_120` - Net 120
+
+        * `due_on_receipt` - Due on Receipt'
+    File:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: integer
+          readOnly: true
+          nullable: true
+        created_by_name:
+          type: string
+          readOnly: true
+        created_by_email:
+          type: string
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        name:
+          type: string
+        url:
+          type: string
+          readOnly: true
+        s3_content_type:
+          type: string
+          nullable: true
+        s3_content_length:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+        s3_path:
+          type: string
+        object_id:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+        app:
+          type: string
+          readOnly: true
+        model:
+          type: string
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+      required:
+      - app
+      - created_at
+      - created_by
+      - created_by_email
+      - created_by_name
+      - customer
+      - deleted_at
+      - id
+      - is_deleted
+      - last_modified_at
+      - model
+      - name
+      - s3_path
+      - url
+    PaginatedBillPaymentSyncList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/BillPaymentSync'
+    AccountingBillLine:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        bill:
+          type: integer
+          writeOnly: true
+        account_number:
+          type: string
+          readOnly: true
+        account_name:
+          type: string
+          nullable: true
+          description: Combines account number and name in the format "number - name"
+          readOnly: true
+        department_name:
+          type: string
+          readOnly: true
+        department_code:
+          type: string
+          readOnly: true
+        bill_customer_name:
+          type: string
+          readOnly: true
+        tags:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          readOnly: true
+        amortization_schedule:
+          type: array
+          items:
+            $ref: '#/components/schemas/AmortizationSchedule'
+          readOnly: true
+        tax_rate_name:
+          type: string
+          readOnly: true
+        tax_rate_value:
+          type: number
+          format: double
+          maximum: 1000000
+          minimum: -1000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          readOnly: true
+        description:
+          type: string
+          nullable: true
+        amount:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+        tax:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+        tax_description:
+          type: string
+          nullable: true
+          maxLength: 250
+        tag_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        tag_group_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        source:
+          type: string
+          nullable: true
+          maxLength: 250
+        source_id:
+          type: string
+          nullable: true
+        currency:
+          type: string
+          maxLength: 3
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        account:
+          type: integer
+        tax_rate:
+          type: integer
+          nullable: true
+        bill_customer:
+          type: integer
+          nullable: true
+        department:
+          type: integer
+          nullable: true
+      required:
+      - account
+      - account_name
+      - account_number
+      - amortization_schedule
+      - bill_customer_name
+      - created_at
+      - customer
+      - department_code
+      - department_name
+      - id
+      - last_modified_at
+      - tags
+      - tax_rate_name
+      - tax_rate_value
+    MarkPaidTransaction:
+      type: object
+      properties:
+        transaction_match_id:
+          type: integer
+          nullable: true
+        transaction_id:
+          type: integer
+          nullable: true
+        transaction_ids:
+          type: array
+          items:
+            type: integer
+          nullable: true
+        account_id:
+          type: integer
+          nullable: true
+        amount:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+        amount_payable:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+        credit_account_id:
+          type: integer
+          nullable: true
+        writeoff_account_id:
+          type: integer
+          nullable: true
+        withholding_amount:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+        withholding_tax_rate_id:
+          type: integer
+          nullable: true
+      required:
+      - amount
+    PatchedAccountingDebitMemo:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountingDebitMemoLine'
+        payments:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountingDebitMemoPayment'
+          readOnly: true
+        amount_remaining:
+          type: number
+          format: double
+          description: Calculate amount remaining from database fields
+          readOnly: true
+        entity_name:
+          type: string
+          readOnly: true
+        entity_currency:
+          type: string
+          readOnly: true
+        vendor_name:
+          type: string
+          readOnly: true
+        debit_account_number:
+          type: string
+          readOnly: true
+        debit_account_name:
+          type: string
+          nullable: true
+          description: Combines account number and name in the format "number - name"
+          readOnly: true
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/File'
+          readOnly: true
+        debit_memo_number:
+          type: string
+        migrated_journal_id:
+          type: integer
+          writeOnly: true
+          nullable: true
+        voided_date:
+          type: string
+          format: date
+          readOnly: true
+        voided_journal_entry_order:
+          type: string
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        chat_uuid:
+          type: string
+          format: uuid
+          writeOnly: true
+        search_vector:
+          type: string
+          readOnly: true
+          nullable: true
+        search_text:
+          type: string
+          readOnly: true
+          nullable: true
+        ref_number:
+          type: string
+          nullable: true
+          maxLength: 120
+        debit_memo_date:
+          type: string
+          format: date
+        applied_date:
+          type: string
+          format: date
+          nullable: true
+        message_on_debit_memo:
+          type: string
+          nullable: true
+        source_id:
+          type: string
+          nullable: true
+          maxLength: 120
+        source:
+          type: string
+          nullable: true
+          maxLength: 120
+        application_status:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/ApplicationStatusEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        currency:
+          type: string
+          maxLength: 3
+        exchange_rate:
+          type: number
+          format: double
+          maximum: 100000000000000
+          minimum: -100000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+        exchange_rate_book:
+          type: number
+          format: double
+          maximum: 100000000000000
+          minimum: -100000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        total_amount:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          description: Sum of all line item amounts
+        amount_used:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          description: Sum of all non-voided payment amounts
+        chat_id:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          nullable: true
+        tax_behavior:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/TaxBehaviorEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        customer:
+          type: integer
+          readOnly: true
+        entity:
+          type: integer
+        vendor:
+          type: integer
+          nullable: true
+        debit_account:
+          type: integer
+          nullable: true
+        journal_entry:
+          type: integer
+          nullable: true
+        voided_journal_entry:
+          type: integer
+          nullable: true
+    NullEnum:
+      enum:
+      - null
+    AmortizationSchedule:
+      type: object
+      properties:
+        id:
+          type: integer
+        amortization:
+          type: integer
+          writeOnly: true
+        accounting_amortization:
+          type: integer
+          writeOnly: true
+        journal_entry_order:
+          type: string
+          readOnly: true
+        date:
+          type: string
+          format: date
+        amount:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+        posted:
+          type: boolean
+        customer:
+          type: integer
+          readOnly: true
+        transaction:
+          type: integer
+          nullable: true
+        bill_line:
+          type: integer
+          nullable: true
+        journal_entry:
+          type: integer
+          nullable: true
+      required:
+      - amount
+      - customer
+      - date
+      - journal_entry_order
+    MarkDebitMemoUsed:
+      type: object
+      description: Serializer for marking a debit memo as used with a transaction.
+      properties:
+        transaction_id:
+          type: integer
+        account_id:
+          type: integer
+        amount:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+        payment_date:
+          type: string
+          format: date
+        memo:
+          type: string
+          nullable: true
+      required:
+      - account_id
+      - amount
+      - payment_date
+      - transaction_id
+    BillDraftReadStatusEnum:
+      enum:
+      - parsing
+      - parse_failed
+      - not_a_bill
+      - needs_review
+      - unassigned
+      - ready
+      - promoted
+      - discarded
+      type: string
+      description: '* `parsing` - Parsing
+
+        * `parse_failed` - Parse Failed
+
+        * `not_a_bill` - Not a Bill
+
+        * `needs_review` - Needs Review
+
+        * `unassigned` - Unassigned
+
+        * `ready` - Ready
+
+        * `promoted` - Promoted
+
+        * `discarded` - Discarded'
+    AccountingBillPayment:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        payment_transaction_bank_description:
+          type: string
+          readOnly: true
+        payment_journal_entry_order:
+          type: string
+          readOnly: true
+        voided_journal_entry_order:
+          type: string
+          readOnly: true
+        withheld_amount:
+          type: number
+          format: double
+          nullable: true
+          description: 'Tax withheld on this payment (AP): sum of the payment''s withholding credit legs.
+
+
+            Reads the ``bill_withheld_by_je`` map that ``AccountingBillSerializer`` populated from
+
+            prefetched records, so no per-payment query runs. Void reversals live on a different
+
+            journal, so they are naturally excluded.'
+          readOnly: true
+        currency:
+          type: string
+          maxLength: 3
+        amount:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+        payment_date:
+          type: string
+          format: date
+          nullable: true
+        source:
+          type: string
+          nullable: true
+          maxLength: 250
+        source_id:
+          type: string
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        voided_date:
+          type: string
+          format: date
+          nullable: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        bill:
+          type: integer
+        payment_journal_entry:
+          type: integer
+        payment_transaction:
+          type: integer
+          nullable: true
+        voided_journal_entry:
+          type: integer
+          nullable: true
+      required:
+      - bill
+      - created_at
+      - customer
+      - id
+      - last_modified_at
+      - payment_journal_entry
+      - payment_journal_entry_order
+      - payment_transaction_bank_description
+      - voided_journal_entry_order
+      - withheld_amount
+    BulkBill:
+      type: object
+      properties:
+        bill_number:
+          type: string
+      required:
+      - bill_number
+    VoidBillRequest:
+      type: object
+      properties:
+        void_date:
+          type: string
+          format: date
+      required:
+      - void_date
+    PaginatedAccountingDebitMemoList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountingDebitMemo'
+    BillTypeEnum:
+      enum:
+      - BILL
+      - PAYROLL
+      - REIMBURSEMENT
+      type: string
+      description: '* `BILL` - Bill
+
+        * `PAYROLL` - Payroll
+
+        * `REIMBURSEMENT` - Reimbursement'
+    BillDraftReadSourceEnum:
+      enum:
+      - email
+      - ui_upload
+      type: string
+      description: '* `email` - Email
+
+        * `ui_upload` - UI Upload'
+    VoidDebitMemoRequest:
+      type: object
+      properties:
+        void_date:
+          type: string
+          format: date
+      required:
+      - void_date
+    AccountingBillPaymentStatusEnum:
+      enum:
+      - partial
+      - open
+      - paid
+      - payment_not_found
+      - payment_pending
+      - voided
+      type: string
+      description: '* `partial` - Partially Paid
+
+        * `open` - Open
+
+        * `paid` - Paid
+
+        * `payment_not_found` - Payment Not Found
+
+        * `payment_pending` - Payment Pending
+
+        * `voided` - Voided'
+    AccountingDebitMemoLine:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        debit_memo:
+          type: integer
+          writeOnly: true
+        account_number:
+          type: string
+          readOnly: true
+        account_name:
+          type: string
+          nullable: true
+          description: Combines account number and name in the format "number - name"
+          readOnly: true
+        department_name:
+          type: string
+          readOnly: true
+        tags:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          readOnly: true
+        tax_rate_name:
+          type: string
+          readOnly: true
+        tax_rate_value:
+          type: number
+          format: double
+          maximum: 10000000000
+          minimum: -10000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          readOnly: true
+        description:
+          type: string
+          nullable: true
+        amount:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+        tax:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+        tax_description:
+          type: string
+          nullable: true
+          maxLength: 255
+        tag_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        tag_group_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        account:
+          type: integer
+        tax_rate:
+          type: integer
+          nullable: true
+        department:
+          type: integer
+          nullable: true
+      required:
+      - account
+      - account_name
+      - account_number
+      - created_at
+      - customer
+      - department_name
+      - id
+      - last_modified_at
+      - tags
+      - tax_rate_name
+      - tax_rate_value
+    MarkPaidDebitMemo:
+      type: object
+      properties:
+        debit_memo_id:
+          type: integer
+        amount:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+        posted_at:
+          type: string
+          format: date
+      required:
+      - amount
+      - debit_memo_id
+      - posted_at
+  securitySchemes:
+    knoxApiToken:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "Token"

@@ -1,0 +1,52 @@
+openapi: 3.0.3
+info:
+  title: Campfire Developer APIs Accounts Payable Custom Fields API
+  version: 1.0.0
+  description: '## Introduction
+
+    Campfire''s developer APIs offer granular access to Campfire''s core accounting,
+
+    revenue recognition, and financial data features.
+
+
+    These APIs are designed to be used by developers to build custom integrations,
+
+    automate workflows, and perform any other programmatic operations.
+
+    '
+servers:
+- url: https://api.meetcampfire.com
+  description: Production server
+tags:
+- name: Custom Fields
+paths:
+  /ca/api/v1/custom-fields/reorder:
+    post:
+      operationId: ca_api_v1_custom_fields_reorder_create
+      description: Reorder custom fields
+      summary: Reorder Custom Fields
+      tags:
+      - Custom Fields
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                field_order:
+                  type: array
+                  items:
+                    type: integer
+                  description: Array of field IDs in desired order
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          description: No response body
+components:
+  securitySchemes:
+    knoxApiToken:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "Token"

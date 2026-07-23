@@ -1,0 +1,1838 @@
+openapi: 3.0.3
+info:
+  title: Campfire Developer APIs Accounts Payable Settings API
+  version: 1.0.0
+  description: '## Introduction
+
+    Campfire''s developer APIs offer granular access to Campfire''s core accounting,
+
+    revenue recognition, and financial data features.
+
+
+    These APIs are designed to be used by developers to build custom integrations,
+
+    automate workflows, and perform any other programmatic operations.
+
+    '
+servers:
+- url: https://api.meetcampfire.com
+  description: Production server
+tags:
+- name: Settings
+  description: Operations related to system and accounting settings configuration.
+paths:
+  /ca/api/file:
+    get:
+      operationId: ca_api_file_list
+      description: "\n        Retrieve a list of files with optional filtering and sorting.\n\n        Supports including soft-deleted records for audit and recovery purposes.\n        When include_deleted=true, returns ONLY deleted records instead of active records.\n        Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp,\n        and 'last_modified_at'. When 'false' or omitted, returns ONLY active records.\n        This provides clean separation between active and deleted data.\n        "
+      summary: List Files
+      parameters:
+      - in: query
+        name: include_deleted
+        schema:
+          type: boolean
+          default: false
+        description: 'When set to ''true'', returns ONLY deleted records instead of active records. Deleted records contain minimal data: ''id'', ''is_deleted=true'', ''deleted_at'' timestamp, and ''last_modified_at''. When ''false'' or omitted, returns ONLY active records. This provides clean separation between active and deleted data.'
+      - in: query
+        name: last_modified_at__gte
+        schema:
+          type: string
+        description: 'Filter for records modified on or after this timestamp. Format: ISO 8601 (e.g., ''2024-01-01T00:00:00Z'' or ''2024-01-01''). Works with both active records and deleted records (filters by deletion time for deleted records).'
+      - in: query
+        name: last_modified_at__lte
+        schema:
+          type: string
+        description: 'Filter for records modified on or before this timestamp. Format: ISO 8601 (e.g., ''2024-12-31T23:59:59Z'' or ''2024-12-31''). Works with both active records and deleted records (filters by deletion time for deleted records).'
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - Settings
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedFileList'
+          description: ''
+  /ca/api/file/{id}:
+    get:
+      operationId: ca_api_file_retrieve
+      summary: Get File
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Settings
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/File'
+          description: ''
+    put:
+      operationId: ca_api_file_update
+      summary: Update File
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Settings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/File'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/File'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/File'
+        required: true
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/File'
+          description: ''
+    patch:
+      operationId: ca_api_file_partial_update
+      summary: Patch File
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Settings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedFile'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedFile'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedFile'
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/File'
+          description: ''
+    delete:
+      operationId: ca_api_file_destroy
+      summary: Delete File
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Settings
+      security:
+      - knoxApiToken: []
+      responses:
+        '204':
+          description: No response body
+  /ca/api/file/{id}/temp-download-url:
+    get:
+      operationId: get_file_temp_download_url
+      description: 'Return a short-lived presigned S3 URL for downloading a file.
+
+
+        Pass ``?disposition=inline`` to render preview-safe types (PDF, images)
+
+        in the browser instead of forcing a download.
+
+
+        :param request: The incoming DRF request (must be authenticated).
+
+        :return: JSON response with ``url`` key or an error.'
+      summary: Get File Temporary Download URL
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Settings
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          description: No response body
+  /ca/api/file/upload:
+    post:
+      operationId: ca_api_file_upload_create
+      description: "\n        Upload a file directly to Campfire. This is the primary way to upload files.\n\n        **Supported Models:**\n        bill, chat, close_task, closecheckitem, contract, credit_memo, customer, debit_memo, draft_queue, fixed_asset, intercompany_journal, invoice, journal_entry, journalentry, lease_v2, migration_record, policy, reconciliation, reconciliation_report\n\n        **Supported Content Types:**\n        application/msword, application/pdf, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/vnd.openxmlformats-officedocument.presentationml.presentation, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.openxmlformats-officedocument.wordprocessingml.document, image/gif, image/jpeg, image/jpg, image/png, image/webp, text/csv, text/markdown, text/plain, text/x-markdown\n\n        **Maximum File Size:** 100MB\n\n        **Example:**\n        ```bash\n        curl -X POST \"https://api.meetcampfire.com/ca/api/file/upload?model=bill&object_id=12345\" \\\n          -H \"Authorization: Token YOUR_TOKEN\" \\\n          -F \"file=@receipt.pdf\"\n        ```\n\n        **Query Parameters:**\n        - `model` (required): Model type (e.g., \"bill\", \"invoice\", \"contract\")\n        - `object_id` (optional): ID of the object to attach the file to\n\n        **Request Body:**\n        - `file` (required): The file to upload (multipart/form-data)\n        "
+      summary: Upload File
+      tags:
+      - Settings
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          description: No response body
+  /ca/api/user_currency:
+    get:
+      operationId: ca_api_user_currency_list
+      description: "\n        Retrieve a list of customer currencies with optional filtering and sorting.\n\n        Supports including soft-deleted records for audit and recovery purposes.\n        When include_deleted=true, returns ONLY deleted records instead of active records.\n        Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp,\n        and 'last_modified_at'. When 'false' or omitted, returns ONLY active records.\n        This provides clean separation between active and deleted data.\n        "
+      summary: List Customer Currencies
+      parameters:
+      - in: query
+        name: include_deleted
+        schema:
+          type: boolean
+          default: false
+        description: 'When set to ''true'', returns ONLY deleted records instead of active records. Deleted records contain minimal data: ''id'', ''is_deleted=true'', ''deleted_at'' timestamp, and ''last_modified_at''. When ''false'' or omitted, returns ONLY active records. This provides clean separation between active and deleted data.'
+      - in: query
+        name: last_modified_at__gte
+        schema:
+          type: string
+        description: 'Filter for records modified on or after this timestamp. Format: ISO 8601 (e.g., ''2024-01-01T00:00:00Z'' or ''2024-01-01''). Works with both active records and deleted records (filters by deletion time for deleted records).'
+      - in: query
+        name: last_modified_at__lte
+        schema:
+          type: string
+        description: 'Filter for records modified on or before this timestamp. Format: ISO 8601 (e.g., ''2024-12-31T23:59:59Z'' or ''2024-12-31''). Works with both active records and deleted records (filters by deletion time for deleted records).'
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - Settings
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCustomerCurrencyList'
+          description: ''
+    post:
+      operationId: ca_api_user_currency_create
+      description: 'Complete mixin for history filtering with pagination support.
+
+        Returns either active OR deleted records based on include_deleted parameter.'
+      summary: Create Customer Currencies
+      tags:
+      - Settings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerCurrency'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CustomerCurrency'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CustomerCurrency'
+      security:
+      - knoxApiToken: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerCurrency'
+          description: ''
+  /ca/api/user_currency/{id}:
+    get:
+      operationId: ca_api_user_currency_retrieve
+      summary: Retrieve Customer Currencies
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Settings
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerCurrency'
+          description: ''
+    put:
+      operationId: ca_api_user_currency_update
+      summary: Update Customer Currencies
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Settings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerCurrency'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CustomerCurrency'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CustomerCurrency'
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerCurrency'
+          description: ''
+    patch:
+      operationId: ca_api_user_currency_partial_update
+      summary: Partial Update Customer Currencies
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Settings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCustomerCurrency'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCustomerCurrency'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCustomerCurrency'
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerCurrency'
+          description: ''
+    delete:
+      operationId: ca_api_user_currency_destroy
+      summary: Delete Customer Currencies
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Settings
+      security:
+      - knoxApiToken: []
+      responses:
+        '204':
+          description: No response body
+  /ca/api/user_currency/rate:
+    get:
+      operationId: ca_api_user_currency_rate_retrieve
+      summary: Get Currency Exchange Rate
+      tags:
+      - Settings
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          description: No response body
+  /ca/api/user_currency/with_rate:
+    get:
+      operationId: ca_api_user_currency_with_rate_retrieve
+      summary: Get Currencies Exchange Rates for Currency
+      tags:
+      - Settings
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          description: No response body
+  /coa/api/chart-account-settings:
+    get:
+      operationId: settings_retrieve_chart_account_settings
+      description: These are the defaults chart accounts to be used across the platform. Each input is the id to an existing chart account.
+      summary: Retrieve Chart Account Settings
+      tags:
+      - Settings
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChartAccountSettings'
+          description: ''
+    put:
+      operationId: settings_update_chart_account_settings
+      description: These are the defaults chart accounts to be used across the platform. Each input is the id to an existing chart account.
+      summary: Update Chart Account Settings
+      tags:
+      - Settings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChartAccountSettings'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ChartAccountSettings'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ChartAccountSettings'
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChartAccountSettings'
+          description: ''
+    patch:
+      operationId: settings_partial_update_chart_account_settings
+      description: Partially update the default chart accounts to be used across the platform. Each input is the id to an existing chart account.
+      summary: Partially Update Chart Account Settings
+      tags:
+      - Settings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedChartAccountSettings'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedChartAccountSettings'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedChartAccountSettings'
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChartAccountSettings'
+          description: ''
+  /coa/api/entity:
+    get:
+      operationId: coa_api_entity_list
+      description: Retrieve a list of chart entities with optional filtering
+      summary: List Chart Entities
+      parameters:
+      - in: query
+        name: exclude_adjusting
+        schema:
+          type: boolean
+          default: false
+        description: Exclude adjusting entities (those with a primary_entity set) from results. Defaults to false for backwards compatibility.
+      - in: query
+        name: include_inactive
+        schema:
+          type: boolean
+          default: true
+        description: Include inactive entities in results
+      tags:
+      - Settings
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChartEntity'
+          description: ''
+      x-mint:
+        mcp:
+          enabled: true
+          name: get_entities
+          description: Retrieve chart entities (companies, subsidiaries, etc.)
+    post:
+      operationId: coa_api_entity_create
+      description: 'Complete mixin for history filtering with pagination support.
+
+        Returns either active OR deleted records based on include_deleted parameter.'
+      summary: Create Chart Entity
+      tags:
+      - Settings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChartEntity'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ChartEntity'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ChartEntity'
+      security:
+      - knoxApiToken: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChartEntity'
+          description: ''
+  /coa/api/entity/{id}:
+    get:
+      operationId: coa_api_entity_retrieve
+      summary: Retrieve Chart Entity
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Settings
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChartEntity'
+          description: ''
+    put:
+      operationId: coa_api_entity_update
+      summary: Update Chart Entity
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Settings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChartEntity'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ChartEntity'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ChartEntity'
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChartEntity'
+          description: ''
+    patch:
+      operationId: coa_api_entity_partial_update
+      summary: Partial Update Chart Entity
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Settings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedChartEntity'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedChartEntity'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedChartEntity'
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChartEntity'
+          description: ''
+    delete:
+      operationId: coa_api_entity_destroy
+      summary: Delete Chart Entity
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Settings
+      security:
+      - knoxApiToken: []
+      responses:
+        '204':
+          description: No response body
+  /coa/api/entity/{id}/logo:
+    post:
+      operationId: coa_api_entity_logo_create
+      summary: Upload Chart Entity Logo
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Settings
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          description: No response body
+  /coa/api/entity/for-intercompany:
+    get:
+      operationId: coa_api_entity_for_intercompany_list
+      description: 'Returns ALL entities for intercompany journal entry creation.
+
+
+        This endpoint bypasses entity-scoped filtering because users need to
+
+        select entities they don''t normally have access to when creating
+
+        intercompany journal entries (per the entity-scoped-user-access spec).
+
+
+        Uses minimal serializer to only expose id, name, and currency - preventing
+
+        data leakage of sensitive entity details to users who may not have full
+
+        access to all entities.'
+      summary: List All Entities for Intercompany JE
+      tags:
+      - Settings
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChartEntityMinimal'
+          description: ''
+components:
+  schemas:
+    PatchedChartEntity:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        parent:
+          type: integer
+          nullable: true
+        parent_name:
+          type: string
+          readOnly: true
+        elimination_entity:
+          type: integer
+          nullable: true
+        primary_entity:
+          type: integer
+          nullable: true
+          description: When set, this entity is an adjusting entity linked to the specified primary entity.
+        primary_entity_name:
+          type: string
+          readOnly: true
+        is_adjusting:
+          type: boolean
+          readOnly: true
+        is_elimination_entity:
+          type: boolean
+          default: false
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        name:
+          type: string
+          nullable: true
+          maxLength: 250
+        description:
+          type: string
+          nullable: true
+        currency:
+          type: string
+          maxLength: 3
+        address_1:
+          type: string
+          nullable: true
+          title: Address Line 1
+          maxLength: 120
+        address_2:
+          type: string
+          nullable: true
+          title: Address Line 2
+          maxLength: 120
+        city:
+          type: string
+          nullable: true
+          maxLength: 120
+        state:
+          type: string
+          nullable: true
+          maxLength: 120
+        zip_code:
+          type: string
+          nullable: true
+          maxLength: 120
+        country:
+          type: string
+          nullable: true
+          maxLength: 120
+        disable_service_date:
+          type: boolean
+          description: When enabled, the Service Date field will be hidden on invoices for this entity
+        logo_url:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 500
+        active:
+          type: boolean
+        fiscal_year_month:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        fiscal_year_day:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        enable_mid_month_convention:
+          type: boolean
+          nullable: true
+          title: Enable Mid-Month Convention (Override)
+          description: Override customer-level mid-month convention setting for this entity. Leave blank to inherit from customer.
+        mid_month_threshold:
+          type: integer
+          maximum: 31
+          minimum: 0
+          nullable: true
+          title: Mid-Month Threshold (Override)
+          description: Override customer-level threshold. Leave blank to inherit from customer.
+        use_whole_month_accounting_for_prepaids:
+          type: boolean
+          nullable: true
+          title: Use Whole-Month Accounting for Prepaids (Override)
+          description: Override customer-level whole-month accounting setting for this entity. Leave blank to inherit from customer.
+        allow_payments_in_closed_periods:
+          type: boolean
+          description: When enabled, allows applying existing transactions as payments to invoices/bills even when the transaction date falls in a closed subledger period.
+        auto_apply_catchup_for_closed_periods:
+          type: boolean
+          title: Auto-Apply Catch-Up Revenue for Closed Periods
+          description: When enabled, contracts signed after their revenue start month automatically catch up the elapsed revenue into the sign month, floored at the first open period under the close so it never posts to a closed period. Defaults off — flip in entity settings to opt in.
+        lineage_array:
+          type: array
+          items:
+            type: string
+            maxLength: 50
+          nullable: true
+          description: Pre-computed lineage array from root to this entity
+        tax_identification_number:
+          type: string
+          nullable: true
+          description: Tax ID such as Korean BRN, GST number, or EU VAT number
+          maxLength: 250
+        representative_name:
+          type: string
+          nullable: true
+          description: Legal representative name
+          maxLength: 250
+        business_type:
+          type: string
+          nullable: true
+          description: Business type classification
+          maxLength: 250
+        business_category:
+          type: string
+          nullable: true
+          description: Business category classification
+          maxLength: 250
+        invoice_name:
+          type: string
+          nullable: true
+          readOnly: true
+        invoice_email:
+          type: string
+          nullable: true
+          readOnly: true
+        invoice_message:
+          type: string
+          nullable: true
+          readOnly: true
+        invoice_email_subject:
+          type: string
+          nullable: true
+          readOnly: true
+        invoice_email_body:
+          type: string
+          nullable: true
+          readOnly: true
+        invoice_prefix:
+          type: string
+          nullable: true
+          readOnly: true
+        invoice_address:
+          type: string
+          nullable: true
+          readOnly: true
+        invoice_cc_emails:
+          type: string
+          nullable: true
+          readOnly: true
+        invoice_display_settings:
+          type: object
+          additionalProperties: {}
+          nullable: true
+          readOnly: true
+        invoice_email_attachments:
+          type: object
+          additionalProperties: {}
+          nullable: true
+          readOnly: true
+        withholding_scheme:
+          type: integer
+          nullable: true
+          description: Withholding tax regime this entity operates under (e.g. Israel NB, India TDS). A bill resolves its scheme via bill.entity.withholding_scheme.
+        withholding_scheme_name:
+          type: string
+          readOnly: true
+        withholding_certificate:
+          type: integer
+          nullable: true
+          description: 'This entity''s own authority-issued certificate (AR side): determines the expected rate customers withhold when paying our invoices under a certificate-based scheme.'
+        withholding_certificate_number:
+          type: string
+          readOnly: true
+    CustomerCurrency:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        currency:
+          type: string
+          default: USD
+          maxLength: 3
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+      required:
+      - created_at
+      - customer
+      - deleted_at
+      - id
+      - is_deleted
+      - last_modified_at
+      - name
+    PatchedChartAccountSettings:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        uncategorized_name_and_number:
+          type: string
+          readOnly: true
+        accounts_payable_name_and_number:
+          type: string
+          readOnly: true
+        accounts_receivable_name_and_number:
+          type: string
+          readOnly: true
+        deferred_revenue_name_and_number:
+          type: string
+          readOnly: true
+        accrued_revenue_name_and_number:
+          type: string
+          readOnly: true
+        unrealized_gain_loss_name_and_number:
+          type: string
+          readOnly: true
+        realized_gain_loss_name_and_number:
+          type: string
+          readOnly: true
+        rounding_account_name_and_number:
+          type: string
+          readOnly: true
+        unapplied_credits_name_and_number:
+          type: string
+          readOnly: true
+        unapplied_debits_name_and_number:
+          type: string
+          readOnly: true
+        unbilled_revenue_name_and_number:
+          type: string
+          readOnly: true
+        default_clearing_name_and_number:
+          type: string
+          readOnly: true
+        discount_account_name_and_number:
+          type: string
+          readOnly: true
+        accrued_discount_account_name_and_number:
+          type: string
+          readOnly: true
+        unbilled_discount_account_name_and_number:
+          type: string
+          readOnly: true
+        refund_account_name_and_number:
+          type: string
+          readOnly: true
+        processing_fees_name_and_number:
+          type: string
+          readOnly: true
+        platform_fees_name_and_number:
+          type: string
+          readOnly: true
+        deferred_processing_fees_name_and_number:
+          type: string
+          readOnly: true
+        tax_account_name_and_number:
+          type: string
+          readOnly: true
+        payout_account_name_and_number:
+          type: string
+          readOnly: true
+        cta_account_name_and_number:
+          type: string
+          readOnly: true
+        oci_translation_account_name_and_number:
+          type: string
+          readOnly: true
+        fixed_asset_disposal_name_and_number:
+          type: string
+          readOnly: true
+        bad_debt_account_name_and_number:
+          type: string
+          readOnly: true
+        dispute_expense_account_name_and_number:
+          type: string
+          readOnly: true
+        dispute_reinstatement_account_name_and_number:
+          type: string
+          readOnly: true
+        recognize_discounts_as_contra_revenue:
+          type: boolean
+          description: When enabled, recognized discounts post to the discount account instead of netting into revenue.
+        enable_mid_month_convention:
+          type: boolean
+          description: When enabled, fixed assets placed in service after the threshold day will begin depreciation the following month (full-month depreciation only)
+        mid_month_threshold:
+          type: integer
+          maximum: 31
+          minimum: 0
+          description: Day of month threshold (0-31). Assets placed in service AFTER this day will start depreciation the following month
+        use_whole_month_accounting_for_prepaids:
+          type: boolean
+          description: When enabled, prepaid amortizations will use whole-month accounting (no proration of first/last months)
+        split_invoice_payments_by_line:
+          type: boolean
+          nullable: true
+          description: When enabled, invoice payments will be split by line items
+        split_eliminations_by_department:
+          type: boolean
+          description: When enabled, elimination entries are broken out by department in addition to account and entity
+        customer:
+          type: integer
+          readOnly: true
+        uncategorized:
+          type: integer
+          nullable: true
+        accounts_payable:
+          type: integer
+          nullable: true
+        accounts_receivable:
+          type: integer
+          nullable: true
+        deferred_revenue:
+          type: integer
+          nullable: true
+        accrued_revenue:
+          type: integer
+          nullable: true
+        unrealized_gain_loss:
+          type: integer
+          nullable: true
+        realized_gain_loss:
+          type: integer
+          nullable: true
+        rounding_account:
+          type: integer
+          nullable: true
+        unapplied_credits:
+          type: integer
+          nullable: true
+        unapplied_debits:
+          type: integer
+          nullable: true
+        unbilled_revenue:
+          type: integer
+          nullable: true
+        default_clearing:
+          type: integer
+          nullable: true
+        discount_account:
+          type: integer
+          nullable: true
+        accrued_discount_account:
+          type: integer
+          nullable: true
+        unbilled_discount_account:
+          type: integer
+          nullable: true
+        refund_account:
+          type: integer
+          nullable: true
+        processing_fees:
+          type: integer
+          nullable: true
+        platform_fees:
+          type: integer
+          nullable: true
+          description: Account for Stripe platform/subscription fees. Falls back to processing_fees if not set.
+        deferred_processing_fees:
+          type: integer
+          nullable: true
+        tax_account:
+          type: integer
+          nullable: true
+        payout_account:
+          type: integer
+          nullable: true
+        cta_account:
+          type: integer
+          nullable: true
+        oci_translation_account:
+          type: integer
+          nullable: true
+        fixed_asset_disposal:
+          type: integer
+          nullable: true
+        bad_debt_account:
+          type: integer
+          nullable: true
+        dispute_expense_account:
+          type: integer
+          nullable: true
+          description: Account for dispute withdrawals (debit) and dispute reinstatement reversals (credit). Falls back to bad_debt_account if not set.
+        dispute_reinstatement_account:
+          type: integer
+          nullable: true
+          description: Account credited when a dispute is reinstated (won). Falls back to dispute_expense_account if not set.
+    File:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: integer
+          readOnly: true
+          nullable: true
+        created_by_name:
+          type: string
+          readOnly: true
+        created_by_email:
+          type: string
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        name:
+          type: string
+        url:
+          type: string
+          readOnly: true
+        s3_content_type:
+          type: string
+          nullable: true
+        s3_content_length:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+        s3_path:
+          type: string
+        object_id:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+        app:
+          type: string
+          readOnly: true
+        model:
+          type: string
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+      required:
+      - app
+      - created_at
+      - created_by
+      - created_by_email
+      - created_by_name
+      - customer
+      - deleted_at
+      - id
+      - is_deleted
+      - last_modified_at
+      - model
+      - name
+      - s3_path
+      - url
+    ChartEntity:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        parent:
+          type: integer
+          nullable: true
+        parent_name:
+          type: string
+          readOnly: true
+        elimination_entity:
+          type: integer
+          nullable: true
+        primary_entity:
+          type: integer
+          nullable: true
+          description: When set, this entity is an adjusting entity linked to the specified primary entity.
+        primary_entity_name:
+          type: string
+          readOnly: true
+        is_adjusting:
+          type: boolean
+          readOnly: true
+        is_elimination_entity:
+          type: boolean
+          default: false
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        name:
+          type: string
+          nullable: true
+          maxLength: 250
+        description:
+          type: string
+          nullable: true
+        currency:
+          type: string
+          maxLength: 3
+        address_1:
+          type: string
+          nullable: true
+          title: Address Line 1
+          maxLength: 120
+        address_2:
+          type: string
+          nullable: true
+          title: Address Line 2
+          maxLength: 120
+        city:
+          type: string
+          nullable: true
+          maxLength: 120
+        state:
+          type: string
+          nullable: true
+          maxLength: 120
+        zip_code:
+          type: string
+          nullable: true
+          maxLength: 120
+        country:
+          type: string
+          nullable: true
+          maxLength: 120
+        disable_service_date:
+          type: boolean
+          description: When enabled, the Service Date field will be hidden on invoices for this entity
+        logo_url:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 500
+        active:
+          type: boolean
+        fiscal_year_month:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        fiscal_year_day:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        enable_mid_month_convention:
+          type: boolean
+          nullable: true
+          title: Enable Mid-Month Convention (Override)
+          description: Override customer-level mid-month convention setting for this entity. Leave blank to inherit from customer.
+        mid_month_threshold:
+          type: integer
+          maximum: 31
+          minimum: 0
+          nullable: true
+          title: Mid-Month Threshold (Override)
+          description: Override customer-level threshold. Leave blank to inherit from customer.
+        use_whole_month_accounting_for_prepaids:
+          type: boolean
+          nullable: true
+          title: Use Whole-Month Accounting for Prepaids (Override)
+          description: Override customer-level whole-month accounting setting for this entity. Leave blank to inherit from customer.
+        allow_payments_in_closed_periods:
+          type: boolean
+          description: When enabled, allows applying existing transactions as payments to invoices/bills even when the transaction date falls in a closed subledger period.
+        auto_apply_catchup_for_closed_periods:
+          type: boolean
+          title: Auto-Apply Catch-Up Revenue for Closed Periods
+          description: When enabled, contracts signed after their revenue start month automatically catch up the elapsed revenue into the sign month, floored at the first open period under the close so it never posts to a closed period. Defaults off — flip in entity settings to opt in.
+        lineage_array:
+          type: array
+          items:
+            type: string
+            maxLength: 50
+          nullable: true
+          description: Pre-computed lineage array from root to this entity
+        tax_identification_number:
+          type: string
+          nullable: true
+          description: Tax ID such as Korean BRN, GST number, or EU VAT number
+          maxLength: 250
+        representative_name:
+          type: string
+          nullable: true
+          description: Legal representative name
+          maxLength: 250
+        business_type:
+          type: string
+          nullable: true
+          description: Business type classification
+          maxLength: 250
+        business_category:
+          type: string
+          nullable: true
+          description: Business category classification
+          maxLength: 250
+        invoice_name:
+          type: string
+          nullable: true
+          readOnly: true
+        invoice_email:
+          type: string
+          nullable: true
+          readOnly: true
+        invoice_message:
+          type: string
+          nullable: true
+          readOnly: true
+        invoice_email_subject:
+          type: string
+          nullable: true
+          readOnly: true
+        invoice_email_body:
+          type: string
+          nullable: true
+          readOnly: true
+        invoice_prefix:
+          type: string
+          nullable: true
+          readOnly: true
+        invoice_address:
+          type: string
+          nullable: true
+          readOnly: true
+        invoice_cc_emails:
+          type: string
+          nullable: true
+          readOnly: true
+        invoice_display_settings:
+          type: object
+          additionalProperties: {}
+          nullable: true
+          readOnly: true
+        invoice_email_attachments:
+          type: object
+          additionalProperties: {}
+          nullable: true
+          readOnly: true
+        withholding_scheme:
+          type: integer
+          nullable: true
+          description: Withholding tax regime this entity operates under (e.g. Israel NB, India TDS). A bill resolves its scheme via bill.entity.withholding_scheme.
+        withholding_scheme_name:
+          type: string
+          readOnly: true
+        withholding_certificate:
+          type: integer
+          nullable: true
+          description: 'This entity''s own authority-issued certificate (AR side): determines the expected rate customers withhold when paying our invoices under a certificate-based scheme.'
+        withholding_certificate_number:
+          type: string
+          readOnly: true
+      required:
+      - created_at
+      - customer
+      - deleted_at
+      - id
+      - invoice_address
+      - invoice_cc_emails
+      - invoice_display_settings
+      - invoice_email
+      - invoice_email_attachments
+      - invoice_email_body
+      - invoice_email_subject
+      - invoice_message
+      - invoice_name
+      - invoice_prefix
+      - is_adjusting
+      - is_deleted
+      - last_modified_at
+      - parent_name
+      - primary_entity_name
+      - withholding_certificate_number
+      - withholding_scheme_name
+    PatchedFile:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: integer
+          readOnly: true
+          nullable: true
+        created_by_name:
+          type: string
+          readOnly: true
+        created_by_email:
+          type: string
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        name:
+          type: string
+        url:
+          type: string
+          readOnly: true
+        s3_content_type:
+          type: string
+          nullable: true
+        s3_content_length:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+        s3_path:
+          type: string
+        object_id:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+        app:
+          type: string
+          readOnly: true
+        model:
+          type: string
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+    PaginatedCustomerCurrencyList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerCurrency'
+    ChartEntityMinimal:
+      type: object
+      description: 'Minimal entity serializer for intercompany operations.
+
+
+        Only exposes id, name, and currency - the minimum needed for
+
+        entity selection in intercompany journal entries. This prevents
+
+        data leakage of sensitive entity details (addresses, emails, etc.)
+
+        to users who may not have full access to all entities.'
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+          nullable: true
+        currency:
+          type: string
+          readOnly: true
+      required:
+      - currency
+      - id
+      - name
+    PatchedCustomerCurrency:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        currency:
+          type: string
+          default: USD
+          maxLength: 3
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+    ChartAccountSettings:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        uncategorized_name_and_number:
+          type: string
+          readOnly: true
+        accounts_payable_name_and_number:
+          type: string
+          readOnly: true
+        accounts_receivable_name_and_number:
+          type: string
+          readOnly: true
+        deferred_revenue_name_and_number:
+          type: string
+          readOnly: true
+        accrued_revenue_name_and_number:
+          type: string
+          readOnly: true
+        unrealized_gain_loss_name_and_number:
+          type: string
+          readOnly: true
+        realized_gain_loss_name_and_number:
+          type: string
+          readOnly: true
+        rounding_account_name_and_number:
+          type: string
+          readOnly: true
+        unapplied_credits_name_and_number:
+          type: string
+          readOnly: true
+        unapplied_debits_name_and_number:
+          type: string
+          readOnly: true
+        unbilled_revenue_name_and_number:
+          type: string
+          readOnly: true
+        default_clearing_name_and_number:
+          type: string
+          readOnly: true
+        discount_account_name_and_number:
+          type: string
+          readOnly: true
+        accrued_discount_account_name_and_number:
+          type: string
+          readOnly: true
+        unbilled_discount_account_name_and_number:
+          type: string
+          readOnly: true
+        refund_account_name_and_number:
+          type: string
+          readOnly: true
+        processing_fees_name_and_number:
+          type: string
+          readOnly: true
+        platform_fees_name_and_number:
+          type: string
+          readOnly: true
+        deferred_processing_fees_name_and_number:
+          type: string
+          readOnly: true
+        tax_account_name_and_number:
+          type: string
+          readOnly: true
+        payout_account_name_and_number:
+          type: string
+          readOnly: true
+        cta_account_name_and_number:
+          type: string
+          readOnly: true
+        oci_translation_account_name_and_number:
+          type: string
+          readOnly: true
+        fixed_asset_disposal_name_and_number:
+          type: string
+          readOnly: true
+        bad_debt_account_name_and_number:
+          type: string
+          readOnly: true
+        dispute_expense_account_name_and_number:
+          type: string
+          readOnly: true
+        dispute_reinstatement_account_name_and_number:
+          type: string
+          readOnly: true
+        recognize_discounts_as_contra_revenue:
+          type: boolean
+          description: When enabled, recognized discounts post to the discount account instead of netting into revenue.
+        enable_mid_month_convention:
+          type: boolean
+          description: When enabled, fixed assets placed in service after the threshold day will begin depreciation the following month (full-month depreciation only)
+        mid_month_threshold:
+          type: integer
+          maximum: 31
+          minimum: 0
+          description: Day of month threshold (0-31). Assets placed in service AFTER this day will start depreciation the following month
+        use_whole_month_accounting_for_prepaids:
+          type: boolean
+          description: When enabled, prepaid amortizations will use whole-month accounting (no proration of first/last months)
+        split_invoice_payments_by_line:
+          type: boolean
+          nullable: true
+          description: When enabled, invoice payments will be split by line items
+        split_eliminations_by_department:
+          type: boolean
+          description: When enabled, elimination entries are broken out by department in addition to account and entity
+        customer:
+          type: integer
+          readOnly: true
+        uncategorized:
+          type: integer
+          nullable: true
+        accounts_payable:
+          type: integer
+          nullable: true
+        accounts_receivable:
+          type: integer
+          nullable: true
+        deferred_revenue:
+          type: integer
+          nullable: true
+        accrued_revenue:
+          type: integer
+          nullable: true
+        unrealized_gain_loss:
+          type: integer
+          nullable: true
+        realized_gain_loss:
+          type: integer
+          nullable: true
+        rounding_account:
+          type: integer
+          nullable: true
+        unapplied_credits:
+          type: integer
+          nullable: true
+        unapplied_debits:
+          type: integer
+          nullable: true
+        unbilled_revenue:
+          type: integer
+          nullable: true
+        default_clearing:
+          type: integer
+          nullable: true
+        discount_account:
+          type: integer
+          nullable: true
+        accrued_discount_account:
+          type: integer
+          nullable: true
+        unbilled_discount_account:
+          type: integer
+          nullable: true
+        refund_account:
+          type: integer
+          nullable: true
+        processing_fees:
+          type: integer
+          nullable: true
+        platform_fees:
+          type: integer
+          nullable: true
+          description: Account for Stripe platform/subscription fees. Falls back to processing_fees if not set.
+        deferred_processing_fees:
+          type: integer
+          nullable: true
+        tax_account:
+          type: integer
+          nullable: true
+        payout_account:
+          type: integer
+          nullable: true
+        cta_account:
+          type: integer
+          nullable: true
+        oci_translation_account:
+          type: integer
+          nullable: true
+        fixed_asset_disposal:
+          type: integer
+          nullable: true
+        bad_debt_account:
+          type: integer
+          nullable: true
+        dispute_expense_account:
+          type: integer
+          nullable: true
+          description: Account for dispute withdrawals (debit) and dispute reinstatement reversals (credit). Falls back to bad_debt_account if not set.
+        dispute_reinstatement_account:
+          type: integer
+          nullable: true
+          description: Account credited when a dispute is reinstated (won). Falls back to dispute_expense_account if not set.
+      required:
+      - accounts_payable_name_and_number
+      - accounts_receivable_name_and_number
+      - accrued_discount_account_name_and_number
+      - accrued_revenue_name_and_number
+      - bad_debt_account_name_and_number
+      - cta_account_name_and_number
+      - customer
+      - default_clearing_name_and_number
+      - deferred_processing_fees_name_and_number
+      - deferred_revenue_name_and_number
+      - discount_account_name_and_number
+      - dispute_expense_account_name_and_number
+      - dispute_reinstatement_account_name_and_number
+      - fixed_asset_disposal_name_and_number
+      - id
+      - oci_translation_account_name_and_number
+      - payout_account_name_and_number
+      - platform_fees_name_and_number
+      - processing_fees_name_and_number
+      - realized_gain_loss_name_and_number
+      - refund_account_name_and_number
+      - rounding_account_name_and_number
+      - tax_account_name_and_number
+      - unapplied_credits_name_and_number
+      - unapplied_debits_name_and_number
+      - unbilled_discount_account_name_and_number
+      - unbilled_revenue_name_and_number
+      - uncategorized_name_and_number
+      - unrealized_gain_loss_name_and_number
+    PaginatedFileList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/File'
+  securitySchemes:
+    knoxApiToken:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "Token"

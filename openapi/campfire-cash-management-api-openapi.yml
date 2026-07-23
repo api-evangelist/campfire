@@ -1,0 +1,1118 @@
+openapi: 3.0.3
+info:
+  title: Campfire Developer APIs Accounts Payable Cash Management API
+  version: 1.0.0
+  description: '## Introduction
+
+    Campfire''s developer APIs offer granular access to Campfire''s core accounting,
+
+    revenue recognition, and financial data features.
+
+
+    These APIs are designed to be used by developers to build custom integrations,
+
+    automate workflows, and perform any other programmatic operations.
+
+    '
+servers:
+- url: https://api.meetcampfire.com
+  description: Production server
+tags:
+- name: Cash Management
+  description: Operations related to accounts, transactions, and other bank-related data.
+paths:
+  /ca/api/account:
+    get:
+      operationId: list_accounts
+      description: "\n        Retrieve a paginated list of bank accounts.\n\n        Supports including soft-deleted records for audit and recovery purposes.\n        When include_deleted=true, deleted records will have is_deleted=true\n        and include deletion metadata (deleted_at timestamp).\n\n        Supports sorting by all returned fields:\n        - name, -name (account name)\n        - nickname, -nickname (account nickname)\n        - type, -type (account type)\n        - status, -status (account status)\n        - currency, -currency (account currency)\n        - external_account_id, -external_account_id (external account ID)\n        - institution_id, -institution_id (institution ID)\n        - source, -source (account source)\n        - current_balance, -current_balance (current balance)\n        - available_balance, -available_balance (available balance)\n        - created_at, -created_at (creation date)\n        - last_modified_at, -last_modified_at (last modified date)\n        - account_type, -account_type (chart account type)\n        - account_subtype, -account_subtype (chart account subtype)\n        - account_cashflow_classification, -account_cashflow_classification (cashflow classification)\n        - type_name, -type_name (human-readable account type)\n        - subtype_name, -subtype_name (human-readable account subtype)\n        - cashflow_classification_name, -cashflow_classification_name (human-readable cashflow classification)\n        - entity_name, -entity_name (entity name)\n        - department, -department (department name)\n        - id, -id (account ID)\n        - account_id, -account_id (UUID account ID)\n        "
+      summary: List Bank Accounts
+      parameters:
+      - in: query
+        name: chart_of_accounts_account
+        schema:
+          type: integer
+        description: Filter bank accounts by their linked chart of accounts account ID
+      - in: query
+        name: include_deleted
+        schema:
+          type: boolean
+          default: false
+        description: 'When set to ''true'', returns ONLY deleted records instead of active records. Deleted records contain minimal data: ''id'', ''is_deleted=true'', ''deleted_at'' timestamp, and ''last_modified_at''. When ''false'' or omitted, returns ONLY active records. This provides clean separation between active and deleted data.'
+      - in: query
+        name: last_modified_at__gte
+        schema:
+          type: string
+        description: 'Filter for records modified on or after this timestamp. Format: ISO 8601 (e.g., ''2024-01-01T00:00:00Z'' or ''2024-01-01''). Works with both active records and deleted records (filters by deletion time for deleted records).'
+      - in: query
+        name: last_modified_at__lte
+        schema:
+          type: string
+        description: 'Filter for records modified on or before this timestamp. Format: ISO 8601 (e.g., ''2024-12-31T23:59:59Z'' or ''2024-12-31''). Works with both active records and deleted records (filters by deletion time for deleted records).'
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - Cash Management
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBankAccountList'
+          description: ''
+    post:
+      operationId: create_account
+      description: Create a new bank account
+      summary: Create Bank Account
+      tags:
+      - Cash Management
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BankAccount'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BankAccount'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BankAccount'
+        required: true
+      security:
+      - knoxApiToken: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankAccount'
+          description: ''
+  /ca/api/account/{id}:
+    get:
+      operationId: ca_api_account_retrieve
+      summary: Retrieve Bank Account
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Cash Management
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankAccount'
+          description: ''
+    put:
+      operationId: ca_api_account_update
+      summary: Update Bank Account
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Cash Management
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BankAccount'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BankAccount'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BankAccount'
+        required: true
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankAccount'
+          description: ''
+    patch:
+      operationId: ca_api_account_partial_update
+      summary: Partial Update Bank Account
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Cash Management
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedBankAccount'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedBankAccount'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedBankAccount'
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankAccount'
+          description: ''
+    delete:
+      operationId: ca_api_account_destroy
+      summary: Delete Bank Account
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: query
+        name: new_account
+        schema:
+          type: integer
+        description: ID of the bank account to reassign transactions to before deletion
+      tags:
+      - Cash Management
+      security:
+      - knoxApiToken: []
+      responses:
+        '204':
+          description: No response body
+  /ca/api/bank-feed/{account_id}:
+    post:
+      operationId: ca_api_bank_feed_create
+      description: Ingest bank feed data for a specific bank account. Creates bank transactions with corresponding journal entries, updates account balances, and triggers auto-categorization.
+      summary: Post Bank Feed
+      parameters:
+      - in: path
+        name: account_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Cash Management
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BankFeed'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BankFeed'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BankFeed'
+        required: true
+      security:
+      - knoxApiToken: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Bank feed processed successfully
+                  account_id:
+                    type: integer
+                  submitted_count:
+                    type: integer
+                  created_count:
+                    type: integer
+                  skipped_count:
+                    type: integer
+                  skipped_transactions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        external_transaction_id:
+                          type: string
+                        reason:
+                          type: string
+                  failed_count:
+                    type: integer
+                  failed_transactions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        external_transaction_id:
+                          type: string
+                        reason:
+                          type: string
+          description: ''
+  /ca/api/transaction:
+    get:
+      operationId: list_bank_transactions
+      description: "\n        Retrieve a paginated list of bank transactions with optional filtering.\n\n        Supports including soft-deleted records for audit and recovery purposes.\n        When include_deleted=true, deleted records will have is_deleted=true\n        and include deletion metadata (deleted_at timestamp).\n        "
+      summary: List Bank Transactions
+      parameters:
+      - in: query
+        name: exclude_drafts
+        schema:
+          type: boolean
+        description: If true, hide bank transactions that have a pending cash-application DraftQueue attached (match drafts or categorize drafts). Default false.
+      - in: query
+        name: include_deleted
+        schema:
+          type: boolean
+          default: false
+        description: 'When set to ''true'', returns ONLY deleted records instead of active records. Deleted records contain minimal data: ''id'', ''is_deleted=true'', ''deleted_at'' timestamp, and ''last_modified_at''. When ''false'' or omitted, returns ONLY active records. This provides clean separation between active and deleted data.'
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - Cash Management
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBankTransactionList'
+          description: ''
+    post:
+      operationId: create_bank_transaction
+      description: Create a new bank transaction
+      summary: Create Bank Transaction
+      tags:
+      - Cash Management
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BankTransaction'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BankTransaction'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BankTransaction'
+        required: true
+      security:
+      - knoxApiToken: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankTransaction'
+          description: ''
+  /ca/api/transaction/{id}:
+    get:
+      operationId: ca_api_transaction_retrieve
+      summary: Retrieve Bank Transaction
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Cash Management
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankTransaction'
+          description: ''
+    put:
+      operationId: ca_api_transaction_update
+      summary: Update Bank Transaction
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Cash Management
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BankTransaction'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BankTransaction'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BankTransaction'
+        required: true
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankTransaction'
+          description: ''
+    patch:
+      operationId: ca_api_transaction_partial_update
+      summary: Partial Update Bank Transaction
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Cash Management
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedBankTransaction'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedBankTransaction'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedBankTransaction'
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankTransaction'
+          description: ''
+    delete:
+      operationId: ca_api_transaction_destroy
+      summary: Delete Bank Transaction
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Cash Management
+      security:
+      - knoxApiToken: []
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    PatchedBankAccount:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        entity_name:
+          type: string
+          readOnly: true
+        department_name:
+          type: string
+          readOnly: true
+        chart_of_accounts_account_name:
+          type: string
+          readOnly: true
+        account_type:
+          type: string
+          readOnly: true
+        account_subtype:
+          type: string
+          readOnly: true
+        account_cashflow_classification:
+          type: string
+          readOnly: true
+        type_name:
+          type: string
+          readOnly: true
+        subtype_name:
+          type: string
+          readOnly: true
+        cashflow_classification_name:
+          type: string
+          readOnly: true
+        account_id:
+          type: string
+          format: uuid
+          readOnly: true
+        currency:
+          type: string
+          maxLength: 3
+        external_account_id:
+          type: string
+          nullable: true
+          maxLength: 200
+        name:
+          type: string
+          nullable: true
+          maxLength: 250
+        nickname:
+          type: string
+          nullable: true
+          maxLength: 250
+        status:
+          type: string
+          nullable: true
+          maxLength: 250
+        type:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/BankAccountTypeEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        available_balance:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+        current_balance:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+        institution_id:
+          type: string
+          nullable: true
+          maxLength: 250
+        source:
+          type: string
+          nullable: true
+          maxLength: 250
+        aba_routing_number:
+          type: string
+          nullable: true
+          description: ABA routing number (9 digits) for US bank accounts
+          maxLength: 9
+        swift_bic:
+          type: string
+          nullable: true
+          description: SWIFT BIC code (8 or 11 characters) for international accounts
+          maxLength: 11
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        tag_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        tag_group_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        customer:
+          type: integer
+          readOnly: true
+        entity:
+          type: integer
+        chart_of_accounts_account:
+          type: integer
+          nullable: true
+        department:
+          type: integer
+          nullable: true
+        tags:
+          type: array
+          items:
+            type: integer
+          readOnly: true
+    BankTransaction:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        account_name:
+          type: string
+          readOnly: true
+        entity_name:
+          type: string
+          readOnly: true
+          nullable: true
+        date_month:
+          type: string
+          nullable: true
+          readOnly: true
+        date_year:
+          type: string
+          nullable: true
+          readOnly: true
+        journal:
+          type: integer
+          nullable: true
+          readOnly: true
+        journal_order:
+          type: string
+          nullable: true
+          readOnly: true
+        intercompany_journal:
+          type: integer
+          nullable: true
+          readOnly: true
+        reconciliation_report:
+          type: integer
+          readOnly: true
+        reconciliation_report_ending_date:
+          type: string
+          format: date
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        transaction_id:
+          type: string
+          format: uuid
+        external_transaction_id:
+          type: string
+          nullable: true
+          maxLength: 200
+        currency:
+          type: string
+          maxLength: 3
+        amount:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+        amount_native:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+        posted_at:
+          type: string
+          format: date-time
+          nullable: true
+        status:
+          type: string
+          nullable: true
+          maxLength: 250
+        note:
+          type: string
+          nullable: true
+          maxLength: 1024
+        bank_description:
+          type: string
+          nullable: true
+        external_memo:
+          type: string
+          nullable: true
+        merchant_id:
+          type: string
+          nullable: true
+        merchant_name:
+          type: string
+          nullable: true
+        merchant_nickname:
+          type: string
+          nullable: true
+        kind:
+          type: string
+          nullable: true
+        excluded:
+          type: boolean
+        assigned:
+          type: boolean
+        metadata:
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        account:
+          type: integer
+      required:
+      - account
+      - account_name
+      - created_at
+      - customer
+      - date_month
+      - date_year
+      - deleted_at
+      - entity_name
+      - id
+      - intercompany_journal
+      - is_deleted
+      - journal
+      - journal_order
+      - last_modified_at
+      - reconciliation_report
+      - reconciliation_report_ending_date
+    BlankEnum:
+      enum:
+      - ''
+    BankFeed:
+      type: object
+      properties:
+        balance:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+        available_balance:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+        balance_as_of_date:
+          type: string
+          format: date
+        transactions:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+      required:
+      - available_balance
+      - balance
+      - balance_as_of_date
+      - transactions
+    BankAccountTypeEnum:
+      enum:
+      - CHECKING
+      - SAVING
+      - CREDIT_CARD
+      - DEBIT_CARD
+      - INVESTMENT
+      - LOAN
+      type: string
+      description: '* `CHECKING` - Checking
+
+        * `SAVING` - Savings
+
+        * `CREDIT_CARD` - Credit Card
+
+        * `DEBIT_CARD` - Debit Card
+
+        * `INVESTMENT` - Investment
+
+        * `LOAN` - Loan'
+    BankAccount:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        entity_name:
+          type: string
+          readOnly: true
+        department_name:
+          type: string
+          readOnly: true
+        chart_of_accounts_account_name:
+          type: string
+          readOnly: true
+        account_type:
+          type: string
+          readOnly: true
+        account_subtype:
+          type: string
+          readOnly: true
+        account_cashflow_classification:
+          type: string
+          readOnly: true
+        type_name:
+          type: string
+          readOnly: true
+        subtype_name:
+          type: string
+          readOnly: true
+        cashflow_classification_name:
+          type: string
+          readOnly: true
+        account_id:
+          type: string
+          format: uuid
+          readOnly: true
+        currency:
+          type: string
+          maxLength: 3
+        external_account_id:
+          type: string
+          nullable: true
+          maxLength: 200
+        name:
+          type: string
+          nullable: true
+          maxLength: 250
+        nickname:
+          type: string
+          nullable: true
+          maxLength: 250
+        status:
+          type: string
+          nullable: true
+          maxLength: 250
+        type:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/BankAccountTypeEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        available_balance:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+        current_balance:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+        institution_id:
+          type: string
+          nullable: true
+          maxLength: 250
+        source:
+          type: string
+          nullable: true
+          maxLength: 250
+        aba_routing_number:
+          type: string
+          nullable: true
+          description: ABA routing number (9 digits) for US bank accounts
+          maxLength: 9
+        swift_bic:
+          type: string
+          nullable: true
+          description: SWIFT BIC code (8 or 11 characters) for international accounts
+          maxLength: 11
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        tag_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        tag_group_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        customer:
+          type: integer
+          readOnly: true
+        entity:
+          type: integer
+        chart_of_accounts_account:
+          type: integer
+          nullable: true
+        department:
+          type: integer
+          nullable: true
+        tags:
+          type: array
+          items:
+            type: integer
+          readOnly: true
+      required:
+      - account_cashflow_classification
+      - account_id
+      - account_subtype
+      - account_type
+      - cashflow_classification_name
+      - chart_of_accounts_account_name
+      - created_at
+      - customer
+      - deleted_at
+      - department_name
+      - entity
+      - entity_name
+      - id
+      - is_deleted
+      - last_modified_at
+      - subtype_name
+      - tags
+      - type_name
+    NullEnum:
+      enum:
+      - null
+    PaginatedBankAccountList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/BankAccount'
+    PatchedBankTransaction:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        account_name:
+          type: string
+          readOnly: true
+        entity_name:
+          type: string
+          readOnly: true
+          nullable: true
+        date_month:
+          type: string
+          nullable: true
+          readOnly: true
+        date_year:
+          type: string
+          nullable: true
+          readOnly: true
+        journal:
+          type: integer
+          nullable: true
+          readOnly: true
+        journal_order:
+          type: string
+          nullable: true
+          readOnly: true
+        intercompany_journal:
+          type: integer
+          nullable: true
+          readOnly: true
+        reconciliation_report:
+          type: integer
+          readOnly: true
+        reconciliation_report_ending_date:
+          type: string
+          format: date
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        transaction_id:
+          type: string
+          format: uuid
+        external_transaction_id:
+          type: string
+          nullable: true
+          maxLength: 200
+        currency:
+          type: string
+          maxLength: 3
+        amount:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+        amount_native:
+          type: number
+          format: double
+          maximum: 1000000000000000000
+          minimum: -1000000000000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+        posted_at:
+          type: string
+          format: date-time
+          nullable: true
+        status:
+          type: string
+          nullable: true
+          maxLength: 250
+        note:
+          type: string
+          nullable: true
+          maxLength: 1024
+        bank_description:
+          type: string
+          nullable: true
+        external_memo:
+          type: string
+          nullable: true
+        merchant_id:
+          type: string
+          nullable: true
+        merchant_name:
+          type: string
+          nullable: true
+        merchant_nickname:
+          type: string
+          nullable: true
+        kind:
+          type: string
+          nullable: true
+        excluded:
+          type: boolean
+        assigned:
+          type: boolean
+        metadata:
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        account:
+          type: integer
+    PaginatedBankTransactionList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/BankTransaction'
+  securitySchemes:
+    knoxApiToken:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "Token"

@@ -1,0 +1,47 @@
+openapi: 3.0.3
+info:
+  title: Campfire Developer APIs Accounts Payable coa API
+  version: 1.0.0
+  description: '## Introduction
+
+    Campfire''s developer APIs offer granular access to Campfire''s core accounting,
+
+    revenue recognition, and financial data features.
+
+
+    These APIs are designed to be used by developers to build custom integrations,
+
+    automate workflows, and perform any other programmatic operations.
+
+    '
+servers:
+- url: https://api.meetcampfire.com
+  description: Production server
+tags:
+- name: coa
+paths:
+  /coa/api/entity/{entity_id}/attachment:
+    post:
+      operationId: coa_api_entity_attachment_create
+      description: Upload invoice email attachment with proper permissions
+      summary: Upload Entity Invoice Email Attachment
+      parameters:
+      - in: path
+        name: entity_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - coa
+      security:
+      - knoxApiToken: []
+      responses:
+        '200':
+          description: No response body
+components:
+  securitySchemes:
+    knoxApiToken:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "Token"
