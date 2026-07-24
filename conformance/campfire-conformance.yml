@@ -1,0 +1,36 @@
+generated: '2026-07-18'
+method: searched
+source: https://campfire.ai/blog/announcing-soc-2-type-2-compliance-at-campfire
+derived_from: openapi/campfire-openapi-original.json
+standards:
+  - id: soc2-type2
+    conforms: true
+    evidence: >
+      Campfire announced SOC 2 Type 2 certification (Security, Availability,
+      Processing Integrity, Confidentiality, Privacy). Detailed report available
+      on request via support@meetcampfire.com.
+    source: https://campfire.ai/blog/announcing-soc-2-type-2-compliance-at-campfire
+  - id: oauth2
+    conforms: true
+    evidence: /.well-known/oauth-authorization-server publishes OAuth 2.0 AS metadata (authorizationCode + clientCredentials, PKCE S256).
+  - id: oidc
+    conforms: true
+    evidence: /.well-known/openid-configuration publishes OIDC discovery metadata (issuer, scopes openid/email/profile).
+  - id: rfc9116-security-txt
+    conforms: false
+    evidence: /.well-known/security.txt returns 404.
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: 4xx responses (400/404/409) do not use application/problem+json.
+  - id: rfc8288-pagination
+    conforms: true
+    evidence: List endpoints use cursor/limit/offset pagination query parameters.
+  - id: idempotency
+    conforms: true
+    evidence: Create endpoints wrap creation with Idempotency-Key handling (IdempotentCreateMixin) per OpenAPI operation descriptions.
+  - id: iso27001
+    conforms: false
+    evidence: No ISO 27001 certification published as of this pass.
+compliance:
+  soc2_type2: true
+  report_access: on request via support@meetcampfire.com

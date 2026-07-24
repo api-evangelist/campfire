@@ -1,0 +1,24 @@
+generated: '2026-07-18'
+method: generated
+source: openapi/campfire-openapi-original.json
+skills:
+  - file: campfire-record-and-pay-bill.md
+    name: Record and pay an accounts-payable bill
+    api: openapi/campfire-openapi-original.json
+    operations: [coa_api_v1_bill_create, coa_api_v1_bill_retrieve_2, coa_api_v1_bill_pay_create, coa_api_v1_bill_void_create]
+  - file: campfire-invoice-and-collect.md
+    name: Invoice a customer and collect payment
+    api: openapi/campfire-openapi-original.json
+    operations: [coa_api_v1_invoice_create, coa_api_v1_invoice_retrieve, coa_api_v1_invoice_pay_create, coa_api_v1_invoice_void_create]
+  - file: campfire-post-journal-entry.md
+    name: Post a journal entry
+    api: openapi/campfire-openapi-original.json
+    operations: [coa_api_journal_entry_list, coa_api_journal_entry_create, coa_api_intercompany_journal_entry_create, coa_api_intercompany_journal_entry_balance_create]
+  - file: campfire-pull-financial-statements.md
+    name: Pull financial statements
+    api: openapi/campfire-openapi-original.json
+    operations: [ca_api_get_income_statement_retrieve, ca_api_get_balance_sheet_retrieve, ca_api_get_trial_balance_retrieve]
+  - file: campfire-subscribe-to-webhooks.md
+    name: Subscribe to webhooks
+    api: openapi/campfire-openapi-original.json
+    operations: [integrations_api_v1_webhook_create, integrations_api_v1_webhook_list, integrations_api_v1_webhook_events_list, integrations_api_v1_webhook_destroy]

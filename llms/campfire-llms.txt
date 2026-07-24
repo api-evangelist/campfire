@@ -1,0 +1,378 @@
+# Campfire API Docs
+
+> The official documentation for Next-Gen Accounting.
+
+## Docs
+
+- [Abandon Bill Draft](https://docs.campfire.ai/api-reference/accounts-payable/abandon-bill-draft.md): POST /bill-draft/<pk>/abandon — hard-delete an unfinished UI upload draft.
+- [Bulk Search Bills by Number](https://docs.campfire.ai/api-reference/accounts-payable/bulk-search-bills-by-number.md): Search for thousands of bills by exact bill number match in a single request. Optimized for performance.
+- [Bulk Search Debit Memos by Number](https://docs.campfire.ai/api-reference/accounts-payable/bulk-search-debit-memos-by-number.md): Search for thousands of debit memos by exact debit memo number match in a single request. Optimized for performance.
+- [Bulk Sync Bills to Ramp](https://docs.campfire.ai/api-reference/accounts-payable/bulk-sync-bills-to-ramp.md): Sync multiple bills without a source to Ramp using the enabled Ramp connection
+- [Create Accounting Bill](https://docs.campfire.ai/api-reference/accounts-payable/create-accounting-bill.md): Creates a new accounting bill with line items and automatic journal entry generation.
+- [Create Bill Draft](https://docs.campfire.ai/api-reference/accounts-payable/create-bill-draft.md): GET list (customer-scoped, ``status`` / ``source`` filterable) + POST UI upload.
+- [Create Debit Memo](https://docs.campfire.ai/api-reference/accounts-payable/create-debit-memo.md): Creates a new accounting debit memo with line items and automatic journal entry generation.
+- [Delete Accounting Bill](https://docs.campfire.ai/api-reference/accounts-payable/delete-accounting-bill.md): Permanently deletes an accounting bill and its associated journal entry.
+- [Delete Bill Payment](https://docs.campfire.ai/api-reference/accounts-payable/delete-bill-payment.md): Delete a bill payment.
+- [Delete Debit Memo](https://docs.campfire.ai/api-reference/accounts-payable/delete-debit-memo.md)
+- [Delete Debit Memo Used Payment](https://docs.campfire.ai/api-reference/accounts-payable/delete-debit-memo-used-payment.md): Remove a debit memo 'mark used' payment application.
+- [Discard Bill Draft](https://docs.campfire.ai/api-reference/accounts-payable/discard-bill-draft.md): POST /bill-draft/<pk>/discard — terminal state with a required reason.
+- [Generate Bill Amortization Schedule](https://docs.campfire.ai/api-reference/accounts-payable/generate-bill-amortization-schedule.md)
+- [Get Default Department and Tags for Empty Transaction](https://docs.campfire.ai/api-reference/accounts-payable/get-default-department-and-tags-for-empty-transaction.md): Get the default department and tags from the bill line with the largest total amount.
+- [Get Next Debit Memo Number](https://docs.campfire.ai/api-reference/accounts-payable/get-next-debit-memo-number.md)
+- [List Accounting Bills](https://docs.campfire.ai/api-reference/accounts-payable/list-accounting-bills.md): Retrieve a paginated list of accounting bills with comprehensive filtering, search, and sorting capabilities.
+- [List Bill Drafts](https://docs.campfire.ai/api-reference/accounts-payable/list-bill-drafts.md): GET list (customer-scoped, ``status`` / ``source`` filterable) + POST UI upload.
+- [List Bill Payments](https://docs.campfire.ai/api-reference/accounts-payable/list-bill-payments.md): Retrieve a paginated list of bill payments (payments applied against accounts         payable bills), designed for syncing payment data into external systems.
+- [List Debit Memos](https://docs.campfire.ai/api-reference/accounts-payable/list-debit-memos.md): Retrieves a paginated list of accounting debit memos with filtering and sorting capabilities.
+- [Mark Bill as Paid](https://docs.campfire.ai/api-reference/accounts-payable/mark-bill-as-paid.md): Mark a bill as paid, allowing partial payments.
+- [Mark Debit Memo as Used](https://docs.campfire.ai/api-reference/accounts-payable/mark-debit-memo-as-used.md): Mark a debit memo as used by linking to an existing credit-side transaction.
+- [Partial Update Accounting Bill](https://docs.campfire.ai/api-reference/accounts-payable/partial-update-accounting-bill.md): Performs a partial update of an existing accounting bill using PATCH semantics.
+- [Partial Update Bill Draft](https://docs.campfire.ai/api-reference/accounts-payable/partial-update-bill-draft.md): GET detail + PATCH update on a single BillDraft.
+- [Partial Update Debit Memo](https://docs.campfire.ai/api-reference/accounts-payable/partial-update-debit-memo.md): Performs a partial update of an existing accounting debit memo using PATCH semantics.
+- [Promote Bill Draft](https://docs.campfire.ai/api-reference/accounts-payable/promote-bill-draft.md): POST /bill-draft/<pk>/promote — routes through the promote service.
+- [Reopen Voided Bill](https://docs.campfire.ai/api-reference/accounts-payable/reopen-voided-bill.md): Reopen a voided bill.
+- [Reopen Voided Debit Memo](https://docs.campfire.ai/api-reference/accounts-payable/reopen-voided-debit-memo.md): Reopen a voided debit memo.
+- [Retrieve Accounting Bill](https://docs.campfire.ai/api-reference/accounts-payable/retrieve-accounting-bill.md): Retrieve a single accounting bill by ID with complete detail including all line items, payments, and related data.
+- [Retrieve Bill Draft](https://docs.campfire.ai/api-reference/accounts-payable/retrieve-bill-draft.md): GET detail + PATCH update on a single BillDraft.
+- [Retrieve Debit Memo](https://docs.campfire.ai/api-reference/accounts-payable/retrieve-debit-memo.md): Retrieves a single accounting debit memo with complete details including line items,         payments, and accounting relationships.
+- [Save Bill Amortization Schedule](https://docs.campfire.ai/api-reference/accounts-payable/save-bill-amortization-schedule.md)
+- [Sync Bill to Ramp](https://docs.campfire.ai/api-reference/accounts-payable/sync-bill-to-ramp.md): Sync a bill without a source to Ramp using the enabled Ramp connection
+- [Update Accounting Bill](https://docs.campfire.ai/api-reference/accounts-payable/update-accounting-bill.md): Update an existing accounting bill with complete replacement of all data including line items and metadata.
+- [Update Bill Draft](https://docs.campfire.ai/api-reference/accounts-payable/update-bill-draft.md): GET detail + PATCH update on a single BillDraft.
+- [Update Debit Memo](https://docs.campfire.ai/api-reference/accounts-payable/update-debit-memo.md): Performs a complete update of an existing accounting debit memo using PUT semantics.
+- [Void Bill](https://docs.campfire.ai/api-reference/accounts-payable/void-bill.md): Void an existing bill.
+- [Void Bill Payment](https://docs.campfire.ai/api-reference/accounts-payable/void-bill-payment.md): Void an existing bill payment.
+- [Void Debit Memo](https://docs.campfire.ai/api-reference/accounts-payable/void-debit-memo.md): Void an existing debit memo.
+- [Void Debit Memo Used Payment](https://docs.campfire.ai/api-reference/accounts-payable/void-debit-memo-used-payment.md): Void a debit memo 'mark used' payment by creating a reversing journal entry.
+- [Bulk Apply Transaction Payment to Selected Invoices](https://docs.campfire.ai/api-reference/accounts-receivable/bulk-apply-transaction-payment-to-selected-invoices.md): Apply a single transaction payment to multiple selected invoices.
+- [Bulk Create Invoices](https://docs.campfire.ai/api-reference/accounts-receivable/bulk-create-invoices.md): Create multiple invoices atomically in a single transaction.
+- [Bulk Search Credit Memos by Number](https://docs.campfire.ai/api-reference/accounts-receivable/bulk-search-credit-memos-by-number.md): Search for thousands of credit memos by exact credit memo number match in a single request. Optimized for performance.
+- [Bulk Search Invoices by Number](https://docs.campfire.ai/api-reference/accounts-receivable/bulk-search-invoices-by-number.md): Search for thousands of invoices by exact invoice number match in a single request. Optimized for performance.
+- [Calculate Invoice Payment](https://docs.campfire.ai/api-reference/accounts-receivable/calculate-invoice-payment.md): Calculate the payment details for an invoice.
+- [Create Credit Memo](https://docs.campfire.ai/api-reference/accounts-receivable/create-credit-memo.md): Creates a new accounting credit memo with line items and automatic journal entry generation.
+- [Create Invoice](https://docs.campfire.ai/api-reference/accounts-receivable/create-invoice.md): Creates a new accounting invoice with line items and automatic journal entry generation.
+- [Delete Credit Memo](https://docs.campfire.ai/api-reference/accounts-receivable/delete-credit-memo.md): Permanently deletes an accounting credit memo and all associated data from the system.
+- [Delete Credit Memo Used Payment](https://docs.campfire.ai/api-reference/accounts-receivable/delete-credit-memo-used-payment.md): Remove a credit memo 'mark used' payment application.
+- [Delete Invoice](https://docs.campfire.ai/api-reference/accounts-receivable/delete-invoice.md): Permanently deletes an accounting invoice and its associated journal entry and related data.
+- [Delete Invoice Payment](https://docs.campfire.ai/api-reference/accounts-receivable/delete-invoice-payment.md): Delete an invoice payment.
+- [Execute invoice report](https://docs.campfire.ai/api-reference/accounts-receivable/execute-invoice-report.md): Execute saved invoice report and return DataTable-compatible response.
+- [Get Client Invoice Statement PDF](https://docs.campfire.ai/api-reference/accounts-receivable/get-client-invoice-statement-pdf.md): Generate a customer statement PDF for a specific client.
+- [Get Credit Memo PDF](https://docs.campfire.ai/api-reference/accounts-receivable/get-credit-memo-pdf.md)
+- [Get Default Payment Amount](https://docs.campfire.ai/api-reference/accounts-receivable/get-default-payment-amount.md): Get the default payment amount for an invoice based on when payment is posted.
+- [Get Next Credit Memo Number](https://docs.campfire.ai/api-reference/accounts-receivable/get-next-credit-memo-number.md)
+- [List Credit Memos](https://docs.campfire.ai/api-reference/accounts-receivable/list-credit-memos.md): Retrieves a paginated list of accounting credit memos with comprehensive filtering and sorting capabilities.
+- [List Invoice Payments](https://docs.campfire.ai/api-reference/accounts-receivable/list-invoice-payments.md): Retrieve a paginated list of invoice payments (payments applied against accounts         receivable invoices), designed for syncing payment data into external systems.
+- [List Invoices](https://docs.campfire.ai/api-reference/accounts-receivable/list-invoices.md): Retrieve a paginated list of invoices with comprehensive filtering, sorting, and download capabilities.
+- [Mark Credit Memo as Used](https://docs.campfire.ai/api-reference/accounts-receivable/mark-credit-memo-as-used.md): Mark a credit memo as used by linking to an existing transaction.
+- [Mark Invoice as Paid](https://docs.campfire.ai/api-reference/accounts-receivable/mark-invoice-as-paid.md): Mark an invoice as paid, allowing partial payments.
+- [Partial Update Credit Memo](https://docs.campfire.ai/api-reference/accounts-receivable/partial-update-credit-memo.md): Performs a partial update of an existing accounting credit memo using PATCH semantics.
+- [Partial Update Invoice](https://docs.campfire.ai/api-reference/accounts-receivable/partial-update-invoice.md): Performs a partial update of an existing accounting invoice using PATCH semantics.
+- [Preview invoice report](https://docs.campfire.ai/api-reference/accounts-receivable/preview-invoice-report.md): Execute invoice report preview from query params.
+- [Reopen Voided Credit Memo](https://docs.campfire.ai/api-reference/accounts-receivable/reopen-voided-credit-memo.md): Reopen a voided credit memo.
+- [Reopen Voided Invoice](https://docs.campfire.ai/api-reference/accounts-receivable/reopen-voided-invoice.md): Reopen a voided invoice.
+- [Retrieve Credit Memo](https://docs.campfire.ai/api-reference/accounts-receivable/retrieve-credit-memo.md): Retrieves a single accounting credit memo with complete details including line items, payments, and accounting relationships.
+- [Retrieve Invoice](https://docs.campfire.ai/api-reference/accounts-receivable/retrieve-invoice.md): Retrieves a single accounting invoice with complete details including line items, payments, and accounting relationships.
+- [Send Credit Memo](https://docs.campfire.ai/api-reference/accounts-receivable/send-credit-memo.md): Send a single credit memo via email.
+- [Update Credit Memo](https://docs.campfire.ai/api-reference/accounts-receivable/update-credit-memo.md): Performs a complete update of an existing accounting credit memo using PUT semantics.
+- [Update Invoice](https://docs.campfire.ai/api-reference/accounts-receivable/update-invoice.md): Performs a complete update of an existing accounting invoice using PUT semantics.
+- [Void Credit Memo](https://docs.campfire.ai/api-reference/accounts-receivable/void-credit-memo.md): Void an existing credit memo.
+- [Void Credit Memo Used Payment](https://docs.campfire.ai/api-reference/accounts-receivable/void-credit-memo-used-payment.md): Void a credit memo 'mark used' payment by creating a reversing journal entry.
+- [Void Invoice](https://docs.campfire.ai/api-reference/accounts-receivable/void-invoice.md): Void an existing invoice.
+- [Void Invoice Payment](https://docs.campfire.ai/api-reference/accounts-receivable/void-invoice-payment.md): Void an existing invoice payment.
+- [Bulk Match GL Transactions to Statement Transactions](https://docs.campfire.ai/api-reference/bank-reconciliation/bulk-match-gl-transactions-to-statement-transactions.md): Match multiple GL transactions to statement transactions in a single request. Pairs are validated atomically — all succeed or none are created.
+- [Confirm Selection of Transactions to Reconcile](https://docs.campfire.ai/api-reference/bank-reconciliation/confirm-selection-of-transactions-to-reconcile.md): Confirm the selection of GL transactions for reconciliation. Pass selected transaction IDs in the request body. Selected transactions are marked as RECONCILED; deselected transactions have their status as suggested matches to this reconciliation report cleared.
+- [Create Bank Reconciliation Report](https://docs.campfire.ai/api-reference/bank-reconciliation/create-bank-reconciliation-report.md): Create a new bank reconciliation report for a specific account and date range. Cannot create overlapping date ranges for the same account and entity.
+- [Delete Bank Reconciliation Report](https://docs.campfire.ai/api-reference/bank-reconciliation/delete-bank-reconciliation-report.md): Delete a bank reconciliation report and all associated data.
+- [Get Bank Reconciliation Report](https://docs.campfire.ai/api-reference/bank-reconciliation/get-bank-reconciliation-report.md): Retrieve a specific bank reconciliation report by ID. Includes report metadata, status, async task status for PDF processing, and attached files/CSV statements.
+- [List Bank Reconciliation Reports](https://docs.campfire.ai/api-reference/bank-reconciliation/list-bank-reconciliation-reports.md): Retrieve a paginated list of bank reconciliation reports. Supports filtering by start_date, end_date, entity, account, and search query (q). Default sort is by statement_ending_date descending.
+- [List GL Transactions for Reconciliation](https://docs.campfire.ai/api-reference/bank-reconciliation/list-gl-transactions-for-reconciliation.md): List source (GL) transactions available for reconciliation. Supports filtering by date range, bank, vendor, department, tag, currency, and reconciliation status.
+- [Parse Bank Statement Page](https://docs.campfire.ai/api-reference/bank-reconciliation/parse-bank-statement-page.md): Parse a bank statement PDF.
+- [Partial Update Bank Reconciliation Report](https://docs.campfire.ai/api-reference/bank-reconciliation/partial-update-bank-reconciliation-report.md): Partially update a bank reconciliation report. Only provided fields are modified.
+- [Update Bank Reconciliation Report](https://docs.campfire.ai/api-reference/bank-reconciliation/update-bank-reconciliation-report.md): Update a bank reconciliation report. Supports partial updates via PATCH.
+- [Create Bank Account](https://docs.campfire.ai/api-reference/cash-management/create-bank-account.md): Create a new bank account
+- [Create Bank Transaction](https://docs.campfire.ai/api-reference/cash-management/create-bank-transaction.md): Create a new bank transaction
+- [Delete Bank Account](https://docs.campfire.ai/api-reference/cash-management/delete-bank-account.md)
+- [Delete Bank Transaction](https://docs.campfire.ai/api-reference/cash-management/delete-bank-transaction.md)
+- [List Bank Accounts](https://docs.campfire.ai/api-reference/cash-management/list-bank-accounts.md): Retrieve a paginated list of bank accounts.
+- [List Bank Transactions](https://docs.campfire.ai/api-reference/cash-management/list-bank-transactions.md): Retrieve a paginated list of bank transactions with optional filtering.
+- [Partial Update Bank Account](https://docs.campfire.ai/api-reference/cash-management/partial-update-bank-account.md)
+- [Partial Update Bank Transaction](https://docs.campfire.ai/api-reference/cash-management/partial-update-bank-transaction.md)
+- [Post Bank Feed](https://docs.campfire.ai/api-reference/cash-management/post-bank-feed.md): Ingest bank feed data for a specific bank account. Creates bank transactions with corresponding journal entries, updates account balances, and triggers auto-categorization.
+- [Retrieve Bank Account](https://docs.campfire.ai/api-reference/cash-management/retrieve-bank-account.md)
+- [Retrieve Bank Transaction](https://docs.campfire.ai/api-reference/cash-management/retrieve-bank-transaction.md)
+- [Update Bank Account](https://docs.campfire.ai/api-reference/cash-management/update-bank-account.md)
+- [Update Bank Transaction](https://docs.campfire.ai/api-reference/cash-management/update-bank-transaction.md)
+- [Upload Entity Invoice Email Attachment](https://docs.campfire.ai/api-reference/coa/upload-entity-invoice-email-attachment.md): Upload invoice email attachment with proper permissions
+- [Create Chart Account](https://docs.campfire.ai/api-reference/company-objects/create-chart-account.md): Lists the chart of accounts (GL accounts). Each account includes metadata about its parent account and its full lineage (the ordered chain of ancestor accounts), so parent/child account relationships can be reconstructed from the response.
+- [Create Chart Account](https://docs.campfire.ai/api-reference/company-objects/create-chart-account-1.md): Lists the chart of accounts (GL accounts). Each account includes metadata about its parent account and its full lineage (the ordered chain of ancestor accounts), so parent/child account relationships can be reconstructed from the response.
+- [Create Chart Account](https://docs.campfire.ai/api-reference/company-objects/create-chart-account-2.md): Lists the chart of accounts (GL accounts). Each account includes metadata about its parent account and its full lineage (the ordered chain of ancestor accounts), so parent/child account relationships can be reconstructed from the response.
+- [Create Cost Allocation](https://docs.campfire.ai/api-reference/company-objects/create-cost-allocation.md): Complete mixin for history filtering with pagination support. Returns either active OR deleted records based on include_deleted parameter.
+- [Create Custom Dimension](https://docs.campfire.ai/api-reference/company-objects/create-custom-dimension.md): Complete mixin for history filtering with pagination support. Returns either active OR deleted records based on include_deleted parameter.
+- [Create Custom Dimension Group](https://docs.campfire.ai/api-reference/company-objects/create-custom-dimension-group.md): Mixin to provide consistent last_modified_at filtering and sorting functionality for List APIs with comprehensive timestamp computation.
+- [Create Custom Field](https://docs.campfire.ai/api-reference/company-objects/create-custom-field.md): Create a new custom field for a given app and model
+- [Create Department](https://docs.campfire.ai/api-reference/company-objects/create-department.md): Complete mixin for history filtering with pagination support. Returns either active OR deleted records based on include_deleted parameter.
+- [Create Fixed Asset Class](https://docs.campfire.ai/api-reference/company-objects/create-fixed-asset-class.md): Complete mixin for history filtering with pagination support. Returns either active OR deleted records based on include_deleted parameter.
+- [Create Vendor](https://docs.campfire.ai/api-reference/company-objects/create-vendor.md): Create a new vendor or customer in the system
+- [Create Vendor Custom Field](https://docs.campfire.ai/api-reference/company-objects/create-vendor-custom-field.md)
+- [Delete Chart Account](https://docs.campfire.ai/api-reference/company-objects/delete-chart-account.md)
+- [Delete Cost Allocation](https://docs.campfire.ai/api-reference/company-objects/delete-cost-allocation.md)
+- [Delete Custom Dimension](https://docs.campfire.ai/api-reference/company-objects/delete-custom-dimension.md): Delete a transaction tag and optionally merge it with another tag
+- [Delete Custom Dimension Group](https://docs.campfire.ai/api-reference/company-objects/delete-custom-dimension-group.md)
+- [Delete Custom Field](https://docs.campfire.ai/api-reference/company-objects/delete-custom-field.md)
+- [Delete Department](https://docs.campfire.ai/api-reference/company-objects/delete-department.md): Delete a department and optionally reassign all related records to another department
+- [Delete Fixed Asset Class](https://docs.campfire.ai/api-reference/company-objects/delete-fixed-asset-class.md)
+- [Delete Vendor](https://docs.campfire.ai/api-reference/company-objects/delete-vendor.md): Delete a vendor and optionally reassign all related records to another vendor. Returns 202 Accepted as deletion is processed asynchronously.
+- [Delete Vendor Custom Field](https://docs.campfire.ai/api-reference/company-objects/delete-vendor-custom-field.md)
+- [Get Cost Allocation](https://docs.campfire.ai/api-reference/company-objects/get-cost-allocation.md)
+- [List Chart Accounts](https://docs.campfire.ai/api-reference/company-objects/list-chart-accounts.md): Retrieve a list of chart accounts with optional filtering and sorting
+- [List Chart of Accounts](https://docs.campfire.ai/api-reference/company-objects/list-chart-of-accounts.md): Lists the chart of accounts (GL accounts). Each account includes metadata about its parent account and its full lineage (the ordered chain of ancestor accounts), so parent/child account relationships can be reconstructed from the response.
+- [List Chart of Accounts](https://docs.campfire.ai/api-reference/company-objects/list-chart-of-accounts-1.md): Lists the chart of accounts (GL accounts). Each account includes metadata about its parent account and its full lineage (the ordered chain of ancestor accounts), so parent/child account relationships can be reconstructed from the response.
+- [List Cost Allocation](https://docs.campfire.ai/api-reference/company-objects/list-cost-allocation.md): Retrieve a list of cost allocations with optional filtering and sorting.
+- [List Custom Dimension Groups](https://docs.campfire.ai/api-reference/company-objects/list-custom-dimension-groups.md): Retrieve a list of transaction tag groups with optional filtering and sorting.
+- [List Custom Dimensions](https://docs.campfire.ai/api-reference/company-objects/list-custom-dimensions.md): Retrieve a list of transaction tags (custom dimensions) with optional filtering and sorting.
+- [List Custom Fields](https://docs.campfire.ai/api-reference/company-objects/list-custom-fields.md): List all custom fields for a given app and model.
+- [List Departments](https://docs.campfire.ai/api-reference/company-objects/list-departments.md): Retrieve a list of departments with optional filtering and sorting.
+- [List Fixed Asset Classes](https://docs.campfire.ai/api-reference/company-objects/list-fixed-asset-classes.md): Retrieve a list of fixed asset classes with optional filtering and sorting.
+- [List Vendor Custom Fields](https://docs.campfire.ai/api-reference/company-objects/list-vendor-custom-fields.md)
+- [List Vendor Summaries](https://docs.campfire.ai/api-reference/company-objects/list-vendor-summaries.md)
+- [List Vendors](https://docs.campfire.ai/api-reference/company-objects/list-vendors.md): Retrieve a list of vendors/customers with optional filtering and sorting.
+- [Partial Fixed Asset Class](https://docs.campfire.ai/api-reference/company-objects/partial-fixed-asset-class.md)
+- [Partial Update Chart Account](https://docs.campfire.ai/api-reference/company-objects/partial-update-chart-account.md)
+- [Partial Update Cost Allocation](https://docs.campfire.ai/api-reference/company-objects/partial-update-cost-allocation.md)
+- [Partial Update Custom Dimension](https://docs.campfire.ai/api-reference/company-objects/partial-update-custom-dimension.md)
+- [Partial Update Custom Dimension Group](https://docs.campfire.ai/api-reference/company-objects/partial-update-custom-dimension-group.md)
+- [Partial Update Custom Field](https://docs.campfire.ai/api-reference/company-objects/partial-update-custom-field.md)
+- [Partial Update Department](https://docs.campfire.ai/api-reference/company-objects/partial-update-department.md)
+- [Partial Update Vendor](https://docs.campfire.ai/api-reference/company-objects/partial-update-vendor.md)
+- [Partial Update Vendor Custom Field](https://docs.campfire.ai/api-reference/company-objects/partial-update-vendor-custom-field.md)
+- [Retrieve Chart Account](https://docs.campfire.ai/api-reference/company-objects/retrieve-chart-account.md)
+- [Retrieve Custom Dimension](https://docs.campfire.ai/api-reference/company-objects/retrieve-custom-dimension.md)
+- [Retrieve Custom Dimension Group](https://docs.campfire.ai/api-reference/company-objects/retrieve-custom-dimension-group.md)
+- [Retrieve Custom Field](https://docs.campfire.ai/api-reference/company-objects/retrieve-custom-field.md)
+- [Retrieve Department](https://docs.campfire.ai/api-reference/company-objects/retrieve-department.md)
+- [Retrieve Fixed Asset Class](https://docs.campfire.ai/api-reference/company-objects/retrieve-fixed-asset-class.md)
+- [Retrieve Vendor](https://docs.campfire.ai/api-reference/company-objects/retrieve-vendor.md)
+- [Retrieve Vendor Custom Field](https://docs.campfire.ai/api-reference/company-objects/retrieve-vendor-custom-field.md)
+- [Update Chart Account](https://docs.campfire.ai/api-reference/company-objects/update-chart-account.md)
+- [Update Cost Allocation](https://docs.campfire.ai/api-reference/company-objects/update-cost-allocation.md)
+- [Update Custom Dimension](https://docs.campfire.ai/api-reference/company-objects/update-custom-dimension.md)
+- [Update Custom Dimension Group](https://docs.campfire.ai/api-reference/company-objects/update-custom-dimension-group.md)
+- [Update Custom Field](https://docs.campfire.ai/api-reference/company-objects/update-custom-field.md)
+- [Update Department](https://docs.campfire.ai/api-reference/company-objects/update-department.md)
+- [Update Fixed Asset Class](https://docs.campfire.ai/api-reference/company-objects/update-fixed-asset-class.md)
+- [Update Vendor](https://docs.campfire.ai/api-reference/company-objects/update-vendor.md)
+- [Update Vendor Custom Field](https://docs.campfire.ai/api-reference/company-objects/update-vendor-custom-field.md)
+- [Balance Intercompany Journal Entry](https://docs.campfire.ai/api-reference/core-accounting/balance-intercompany-journal-entry.md): Balances an intercompany journal entry by entity and currency.
+- [Bulk Search Custom Dimensions by Name](https://docs.campfire.ai/api-reference/core-accounting/bulk-search-custom-dimensions-by-name.md): Search for tags by exact name match in a single request. Supports upsert to create missing tags.
+- [Bulk Search Departments by Name](https://docs.campfire.ai/api-reference/core-accounting/bulk-search-departments-by-name.md): Search for thousands of departments by exact name match in a single request. Optimized for performance. Supports upsert to create missing departments.
+- [Bulk Search Vendors by External ID or Name](https://docs.campfire.ai/api-reference/core-accounting/bulk-search-vendors-by-external-id-or-name.md): Search for thousands of vendors by external_id (priority) or name in a single request. Optimized for performance. Supports upsert to create missing vendors.
+- [Bulk Update Chart Transactions](https://docs.campfire.ai/api-reference/core-accounting/bulk-update-chart-transactions.md)
+- [Create Bill Payments for Transaction](https://docs.campfire.ai/api-reference/core-accounting/create-bill-payments-for-transaction.md)
+- [Create Budget](https://docs.campfire.ai/api-reference/core-accounting/create-budget.md): Complete mixin for history filtering with pagination support. Returns either active OR deleted records based on include_deleted parameter.
+- [Create Budget](https://docs.campfire.ai/api-reference/core-accounting/create-budget-1.md): Complete mixin for history filtering with pagination support. Returns either active OR deleted records based on include_deleted parameter.
+- [Create Credit Memo Payments for Transaction](https://docs.campfire.ai/api-reference/core-accounting/create-credit-memo-payments-for-transaction.md)
+- [Create Debit Memo Payments for Transaction](https://docs.campfire.ai/api-reference/core-accounting/create-debit-memo-payments-for-transaction.md)
+- [Create Fixed Asset](https://docs.campfire.ai/api-reference/core-accounting/create-fixed-asset.md): Wraps ``CreateModelMixin.create`` (or any method named ``create``) with ``Idempotency-Key`` handling.
+- [Create Fixed Asset Automation](https://docs.campfire.ai/api-reference/core-accounting/create-fixed-asset-automation.md): List all automation rules or create a new one. GET /api/fixed-asset-automation/ POST /api/fixed-asset-automation/
+- [Create Intercompany Journal Entry](https://docs.campfire.ai/api-reference/core-accounting/create-intercompany-journal-entry.md): Creates a new intercompany journal entry
+- [Create Invoice Payments for Transaction](https://docs.campfire.ai/api-reference/core-accounting/create-invoice-payments-for-transaction.md)
+- [Create Journal Entry](https://docs.campfire.ai/api-reference/core-accounting/create-journal-entry.md): Create a new journal entry with transactions. Journal entries must balance - total debits must equal total credits.
+- [Create Vendor Contact](https://docs.campfire.ai/api-reference/core-accounting/create-vendor-contact.md): Complete mixin for history filtering with pagination support. Returns either active OR deleted records based on include_deleted parameter.
+- [Delete Budget](https://docs.campfire.ai/api-reference/core-accounting/delete-budget.md)
+- [Delete Budget Account](https://docs.campfire.ai/api-reference/core-accounting/delete-budget-account.md)
+- [Delete Chart Transaction](https://docs.campfire.ai/api-reference/core-accounting/delete-chart-transaction.md)
+- [Delete Fixed Asset](https://docs.campfire.ai/api-reference/core-accounting/delete-fixed-asset.md)
+- [Delete Fixed Asset Automation](https://docs.campfire.ai/api-reference/core-accounting/delete-fixed-asset-automation.md): Retrieve, update, or delete an automation rule. GET/PUT/PATCH/DELETE /api/fixed-asset-automation/<id>/
+- [Delete Intercompany Journal Entry](https://docs.campfire.ai/api-reference/core-accounting/delete-intercompany-journal-entry.md): Permanently deletes an intercompany journal entry and all related transactions.
+- [Delete Journal Entry](https://docs.campfire.ai/api-reference/core-accounting/delete-journal-entry.md): Delete a journal entry and all its associated transactions.
+- [Delete Transaction Match](https://docs.campfire.ai/api-reference/core-accounting/delete-transaction-match.md)
+- [Get Chart Transaction Totals](https://docs.campfire.ai/api-reference/core-accounting/get-chart-transaction-totals.md): Complete mixin for history filtering with pagination support. Returns either active OR deleted records based on include_deleted parameter.
+- [Get Intercompany Journal Entry](https://docs.campfire.ai/api-reference/core-accounting/get-intercompany-journal-entry.md): Retrieves a single intercompany journal entry by its ID with complete details.
+- [Get Transaction Matches Count](https://docs.campfire.ai/api-reference/core-accounting/get-transaction-matches-count.md)
+- [List Budget Accounts](https://docs.campfire.ai/api-reference/core-accounting/list-budget-accounts.md): Retrieve a list of budget accounts with optional filtering and sorting.
+- [List Budgets](https://docs.campfire.ai/api-reference/core-accounting/list-budgets.md): Retrieve a list of budgets with optional filtering and sorting.
+- [List Chart Transactions](https://docs.campfire.ai/api-reference/core-accounting/list-chart-transactions.md): Lists general-ledger transactions (`ChartTransaction` records) - Campfire's GL transaction log, and the recommended endpoint for retrieving GL transaction data.
+- [List Fixed Asset Automation Accounts](https://docs.campfire.ai/api-reference/core-accounting/list-fixed-asset-automation-accounts.md): List accounts that are of type FIXED_ASSET for use in automation rule creation. GET /api/fixed-asset-automation/accounts
+- [List Fixed Asset Automation Asset Classes](https://docs.campfire.ai/api-reference/core-accounting/list-fixed-asset-automation-asset-classes.md): List fixed asset classes that match a specific account. GET /api/fixed-asset-automation/asset-classes?account_id=<id>
+- [List Fixed Asset Automation Matches](https://docs.campfire.ai/api-reference/core-accounting/list-fixed-asset-automation-matches.md): List pending asset matches for review. GET /api/fixed-asset-automation/matches
+- [List Fixed Asset Automations](https://docs.campfire.ai/api-reference/core-accounting/list-fixed-asset-automations.md): List all automation rules or create a new one. GET /api/fixed-asset-automation/ POST /api/fixed-asset-automation/
+- [List Fixed Assets](https://docs.campfire.ai/api-reference/core-accounting/list-fixed-assets.md): Retrieve a list of fixed assets with optional filtering and sorting.
+- [List Intercompany Journal Entries](https://docs.campfire.ai/api-reference/core-accounting/list-intercompany-journal-entries.md): Retrieves a paginated list of intercompany journal entries for the authenticated user's customer.
+- [List Journal Entries](https://docs.campfire.ai/api-reference/core-accounting/list-journal-entries.md): Retrieve a paginated list of journal entries with optional filtering and sorting.
+- [List Transaction Matches](https://docs.campfire.ai/api-reference/core-accounting/list-transaction-matches.md)
+- [List Unmatched GL Transactions for Fixed Asset Reconciliation](https://docs.campfire.ai/api-reference/core-accounting/list-unmatched-gl-transactions-for-fixed-asset-reconciliation.md): Drilldown showing GL transactions NOT linked to any fixed asset.
+- [List Vendor Contacts](https://docs.campfire.ai/api-reference/core-accounting/list-vendor-contacts.md): Complete mixin for history filtering with pagination support. Returns either active OR deleted records based on include_deleted parameter.
+- [Merge Chart Transactions](https://docs.campfire.ai/api-reference/core-accounting/merge-chart-transactions.md): Merge two offsetting chart transactions from different journals.
+- [Partial Update Budget](https://docs.campfire.ai/api-reference/core-accounting/partial-update-budget.md)
+- [Partial Update Budget Account](https://docs.campfire.ai/api-reference/core-accounting/partial-update-budget-account.md)
+- [Partial Update Chart Transaction](https://docs.campfire.ai/api-reference/core-accounting/partial-update-chart-transaction.md)
+- [Partial Update Fixed Asset](https://docs.campfire.ai/api-reference/core-accounting/partial-update-fixed-asset.md)
+- [Partial Update Fixed Asset Automation](https://docs.campfire.ai/api-reference/core-accounting/partial-update-fixed-asset-automation.md): Retrieve, update, or delete an automation rule. GET/PUT/PATCH/DELETE /api/fixed-asset-automation/<id>/
+- [Partial Update Fixed Asset Automation Match](https://docs.campfire.ai/api-reference/core-accounting/partial-update-fixed-asset-automation-match.md): Retrieve or update an automation match (for editing proposed values before acceptance). GET/PATCH /api/fixed-asset-automation-match/<id>/
+- [Partial Update Intercompany Journal Entry](https://docs.campfire.ai/api-reference/core-accounting/partial-update-intercompany-journal-entry.md): Performs a partial update of an intercompany journal entry, allowing modification of specific fields without replacing the entire entry.
+- [Partial Update Journal Entry](https://docs.campfire.ai/api-reference/core-accounting/partial-update-journal-entry.md): Partially update a journal entry. Only provided fields will be updated.
+- [Partial Update Transaction Match](https://docs.campfire.ai/api-reference/core-accounting/partial-update-transaction-match.md)
+- [Preview Chart Transaction Merge](https://docs.campfire.ai/api-reference/core-accounting/preview-chart-transaction-merge.md): Preview the result of merging two chart transactions.
+- [Process Transaction Match](https://docs.campfire.ai/api-reference/core-accounting/process-transaction-match.md)
+- [Reject Transaction Match](https://docs.campfire.ai/api-reference/core-accounting/reject-transaction-match.md)
+- [Retrieve Budget](https://docs.campfire.ai/api-reference/core-accounting/retrieve-budget.md)
+- [Retrieve Budget Account](https://docs.campfire.ai/api-reference/core-accounting/retrieve-budget-account.md)
+- [Retrieve Chart Transaction](https://docs.campfire.ai/api-reference/core-accounting/retrieve-chart-transaction.md)
+- [Retrieve Fixed Asset](https://docs.campfire.ai/api-reference/core-accounting/retrieve-fixed-asset.md)
+- [Retrieve Fixed Asset Automation](https://docs.campfire.ai/api-reference/core-accounting/retrieve-fixed-asset-automation.md): Retrieve, update, or delete an automation rule. GET/PUT/PATCH/DELETE /api/fixed-asset-automation/<id>/
+- [Retrieve Fixed Asset Automation Match](https://docs.campfire.ai/api-reference/core-accounting/retrieve-fixed-asset-automation-match.md): Retrieve or update an automation match (for editing proposed values before acceptance). GET/PATCH /api/fixed-asset-automation-match/<id>/
+- [Retrieve Journal Entry](https://docs.campfire.ai/api-reference/core-accounting/retrieve-journal-entry.md): Retrieve a specific journal entry by ID with all transaction details.
+- [Retrieve Transaction Match](https://docs.campfire.ai/api-reference/core-accounting/retrieve-transaction-match.md)
+- [Run Fixed Asset Automation](https://docs.campfire.ai/api-reference/core-accounting/run-fixed-asset-automation.md): Trigger automation processing. POST /api/fixed-asset-automation/run
+- [Set Transaction Match Status](https://docs.campfire.ai/api-reference/core-accounting/set-transaction-match-status.md): Handle POST requests with 'action' parameter (accept/reject)
+- [Update Budget](https://docs.campfire.ai/api-reference/core-accounting/update-budget.md)
+- [Update Budget Account](https://docs.campfire.ai/api-reference/core-accounting/update-budget-account.md)
+- [Update Chart Transaction](https://docs.campfire.ai/api-reference/core-accounting/update-chart-transaction.md)
+- [Update Fixed Asset](https://docs.campfire.ai/api-reference/core-accounting/update-fixed-asset.md)
+- [Update Fixed Asset Automation](https://docs.campfire.ai/api-reference/core-accounting/update-fixed-asset-automation.md): Retrieve, update, or delete an automation rule. GET/PUT/PATCH/DELETE /api/fixed-asset-automation/<id>/
+- [Update Fixed Asset Automation Match](https://docs.campfire.ai/api-reference/core-accounting/update-fixed-asset-automation-match.md): Retrieve or update an automation match (for editing proposed values before acceptance). GET/PATCH /api/fixed-asset-automation-match/<id>/
+- [Update Intercompany Journal Entry](https://docs.campfire.ai/api-reference/core-accounting/update-intercompany-journal-entry.md): Updates an existing intercompany journal entry with new transaction details.
+- [Update Journal Entry](https://docs.campfire.ai/api-reference/core-accounting/update-journal-entry.md): Update a journal entry completely. All transactions will be replaced with the new ones provided.
+- [Update Transaction Match](https://docs.campfire.ai/api-reference/core-accounting/update-transaction-match.md)
+- [Update Transaction Match Status](https://docs.campfire.ai/api-reference/core-accounting/update-transaction-match-status.md)
+- [Reorder Custom Fields](https://docs.campfire.ai/api-reference/custom-fields/reorder-custom-fields.md): Reorder custom fields
+- [Get Balance Sheet](https://docs.campfire.ai/api-reference/financial-statements/get-balance-sheet.md): Returns ending account balances for each period between `start_date` and `end_date` (both inclusive), split by `cadence`. This is the recommended endpoint for balance sheet ending balances.
+- [Get Cash Basis Income Statement](https://docs.campfire.ai/api-reference/financial-statements/get-cash-basis-income-statement.md)
+- [Get Cash Basis Operating Statement](https://docs.campfire.ai/api-reference/financial-statements/get-cash-basis-operating-statement.md)
+- [Get Cash Flow](https://docs.campfire.ai/api-reference/financial-statements/get-cash-flow.md)
+- [Get Cash Flow Activity](https://docs.campfire.ai/api-reference/financial-statements/get-cash-flow-activity.md)
+- [Get Cash Flow Statement](https://docs.campfire.ai/api-reference/financial-statements/get-cash-flow-statement.md): Sectioned cash flow statement (indirect method): operating (net income, non-cash adjustments, working-capital deltas), transactional investing and financing lines, the effect of exchange-rate changes on cash, and non-cash disclosures. The statement reconciles beginning to ending cash with a zero plu…
+- [Get Cash Operating Transactions with Projected Transactions](https://docs.campfire.ai/api-reference/financial-statements/get-cash-operating-transactions-with-projected-transactions.md)
+- [Get Comparative Balance Sheet](https://docs.campfire.ai/api-reference/financial-statements/get-comparative-balance-sheet.md): API view for comparative balance sheet that handles budget vs actual comparisons
+- [Get Comparative Income Statement](https://docs.campfire.ai/api-reference/financial-statements/get-comparative-income-statement.md)
+- [Get General Ledger](https://docs.campfire.ai/api-reference/financial-statements/get-general-ledger.md)
+- [Get Income Statement](https://docs.campfire.ai/api-reference/financial-statements/get-income-statement.md): Returns account activity (revenue and expense movement) within the `start_date`-`end_date` range, split by `cadence`.
+- [Get Trial Balance](https://docs.campfire.ai/api-reference/financial-statements/get-trial-balance.md): Returns debit and credit totals for each account over a date range.
+- [Create Webhook](https://docs.campfire.ai/api-reference/integrations/create-webhook.md)
+- [Delete Webhook](https://docs.campfire.ai/api-reference/integrations/delete-webhook.md)
+- [List Webhook Events](https://docs.campfire.ai/api-reference/integrations/list-webhook-events.md)
+- [List Webhooks](https://docs.campfire.ai/api-reference/integrations/list-webhooks.md)
+- [Partial Update Webhook](https://docs.campfire.ai/api-reference/integrations/partial-update-webhook.md)
+- [Retrieve Webhook](https://docs.campfire.ai/api-reference/integrations/retrieve-webhook.md)
+- [Update Webhook](https://docs.campfire.ai/api-reference/integrations/update-webhook.md)
+- [Bulk Search Contracts](https://docs.campfire.ai/api-reference/revenue-recognition/bulk-search-contracts.md): Search for contracts by deal_name in a single request.
+- [Create Contract](https://docs.campfire.ai/api-reference/revenue-recognition/create-contract.md): Create a new contract.
+- [Create Contract Bundle](https://docs.campfire.ai/api-reference/revenue-recognition/create-contract-bundle.md): Create a new contract bundle.
+- [Create Contract Milestone](https://docs.campfire.ai/api-reference/revenue-recognition/create-contract-milestone.md): Create a new milestone for a contract. This will automatically create an associated revenue transaction.
+- [Create Contract Product](https://docs.campfire.ai/api-reference/revenue-recognition/create-contract-product.md): Create a new product
+- [Create Contract Subscription](https://docs.campfire.ai/api-reference/revenue-recognition/create-contract-subscription.md): Create a new contract subscription.
+- [Create Contract Tier Price Override](https://docs.campfire.ai/api-reference/revenue-recognition/create-contract-tier-price-override.md)
+- [Create Contract Usage Revenue](https://docs.campfire.ai/api-reference/revenue-recognition/create-contract-usage-revenue.md): List usage revenue records
+- [Create Prepaid Commit](https://docs.campfire.ai/api-reference/revenue-recognition/create-prepaid-commit.md)
+- [Create Prepaid Commit Consumption](https://docs.campfire.ai/api-reference/revenue-recognition/create-prepaid-commit-consumption.md)
+- [Create Product Bundle](https://docs.campfire.ai/api-reference/revenue-recognition/create-product-bundle.md): Create a new product bundle with products and percentage allocations. Total percentage must equal 100.
+- [Create Revenue Transaction](https://docs.campfire.ai/api-reference/revenue-recognition/create-revenue-transaction.md): Create a new revenue transaction
+- [Delete Contract](https://docs.campfire.ai/api-reference/revenue-recognition/delete-contract.md)
+- [Delete Contract Bundle](https://docs.campfire.ai/api-reference/revenue-recognition/delete-contract-bundle.md)
+- [Delete Contract Customer](https://docs.campfire.ai/api-reference/revenue-recognition/delete-contract-customer.md)
+- [Delete Contract Milestone](https://docs.campfire.ai/api-reference/revenue-recognition/delete-contract-milestone.md)
+- [Delete Contract Subscription](https://docs.campfire.ai/api-reference/revenue-recognition/delete-contract-subscription.md)
+- [Delete Contract Usage Revenue](https://docs.campfire.ai/api-reference/revenue-recognition/delete-contract-usage-revenue.md): Retrieve, update, and delete contract usage revenue records
+- [Delete Prepaid Commit](https://docs.campfire.ai/api-reference/revenue-recognition/delete-prepaid-commit.md)
+- [Delete Prepaid Commit Consumption](https://docs.campfire.ai/api-reference/revenue-recognition/delete-prepaid-commit-consumption.md)
+- [Delete Product](https://docs.campfire.ai/api-reference/revenue-recognition/delete-product.md)
+- [Delete Product Bundle](https://docs.campfire.ai/api-reference/revenue-recognition/delete-product-bundle.md)
+- [Delete Revenue Transaction](https://docs.campfire.ai/api-reference/revenue-recognition/delete-revenue-transaction.md)
+- [Duplicate Contract](https://docs.campfire.ai/api-reference/revenue-recognition/duplicate-contract.md)
+- [Get Bundle Allocations](https://docs.campfire.ai/api-reference/revenue-recognition/get-bundle-allocations.md): Retrieve the current bundle allocation details for a contract subscription, milestone, or usage.
+- [Get Bundle Allocations](https://docs.campfire.ai/api-reference/revenue-recognition/get-bundle-allocations-1.md): Retrieve the current bundle allocation details for a contract subscription, milestone, or usage.
+- [Get Bundle Allocations](https://docs.campfire.ai/api-reference/revenue-recognition/get-bundle-allocations-2.md): Retrieve the current bundle allocation details for a contract subscription, milestone, or usage.
+- [Get Prepaid Commit Summary](https://docs.campfire.ai/api-reference/revenue-recognition/get-prepaid-commit-summary.md)
+- [Get Prepaid Commit Usage Event Distinct Values](https://docs.campfire.ai/api-reference/revenue-recognition/get-prepaid-commit-usage-event-distinct-values.md): Return distinct values for a given JSONB data field, for filter dropdowns.
+- [Get Prepaid Commit Usage Events Template](https://docs.campfire.ai/api-reference/revenue-recognition/get-prepaid-commit-usage-events-template.md): Download a CSV template (commit-scoped).
+- [Get rrapiv1contracts minimum commit preview](https://docs.campfire.ai/api-reference/revenue-recognition/get-rrapiv1contracts-minimum-commit-preview.md): Projected monthly minimum commitment true-up for a contract.
+- [List Contract Bundles](https://docs.campfire.ai/api-reference/revenue-recognition/list-contract-bundles.md): Retrieve a list of contract bundles with optional filtering and sorting.
+- [List Contract Customers](https://docs.campfire.ai/api-reference/revenue-recognition/list-contract-customers.md): Retrieve a list of contract customers with optional filtering and sorting.
+- [List Contract Milestones](https://docs.campfire.ai/api-reference/revenue-recognition/list-contract-milestones.md): Retrieve a list of milestones for a specific contract with optional filtering and sorting.
+- [List Contract Products](https://docs.campfire.ai/api-reference/revenue-recognition/list-contract-products.md): Retrieve a list of contract products with optional filtering and sorting.
+- [List Contract Subscriptions](https://docs.campfire.ai/api-reference/revenue-recognition/list-contract-subscriptions.md): Retrieve a list of contract subscriptions with optional filtering and sorting.
+- [List Contract Tier Price Overrides](https://docs.campfire.ai/api-reference/revenue-recognition/list-contract-tier-price-overrides.md)
+- [List Contract Usage Revenue](https://docs.campfire.ai/api-reference/revenue-recognition/list-contract-usage-revenue.md): List usage revenue records
+- [List Contracts](https://docs.campfire.ai/api-reference/revenue-recognition/list-contracts.md): Retrieve a list of contracts with optional filtering and sorting.
+- [List Prepaid Commit Consumption](https://docs.campfire.ai/api-reference/revenue-recognition/list-prepaid-commit-consumption.md)
+- [List Prepaid Commit Usage Events](https://docs.campfire.ai/api-reference/revenue-recognition/list-prepaid-commit-usage-events.md)
+- [List Prepaid Commits](https://docs.campfire.ai/api-reference/revenue-recognition/list-prepaid-commits.md)
+- [List Product Bundles](https://docs.campfire.ai/api-reference/revenue-recognition/list-product-bundles.md): Retrieve a list of product bundles with optional filtering and sorting.
+- [List Revenue Transactions](https://docs.campfire.ai/api-reference/revenue-recognition/list-revenue-transactions.md): Retrieve a list of revenue transactions with optional filtering and sorting.
+- [Modify Subscription Schedule](https://docs.campfire.ai/api-reference/revenue-recognition/modify-subscription-schedule.md): Generate a modified subscription schedule by comparing a new schedule against an existing subscription. Returns the delta between the original and modified schedules, with support for catch-up accounting and contract end date modifications.
+- [Parse Contract](https://docs.campfire.ai/api-reference/revenue-recognition/parse-contract.md): Parse contract details from uploaded PDF files using AI.
+- [Partial Update Bundle Allocations](https://docs.campfire.ai/api-reference/revenue-recognition/partial-update-bundle-allocations.md): Partially update bundle allocations. Same behavior as PUT.
+- [Partial Update Bundle Allocations](https://docs.campfire.ai/api-reference/revenue-recognition/partial-update-bundle-allocations-1.md): Partially update bundle allocations. Same behavior as PUT.
+- [Partial Update Bundle Allocations](https://docs.campfire.ai/api-reference/revenue-recognition/partial-update-bundle-allocations-2.md): Partially update bundle allocations. Same behavior as PUT.
+- [Partial Update Contract](https://docs.campfire.ai/api-reference/revenue-recognition/partial-update-contract.md)
+- [Partial Update Contract Bundle](https://docs.campfire.ai/api-reference/revenue-recognition/partial-update-contract-bundle.md)
+- [Partial Update Contract Customer](https://docs.campfire.ai/api-reference/revenue-recognition/partial-update-contract-customer.md)
+- [Partial Update Contract Milestone](https://docs.campfire.ai/api-reference/revenue-recognition/partial-update-contract-milestone.md)
+- [Partial Update Contract Subscription](https://docs.campfire.ai/api-reference/revenue-recognition/partial-update-contract-subscription.md)
+- [Partial Update Prepaid Commit](https://docs.campfire.ai/api-reference/revenue-recognition/partial-update-prepaid-commit.md)
+- [Partial Update Product](https://docs.campfire.ai/api-reference/revenue-recognition/partial-update-product.md)
+- [Partial Update Product Bundle](https://docs.campfire.ai/api-reference/revenue-recognition/partial-update-product-bundle.md)
+- [Partial Update Revenue Transaction](https://docs.campfire.ai/api-reference/revenue-recognition/partial-update-revenue-transaction.md)
+- [Partially Update Contract Usage Revenue](https://docs.campfire.ai/api-reference/revenue-recognition/partially-update-contract-usage-revenue.md): Retrieve, update, and delete contract usage revenue records
+- [Process Prepaid Commit Adjustments](https://docs.campfire.ai/api-reference/revenue-recognition/process-prepaid-commit-adjustments.md): Process adjustment events for a prepaid commit and create credit memos.
+- [Retrieve Contract](https://docs.campfire.ai/api-reference/revenue-recognition/retrieve-contract.md)
+- [Retrieve Contract Bundle](https://docs.campfire.ai/api-reference/revenue-recognition/retrieve-contract-bundle.md)
+- [Retrieve Contract Customer](https://docs.campfire.ai/api-reference/revenue-recognition/retrieve-contract-customer.md)
+- [Retrieve Contract Milestone](https://docs.campfire.ai/api-reference/revenue-recognition/retrieve-contract-milestone.md)
+- [Retrieve Contract Subscription](https://docs.campfire.ai/api-reference/revenue-recognition/retrieve-contract-subscription.md)
+- [Retrieve Contract Usage Revenue](https://docs.campfire.ai/api-reference/revenue-recognition/retrieve-contract-usage-revenue.md): Retrieve, update, and delete contract usage revenue records
+- [Retrieve Prepaid Commit](https://docs.campfire.ai/api-reference/revenue-recognition/retrieve-prepaid-commit.md)
+- [Retrieve Product](https://docs.campfire.ai/api-reference/revenue-recognition/retrieve-product.md)
+- [Retrieve Product Bundle](https://docs.campfire.ai/api-reference/revenue-recognition/retrieve-product-bundle.md)
+- [Retrieve Revenue Transaction](https://docs.campfire.ai/api-reference/revenue-recognition/retrieve-revenue-transaction.md)
+- [Terminate Contract](https://docs.campfire.ai/api-reference/revenue-recognition/terminate-contract.md): Terminate a contract and optionally void associated invoices.
+- [Update Bundle Allocations](https://docs.campfire.ai/api-reference/revenue-recognition/update-bundle-allocations.md): Update the bundle allocations for a contract item.
+- [Update Bundle Allocations](https://docs.campfire.ai/api-reference/revenue-recognition/update-bundle-allocations-1.md): Update the bundle allocations for a contract item.
+- [Update Bundle Allocations](https://docs.campfire.ai/api-reference/revenue-recognition/update-bundle-allocations-2.md): Update the bundle allocations for a contract item.
+- [Update Contract](https://docs.campfire.ai/api-reference/revenue-recognition/update-contract.md)
+- [Update Contract Bundle](https://docs.campfire.ai/api-reference/revenue-recognition/update-contract-bundle.md)
+- [Update Contract Customer](https://docs.campfire.ai/api-reference/revenue-recognition/update-contract-customer.md)
+- [Update Contract Milestone](https://docs.campfire.ai/api-reference/revenue-recognition/update-contract-milestone.md)
+- [Update Contract Subscription](https://docs.campfire.ai/api-reference/revenue-recognition/update-contract-subscription.md)
+- [Update Contract Usage Revenue](https://docs.campfire.ai/api-reference/revenue-recognition/update-contract-usage-revenue.md): Retrieve, update, and delete contract usage revenue records
+- [Update Prepaid Commit](https://docs.campfire.ai/api-reference/revenue-recognition/update-prepaid-commit.md)
+- [Update Prepaid Commit Consumption](https://docs.campfire.ai/api-reference/revenue-recognition/update-prepaid-commit-consumption.md)
+- [Update Product](https://docs.campfire.ai/api-reference/revenue-recognition/update-product.md)
+- [Update Product Bundle](https://docs.campfire.ai/api-reference/revenue-recognition/update-product-bundle.md)
+- [Update Revenue Transaction](https://docs.campfire.ai/api-reference/revenue-recognition/update-revenue-transaction.md)
+- [Upload Prepaid Commit Usage Events](https://docs.campfire.ai/api-reference/revenue-recognition/upload-prepaid-commit-usage-events.md): Upload a CSV of usage events for a specific prepaid commit (commit-scoped).
+- [Create Chart Entity](https://docs.campfire.ai/api-reference/settings/create-chart-entity.md): Complete mixin for history filtering with pagination support. Returns either active OR deleted records based on include_deleted parameter.
+- [Create Customer Currencies](https://docs.campfire.ai/api-reference/settings/create-customer-currencies.md): Complete mixin for history filtering with pagination support. Returns either active OR deleted records based on include_deleted parameter.
+- [Delete Chart Entity](https://docs.campfire.ai/api-reference/settings/delete-chart-entity.md)
+- [Delete Customer Currencies](https://docs.campfire.ai/api-reference/settings/delete-customer-currencies.md)
+- [Delete File](https://docs.campfire.ai/api-reference/settings/delete-file.md)
+- [Get Currencies Exchange Rates for Currency](https://docs.campfire.ai/api-reference/settings/get-currencies-exchange-rates-for-currency.md)
+- [Get Currency Exchange Rate](https://docs.campfire.ai/api-reference/settings/get-currency-exchange-rate.md)
+- [Get File](https://docs.campfire.ai/api-reference/settings/get-file.md)
+- [Get File Temporary Download URL](https://docs.campfire.ai/api-reference/settings/get-file-temporary-download-url.md): Return a short-lived presigned S3 URL for downloading a file.
+- [List All Entities for Intercompany JE](https://docs.campfire.ai/api-reference/settings/list-all-entities-for-intercompany-je.md): Returns ALL entities for intercompany journal entry creation.
+- [List Chart Entities](https://docs.campfire.ai/api-reference/settings/list-chart-entities.md): Retrieve a list of chart entities with optional filtering
+- [List Customer Currencies](https://docs.campfire.ai/api-reference/settings/list-customer-currencies.md): Retrieve a list of customer currencies with optional filtering and sorting.
+- [List Files](https://docs.campfire.ai/api-reference/settings/list-files.md): Retrieve a list of files with optional filtering and sorting.
+- [Partial Update Chart Entity](https://docs.campfire.ai/api-reference/settings/partial-update-chart-entity.md)
+- [Partial Update Customer Currencies](https://docs.campfire.ai/api-reference/settings/partial-update-customer-currencies.md)
+- [Partially Update Chart Account Settings](https://docs.campfire.ai/api-reference/settings/partially-update-chart-account-settings.md): Partially update the default chart accounts to be used across the platform. Each input is the id to an existing chart account.
+- [Patch File](https://docs.campfire.ai/api-reference/settings/patch-file.md)
+- [Retrieve Chart Account Settings](https://docs.campfire.ai/api-reference/settings/retrieve-chart-account-settings.md): These are the defaults chart accounts to be used across the platform. Each input is the id to an existing chart account.
+- [Retrieve Chart Entity](https://docs.campfire.ai/api-reference/settings/retrieve-chart-entity.md)
+- [Retrieve Customer Currencies](https://docs.campfire.ai/api-reference/settings/retrieve-customer-currencies.md)
+- [Update Chart Account Settings](https://docs.campfire.ai/api-reference/settings/update-chart-account-settings.md): These are the defaults chart accounts to be used across the platform. Each input is the id to an existing chart account.
+- [Update Chart Entity](https://docs.campfire.ai/api-reference/settings/update-chart-entity.md)
+- [Update Customer Currencies](https://docs.campfire.ai/api-reference/settings/update-customer-currencies.md)
+- [Update File](https://docs.campfire.ai/api-reference/settings/update-file.md)
+- [Upload Chart Entity Logo](https://docs.campfire.ai/api-reference/settings/upload-chart-entity-logo.md)
+- [Upload File](https://docs.campfire.ai/api-reference/settings/upload-file.md): Upload a file directly to Campfire. This is the primary way to upload files.
+- [Accounts Payable Workflows](https://docs.campfire.ai/guides/accounts-payable.md): How to create, modify, pay and void bills in Campfire
+- [Accounts Receivable Workflows](https://docs.campfire.ai/guides/accounts-receivable.md): How to create, modify, pay and void invoices in Campfire
+- [AI Integration with Model Context Protocol](https://docs.campfire.ai/guides/ai-integration.md): Connect Campfire to your favorite AI tools using MCP
+- [Creating Journal Entries](https://docs.campfire.ai/guides/journal-entries.md): How to create single, and intercompany journal entries in Campfire
+- [Introduction](https://docs.campfire.ai/index.md): Welcome to the Campfire developer documentation
+- [Quickstart](https://docs.campfire.ai/quickstart.md): How to get started using our APIs
+
+## OpenAPI Specs
+
+- [schema?format=json](https://api.meetcampfire.com/api/schema?format=json)

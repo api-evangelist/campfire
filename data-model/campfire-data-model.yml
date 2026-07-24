@@ -1,0 +1,96 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/campfire-openapi-original.json
+note: >
+  Entity-relationship graph derived from OpenAPI component schema id-reference
+  fields (integer/uuid foreign keys). In Campfire's model, "customer" on nearly
+  every object is the tenant organization (belongs_to customer / multi-tenant
+  scoping), while "vendor" records represent external payees/customers. All
+  amounts reference a "currency" and most records reference a "ChartEntity"
+  (entity) — the legal entity within the org. Relationships listed are those the
+  schema field names make explicit; not exhaustive.
+tenant_field: customer
+entities:
+  - name: ChartEntity
+    description: Legal entity (parent company, subsidiary, location) within the org.
+    relationships:
+      - {type: belongs_to, target: ChartEntity, via: parent}
+      - {type: belongs_to, target: Currency, via: currency}
+  - name: ChartAccount
+    description: General-ledger account in the chart of accounts (self-referencing hierarchy).
+    relationships:
+      - {type: belongs_to, target: ChartAccount, via: parent}
+      - {type: belongs_to, target: Currency, via: currency}
+      - {type: has_one, target: Department, via: default_department}
+  - name: JournalEntry
+    description: General-ledger journal entry (incl. intercompany).
+    relationships:
+      - {type: belongs_to, target: ChartEntity, via: entity}
+      - {type: belongs_to, target: Currency, via: currency}
+      - {type: has_one, target: Invoice, via: invoice}
+  - name: Bill
+    description: Accounts-payable bill; generates a journal entry on post.
+    relationships:
+      - {type: belongs_to, target: Vendor, via: vendor}
+      - {type: has_many, target: BillPayment, via: payments}
+  - name: Invoice
+    description: Accounts-receivable invoice; generates a journal entry on post.
+    relationships:
+      - {type: has_many, target: InvoicePayment, via: payments}
+      - {type: belongs_to, target: ChartEntity, via: entity}
+  - name: CreditMemo
+    description: AR credit memo.
+    relationships: []
+  - name: DebitMemo
+    description: AP debit memo.
+    relationships: []
+  - name: BankAccount
+    description: Cash-management bank account, linked to a GL account.
+    relationships:
+      - {type: belongs_to, target: ChartAccount, via: chart_of_accounts_account}
+      - {type: belongs_to, target: ChartEntity, via: entity}
+      - {type: belongs_to, target: Department, via: department}
+      - {type: belongs_to, target: Currency, via: currency}
+  - name: BankTransaction
+    description: A transaction against a bank account.
+    relationships:
+      - {type: belongs_to, target: BankAccount, via: account}
+      - {type: belongs_to, target: Currency, via: currency}
+  - name: Vendor
+    description: External vendor/payee (or customer) directory record.
+    relationships:
+      - {type: belongs_to, target: Vendor, via: parent}
+  - name: Department
+    description: Cost center / business unit (self-referencing hierarchy).
+    relationships:
+      - {type: belongs_to, target: Department, via: parent}
+  - name: Contract
+    description: Revenue-recognition contract with performance obligations.
+    relationships:
+      - {type: belongs_to, target: ChartEntity, via: entity}
+      - {type: belongs_to, target: Department, via: department}
+      - {type: has_many, target: ContractMilestone, via: milestones}
+      - {type: has_many, target: ContractSubscription, via: subscriptions}
+      - {type: has_one, target: Invoice, via: auto_renew_invoice}
+  - name: Budget
+    description: Budget with entity/time-period metadata.
+    relationships:
+      - {type: belongs_to, target: ChartEntity, via: entity}
+      - {type: belongs_to, target: Department, via: department}
+  - name: FixedAsset
+    description: Fixed asset with depreciation schedule.
+    relationships:
+      - {type: belongs_to, target: ChartAccount, via: asset_account}
+      - {type: belongs_to, target: ChartAccount, via: depreciation_expense_account}
+      - {type: belongs_to, target: Vendor, via: vendor}
+      - {type: belongs_to, target: BankTransaction, via: purchase_transaction}
+  - name: Product
+    description: Revenue-recognition product with GL account mappings.
+    relationships:
+      - {type: belongs_to, target: ChartAccount, via: revenue_account}
+      - {type: belongs_to, target: ChartAccount, via: ar_account}
+  - name: Webhook
+    description: Outbound webhook subscription (Integrations).
+    relationships:
+      - {type: has_many, target: WebhookTopic, via: topics}
+      - {type: has_many, target: WebhookEvent, via: events}

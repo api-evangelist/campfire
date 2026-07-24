@@ -1,0 +1,64 @@
+generated: '2026-07-18'
+method: searched
+status: published
+source: https://docs.campfire.ai/guides/ai-integration
+server:
+  name: Campfire
+  transport: http
+  url: https://api.meetcampfire.com/mcp
+  auth:
+    scheme: apiKey
+    header: Authorization
+    format: 'Token <API_KEY>'
+    note: >
+      The MCP server authenticates each tool call with your Campfire API token and
+      scopes all results to the organization tied to that token. Configured in
+      Cursor / VS Code via an mcpServers url entry, or in Claude Desktop via
+      Settings > Connectors > Campfire.
+description: >
+  Campfire exposes an official hosted (remote HTTP) MCP server that maps 12 tools
+  directly onto its accounting, company-data, financial-reporting, and
+  revenue/budget API endpoints, so AI tools (Cursor, VS Code, Claude Desktop) can
+  query accounting data, generate financial statements, and analyze trends in
+  natural language.
+tools:
+  - name: chart_of_accounts
+    description: Retrieve chart of accounts with optional filtering by type, subtype, or search query.
+    source_operation: openapi/campfire-openapi-original.json#coa_api_v1_chart_account (Core Accounting)
+  - name: transactions
+    description: Search and filter general-ledger transactions by entity, account, vendor, department, tag, and date range.
+    source_operation: openapi/campfire-openapi-original.json#coa_api_transaction_retrieve
+  - name: entities
+    description: Retrieve chart entities (parent companies, subsidiaries, locations).
+    source_operation: openapi/campfire-openapi-original.json#list_chart_entities
+  - name: vendors
+    description: Retrieve vendor/payee directory with contact details and status.
+    source_operation: openapi/campfire-openapi-original.json#coa_api_vendor (Core Accounting)
+  - name: departments
+    description: Retrieve department hierarchy (cost centers, business units).
+    source_operation: openapi/campfire-openapi-original.json#coa_api_department (Core Accounting)
+  - name: tags
+    description: Retrieve transaction tags (custom dimensions) used for analytics.
+    source_operation: openapi/campfire-openapi-original.json#coa_api_tag (Core Accounting)
+  - name: income_statement
+    description: Generate profit & loss statements with configurable cadence (monthly, quarterly, yearly).
+    source_operation: openapi/campfire-openapi-original.json#ca_api_get_income_statement_retrieve
+  - name: balance_sheet
+    description: Generate balance sheet showing assets, liabilities, and equity.
+    source_operation: openapi/campfire-openapi-original.json#ca_api_get_balance_sheet_retrieve
+  - name: cash_flow_statement
+    description: Generate cash flow by operating, investing, and financing activities.
+    source_operation: openapi/campfire-openapi-original.json#ca_api_get_cash_flow_retrieve
+  - name: budgets
+    description: Retrieve budget records with entity and time-period metadata.
+    source_operation: openapi/campfire-openapi-original.json#coa_api_budgets_list
+  - name: contracts
+    description: Retrieve revenue-recognition contracts with performance obligations.
+    source_operation: openapi/campfire-openapi-original.json#list_contracts
+  - name: aging_report
+    description: Generate AP/AR aging reports with age-bucket breakdowns.
+    source_operation: openapi/campfire-openapi-original.json (Financial Statements / AR / AP)
+clients:
+  - Cursor
+  - VS Code
+  - Claude Desktop

@@ -1,0 +1,36 @@
+{
+  "provider": "campfire",
+  "sources": [
+    "campfire-accounts-payable-api-openapi.yml",
+    "campfire-accounts-receivable-api-openapi.yml",
+    "campfire-bank-reconciliation-api-openapi.yml",
+    "campfire-cash-management-api-openapi.yml",
+    "campfire-coa-api-openapi.yml",
+    "campfire-company-objects-api-openapi.yml",
+    "campfire-core-accounting-api-openapi.yml",
+    "campfire-custom-fields-api-openapi.yml",
+    "campfire-financial-statements-api-openapi.yml",
+    "campfire-integrations-api-openapi.yml",
+    "campfire-revenue-recognition-api-openapi.yml",
+    "campfire-settings-api-openapi.yml"
+  ],
+  "outputs": [
+    "campfire-accounts-payable-api-openapi.yml",
+    "campfire-accounts-receivable-api-openapi.yml",
+    "campfire-bank-reconciliation-api-openapi.yml",
+    "campfire-cash-management-api-openapi.yml",
+    "campfire-coa-api-openapi.yml",
+    "campfire-company-objects-api-openapi.yml",
+    "campfire-core-accounting-api-openapi.yml",
+    "campfire-custom-fields-api-openapi.yml",
+    "campfire-financial-statements-api-openapi.yml",
+    "campfire-integrations-api-openapi.yml",
+    "campfire-revenue-recognition-api-openapi.yml",
+    "campfire-settings-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

@@ -1,0 +1,32 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Campfire Developer APIs
+  version: 1.0.0
+extends: openapi/campfire-openapi-original.json
+actions:
+  - target: $.info
+    update:
+      x-apievangelist-enriched: '2026-07-18'
+      x-apievangelist-provider: campfire
+      x-apievangelist-notes: >
+        Enrichment overlay. The original spec declares only the knoxApiToken
+        (Authorization: Token) apiKey scheme, but api.meetcampfire.com also
+        publishes OAuth 2.0 / OIDC discovery metadata (authorizationCode +
+        clientCredentials, PKCE S256, scopes openid/email/profile). Create
+        operations support Idempotency-Key handling. An official hosted MCP
+        server is available at https://api.meetcampfire.com/mcp.
+      x-apievangelist-mcp: https://api.meetcampfire.com/mcp
+      x-apievangelist-compliance: [SOC 2 Type 2]
+  - target: $.info
+    update:
+      x-idempotency:
+        supported: true
+        header: Idempotency-Key
+        scope: create-operations
+  - target: $.servers
+    update:
+      - url: https://api.meetcampfire.com
+        description: Production server
+        x-well-known:
+          openid-configuration: https://api.meetcampfire.com/.well-known/openid-configuration
+          oauth-authorization-server: https://api.meetcampfire.com/.well-known/oauth-authorization-server

@@ -1,0 +1,38 @@
+generated: '2026-07-18'
+method: searched
+source: https://api.meetcampfire.com/.well-known/openid-configuration
+docs: https://docs.campfire.ai/quickstart
+note: >
+  Campfire's OpenAPI declares only the Token (apiKey) scheme, but the API host
+  publishes OAuth 2.0 Authorization Server + OIDC discovery metadata advertising
+  an authorization_code + client_credentials OAuth surface with the three OIDC
+  scopes below. API-token roles (admin / clerk / view-only, set per API user in
+  Settings > API Keys) provide the coarse permission model for Token auth.
+schemes:
+  - name: OAuth2 / OIDC
+    source: https://api.meetcampfire.com/.well-known/oauth-authorization-server
+    flows:
+      - flow: authorizationCode
+        authorizationUrl: https://api.meetcampfire.com/auth/authorize
+        tokenUrl: https://api.meetcampfire.com/auth/token
+        pkce: S256
+      - flow: clientCredentials
+        tokenUrl: https://api.meetcampfire.com/auth/token
+    registration_endpoint: https://api.meetcampfire.com/auth/register
+scopes:
+  - scope: openid
+    description: OpenID Connect sign-in; issues an ID token identifying the authenticated user.
+    flows: [authorizationCode]
+  - scope: email
+    description: Access to the user's email address claim.
+    flows: [authorizationCode]
+  - scope: profile
+    description: Access to the user's basic profile claims.
+    flows: [authorizationCode]
+token_roles:
+  - role: admin
+    grants: All APIs
+  - role: clerk
+    grants: View all APIs and post draft entries
+  - role: view only
+    grants: GET (read-only) APIs

@@ -1,0 +1,28 @@
+generated: '2026-07-18'
+method: searched
+source: https://campfire.ai/changelog
+scheme: dated (product changelog; not API-versioned)
+current_version: 'OpenAPI 1.0.0'
+note: >
+  Campfire publishes a public dated product changelog. It is product-wide
+  (accounting workflows, AI/Ember automation, integrations, UI) rather than a
+  developer-API-specific changelog; API changes are not separately versioned.
+  Recent window captured below.
+entries:
+  - date: '2026-07-13'
+    highlights:
+      - Ember knowledge hub — upload policies to guide AI responses.
+      - Navan integration (travel / corporate-card transaction sync).
+      - Dark mode appearance setting.
+    breaking: false
+  - date: '2026-07-06'
+    highlights:
+      - Ember handles close checklists and task completion.
+      - Deferred Revenue Rollforward Report (period-by-period revenue bridge).
+      - Revolut integration for expense tracking.
+    breaking: false
+  - date: '2026-06-29'
+    highlights:
+      - Accruals now handled by Ember (automated accrual estimation and posting).
+      - Plaid UK expansion for bank connectivity.
+    breaking: false

@@ -1,0 +1,30 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/campfire-openapi-original.json
+format: json
+envelope: >
+  Errors are returned as application/json. The OpenAPI does not use
+  application/problem+json (RFC 9457); error bodies follow the Django REST
+  Framework convention (a JSON object with a "detail" message and/or
+  field-keyed validation errors). Explicitly documented error responses are
+  sparse in the spec — the codes below are those declared on operations.
+problems:
+  - status: 400
+    title: Bad Request
+    meaning: Malformed request or validation error (e.g. unbalanced journal entry, invalid line items).
+    occurrences: 9
+    example_operation: openapi/campfire-openapi-original.json#coa_api_journal_entry_destroy
+  - status: 404
+    title: Not Found
+    meaning: The requested resource does not exist or is not visible to the authenticated organization.
+    occurrences: 6
+    example_operation: openapi/campfire-openapi-original.json#coa_api_v1_bill_empty_transaction_default_department_tags_retrieve
+  - status: 409
+    title: Conflict
+    meaning: The request conflicts with the current state of the resource (e.g. deleting a journal entry that is already posted/locked, or overlapping reconciliation date ranges).
+    occurrences: 1
+    example_operation: openapi/campfire-openapi-original.json#coa_api_journal_entry_destroy
+  - status: 401
+    title: Unauthorized
+    meaning: Missing or invalid API token / expired credentials. Documented in the MCP guide troubleshooting; not enumerated per-operation in the spec.
+    source: https://docs.campfire.ai/guides/ai-integration

@@ -1,0 +1,51 @@
+generated: '2026-07-18'
+method: searched
+source: https://docs.campfire.ai/quickstart
+derived_from: openapi/campfire-openapi-original.json
+authentication:
+  style: apiKey
+  header: 'Authorization: Token <API_KEY>'
+  also: OAuth 2.0 / OIDC advertised via /.well-known (see authentication/campfire-authentication.yml)
+  see: authentication/campfire-authentication.yml
+idempotency:
+  supported: true
+  mechanism: header
+  header: Idempotency-Key
+  scope: create (POST) operations
+  evidence: >
+    Create endpoints wrap creation with Idempotency-Key handling
+    (IdempotentCreateMixin), documented in OpenAPI operation descriptions
+    (e.g. journal-entry and list-create views). Replaying a request with the
+    same Idempotency-Key returns the original result instead of duplicating.
+  see: errors/campfire-problem-types.yml
+pagination:
+  style: cursor+offset
+  params: [cursor, limit, offset]
+  notes: >
+    List endpoints support cursor-based pagination (16 cursor references in the
+    spec) alongside limit/offset. Many list views also expose last_modified_at
+    filtering and include_deleted for audit/recovery.
+filtering:
+  include_deleted: >
+    Many list endpoints accept include_deleted=true to return soft-deleted
+    records (with is_deleted flags) for audit and recovery.
+  last_modified_at: Supported on list APIs for incremental sync.
+  bulk_search: >
+    Dedicated bulk-search endpoints (bills, invoices, credit/debit memos,
+    contracts, vendors, departments, tags) match thousands of records by
+    number/name in one request.
+metadata:
+  custom_fields: Custom fields and custom dimensions/tags attach org-defined metadata to records.
+request_tracing:
+  request_id_header: null
+  notes: No documented request-id/trace header.
+versioning:
+  see: lifecycle/campfire-lifecycle.yml
+error_envelope:
+  format: application/json (DRF-style {detail} / field errors); not RFC 9457
+  see: errors/campfire-problem-types.yml
+rate_limiting:
+  signaled: unknown
+  notes: No rate-limit headers or published limits documented as of this pass.
+webhooks:
+  see: asyncapi/campfire-webhooks.yml

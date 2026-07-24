@@ -1,0 +1,47 @@
+generated: '2026-07-18'
+method: searched
+source: https://docs.campfire.ai/api-reference/integrations/create-webhook
+spec_type: Webhooks
+note: >
+  Campfire documents an outbound webhook system (managed via the Integrations
+  API) but does not publish an AsyncAPI document. Webhooks are created against a
+  target URL and subscribed to one or more topics; Campfire POSTs signed events
+  (each carrying a token) to the URL and records delivery attempts as
+  WebhookEvents (topic, status, http result, timestamp). The set of available
+  topics is returned dynamically as WebhookTopic objects and is not enumerated
+  in the OpenAPI, so specific topic names are not captured here (no fabrication).
+management_operations:
+  - op: integrations_api_v1_webhook_list
+    method: GET
+    path: /integrations/api/v1/webhook
+    summary: List Webhooks
+  - op: integrations_api_v1_webhook_create
+    method: POST
+    path: /integrations/api/v1/webhook
+    summary: Create Webhook (url + topics + active)
+  - op: integrations_api_v1_webhook_retrieve
+    method: GET
+    path: /integrations/api/v1/webhook/{id}
+    summary: Retrieve Webhook
+  - op: integrations_api_v1_webhook_update
+    method: PUT
+    path: /integrations/api/v1/webhook/{id}
+    summary: Update Webhook
+  - op: integrations_api_v1_webhook_partial_update
+    method: PATCH
+    path: /integrations/api/v1/webhook/{id}
+    summary: Partial Update Webhook
+  - op: integrations_api_v1_webhook_destroy
+    method: DELETE
+    path: /integrations/api/v1/webhook/{id}
+    summary: Delete Webhook
+  - op: integrations_api_v1_webhook_events_list
+    method: GET
+    path: /integrations/api/v1/webhook/{id}/events
+    summary: List Webhook Events (delivery log)
+event_object:
+  schema: WebhookEvent
+  fields: [id, object, status, created_at, url, topic, http, webhook]
+subscription_object:
+  schema: Webhook
+  fields: [id, uuid, url, token, topics, active, created_at, last_modified_at, customer]
