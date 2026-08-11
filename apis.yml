@@ -197,6 +197,8 @@ apis:
   - type: Webhooks
     url: asyncapi/campfire-webhooks.yml
 common:
+- type: Overlay
+  url: overlays/campfire-openapi-overlay.yaml
 - type: DomainSecurity
   url: security/campfire-domain-security.yml
 - type: AgenticAccess
