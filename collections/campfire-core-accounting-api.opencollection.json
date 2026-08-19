@@ -1,0 +1,2370 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Campfire Developer APIs Accounts Payable Core Accounting API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Core Accounting",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Budgets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/budgets",
+            "params": [
+              {
+                "name": "entity",
+                "value": "",
+                "type": "query",
+                "description": "Filter by entity ID"
+              },
+              {
+                "name": "entity_name",
+                "value": "",
+                "type": "query",
+                "description": "Filter by entity name (partial match)"
+              },
+              {
+                "name": "include_deleted",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', returns ONLY deleted records instead of active records. Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp, and 'last_modified_at'. When 'false' or omitted, returns ONLY active records. This provides clean separation between active and deleted data."
+              },
+              {
+                "name": "last_modified_at__gte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or after this timestamp. Format: ISO 8601 (e.g., '2024-01-01T00:00:00Z' or '2024-01-01'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "last_modified_at__lte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or before this timestamp. Format: ISO 8601 (e.g., '2024-12-31T23:59:59Z' or '2024-12-31'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The initial index from which to return the results."
+              },
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "Search query - searches by budget name"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. Use field name for ascending, -field for descending. Supports multiple fields separated by comma. Default: name"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Retrieve a list of budgets with optional filtering and sorting.\n\n        Supports including soft-deleted records for audit and recovery purposes.\n        When include_deleted=true, returns ONLY deleted records instead of active records.\n        Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp,\n        and 'last_modified_at'. When 'false' or omitted, returns ONLY active records.\n        This provides clean separation between active and deleted data.\n "
+        },
+        {
+          "info": {
+            "name": "Create Budget",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/budgets",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Complete mixin for history filtering with pagination support.\nReturns either active OR deleted records based on include_deleted parameter."
+        },
+        {
+          "info": {
+            "name": "List Budget Accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/budgets/:budget_pk/accounts",
+            "params": [
+              {
+                "name": "budget_pk",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "include_deleted",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', returns ONLY deleted records instead of active records. Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp, and 'last_modified_at'. When 'false' or omitted, returns ONLY active records. This provides clean separation between active and deleted data."
+              },
+              {
+                "name": "last_modified_at__gte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or after this timestamp. Format: ISO 8601 (e.g., '2024-01-01T00:00:00Z' or '2024-01-01'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "last_modified_at__lte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or before this timestamp. Format: ISO 8601 (e.g., '2024-12-31T23:59:59Z' or '2024-12-31'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Retrieve a list of budget accounts with optional filtering and sorting.\n\n        Supports including soft-deleted records for audit and recovery purposes.\n        When include_deleted=true, returns ONLY deleted records instead of active records.\n        Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp,\n        and 'last_modified_at'. When 'false' or omitted, returns ONLY active records.\n        This provides clean separation between active and deleted"
+        },
+        {
+          "info": {
+            "name": "Create Budget",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/budgets/:budget_pk/accounts",
+            "params": [
+              {
+                "name": "budget_pk",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Complete mixin for history filtering with pagination support.\nReturns either active OR deleted records based on include_deleted parameter."
+        },
+        {
+          "info": {
+            "name": "Retrieve Budget Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/budgets/:budget_pk/accounts/:id",
+            "params": [
+              {
+                "name": "budget_pk",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve Budget Account"
+        },
+        {
+          "info": {
+            "name": "Update Budget Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/coa/api/budgets/:budget_pk/accounts/:id",
+            "params": [
+              {
+                "name": "budget_pk",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update Budget Account"
+        },
+        {
+          "info": {
+            "name": "Partial Update Budget Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.meetcampfire.com/coa/api/budgets/:budget_pk/accounts/:id",
+            "params": [
+              {
+                "name": "budget_pk",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Partial Update Budget Account"
+        },
+        {
+          "info": {
+            "name": "Delete Budget Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.meetcampfire.com/coa/api/budgets/:budget_pk/accounts/:id",
+            "params": [
+              {
+                "name": "budget_pk",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete Budget Account"
+        },
+        {
+          "info": {
+            "name": "Retrieve Budget",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/budgets/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve Budget"
+        },
+        {
+          "info": {
+            "name": "Update Budget",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/coa/api/budgets/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update Budget"
+        },
+        {
+          "info": {
+            "name": "Partial Update Budget",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.meetcampfire.com/coa/api/budgets/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Partial Update Budget"
+        },
+        {
+          "info": {
+            "name": "Delete Budget",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.meetcampfire.com/coa/api/budgets/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete Budget"
+        },
+        {
+          "info": {
+            "name": "Bulk Search Departments by Name",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/department/bulk-search",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Search for thousands of departments by exact name match in a single request. Optimized for performance. Supports upsert to create missing departments."
+        },
+        {
+          "info": {
+            "name": "List Fixed Assets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/fixed-asset",
+            "params": [
+              {
+                "name": "include_deleted",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', returns ONLY deleted records instead of active records. Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp, and 'last_modified_at'. When 'false' or omitted, returns ONLY active records. This provides clean separation between active and deleted data."
+              },
+              {
+                "name": "last_modified_at__gte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or after this timestamp. Format: ISO 8601 (e.g., '2024-01-01T00:00:00Z' or '2024-01-01'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "last_modified_at__lte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or before this timestamp. Format: ISO 8601 (e.g., '2024-12-31T23:59:59Z' or '2024-12-31'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The initial index from which to return the results."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Retrieve a list of fixed assets with optional filtering and sorting.\n\n        Supports including soft-deleted records for audit and recovery purposes.\n        When include_deleted=true, returns ONLY deleted records instead of active records.\n        Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp,\n        and 'last_modified_at'. When 'false' or omitted, returns ONLY active records.\n        This provides clean separation between active and deleted da"
+        },
+        {
+          "info": {
+            "name": "Create Fixed Asset",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/fixed-asset",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Wraps ``CreateModelMixin.create`` (or any method named ``create``) with\n``Idempotency-Key`` handling.\n\nPlace this mixin **before** the view's other base classes so its ``create``\noverrides the inherited one::\n\n    class JournalEntryListCreate(\n        IdempotentCreateMixin,\n        HistoryFilteringMixin,\n        ListCreateAPIView,\n    ):\n        ..."
+        },
+        {
+          "info": {
+            "name": "List Fixed Asset Automations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/fixed-asset-automation/",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The initial index from which to return the results."
+              },
+              {
+                "name": "ordering",
+                "value": "",
+                "type": "query",
+                "description": "Which field to use when ordering the results."
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "A search term."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "List all automation rules or create a new one.\nGET /api/fixed-asset-automation/\nPOST /api/fixed-asset-automation/"
+        },
+        {
+          "info": {
+            "name": "Create Fixed Asset Automation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/fixed-asset-automation/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "List all automation rules or create a new one.\nGET /api/fixed-asset-automation/\nPOST /api/fixed-asset-automation/"
+        },
+        {
+          "info": {
+            "name": "Retrieve Fixed Asset Automation Match",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/fixed-asset-automation-match/:id/",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve or update an automation match (for editing proposed values before acceptance).\nGET/PATCH /api/fixed-asset-automation-match/<id>/"
+        },
+        {
+          "info": {
+            "name": "Update Fixed Asset Automation Match",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/coa/api/fixed-asset-automation-match/:id/",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve or update an automation match (for editing proposed values before acceptance).\nGET/PATCH /api/fixed-asset-automation-match/<id>/"
+        },
+        {
+          "info": {
+            "name": "Partial Update Fixed Asset Automation Match",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.meetcampfire.com/coa/api/fixed-asset-automation-match/:id/",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve or update an automation match (for editing proposed values before acceptance).\nGET/PATCH /api/fixed-asset-automation-match/<id>/"
+        },
+        {
+          "info": {
+            "name": "Retrieve Fixed Asset Automation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/fixed-asset-automation/:id/",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve, update, or delete an automation rule.\nGET/PUT/PATCH/DELETE /api/fixed-asset-automation/<id>/"
+        },
+        {
+          "info": {
+            "name": "Update Fixed Asset Automation",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/coa/api/fixed-asset-automation/:id/",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve, update, or delete an automation rule.\nGET/PUT/PATCH/DELETE /api/fixed-asset-automation/<id>/"
+        },
+        {
+          "info": {
+            "name": "Partial Update Fixed Asset Automation",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.meetcampfire.com/coa/api/fixed-asset-automation/:id/",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve, update, or delete an automation rule.\nGET/PUT/PATCH/DELETE /api/fixed-asset-automation/<id>/"
+        },
+        {
+          "info": {
+            "name": "Delete Fixed Asset Automation",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.meetcampfire.com/coa/api/fixed-asset-automation/:id/",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve, update, or delete an automation rule.\nGET/PUT/PATCH/DELETE /api/fixed-asset-automation/<id>/"
+        },
+        {
+          "info": {
+            "name": "List Fixed Asset Automation Accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/fixed-asset-automation/accounts",
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "List accounts that are of type FIXED_ASSET for use in automation rule creation.\nGET /api/fixed-asset-automation/accounts\n\nThis endpoint returns only accounts with account_subtype='FIXED_ASSET' to ensure\nautomation rules are created with appropriate accounts."
+        },
+        {
+          "info": {
+            "name": "List Fixed Asset Automation Asset Classes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/fixed-asset-automation/asset-classes",
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "List fixed asset classes that match a specific account.\nGET /api/fixed-asset-automation/asset-classes?account_id=<id>\n\nFilters asset classes to only those where asset_account matches the provided account_id.\nThis ensures users can only select compatible asset classes for the chosen account."
+        },
+        {
+          "info": {
+            "name": "List Fixed Asset Automation Matches",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/fixed-asset-automation/matches",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The initial index from which to return the results."
+              },
+              {
+                "name": "ordering",
+                "value": "",
+                "type": "query",
+                "description": "Which field to use when ordering the results."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "List pending asset matches for review.\nGET /api/fixed-asset-automation/matches"
+        },
+        {
+          "info": {
+            "name": "Run Fixed Asset Automation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/fixed-asset-automation/run",
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Trigger automation processing.\nPOST /api/fixed-asset-automation/run\n\nOptional body: {\"rule_id\": 123}"
+        },
+        {
+          "info": {
+            "name": "Retrieve Fixed Asset",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/fixed-asset/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve Fixed Asset"
+        },
+        {
+          "info": {
+            "name": "Update Fixed Asset",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/coa/api/fixed-asset/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update Fixed Asset"
+        },
+        {
+          "info": {
+            "name": "Partial Update Fixed Asset",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.meetcampfire.com/coa/api/fixed-asset/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Partial Update Fixed Asset"
+        },
+        {
+          "info": {
+            "name": "Delete Fixed Asset",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.meetcampfire.com/coa/api/fixed-asset/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete Fixed Asset"
+        },
+        {
+          "info": {
+            "name": "List Unmatched GL Transactions for Fixed Asset Reconciliation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/fixed-asset/reconciliation/unmatched-gl",
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Drilldown showing GL transactions NOT linked to any fixed asset.\n\nReturns the journal entries on a control account that cannot be traced\nback to a specific asset's purchase, depreciation, or disposal entries.\nThese are the transactions that make up the \"Unmatched GL\" amount in\nthe reconciliation report."
+        },
+        {
+          "info": {
+            "name": "List Intercompany Journal Entries",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/intercompany-journal-entry",
+            "params": [
+              {
+                "name": "include_deleted",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', returns ONLY deleted records instead of active records. Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp, and 'last_modified_at'. When 'false' or omitted, returns ONLY active records. This provides clean separation between active and deleted data."
+              },
+              {
+                "name": "last_modified_at__gte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or after this timestamp. Format: ISO 8601 (e.g., '2024-01-01T00:00:00Z' or '2024-01-01'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "last_modified_at__lte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or before this timestamp. Format: ISO 8601 (e.g., '2024-12-31T23:59:59Z' or '2024-12-31'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The initial index from which to return the results."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Retrieves a paginated list of intercompany journal entries for the authenticated user's customer.\n\n        This endpoint returns:\n        - Summary information for each intercompany journal entry\n        - Basic transaction details (simplified view for list performance)\n        - Entity and exchange rate information\n        - Pagination metadata (count, next, previous)\n        - Reversal relationships and attachment counts\n\n        The response includes:\n        - Intercompany journal e"
+        },
+        {
+          "info": {
+            "name": "Create Intercompany Journal Entry",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/intercompany-journal-entry",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Creates a new intercompany journal entry\n\n        This endpoint allows for complex multi-entity transactions where:\n        - Transactions are balanced across different entities\n        - Exchange rates are handled for multi-currency transactions\n\n        Key requirements:\n        - Total debits must equal total credits for each entity (debit_amount_native must equal credit_amount_native)\n        - Cannot create entries before closed book dates\n        - All referenced accounts must be "
+        },
+        {
+          "info": {
+            "name": "Get Intercompany Journal Entry",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/intercompany-journal-entry/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Retrieves a single intercompany journal entry by its ID with complete details.\n\n        This endpoint returns:\n        - Complete intercompany journal entry information\n        - Full transaction details with all accounting fields\n        - Entity information and exchange rates\n        - Attachment and reversal information\n        - Comprehensive transaction metadata\n\n        The response includes:\n        - All transaction details with account information\n        - Exchange rate data f"
+        },
+        {
+          "info": {
+            "name": "Update Intercompany Journal Entry",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/coa/api/intercompany-journal-entry/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Updates an existing intercompany journal entry with new transaction details.\n\n        This endpoint allows for:\n        - Modifying transaction amounts and details\n        - Updating entity assignments and exchange rates\n        - Changing account assignments and categorizations\n        - Updating vendor, department, and tag information\n        - Maintaining balance validation across all entities\n\n        Key requirements:\n        - Total debits must equal total credits for each entity\n"
+        },
+        {
+          "info": {
+            "name": "Partial Update Intercompany Journal Entry",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.meetcampfire.com/coa/api/intercompany-journal-entry/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Performs a partial update of an intercompany journal entry, allowing modification of specific fields without replacing the entire entry.\n\n        This endpoint supports partial updates to:\n        - Journal entry metadata (memo, date, currency, reference number)\n        - Individual transaction modifications\n        - Entity exchange rate adjustments\n        - Vendor, department, and tag assignments\n        - Account categorizations and amounts\n\n        Key differences from PUT:\n       "
+        },
+        {
+          "info": {
+            "name": "Delete Intercompany Journal Entry",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.meetcampfire.com/coa/api/intercompany-journal-entry/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Permanently deletes an intercompany journal entry and all related transactions.\n\n        This endpoint performs a comprehensive cleanup when deleting an intercompany journal entry:\n        - Validates that the entry can be deleted (not in closed period)\n        - Removes all associated journal entries across entities\n        - Updates summary tables and account balances\n        - Handles cascade deletion of related transactions\n        - Ensures data integrity across the accounting syst"
+        },
+        {
+          "info": {
+            "name": "Balance Intercompany Journal Entry",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/intercompany-journal-entry/balance",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Balances an intercompany journal entry by entity and currency.\n\n        This endpoint performs the same balancing logic as the frontend, applying:\n        1. Auto-fetching of exchange rates if not provided (requires date field)\n        2. Exchange rate roll-forward from native to book to consolidation currencies\n        3. Exchange rate plugging to ensure consolidation amounts match across currencies within an entity\n        4. Automatic creation of balancing transactions when debits !="
+        },
+        {
+          "info": {
+            "name": "List Journal Entries",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/journal_entry",
+            "params": [
+              {
+                "name": "account",
+                "value": "",
+                "type": "query",
+                "description": "Filter by account ID(s). Can specify multiple values."
+              },
+              {
+                "name": "all_time",
+                "value": "",
+                "type": "query",
+                "description": "Include all entries regardless of date range"
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "End date for filtering (YYYY-MM-DD format)"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The initial index from which to return the results."
+              },
+              {
+                "name": "source",
+                "value": "",
+                "type": "query",
+                "description": "Filter by journal entry source (e.g., 'manual', 'CSV Upload')"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Start date for filtering (YYYY-MM-DD format)"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Retrieve a paginated list of journal entries with optional filtering and sorting.\n\n        **Query Parameters:**\n        - `start_date`, `end_date`: Filter by date range (defaults to last 6 months)\n        - `account`: Filter by account ID(s) - supports multiple values\n        - `source`: Filter by journal entry source\n        - `journal_id`: Filter by specific journal ID\n        - `all_time`: Include all entries regardless of date (true/false)\n        - `sort`: Sort field (default: \"da"
+        },
+        {
+          "info": {
+            "name": "Create Journal Entry",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/journal_entry",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Create a new journal entry with transactions. Journal entries must balance - total debits must equal total credits.\n\n        **Key Features:**\n        - Automatic currency conversion using exchange rates\n        - Vendor, Department and Custom Dimension assignment\n        - Optional reversal date for automatic reversal entries\n        - Validation against closed book periods\n\n        **Validation Rules:**\n        - Debits must equal credits in transaction currency (debit_native and cred"
+        },
+        {
+          "info": {
+            "name": "Retrieve Journal Entry",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/journal_entry/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Retrieve a specific journal entry by ID with all transaction details.\n\n        **Response includes:**\n        - Complete journal entry with all transactions\n        - Account names, numbers, and types\n        - Vendor and department information\n        - Tag associations with groups\n        - Exchange rate data for multi-currency entries\n        - Attachment information\n        - Reversal information if applicable\n        "
+        },
+        {
+          "info": {
+            "name": "Update Journal Entry",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/coa/api/journal_entry/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Update a journal entry completely. All transactions will be replaced with the new ones provided.\n\n        **Important Notes:**\n        - Cannot update entries before closed book dates\n        - Must maintain double-entry bookkeeping (debits = credits)\n        - All existing transactions will be replaced\n        - Exchange rates will be recalculated if not provided\n\n        **Validation Rules:**\n        - Journal entry must balance in all currencies\n        - Accounts must be active\n    "
+        },
+        {
+          "info": {
+            "name": "Partial Update Journal Entry",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.meetcampfire.com/coa/api/journal_entry/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Partially update a journal entry. Only provided fields will be updated.\n\n        **Common Use Cases:**\n        - Update memo or reference number\n        - Change journal entry date\n        - Modify specific transaction amounts\n        - Add or remove tags from transactions\n\n        **Validation Rules:**\n        - Journal entry must still balance after updates\n        - Cannot modify entries in closed periods\n        - Account changes must maintain chart of accounts rules\n        "
+        },
+        {
+          "info": {
+            "name": "Delete Journal Entry",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.meetcampfire.com/coa/api/journal_entry/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Delete a journal entry and all its associated transactions.\n\n        **Restrictions:**\n        - Cannot delete entries before closed book dates\n\n        **Response Codes:**\n        - 204: Successfully deleted\n        - 400: Cannot delete (books closed for this date)\n        - 409: Cannot delete (associated with other objects)\n        "
+        },
+        {
+          "info": {
+            "name": "Bulk Search Custom Dimensions by Name",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/tag/bulk-search",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Search for tags by exact name match in a single request. Supports upsert to create missing tags."
+        },
+        {
+          "info": {
+            "name": "List Chart Transactions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/transaction",
+            "params": [
+              {
+                "name": "account",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "account_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "account_rollup",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "account_subtype",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "account_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "accounts",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "aggregation_fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated aggregations, e.g. sum:amount,count:id"
+              },
+              {
+                "name": "all_time",
+                "value": "",
+                "type": "query",
+                "description": "If true, uses full transaction date range for the customer; start_date and end_date are ignored"
+              },
+              {
+                "name": "bank",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "bank_description",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "bank_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "categorized",
+                "value": "",
+                "type": "query",
+                "description": "Filter by categorization state (true/false)"
+              },
+              {
+                "name": "credit_amount_equal",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "credit_amount_gte",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "credit_amount_lte",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "credit_amount_null",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "currency",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "debit_amount_equal",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "debit_amount_gte",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "debit_amount_lte",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "debit_amount_null",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "department",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "department_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "department_or_unassigned",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "display_opening_balance",
+                "value": "",
+                "type": "query",
+                "description": "If true, skip opening-balance computation"
+              },
+              {
+                "name": "download",
+                "value": "",
+                "type": "query",
+                "description": "If true, dispatch async CSV/Excel email export instead of returning rows"
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "Latest date (inclusive) for which to retrieve data. Defaults to end of current month"
+              },
+              {
+                "name": "entity",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "entity_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "entity_rollup",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "exclude_entity",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "exclude_entity_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "exclude_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "exclude_journal",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "exclude_reconciliation_report",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "exclude_uncategorized_accounts",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "expense_or_ap",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "group",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "group_fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields to group by (e.g. account,vendor,tag_group_<id>)"
+              },
+              {
+                "name": "group_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "group_keys",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated values matched positionally to group_fields for drill-down"
+              },
+              {
+                "name": "has_linked_fixed_asset",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "has_parent_bank_transaction",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "include_deleted",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', returns ONLY deleted records instead of active records. Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp, and 'last_modified_at'. When 'false' or omitted, returns ONLY active records. This provides clean separation between active and deleted data."
+              },
+              {
+                "name": "include_matches",
+                "value": "",
+                "type": "query",
+                "description": "If true, include match metadata (has_matches, primary_action_type) in serialized rows"
+              },
+              {
+                "name": "is_not_reconciled",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "is_reconciled",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "journal_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "journal_type__nin",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "last_modified_at__gte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or after this timestamp. Format: ISO 8601 (e.g., '2024-01-01T00:00:00Z' or '2024-01-01'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "last_modified_at__lte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or before this timestamp. Format: ISO 8601 (e.g., '2024-12-31T23:59:59Z' or '2024-12-31'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of records to return per page. Default 100, maximum 10000. Use with offset to paginate"
+              },
+              {
+                "name": "match_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "needs_review",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "no_department",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "no_tag",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "no_vendor",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to skip before collecting the result page. Use with limit to paginate"
+              },
+              {
+                "name": "opposing_account",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "opposing_account_subtype",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "ordering",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "payee",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "payee_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pivot_fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of pivot dimensions"
+              },
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "Free-text search across journal memo, bank description, and related fields"
+              },
+              {
+                "name": "reconciliation_report",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "revenue_or_receivables",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "shouldPivot",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sort field; prefix with - for descending. Default: -posted_at"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Earliest date (inclusive) for which to retrieve data. Defaults to six months ago"
+              },
+              {
+                "name": "tag",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "tag_groups",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "tag_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "vendor",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "vendor_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Lists general-ledger transactions (`ChartTransaction` records) - Campfire's GL transaction log, and the recommended endpoint for retrieving GL transaction data.\n\nEach transaction carries account, department, vendor, entity, journal/date metadata, and tags (where applicable). Product metadata is not stored directly on a transaction; it is reached through relations with other Campfire objects.\n\n**Date range:** filter with `start_date` and `end_date` (both `YYYY-MM-DD`, inclusive); the bounds match"
+        },
+        {
+          "info": {
+            "name": "Process Transaction Match",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/transaction-match-process",
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Process Transaction Match"
+        },
+        {
+          "info": {
+            "name": "List Transaction Matches",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/transaction-matches",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The initial index from which to return the results."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "List Transaction Matches"
+        },
+        {
+          "info": {
+            "name": "Get Transaction Matches Count",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/transaction-matches-count",
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get Transaction Matches Count"
+        },
+        {
+          "info": {
+            "name": "Retrieve Transaction Match",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/transaction-matches/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve Transaction Match"
+        },
+        {
+          "info": {
+            "name": "Update Transaction Match",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/coa/api/transaction-matches/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update Transaction Match"
+        },
+        {
+          "info": {
+            "name": "Partial Update Transaction Match",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.meetcampfire.com/coa/api/transaction-matches/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Partial Update Transaction Match"
+        },
+        {
+          "info": {
+            "name": "Delete Transaction Match",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.meetcampfire.com/coa/api/transaction-matches/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete Transaction Match"
+        },
+        {
+          "info": {
+            "name": "Reject Transaction Match",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/transaction-matches/:id/reject",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Reject Transaction Match"
+        },
+        {
+          "info": {
+            "name": "Set Transaction Match Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/transaction-matches/:id/status",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Handle POST requests with 'action' parameter (accept/reject)"
+        },
+        {
+          "info": {
+            "name": "Update Transaction Match Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/coa/api/transaction-matches/:id/status",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update Transaction Match Status"
+        },
+        {
+          "info": {
+            "name": "Retrieve Chart Transaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/transaction/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve Chart Transaction"
+        },
+        {
+          "info": {
+            "name": "Update Chart Transaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/coa/api/transaction/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update Chart Transaction"
+        },
+        {
+          "info": {
+            "name": "Partial Update Chart Transaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.meetcampfire.com/coa/api/transaction/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Partial Update Chart Transaction"
+        },
+        {
+          "info": {
+            "name": "Delete Chart Transaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.meetcampfire.com/coa/api/transaction/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete Chart Transaction"
+        },
+        {
+          "info": {
+            "name": "Create Bill Payments for Transaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/transaction/:transaction_id/bill_payments",
+            "params": [
+              {
+                "name": "transaction_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create Bill Payments for Transaction"
+        },
+        {
+          "info": {
+            "name": "Create Credit Memo Payments for Transaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/transaction/:transaction_id/credit_memo_payments",
+            "params": [
+              {
+                "name": "transaction_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create Credit Memo Payments for Transaction"
+        },
+        {
+          "info": {
+            "name": "Create Debit Memo Payments for Transaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/transaction/:transaction_id/debit_memo_payments",
+            "params": [
+              {
+                "name": "transaction_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create Debit Memo Payments for Transaction"
+        },
+        {
+          "info": {
+            "name": "Create Invoice Payments for Transaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/transaction/:transaction_id/invoice_payments",
+            "params": [
+              {
+                "name": "transaction_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create Invoice Payments for Transaction"
+        },
+        {
+          "info": {
+            "name": "Bulk Update Chart Transactions",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/transaction/bulk-update",
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Bulk Update Chart Transactions"
+        },
+        {
+          "info": {
+            "name": "Preview Chart Transaction Merge",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/transaction/merge",
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Preview the result of merging two chart transactions.\n\n        This endpoint shows what the merged journal entry will look like, allowing you to verify\n        the merge before committing. The preview includes the journal that will be retained and\n        the transactions that will remain after the merge.\n\n        **Parameters:**\n        - `transaction_ids` (query, required): Comma-separated list of exactly two transaction IDs\n\n        **Returns:**\n        A journal entry object contain"
+        },
+        {
+          "info": {
+            "name": "Merge Chart Transactions",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/transaction/merge",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Merge two offsetting chart transactions from different journals.\n\n        This endpoint consolidates journals containing offsetting transactions by removing\n        the specified transactions and combining the remaining transactions into a single journal entry.\n\n        **Request Body:**\n        - `transaction_ids` (array, required): Array of exactly two transaction IDs to merge\n        - `transaction_match_id` (integer, optional): The AutoMergeSuggestion TransactionMatch\n          the "
+        },
+        {
+          "info": {
+            "name": "Get Chart Transaction Totals",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/transaction/totals",
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Complete mixin for history filtering with pagination support.\nReturns either active OR deleted records based on include_deleted parameter."
+        },
+        {
+          "info": {
+            "name": "List Vendor Contacts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/vendor/:id/contacts",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The initial index from which to return the results."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Complete mixin for history filtering with pagination support.\nReturns either active OR deleted records based on include_deleted parameter."
+        },
+        {
+          "info": {
+            "name": "Create Vendor Contact",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/vendor/:id/contacts",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Complete mixin for history filtering with pagination support.\nReturns either active OR deleted records based on include_deleted parameter."
+        },
+        {
+          "info": {
+            "name": "Bulk Search Vendors by External ID or Name",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/vendor/bulk-search",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Search for thousands of vendors by external_id (priority) or name in a single request. Optimized for performance. Supports upsert to create missing vendors."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

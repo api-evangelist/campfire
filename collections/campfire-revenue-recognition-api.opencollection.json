@@ -1,0 +1,2644 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Campfire Developer APIs Accounts Payable Revenue Recognition API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Revenue Recognition",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Contracts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts",
+            "params": [
+              {
+                "name": "include_deleted",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', returns ONLY deleted records instead of active records. Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp, and 'last_modified_at'. When 'false' or omitted, returns ONLY active records. This provides clean separation between active and deleted data."
+              },
+              {
+                "name": "last_modified_at__gte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or after this timestamp. Format: ISO 8601 (e.g., '2024-01-01T00:00:00Z' or '2024-01-01'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "last_modified_at__lte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or before this timestamp. Format: ISO 8601 (e.g., '2024-12-31T23:59:59Z' or '2024-12-31'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The initial index from which to return the results."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Retrieve a list of contracts with optional filtering and sorting.\n\n        Supports including soft-deleted records for audit and recovery purposes.\n        When include_deleted=true, returns ONLY deleted records instead of active records.\n        Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp,\n        and 'last_modified_at'. When 'false' or omitted, returns ONLY active records.\n        This provides clean separation between active and deleted data."
+        },
+        {
+          "info": {
+            "name": "Create Contract",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n    Create a new contract.\n\n    Evergreen vs standard:\n    - Standard contract: set is_evergreen=false and provide a fixed contract_end_date.\n    - Evergreen contract: set is_evergreen=true and leave contract_end_date as null.\n      The system manages a rolling effective_end_date, exposes working_end_date for downstream usage,\n      and returns evergreen_locked_date for immutable historical boundary rules.\n\n    Additional evergreen constraints:\n    - is_evergreen and auto_renew cannot both be t"
+        },
+        {
+          "info": {
+            "name": "List Contract Bundles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/bundles",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "include_deleted",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', returns ONLY deleted records instead of active records. Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp, and 'last_modified_at'. When 'false' or omitted, returns ONLY active records. This provides clean separation between active and deleted data."
+              },
+              {
+                "name": "last_modified_at__gte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or after this timestamp. Format: ISO 8601 (e.g., '2024-01-01T00:00:00Z' or '2024-01-01'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "last_modified_at__lte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or before this timestamp. Format: ISO 8601 (e.g., '2024-12-31T23:59:59Z' or '2024-12-31'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Retrieve a list of contract bundles with optional filtering and sorting.\n\n        Supports including soft-deleted records for audit and recovery purposes.\n        When include_deleted=true, returns ONLY deleted records instead of active records.\n        Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp,\n        and 'last_modified_at'. When 'false' or omitted, returns ONLY active records.\n        This provides clean separation between active and delete"
+        },
+        {
+          "info": {
+            "name": "Create Contract Bundle",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/bundles",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n    Create a new contract bundle.\n\n    Evergreen vs standard:\n    - Standard contracts require a fixed bundle end_date.\n    - Evergreen contracts allow end_date to be null (open-ended) or set to a billing-period end date.\n      Evergreen bundle start/end dates must align with billing period boundaries.\n\n    Evergreen-specific option:\n    - rebalance_journal_entries_indefinitely=true keeps invoice-journal rebalancing in sync as the evergreen\n      contract extends.\n    "
+        },
+        {
+          "info": {
+            "name": "Retrieve Contract Bundle",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/bundles/:id",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve Contract Bundle"
+        },
+        {
+          "info": {
+            "name": "Update Contract Bundle",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/bundles/:id",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update Contract Bundle"
+        },
+        {
+          "info": {
+            "name": "Partial Update Contract Bundle",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/bundles/:id",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Partial Update Contract Bundle"
+        },
+        {
+          "info": {
+            "name": "Delete Contract Bundle",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/bundles/:id",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete Contract Bundle"
+        },
+        {
+          "info": {
+            "name": "List Contract Milestones",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/milestones",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "include_deleted",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', returns ONLY deleted records instead of active records. Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp, and 'last_modified_at'. When 'false' or omitted, returns ONLY active records. This provides clean separation between active and deleted data."
+              },
+              {
+                "name": "last_modified_at__gte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or after this timestamp. Format: ISO 8601 (e.g., '2024-01-01T00:00:00Z' or '2024-01-01'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "last_modified_at__lte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or before this timestamp. Format: ISO 8601 (e.g., '2024-12-31T23:59:59Z' or '2024-12-31'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The initial index from which to return the results."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Retrieve a list of milestones for a specific contract with optional filtering and sorting.\n\n        Supports including soft-deleted records for audit and recovery purposes.\n        When include_deleted=true, returns ONLY deleted records instead of active records.\n        Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp,\n        and 'last_modified_at'. When 'false' or omitted, returns ONLY active records.\n        This provides clean separation between"
+        },
+        {
+          "info": {
+            "name": "Create Contract Milestone",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/milestones",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create a new milestone for a contract. This will automatically create an associated revenue transaction."
+        },
+        {
+          "info": {
+            "name": "Get Bundle Allocations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/milestones/:milestone_id/allocations",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "milestone_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve the current bundle allocation details for a contract subscription, milestone, or usage."
+        },
+        {
+          "info": {
+            "name": "Update Bundle Allocations",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/milestones/:milestone_id/allocations",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "milestone_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Update the bundle allocations for a contract item.\n\n        The sum of all line amounts must equal the bundle's total_amount.\n        Changes will cascade to related RevenueTransactions and JournalEntries.\n        "
+        },
+        {
+          "info": {
+            "name": "Partial Update Bundle Allocations",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/milestones/:milestone_id/allocations",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "milestone_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Partially update bundle allocations. Same behavior as PUT."
+        },
+        {
+          "info": {
+            "name": "Retrieve Contract Milestone",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/milestones/:id",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve Contract Milestone"
+        },
+        {
+          "info": {
+            "name": "Update Contract Milestone",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/milestones/:id",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update Contract Milestone"
+        },
+        {
+          "info": {
+            "name": "Partial Update Contract Milestone",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/milestones/:id",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Partial Update Contract Milestone"
+        },
+        {
+          "info": {
+            "name": "Delete Contract Milestone",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/milestones/:id",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete Contract Milestone"
+        },
+        {
+          "info": {
+            "name": "Get Prepaid Commit Summary",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/prepaid-commit-summary",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get Prepaid Commit Summary"
+        },
+        {
+          "info": {
+            "name": "List Prepaid Commits",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/prepaid-commits",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The initial index from which to return the results."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "List Prepaid Commits"
+        },
+        {
+          "info": {
+            "name": "Create Prepaid Commit",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/prepaid-commits",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create Prepaid Commit"
+        },
+        {
+          "info": {
+            "name": "List Prepaid Commit Consumption",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/prepaid-commits/:commit_id/consumption",
+            "params": [
+              {
+                "name": "commit_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The initial index from which to return the results."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "List Prepaid Commit Consumption"
+        },
+        {
+          "info": {
+            "name": "Create Prepaid Commit Consumption",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/prepaid-commits/:commit_id/consumption",
+            "params": [
+              {
+                "name": "commit_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create Prepaid Commit Consumption"
+        },
+        {
+          "info": {
+            "name": "Update Prepaid Commit Consumption",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/prepaid-commits/:commit_id/consumption/:id",
+            "params": [
+              {
+                "name": "commit_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update Prepaid Commit Consumption"
+        },
+        {
+          "info": {
+            "name": "Delete Prepaid Commit Consumption",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/prepaid-commits/:commit_id/consumption/:id",
+            "params": [
+              {
+                "name": "commit_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete Prepaid Commit Consumption"
+        },
+        {
+          "info": {
+            "name": "Process Prepaid Commit Adjustments",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/prepaid-commits/:commit_id/process-adjustments",
+            "params": [
+              {
+                "name": "commit_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Process adjustment events for a prepaid commit and create credit memos."
+        },
+        {
+          "info": {
+            "name": "List Prepaid Commit Usage Events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/prepaid-commits/:commit_id/usage-events",
+            "params": [
+              {
+                "name": "commit_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The initial index from which to return the results."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "List Prepaid Commit Usage Events"
+        },
+        {
+          "info": {
+            "name": "Get Prepaid Commit Usage Event Distinct Values",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/prepaid-commits/:commit_id/usage-events/distinct-values",
+            "params": [
+              {
+                "name": "commit_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Return distinct values for a given JSONB data field, for filter dropdowns."
+        },
+        {
+          "info": {
+            "name": "Get Prepaid Commit Usage Events Template",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/prepaid-commits/:commit_id/usage-events/template",
+            "params": [
+              {
+                "name": "commit_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Download a CSV template (commit-scoped)."
+        },
+        {
+          "info": {
+            "name": "Upload Prepaid Commit Usage Events",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/prepaid-commits/:commit_id/usage-events/upload",
+            "params": [
+              {
+                "name": "commit_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Upload a CSV of usage events for a specific prepaid commit (commit-scoped)."
+        },
+        {
+          "info": {
+            "name": "Retrieve Prepaid Commit",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/prepaid-commits/:id",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve Prepaid Commit"
+        },
+        {
+          "info": {
+            "name": "Update Prepaid Commit",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/prepaid-commits/:id",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update Prepaid Commit"
+        },
+        {
+          "info": {
+            "name": "Partial Update Prepaid Commit",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/prepaid-commits/:id",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Partial Update Prepaid Commit"
+        },
+        {
+          "info": {
+            "name": "Delete Prepaid Commit",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/prepaid-commits/:id",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete Prepaid Commit"
+        },
+        {
+          "info": {
+            "name": "List Contract Subscriptions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/subscriptions",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "include_deleted",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', returns ONLY deleted records instead of active records. Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp, and 'last_modified_at'. When 'false' or omitted, returns ONLY active records. This provides clean separation between active and deleted data."
+              },
+              {
+                "name": "last_modified_at__gte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or after this timestamp. Format: ISO 8601 (e.g., '2024-01-01T00:00:00Z' or '2024-01-01'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "last_modified_at__lte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or before this timestamp. Format: ISO 8601 (e.g., '2024-12-31T23:59:59Z' or '2024-12-31'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Retrieve a list of contract subscriptions with optional filtering and sorting.\n\n        Supports including soft-deleted records for audit and recovery purposes.\n        When include_deleted=true, returns ONLY deleted records instead of active records.\n        Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp,\n        and 'last_modified_at'. When 'false' or omitted, returns ONLY active records.\n        This provides clean separation between active and "
+        },
+        {
+          "info": {
+            "name": "Create Contract Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/subscriptions",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n    Create a new contract subscription.\n\n    Evergreen vs standard:\n    - Standard contract subscriptions generally provide explicit lines and fixed start/end dates.\n    - Evergreen contract subscriptions can provide period_amount to auto-generate lines. Their dates must align\n      to billing period boundaries and must not exceed the contract's current working_end_date.\n\n    Notes:\n    - Usage and milestone subscription flows are not supported for evergreen contracts.\n    - For evergreen contr"
+        },
+        {
+          "info": {
+            "name": "Retrieve Contract Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/subscriptions/:id",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve Contract Subscription"
+        },
+        {
+          "info": {
+            "name": "Update Contract Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/subscriptions/:id",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update Contract Subscription"
+        },
+        {
+          "info": {
+            "name": "Partial Update Contract Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/subscriptions/:id",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Partial Update Contract Subscription"
+        },
+        {
+          "info": {
+            "name": "Delete Contract Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/subscriptions/:id",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete Contract Subscription"
+        },
+        {
+          "info": {
+            "name": "Get Bundle Allocations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/subscriptions/:subscription_id/allocations",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "subscription_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve the current bundle allocation details for a contract subscription, milestone, or usage."
+        },
+        {
+          "info": {
+            "name": "Update Bundle Allocations",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/subscriptions/:subscription_id/allocations",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "subscription_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Update the bundle allocations for a contract item.\n\n        The sum of all line amounts must equal the bundle's total_amount.\n        Changes will cascade to related RevenueTransactions and JournalEntries.\n        "
+        },
+        {
+          "info": {
+            "name": "Partial Update Bundle Allocations",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/subscriptions/:subscription_id/allocations",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "subscription_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Partially update bundle allocations. Same behavior as PUT."
+        },
+        {
+          "info": {
+            "name": "List Contract Tier Price Overrides",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/tier-price-overrides",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The initial index from which to return the results."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "List Contract Tier Price Overrides"
+        },
+        {
+          "info": {
+            "name": "Create Contract Tier Price Override",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/tier-price-overrides",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create Contract Tier Price Override"
+        },
+        {
+          "info": {
+            "name": "List Contract Usage Revenue",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/usage",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The initial index from which to return the results."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "List usage revenue records"
+        },
+        {
+          "info": {
+            "name": "Create Contract Usage Revenue",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/usage",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "List usage revenue records"
+        },
+        {
+          "info": {
+            "name": "Retrieve Contract Usage Revenue",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/usage/:id",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve, update, and delete contract usage revenue records"
+        },
+        {
+          "info": {
+            "name": "Update Contract Usage Revenue",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/usage/:id",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve, update, and delete contract usage revenue records"
+        },
+        {
+          "info": {
+            "name": "Partially Update Contract Usage Revenue",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/usage/:id",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve, update, and delete contract usage revenue records"
+        },
+        {
+          "info": {
+            "name": "Delete Contract Usage Revenue",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/usage/:id",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve, update, and delete contract usage revenue records"
+        },
+        {
+          "info": {
+            "name": "Get Bundle Allocations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/usage/:usage_id/allocations",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "usage_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve the current bundle allocation details for a contract subscription, milestone, or usage."
+        },
+        {
+          "info": {
+            "name": "Update Bundle Allocations",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/usage/:usage_id/allocations",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "usage_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Update the bundle allocations for a contract item.\n\n        The sum of all line amounts must equal the bundle's total_amount.\n        Changes will cascade to related RevenueTransactions and JournalEntries.\n        "
+        },
+        {
+          "info": {
+            "name": "Partial Update Bundle Allocations",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:contract_id/usage/:usage_id/allocations",
+            "params": [
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "usage_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Partially update bundle allocations. Same behavior as PUT."
+        },
+        {
+          "info": {
+            "name": "Retrieve Contract",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve Contract"
+        },
+        {
+          "info": {
+            "name": "Update Contract",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update Contract"
+        },
+        {
+          "info": {
+            "name": "Partial Update Contract",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Partial Update Contract"
+        },
+        {
+          "info": {
+            "name": "Delete Contract",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete Contract"
+        },
+        {
+          "info": {
+            "name": "Duplicate Contract",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:id/duplicate",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Duplicate Contract"
+        },
+        {
+          "info": {
+            "name": "rr_api_v1_contracts_minimum_commit_preview_retrieve",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:id/minimum-commit-preview",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Projected monthly minimum commitment true-up for a contract.\n\nRead-only. Returns the shortfall the month-end batch *would* post if it ran\nright now. Lets the contract detail screen show a live floor preview without\ntriggering writes from the UI."
+        },
+        {
+          "info": {
+            "name": "Terminate Contract",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/:id/terminate",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Terminate a contract and optionally void associated invoices.\n\n        If the user has permission to terminate contracts and void invoices, both operations\n        are performed atomically. If the user lacks permission for either operation, a draft\n        is created instead, and the response indicates which operations were drafted.\n\n        Returns 400 if any of the provided void_invoice_ids are invalid (not found, already voided,\n        has payments, void date is before the invoice date, or i"
+        },
+        {
+          "info": {
+            "name": "Bulk Search Contracts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/bulk-search",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Search for contracts by deal_name in a single request."
+        },
+        {
+          "info": {
+            "name": "Parse Contract",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/rr/api/v1/contracts/parse",
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Parse contract details from uploaded PDF files using AI."
+        },
+        {
+          "info": {
+            "name": "List Contract Customers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/rr/api/v1/customers",
+            "params": [
+              {
+                "name": "include_deleted",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', returns ONLY deleted records instead of active records. Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp, and 'last_modified_at'. When 'false' or omitted, returns ONLY active records. This provides clean separation between active and deleted data."
+              },
+              {
+                "name": "last_modified_at__gte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or after this timestamp. Format: ISO 8601 (e.g., '2024-01-01T00:00:00Z' or '2024-01-01'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "last_modified_at__lte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or before this timestamp. Format: ISO 8601 (e.g., '2024-12-31T23:59:59Z' or '2024-12-31'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The initial index from which to return the results."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Retrieve a list of contract customers with optional filtering and sorting.\n\n        Supports including soft-deleted records for audit and recovery purposes.\n        When include_deleted=true, returns ONLY deleted records instead of active records.\n        Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp,\n        and 'last_modified_at'. When 'false' or omitted, returns ONLY active records.\n        This provides clean separation between active and dele"
+        },
+        {
+          "info": {
+            "name": "Retrieve Contract Customer",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/rr/api/v1/customers/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve Contract Customer"
+        },
+        {
+          "info": {
+            "name": "Update Contract Customer",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/rr/api/v1/customers/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update Contract Customer"
+        },
+        {
+          "info": {
+            "name": "Partial Update Contract Customer",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.meetcampfire.com/rr/api/v1/customers/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Partial Update Contract Customer"
+        },
+        {
+          "info": {
+            "name": "Delete Contract Customer",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.meetcampfire.com/rr/api/v1/customers/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete Contract Customer"
+        },
+        {
+          "info": {
+            "name": "Modify Subscription Schedule",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/rr/api/v1/modify-subscription-schedule",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Generate a modified subscription schedule by comparing a new schedule against an existing subscription. Returns the delta between the original and modified schedules, with support for catch-up accounting and contract end date modifications."
+        },
+        {
+          "info": {
+            "name": "List Contract Products",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/rr/api/v1/product",
+            "params": [
+              {
+                "name": "include_deleted",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', returns ONLY deleted records instead of active records. Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp, and 'last_modified_at'. When 'false' or omitted, returns ONLY active records. This provides clean separation between active and deleted data."
+              },
+              {
+                "name": "last_modified_at__gte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or after this timestamp. Format: ISO 8601 (e.g., '2024-01-01T00:00:00Z' or '2024-01-01'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "last_modified_at__lte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or before this timestamp. Format: ISO 8601 (e.g., '2024-12-31T23:59:59Z' or '2024-12-31'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The initial index from which to return the results."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Retrieve a list of contract products with optional filtering and sorting.\n\n        Supports including soft-deleted records for audit and recovery purposes.\n        When include_deleted=true, returns ONLY deleted records instead of active records.\n        Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp,\n        and 'last_modified_at'. When 'false' or omitted, returns ONLY active records.\n        This provides clean separation between active and delet"
+        },
+        {
+          "info": {
+            "name": "Create Contract Product",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/rr/api/v1/product",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create a new product"
+        },
+        {
+          "info": {
+            "name": "List Product Bundles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/rr/api/v1/product-bundles",
+            "params": [
+              {
+                "name": "include_deleted",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', returns ONLY deleted records instead of active records. Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp, and 'last_modified_at'. When 'false' or omitted, returns ONLY active records. This provides clean separation between active and deleted data."
+              },
+              {
+                "name": "last_modified_at__gte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or after this timestamp. Format: ISO 8601 (e.g., '2024-01-01T00:00:00Z' or '2024-01-01'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "last_modified_at__lte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or before this timestamp. Format: ISO 8601 (e.g., '2024-12-31T23:59:59Z' or '2024-12-31'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The initial index from which to return the results."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Retrieve a list of product bundles with optional filtering and sorting.\n\n        Supports including soft-deleted records for audit and recovery purposes.\n        When include_deleted=true, returns ONLY deleted records instead of active records.\n        Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp,\n        and 'last_modified_at'. When 'false' or omitted, returns ONLY active records.\n        This provides clean separation between active and deleted"
+        },
+        {
+          "info": {
+            "name": "Create Product Bundle",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/rr/api/v1/product-bundles",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create a new product bundle with products and percentage allocations. Total percentage must equal 100."
+        },
+        {
+          "info": {
+            "name": "Retrieve Product Bundle",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/rr/api/v1/product-bundles/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve Product Bundle"
+        },
+        {
+          "info": {
+            "name": "Update Product Bundle",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/rr/api/v1/product-bundles/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update Product Bundle"
+        },
+        {
+          "info": {
+            "name": "Partial Update Product Bundle",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.meetcampfire.com/rr/api/v1/product-bundles/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Partial Update Product Bundle"
+        },
+        {
+          "info": {
+            "name": "Delete Product Bundle",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.meetcampfire.com/rr/api/v1/product-bundles/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete Product Bundle"
+        },
+        {
+          "info": {
+            "name": "Retrieve Product",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/rr/api/v1/product/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve Product"
+        },
+        {
+          "info": {
+            "name": "Update Product",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/rr/api/v1/product/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update Product"
+        },
+        {
+          "info": {
+            "name": "Partial Update Product",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.meetcampfire.com/rr/api/v1/product/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Partial Update Product"
+        },
+        {
+          "info": {
+            "name": "Delete Product",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.meetcampfire.com/rr/api/v1/product/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete Product"
+        },
+        {
+          "info": {
+            "name": "List Revenue Transactions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/rr/api/v1/transactions",
+            "params": [
+              {
+                "name": "include_deleted",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', returns ONLY deleted records instead of active records. Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp, and 'last_modified_at'. When 'false' or omitted, returns ONLY active records. This provides clean separation between active and deleted data."
+              },
+              {
+                "name": "last_modified_at__gte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or after this timestamp. Format: ISO 8601 (e.g., '2024-01-01T00:00:00Z' or '2024-01-01'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "last_modified_at__lte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or before this timestamp. Format: ISO 8601 (e.g., '2024-12-31T23:59:59Z' or '2024-12-31'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The initial index from which to return the results."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Retrieve a list of revenue transactions with optional filtering and sorting.\n\n        Supports including soft-deleted records for audit and recovery purposes.\n        When include_deleted=true, returns ONLY deleted records instead of active records.\n        Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp,\n        and 'last_modified_at'. When 'false' or omitted, returns ONLY active records.\n        This provides clean separation between active and de"
+        },
+        {
+          "info": {
+            "name": "Create Revenue Transaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/rr/api/v1/transactions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create a new revenue transaction"
+        },
+        {
+          "info": {
+            "name": "Retrieve Revenue Transaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/rr/api/v1/transactions/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve Revenue Transaction"
+        },
+        {
+          "info": {
+            "name": "Update Revenue Transaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/rr/api/v1/transactions/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update Revenue Transaction"
+        },
+        {
+          "info": {
+            "name": "Partial Update Revenue Transaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.meetcampfire.com/rr/api/v1/transactions/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Partial Update Revenue Transaction"
+        },
+        {
+          "info": {
+            "name": "Delete Revenue Transaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.meetcampfire.com/rr/api/v1/transactions/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete Revenue Transaction"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

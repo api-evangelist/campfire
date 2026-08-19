@@ -1,0 +1,625 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Campfire Developer APIs Accounts Payable Financial Statements API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Financial Statements",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Comparative Balance Sheet",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/ca/api/balance-sheet/comparative",
+            "params": [
+              {
+                "name": "cadence",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "entity",
+                "value": "",
+                "type": "query",
+                "description": "Entity ID(s) to scope the report. Can be repeated (?entity=1&entity=2) or JSON array"
+              },
+              {
+                "name": "entity_rollup",
+                "value": "",
+                "type": "query",
+                "description": "If true, includes all data of children entities in consolidation"
+              },
+              {
+                "name": "group_by",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "API view for comparative balance sheet that handles budget vs actual comparisons"
+        },
+        {
+          "info": {
+            "name": "Get Cash Basis Income Statement",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/ca/api/cash-basis",
+            "params": [
+              {
+                "name": "all_time",
+                "value": "",
+                "type": "query",
+                "description": "If true, uses full transaction date range for the customer; start_date and end_date are ignored"
+              },
+              {
+                "name": "cadence",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "Latest date (inclusive) for which to retrieve data. Defaults to end of current month"
+              },
+              {
+                "name": "entity",
+                "value": "",
+                "type": "query",
+                "description": "Entity ID(s) to scope the report. Can be repeated (?entity=1&entity=2) or JSON array"
+              },
+              {
+                "name": "entity_rollup",
+                "value": "",
+                "type": "query",
+                "description": "If true, includes all data of children entities in consolidation"
+              },
+              {
+                "name": "export",
+                "value": "",
+                "type": "query",
+                "description": "If xlsx, returns Excel file (income_statement.xlsx) instead of JSON"
+              },
+              {
+                "name": "group",
+                "value": "",
+                "type": "query",
+                "description": "Tag group ID. Required when group_by=tag"
+              },
+              {
+                "name": "group_by",
+                "value": "",
+                "type": "query",
+                "description": "Breakdown dimension: vendor, department, tag, currency, entity. For tag, also pass group (tag group ID). For cash-basis, department_row_children, department_row_parents, department_only normalize to department"
+              },
+              {
+                "name": "rollup_totals",
+                "value": "",
+                "type": "query",
+                "description": "If true, roll up child account totals to parent accounts. Set to false for export"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Earliest date (inclusive) for which to retrieve data. Defaults to six months ago"
+              },
+              {
+                "name": "use_book_values",
+                "value": "",
+                "type": "query",
+                "description": "If true, use book currency amounts instead of presentation currency"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get Cash Basis Income Statement"
+        },
+        {
+          "info": {
+            "name": "Get Cash Basis Operating Statement",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/ca/api/cash-basis-operating-statement",
+            "params": [
+              {
+                "name": "all_time",
+                "value": "",
+                "type": "query",
+                "description": "If true, uses full transaction date range for the customer; start_date and end_date are ignored"
+              },
+              {
+                "name": "cadence",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "Latest date (inclusive) for which to retrieve data. Defaults to end of current month"
+              },
+              {
+                "name": "entity",
+                "value": "",
+                "type": "query",
+                "description": "Entity ID(s) to scope the report. Can be repeated (?entity=1&entity=2) or JSON array"
+              },
+              {
+                "name": "entity_rollup",
+                "value": "",
+                "type": "query",
+                "description": "If true, includes all data of children entities in consolidation"
+              },
+              {
+                "name": "export",
+                "value": "",
+                "type": "query",
+                "description": "If xlsx, returns Excel file (income_statement.xlsx) instead of JSON"
+              },
+              {
+                "name": "group",
+                "value": "",
+                "type": "query",
+                "description": "Tag group ID. Required when group_by=tag"
+              },
+              {
+                "name": "group_by",
+                "value": "",
+                "type": "query",
+                "description": "Breakdown dimension: vendor, department, tag, currency, entity. For tag, also pass group (tag group ID). For cash-basis, department_row_children, department_row_parents, department_only normalize to department"
+              },
+              {
+                "name": "rollup_totals",
+                "value": "",
+                "type": "query",
+                "description": "If true, roll up child account totals to parent accounts. Set to false for export"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Earliest date (inclusive) for which to retrieve data. Defaults to six months ago"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get Cash Basis Operating Statement"
+        },
+        {
+          "info": {
+            "name": "Get Cash Operating Transactions with Projected Transactions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/ca/api/cash-operating-statement/transactions",
+            "params": [
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "Latest date (inclusive) for which to retrieve data. Defaults to end of current month"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Earliest date (inclusive) for which to retrieve data. Defaults to six months ago"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get Cash Operating Transactions with Projected Transactions"
+        },
+        {
+          "info": {
+            "name": "Get Balance Sheet",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/ca/api/get_balance_sheet",
+            "params": [
+              {
+                "name": "cadence",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "Latest date (inclusive) for which to retrieve data. Defaults to end of current month"
+              },
+              {
+                "name": "entity",
+                "value": "",
+                "type": "query",
+                "description": "Entity ID(s) to scope the report. Can be repeated (?entity=1&entity=2) or JSON array"
+              },
+              {
+                "name": "entity_rollup",
+                "value": "",
+                "type": "query",
+                "description": "If true, includes all data of children entities in consolidation"
+              },
+              {
+                "name": "group_by",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Earliest period (inclusive) shown in the report. NOTE: balances are NOT calculated starting from this date - account balances are always accumulated from the beginning of time through each period end. start_date, end_date, and cadence only control how the report is split into periods (columns). Defaults to six months ago."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns ending account balances for each period between `start_date` and `end_date` (both inclusive), split by `cadence`. This is the recommended endpoint for balance sheet ending balances.\n\n**How the date range works:** `start_date` is *not* the date balances are calculated *from*. Account balances are always accumulated from the beginning of time through each period end. `start_date`, `end_date`, and `cadence` only determine how the report is split into periods (columns).\n\n**Retained earnings:"
+        },
+        {
+          "info": {
+            "name": "Get Cash Flow",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/ca/api/get_cash_flow",
+            "params": [
+              {
+                "name": "cadence",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "Latest date (inclusive) for which to retrieve data. Defaults to end of current month"
+              },
+              {
+                "name": "entity",
+                "value": "",
+                "type": "query",
+                "description": "Entity ID(s) to scope the report. Can be repeated (?entity=1&entity=2) or JSON array"
+              },
+              {
+                "name": "entity_rollup",
+                "value": "",
+                "type": "query",
+                "description": "If true, includes all data of children entities in consolidation"
+              },
+              {
+                "name": "group_by",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Earliest date (inclusive) for which to retrieve data. Defaults to six months ago"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get Cash Flow"
+        },
+        {
+          "info": {
+            "name": "Get Cash Flow Activity",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/ca/api/get_cash_flow_activity",
+            "params": [
+              {
+                "name": "cadence",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "Latest date (inclusive) for which to retrieve data. Defaults to end of current month"
+              },
+              {
+                "name": "entity",
+                "value": "",
+                "type": "query",
+                "description": "Entity ID(s) to scope the report. Can be repeated (?entity=1&entity=2) or JSON array"
+              },
+              {
+                "name": "entity_rollup",
+                "value": "",
+                "type": "query",
+                "description": "If true, includes all data of children entities in consolidation"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Earliest date (inclusive) for which to retrieve data. Defaults to six months ago"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get Cash Flow Activity"
+        },
+        {
+          "info": {
+            "name": "Get Cash Flow Statement",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/ca/api/get_cash_flow_v2",
+            "params": [
+              {
+                "name": "cadence",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "Latest date (inclusive) for which to retrieve data. Defaults to end of current month"
+              },
+              {
+                "name": "entity",
+                "value": "",
+                "type": "query",
+                "description": "Entity ID(s) to scope the report. Can be repeated (?entity=1&entity=2) or JSON array"
+              },
+              {
+                "name": "entity_rollup",
+                "value": "",
+                "type": "query",
+                "description": "If true, includes all data of children entities in consolidation"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Earliest date (inclusive) for which to retrieve data. Defaults to six months ago"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Sectioned cash flow statement (indirect method): operating (net income, non-cash adjustments, working-capital deltas), transactional investing and financing lines, the effect of exchange-rate changes on cash, and non-cash disclosures. The statement reconciles beginning to ending cash with a zero plug or is not rendered: an unreconciled ledger returns HTTP 422 with the plug by period and the journal entries whose accounts need cashflow classification. Monetary amounts are decimal strings. Pass ex"
+        },
+        {
+          "info": {
+            "name": "Get Income Statement",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/ca/api/get_income_statement",
+            "params": [
+              {
+                "name": "cadence",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "Latest date (inclusive) for which to retrieve data. Defaults to end of current month"
+              },
+              {
+                "name": "entity",
+                "value": "",
+                "type": "query",
+                "description": "Entity ID(s) to scope the report. Can be repeated (?entity=1&entity=2) or JSON array"
+              },
+              {
+                "name": "entity_rollup",
+                "value": "",
+                "type": "query",
+                "description": "If true, includes all data of children entities in consolidation"
+              },
+              {
+                "name": "group_by",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Earliest date (inclusive) for which to retrieve data. Defaults to six months ago"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns account activity (revenue and expense movement) within the `start_date`-`end_date` range, split by `cadence`.\n\nUnlike the balance sheet, the income statement reflects only the activity that falls *inside* the requested date range - `start_date` is the true start of the activity window.\n\n**Breakdowns:** supports entity, department, vendor, and tag breakdowns/filters via `group_by` (pass `group` with a tag group ID when grouping by tag)."
+        },
+        {
+          "info": {
+            "name": "Get Trial Balance",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/ca/api/get_trial_balance",
+            "params": [
+              {
+                "name": "department",
+                "value": "",
+                "type": "query",
+                "description": "Filter by department ID. Can be specified multiple times for multiple departments"
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "Latest date (inclusive) for which to retrieve data. Defaults to end of current month"
+              },
+              {
+                "name": "entity",
+                "value": "",
+                "type": "query",
+                "description": "Entity ID(s) to scope the report. Can be repeated (?entity=1&entity=2) or JSON array"
+              },
+              {
+                "name": "entity_rollup",
+                "value": "",
+                "type": "query",
+                "description": "If true, includes all data of children entities in consolidation"
+              },
+              {
+                "name": "group_by",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "income_statement_basis",
+                "value": "",
+                "type": "query",
+                "description": "Income-statement window: selected period (default) or fiscal year-to-date."
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Earliest date (inclusive) for which to retrieve data. Defaults to six months ago"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns debit and credit totals for each account over a date range.\n\n**The summation window depends on the account type:**\n- **Balance sheet accounts** (assets, liabilities, equity): totals are summed from the beginning of time through `end_date`.\n- **Income statement accounts** (revenue, expenses): the window depends on `income_statement_basis`. With the default `period` basis, totals are summed from `start_date` through `end_date` and a synthetic Net Income (Prior Periods) row carries current-"
+        },
+        {
+          "info": {
+            "name": "Get Comparative Income Statement",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/ca/api/income-statement/comparative",
+            "params": [
+              {
+                "name": "cadence",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "entity",
+                "value": "",
+                "type": "query",
+                "description": "Entity ID(s) to scope the report. Can be repeated (?entity=1&entity=2) or JSON array"
+              },
+              {
+                "name": "entity_rollup",
+                "value": "",
+                "type": "query",
+                "description": "If true, includes all data of children entities in consolidation"
+              },
+              {
+                "name": "group_by",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get Comparative Income Statement"
+        },
+        {
+          "info": {
+            "name": "Get General Ledger",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/general-ledger",
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get General Ledger"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

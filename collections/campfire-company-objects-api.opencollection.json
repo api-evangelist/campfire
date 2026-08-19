@@ -1,0 +1,1837 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Campfire Developer APIs Accounts Payable Company Objects API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Company Objects",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Custom Fields",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/ca/api/v1/custom-fields",
+            "params": [
+              {
+                "name": "app",
+                "value": "",
+                "type": "query",
+                "description": "App name"
+              },
+              {
+                "name": "include_deleted",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', returns ONLY deleted records instead of active records. Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp, and 'last_modified_at'. When 'false' or omitted, returns ONLY active records. This provides clean separation between active and deleted data."
+              },
+              {
+                "name": "is_active",
+                "value": "",
+                "type": "query",
+                "description": "Filter by active status"
+              },
+              {
+                "name": "last_modified_at__gte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or after this timestamp. Format: ISO 8601 (e.g., '2024-01-01T00:00:00Z' or '2024-01-01'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "last_modified_at__lte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or before this timestamp. Format: ISO 8601 (e.g., '2024-12-31T23:59:59Z' or '2024-12-31'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "model",
+                "value": "",
+                "type": "query",
+                "description": "Model name"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The initial index from which to return the results."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        List all custom fields for a given app and model.\n\n        Supports including soft-deleted records for audit and recovery purposes.\n        When include_deleted=true, returns ONLY deleted records instead of active records.\n        Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp,\n        and 'last_modified_at'. When 'false' or omitted, returns ONLY active records.\n        This provides clean separation between active and deleted data.\n        "
+        },
+        {
+          "info": {
+            "name": "Create Custom Field",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/ca/api/v1/custom-fields",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create a new custom field for a given app and model"
+        },
+        {
+          "info": {
+            "name": "Retrieve Custom Field",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/ca/api/v1/custom-fields/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve Custom Field"
+        },
+        {
+          "info": {
+            "name": "Update Custom Field",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/ca/api/v1/custom-fields/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update Custom Field"
+        },
+        {
+          "info": {
+            "name": "Partial Update Custom Field",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.meetcampfire.com/ca/api/v1/custom-fields/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Partial Update Custom Field"
+        },
+        {
+          "info": {
+            "name": "Delete Custom Field",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.meetcampfire.com/ca/api/v1/custom-fields/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete Custom Field"
+        },
+        {
+          "info": {
+            "name": "List Chart of Accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/account",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The initial index from which to return the results."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Lists the chart of accounts (GL accounts). Each account includes metadata about its parent account and its full lineage (the ordered chain of ancestor accounts), so parent/child account relationships can be reconstructed from the response."
+        },
+        {
+          "info": {
+            "name": "Create Chart Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/account",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Lists the chart of accounts (GL accounts). Each account includes metadata about its parent account and its full lineage (the ordered chain of ancestor accounts), so parent/child account relationships can be reconstructed from the response."
+        },
+        {
+          "info": {
+            "name": "Retrieve Chart Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/account/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve Chart Account"
+        },
+        {
+          "info": {
+            "name": "Update Chart Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/coa/api/account/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update Chart Account"
+        },
+        {
+          "info": {
+            "name": "Partial Update Chart Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.meetcampfire.com/coa/api/account/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Partial Update Chart Account"
+        },
+        {
+          "info": {
+            "name": "Delete Chart Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.meetcampfire.com/coa/api/account/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete Chart Account"
+        },
+        {
+          "info": {
+            "name": "List Chart Accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/account/balance-sheet",
+            "params": [
+              {
+                "name": "account",
+                "value": "",
+                "type": "query",
+                "description": "Filter by account ID. Can be specified multiple times for multiple accounts"
+              },
+              {
+                "name": "account_subtype",
+                "value": "",
+                "type": "query",
+                "description": "Filter by account subtype. Can be specified multiple times for multiple subtypes"
+              },
+              {
+                "name": "account_type",
+                "value": "",
+                "type": "query",
+                "description": "Filter by account type. Can be specified multiple times for multiple types"
+              },
+              {
+                "name": "include_cost_allocation",
+                "value": "",
+                "type": "query",
+                "description": "Include accounts with cost allocation"
+              },
+              {
+                "name": "include_inactive",
+                "value": "",
+                "type": "query",
+                "description": "Include inactive accounts in results"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The initial index from which to return the results."
+              },
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "Search query - searches by account name or number"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve a list of chart accounts with optional filtering and sorting"
+        },
+        {
+          "info": {
+            "name": "Create Chart Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/account/balance-sheet",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Lists the chart of accounts (GL accounts). Each account includes metadata about its parent account and its full lineage (the ordered chain of ancestor accounts), so parent/child account relationships can be reconstructed from the response."
+        },
+        {
+          "info": {
+            "name": "List Chart of Accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/account/income-statement",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The initial index from which to return the results."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Lists the chart of accounts (GL accounts). Each account includes metadata about its parent account and its full lineage (the ordered chain of ancestor accounts), so parent/child account relationships can be reconstructed from the response."
+        },
+        {
+          "info": {
+            "name": "Create Chart Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/account/income-statement",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Lists the chart of accounts (GL accounts). Each account includes metadata about its parent account and its full lineage (the ordered chain of ancestor accounts), so parent/child account relationships can be reconstructed from the response."
+        },
+        {
+          "info": {
+            "name": "List Cost Allocation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/cost-allocations",
+            "params": [
+              {
+                "name": "include_deleted",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', returns ONLY deleted records instead of active records. Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp, and 'last_modified_at'. When 'false' or omitted, returns ONLY active records. This provides clean separation between active and deleted data."
+              },
+              {
+                "name": "last_modified_at__gte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or after this timestamp. Format: ISO 8601 (e.g., '2024-01-01T00:00:00Z' or '2024-01-01'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "last_modified_at__lte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or before this timestamp. Format: ISO 8601 (e.g., '2024-12-31T23:59:59Z' or '2024-12-31'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The initial index from which to return the results."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Retrieve a list of cost allocations with optional filtering and sorting.\n\n        Supports including soft-deleted records for audit and recovery purposes.\n        When include_deleted=true, returns ONLY deleted records instead of active records.\n        Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp,\n        and 'last_modified_at'. When 'false' or omitted, returns ONLY active records.\n        This provides clean separation between active and delete"
+        },
+        {
+          "info": {
+            "name": "Create Cost Allocation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/cost-allocations",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Complete mixin for history filtering with pagination support.\nReturns either active OR deleted records based on include_deleted parameter."
+        },
+        {
+          "info": {
+            "name": "Get Cost Allocation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/cost-allocations/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get Cost Allocation"
+        },
+        {
+          "info": {
+            "name": "Update Cost Allocation",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/coa/api/cost-allocations/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update Cost Allocation"
+        },
+        {
+          "info": {
+            "name": "Partial Update Cost Allocation",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.meetcampfire.com/coa/api/cost-allocations/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Partial Update Cost Allocation"
+        },
+        {
+          "info": {
+            "name": "Delete Cost Allocation",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.meetcampfire.com/coa/api/cost-allocations/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete Cost Allocation"
+        },
+        {
+          "info": {
+            "name": "List Departments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/department",
+            "params": [
+              {
+                "name": "include_deleted",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', returns ONLY deleted records instead of active records. Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp, and 'last_modified_at'. When 'false' or omitted, returns ONLY active records. This provides clean separation between active and deleted data."
+              },
+              {
+                "name": "include_inactive",
+                "value": "",
+                "type": "query",
+                "description": "Include inactive departments in results"
+              },
+              {
+                "name": "last_modified_at__gte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or after this timestamp. Format: ISO 8601 (e.g., '2024-01-01T00:00:00Z' or '2024-01-01'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "last_modified_at__lte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or before this timestamp. Format: ISO 8601 (e.g., '2024-12-31T23:59:59Z' or '2024-12-31'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The initial index from which to return the results."
+              },
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "Search query - searches by department name or code"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. Use field name for ascending, -field for descending. Supports multiple fields separated by comma. Default: name"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Retrieve a list of departments with optional filtering and sorting.\n\n        Each department includes metadata about its parent department (`parent`, `parent_name`),\n        so parent/child department relationships can be reconstructed from the response.\n\n        Supports including soft-deleted records for audit and recovery purposes.\n        When include_deleted=true, returns ONLY deleted records instead of active records.\n        Deleted records contain minimal data: 'id', 'is_deleted"
+        },
+        {
+          "info": {
+            "name": "Create Department",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/department",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Complete mixin for history filtering with pagination support.\nReturns either active OR deleted records based on include_deleted parameter."
+        },
+        {
+          "info": {
+            "name": "Retrieve Department",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/department/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve Department"
+        },
+        {
+          "info": {
+            "name": "Update Department",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/coa/api/department/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update Department"
+        },
+        {
+          "info": {
+            "name": "Partial Update Department",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.meetcampfire.com/coa/api/department/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Partial Update Department"
+        },
+        {
+          "info": {
+            "name": "Delete Department",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.meetcampfire.com/coa/api/department/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "new_department",
+                "value": "",
+                "type": "query",
+                "description": "ID of the department to reassign all related records to before deletion"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete a department and optionally reassign all related records to another department"
+        },
+        {
+          "info": {
+            "name": "List Fixed Asset Classes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/fixed-asset-class",
+            "params": [
+              {
+                "name": "include_deleted",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', returns ONLY deleted records instead of active records. Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp, and 'last_modified_at'. When 'false' or omitted, returns ONLY active records. This provides clean separation between active and deleted data."
+              },
+              {
+                "name": "last_modified_at__gte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or after this timestamp. Format: ISO 8601 (e.g., '2024-01-01T00:00:00Z' or '2024-01-01'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "last_modified_at__lte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or before this timestamp. Format: ISO 8601 (e.g., '2024-12-31T23:59:59Z' or '2024-12-31'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The initial index from which to return the results."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Retrieve a list of fixed asset classes with optional filtering and sorting.\n\n        Supports including soft-deleted records for audit and recovery purposes.\n        When include_deleted=true, returns ONLY deleted records instead of active records.\n        Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp,\n        and 'last_modified_at'. When 'false' or omitted, returns ONLY active records.\n        This provides clean separation between active and del"
+        },
+        {
+          "info": {
+            "name": "Create Fixed Asset Class",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/fixed-asset-class",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Complete mixin for history filtering with pagination support.\nReturns either active OR deleted records based on include_deleted parameter."
+        },
+        {
+          "info": {
+            "name": "Retrieve Fixed Asset Class",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/fixed-asset-class/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve Fixed Asset Class"
+        },
+        {
+          "info": {
+            "name": "Update Fixed Asset Class",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/coa/api/fixed-asset-class/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update Fixed Asset Class"
+        },
+        {
+          "info": {
+            "name": "Partial Fixed Asset Class",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.meetcampfire.com/coa/api/fixed-asset-class/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Partial Fixed Asset Class"
+        },
+        {
+          "info": {
+            "name": "Delete Fixed Asset Class",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.meetcampfire.com/coa/api/fixed-asset-class/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete Fixed Asset Class"
+        },
+        {
+          "info": {
+            "name": "List Custom Dimensions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/tag",
+            "params": [
+              {
+                "name": "exclude_tags",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of tag IDs to exclude"
+              },
+              {
+                "name": "group",
+                "value": "",
+                "type": "query",
+                "description": "Filter by tag group ID"
+              },
+              {
+                "name": "include_deleted",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', returns ONLY deleted records instead of active records. Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp, and 'last_modified_at'. When 'false' or omitted, returns ONLY active records. This provides clean separation between active and deleted data."
+              },
+              {
+                "name": "include_inactive",
+                "value": "",
+                "type": "query",
+                "description": "If true, include inactive tags"
+              },
+              {
+                "name": "last_modified_at__gte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or after this timestamp. Format: ISO 8601 (e.g., '2024-01-01T00:00:00Z' or '2024-01-01'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "last_modified_at__lte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or before this timestamp. Format: ISO 8601 (e.g., '2024-12-31T23:59:59Z' or '2024-12-31'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "no_group",
+                "value": "",
+                "type": "query",
+                "description": "If true, only return tags without a group"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The initial index from which to return the results."
+              },
+              {
+                "name": "parent",
+                "value": "",
+                "type": "query",
+                "description": "Filter by parent tag ID"
+              },
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "Search query - searches by tag name or group name"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. Use field name for ascending, -field for descending. Special field: group_name. Default: name"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Retrieve a list of transaction tags (custom dimensions) with optional filtering and sorting.\n\n        Supports including soft-deleted records for audit and recovery purposes.\n        When include_deleted=true, returns ONLY deleted records instead of active records.\n        Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp,\n        and 'last_modified_at'. When 'false' or omitted, returns ONLY active records.\n        This provides clean separation betwe"
+        },
+        {
+          "info": {
+            "name": "Create Custom Dimension",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/tag",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Complete mixin for history filtering with pagination support.\nReturns either active OR deleted records based on include_deleted parameter."
+        },
+        {
+          "info": {
+            "name": "List Custom Dimension Groups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/tag-group",
+            "params": [
+              {
+                "name": "last_modified_at__gte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or after this timestamp. Format: ISO 8601 (e.g., '2024-01-01T00:00:00Z' or '2024-01-01'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "last_modified_at__lte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or before this timestamp. Format: ISO 8601 (e.g., '2024-12-31T23:59:59Z' or '2024-12-31'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The initial index from which to return the results."
+              },
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "Search query - searches by group name"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. Use field name for ascending, -field for descending. Default: name"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Retrieve a list of transaction tag groups with optional filtering and sorting.\n\n        Supports timestamp-based filtering for synchronization and audit purposes.\n        "
+        },
+        {
+          "info": {
+            "name": "Create Custom Dimension Group",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/tag-group",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Mixin to provide consistent last_modified_at filtering and sorting functionality\nfor List APIs with comprehensive timestamp computation."
+        },
+        {
+          "info": {
+            "name": "Retrieve Custom Dimension Group",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/tag-group/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve Custom Dimension Group"
+        },
+        {
+          "info": {
+            "name": "Update Custom Dimension Group",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/coa/api/tag-group/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update Custom Dimension Group"
+        },
+        {
+          "info": {
+            "name": "Partial Update Custom Dimension Group",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.meetcampfire.com/coa/api/tag-group/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Partial Update Custom Dimension Group"
+        },
+        {
+          "info": {
+            "name": "Delete Custom Dimension Group",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.meetcampfire.com/coa/api/tag-group/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete Custom Dimension Group"
+        },
+        {
+          "info": {
+            "name": "Retrieve Custom Dimension",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/tag/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve Custom Dimension"
+        },
+        {
+          "info": {
+            "name": "Update Custom Dimension",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/coa/api/tag/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update Custom Dimension"
+        },
+        {
+          "info": {
+            "name": "Partial Update Custom Dimension",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.meetcampfire.com/coa/api/tag/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Partial Update Custom Dimension"
+        },
+        {
+          "info": {
+            "name": "Delete Custom Dimension",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.meetcampfire.com/coa/api/tag/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "new_tag",
+                "value": "",
+                "type": "query",
+                "description": "ID of the tag to merge with before deletion"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete a transaction tag and optionally merge it with another tag"
+        },
+        {
+          "info": {
+            "name": "List Vendors",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/vendor",
+            "params": [
+              {
+                "name": "external_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by external ID"
+              },
+              {
+                "name": "include_deleted",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', returns ONLY deleted records instead of active records. Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp, and 'last_modified_at'. When 'false' or omitted, returns ONLY active records. This provides clean separation between active and deleted data."
+              },
+              {
+                "name": "include_inactive",
+                "value": "",
+                "type": "query",
+                "description": "Include inactive vendors in results"
+              },
+              {
+                "name": "last_modified_at__gte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or after this timestamp. Format: ISO 8601 (e.g., '2024-01-01T00:00:00Z' or '2024-01-01'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "last_modified_at__lte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or before this timestamp. Format: ISO 8601 (e.g., '2024-12-31T23:59:59Z' or '2024-12-31'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The initial index from which to return the results."
+              },
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "Search query - searches by name, DBA, email, or company name. If numeric, also searches by ID"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. Use field name for ascending, -field for descending. Supports multiple fields separated by comma. Default: name"
+              },
+              {
+                "name": "vendor_type",
+                "value": "",
+                "type": "query",
+                "description": "Filter by vendor type. Can be specified multiple times for multiple types"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Retrieve a list of vendors/customers with optional filtering and sorting.\n\n        Each vendor includes metadata about its parent vendor (`parent`, `parent_name`) and its\n        full `lineage` (the ordered chain of ancestor vendors), so parent/child vendor\n        relationships can be reconstructed from the response.\n\n        Supports retrieving deleted records for audit purposes. When include_deleted=true,\n        returns ONLY deleted records with minimal data (id, is_deleted, deleted"
+        },
+        {
+          "info": {
+            "name": "Create Vendor",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/vendor",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create a new vendor or customer in the system"
+        },
+        {
+          "info": {
+            "name": "Retrieve Vendor",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/vendor/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve Vendor"
+        },
+        {
+          "info": {
+            "name": "Update Vendor",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/coa/api/vendor/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update Vendor"
+        },
+        {
+          "info": {
+            "name": "Partial Update Vendor",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.meetcampfire.com/coa/api/vendor/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Partial Update Vendor"
+        },
+        {
+          "info": {
+            "name": "Delete Vendor",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.meetcampfire.com/coa/api/vendor/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "new_vendor",
+                "value": "",
+                "type": "query",
+                "description": "ID of the vendor to reassign all related records to before deletion"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete a vendor and optionally reassign all related records to another vendor. Returns 202 Accepted as deletion is processed asynchronously."
+        },
+        {
+          "info": {
+            "name": "List Vendor Summaries",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/vendor/summary",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The initial index from which to return the results."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "List Vendor Summaries"
+        },
+        {
+          "info": {
+            "name": "List Vendor Custom Fields",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/vendor_custom_field_1/",
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "List Vendor Custom Fields"
+        },
+        {
+          "info": {
+            "name": "Create Vendor Custom Field",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/vendor_custom_field_1/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create Vendor Custom Field"
+        },
+        {
+          "info": {
+            "name": "Retrieve Vendor Custom Field",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/vendor_custom_field_1/:id/",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve Vendor Custom Field"
+        },
+        {
+          "info": {
+            "name": "Update Vendor Custom Field",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/coa/api/vendor_custom_field_1/:id/",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update Vendor Custom Field"
+        },
+        {
+          "info": {
+            "name": "Partial Update Vendor Custom Field",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.meetcampfire.com/coa/api/vendor_custom_field_1/:id/",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Partial Update Vendor Custom Field"
+        },
+        {
+          "info": {
+            "name": "Delete Vendor Custom Field",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.meetcampfire.com/coa/api/vendor_custom_field_1/:id/",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete Vendor Custom Field"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

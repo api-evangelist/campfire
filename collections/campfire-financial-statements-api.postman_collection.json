@@ -1,0 +1,1803 @@
+{
+  "item": [
+    {
+      "id": "12a1e291-c243-43e3-9ac0-619f160906d1",
+      "name": "Financial Statements",
+      "description": {
+        "content": "Operations related to financial statement generation and data aggregation.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6117231a-21bc-408c-833a-90d0f647dbc8",
+          "name": "Get Comparative Balance Sheet",
+          "request": {
+            "name": "Get Comparative Balance Sheet",
+            "description": {
+              "content": "API view for comparative balance sheet that handles budget vs actual comparisons",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ca",
+                "api",
+                "balance-sheet",
+                "comparative"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "cadence",
+                  "value": "monthly"
+                },
+                {
+                  "disabled": false,
+                  "key": "entity",
+                  "value": "<integer>",
+                  "description": "Entity ID(s) to scope the report. Can be repeated (?entity=1&entity=2) or JSON array"
+                },
+                {
+                  "disabled": false,
+                  "key": "entity_rollup",
+                  "value": "false",
+                  "description": "If true, includes all data of children entities in consolidation"
+                },
+                {
+                  "disabled": false,
+                  "key": "group_by",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "0266330c-b628-4ef4-8d4a-6dcf9c429e89",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "api",
+                    "balance-sheet",
+                    "comparative"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cadence",
+                      "value": "monthly"
+                    },
+                    {
+                      "key": "entity",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "entity_rollup",
+                      "value": "false"
+                    },
+                    {
+                      "key": "group_by",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"balance_sheet\": [\n    {\n      \"account_id\": \"12172\",\n      \"account_name\": \"Cash and Cash Equivalents\",\n      \"account_number\": \"111000\",\n      \"hierarchy\": [\n        \"ASSET\",\n        \"12093\",\n        \"12172\"\n      ],\n      \"2024-01-31_Total\": 50000,\n      \"2024-02-29_Total\": 55000,\n      \"comparison_1_Difference\": 5000,\n      \"comparison_1_Percentage\": 10\n    }\n  ],\n  \"headers\": {\n    \"comparison_1\": [\n      \"2024-01-31_Total\",\n      \"2024-02-29_Total\",\n      \"comparison_1_Difference\",\n      \"comparison_1_Percentage\"\n    ]\n  },\n  \"budget_id\": null\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a3eb04e3-5834-4eb5-8ccd-5ef919cbca8c",
+          "name": "Get Cash Basis Income Statement",
+          "request": {
+            "name": "Get Cash Basis Income Statement",
+            "description": {},
+            "url": {
+              "path": [
+                "ca",
+                "api",
+                "cash-basis"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "all_time",
+                  "value": "false",
+                  "description": "If true, uses full transaction date range for the customer; start_date and end_date are ignored"
+                },
+                {
+                  "disabled": false,
+                  "key": "cadence",
+                  "value": "monthly"
+                },
+                {
+                  "disabled": false,
+                  "key": "end_date",
+                  "value": "<date>",
+                  "description": "Latest date (inclusive) for which to retrieve data. Defaults to end of current month"
+                },
+                {
+                  "disabled": false,
+                  "key": "entity",
+                  "value": "<integer>",
+                  "description": "Entity ID(s) to scope the report. Can be repeated (?entity=1&entity=2) or JSON array"
+                },
+                {
+                  "disabled": false,
+                  "key": "entity_rollup",
+                  "value": "false",
+                  "description": "If true, includes all data of children entities in consolidation"
+                },
+                {
+                  "disabled": false,
+                  "key": "export",
+                  "value": "<string>",
+                  "description": "If xlsx, returns Excel file (income_statement.xlsx) instead of JSON"
+                },
+                {
+                  "disabled": false,
+                  "key": "group",
+                  "value": "<integer>",
+                  "description": "Tag group ID. Required when group_by=tag"
+                },
+                {
+                  "disabled": false,
+                  "key": "group_by",
+                  "value": "<string>",
+                  "description": "Breakdown dimension: vendor, department, tag, currency, entity. For tag, also pass group (tag group ID). For cash-basis, department_row_children, department_row_parents, department_only normalize to department"
+                },
+                {
+                  "disabled": false,
+                  "key": "rollup_totals",
+                  "value": "true",
+                  "description": "If true, roll up child account totals to parent accounts. Set to false for export"
+                },
+                {
+                  "disabled": false,
+                  "key": "start_date",
+                  "value": "<date>",
+                  "description": "Earliest date (inclusive) for which to retrieve data. Defaults to six months ago"
+                },
+                {
+                  "disabled": false,
+                  "key": "use_book_values",
+                  "value": "false",
+                  "description": "If true, use book currency amounts instead of presentation currency"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "075b0639-cd2c-4c66-b69f-9d29ba417525",
+              "name": "No response body",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "api",
+                    "cash-basis"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "all_time",
+                      "value": "false"
+                    },
+                    {
+                      "key": "cadence",
+                      "value": "monthly"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "entity",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "entity_rollup",
+                      "value": "false"
+                    },
+                    {
+                      "key": "export",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "group",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "group_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "rollup_totals",
+                      "value": "true"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "use_book_values",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3096f90f-dbfb-40a7-9405-b299a32ac6fe",
+          "name": "Get Cash Basis Operating Statement",
+          "request": {
+            "name": "Get Cash Basis Operating Statement",
+            "description": {},
+            "url": {
+              "path": [
+                "ca",
+                "api",
+                "cash-basis-operating-statement"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "all_time",
+                  "value": "false",
+                  "description": "If true, uses full transaction date range for the customer; start_date and end_date are ignored"
+                },
+                {
+                  "disabled": false,
+                  "key": "cadence",
+                  "value": "monthly"
+                },
+                {
+                  "disabled": false,
+                  "key": "end_date",
+                  "value": "<date>",
+                  "description": "Latest date (inclusive) for which to retrieve data. Defaults to end of current month"
+                },
+                {
+                  "disabled": false,
+                  "key": "entity",
+                  "value": "<integer>",
+                  "description": "Entity ID(s) to scope the report. Can be repeated (?entity=1&entity=2) or JSON array"
+                },
+                {
+                  "disabled": false,
+                  "key": "entity_rollup",
+                  "value": "false",
+                  "description": "If true, includes all data of children entities in consolidation"
+                },
+                {
+                  "disabled": false,
+                  "key": "export",
+                  "value": "<string>",
+                  "description": "If xlsx, returns Excel file (income_statement.xlsx) instead of JSON"
+                },
+                {
+                  "disabled": false,
+                  "key": "group",
+                  "value": "<integer>",
+                  "description": "Tag group ID. Required when group_by=tag"
+                },
+                {
+                  "disabled": false,
+                  "key": "group_by",
+                  "value": "<string>",
+                  "description": "Breakdown dimension: vendor, department, tag, currency, entity. For tag, also pass group (tag group ID). For cash-basis, department_row_children, department_row_parents, department_only normalize to department"
+                },
+                {
+                  "disabled": false,
+                  "key": "rollup_totals",
+                  "value": "true",
+                  "description": "If true, roll up child account totals to parent accounts. Set to false for export"
+                },
+                {
+                  "disabled": false,
+                  "key": "start_date",
+                  "value": "<date>",
+                  "description": "Earliest date (inclusive) for which to retrieve data. Defaults to six months ago"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "cc399384-1182-4618-8fac-19d768f27bfb",
+              "name": "No response body",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "api",
+                    "cash-basis-operating-statement"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "all_time",
+                      "value": "false"
+                    },
+                    {
+                      "key": "cadence",
+                      "value": "monthly"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "entity",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "entity_rollup",
+                      "value": "false"
+                    },
+                    {
+                      "key": "export",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "group",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "group_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "rollup_totals",
+                      "value": "true"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e37d1a20-d149-45d7-8003-12b92160ff71",
+          "name": "Get Cash Operating Transactions with Projected Transactions",
+          "request": {
+            "name": "Get Cash Operating Transactions with Projected Transactions",
+            "description": {},
+            "url": {
+              "path": [
+                "ca",
+                "api",
+                "cash-operating-statement",
+                "transactions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "end_date",
+                  "value": "<date>",
+                  "description": "Latest date (inclusive) for which to retrieve data. Defaults to end of current month"
+                },
+                {
+                  "disabled": false,
+                  "key": "start_date",
+                  "value": "<date>",
+                  "description": "Earliest date (inclusive) for which to retrieve data. Defaults to six months ago"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "37dadf8b-db1a-416f-b9c6-c7803efa85e1",
+              "name": "No response body",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "api",
+                    "cash-operating-statement",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "end_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7b85baaf-7a48-45e5-9581-faa74bdef18c",
+          "name": "Get Balance Sheet",
+          "request": {
+            "name": "Get Balance Sheet",
+            "description": {
+              "content": "Returns ending account balances for each period between `start_date` and `end_date` (both inclusive), split by `cadence`. This is the recommended endpoint for balance sheet ending balances.\n\n**How the date range works:** `start_date` is *not* the date balances are calculated *from*. Account balances are always accumulated from the beginning of time through each period end. `start_date`, `end_date`, and `cadence` only determine how the report is split into periods (columns).\n\n**Retained earnings:** included as its own row.\n\n**Breakdowns:** the report can be broken down or filtered by entity, department, and tag dimensions via `group_by` (pass `group` with a tag group ID when grouping by tag).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ca",
+                "api",
+                "get_balance_sheet"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "cadence",
+                  "value": "monthly"
+                },
+                {
+                  "disabled": false,
+                  "key": "end_date",
+                  "value": "<date>",
+                  "description": "Latest date (inclusive) for which to retrieve data. Defaults to end of current month"
+                },
+                {
+                  "disabled": false,
+                  "key": "entity",
+                  "value": "<integer>",
+                  "description": "Entity ID(s) to scope the report. Can be repeated (?entity=1&entity=2) or JSON array"
+                },
+                {
+                  "disabled": false,
+                  "key": "entity_rollup",
+                  "value": "false",
+                  "description": "If true, includes all data of children entities in consolidation"
+                },
+                {
+                  "disabled": false,
+                  "key": "group_by",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "start_date",
+                  "value": "<date>",
+                  "description": "Earliest period (inclusive) shown in the report. NOTE: balances are NOT calculated starting from this date - account balances are always accumulated from the beginning of time through each period end. start_date, end_date, and cadence only control how the report is split into periods (columns). Defaults to six months ago."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "8df1752b-8ac3-45ce-a87e-cd8fa22b3e6c",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "api",
+                    "get_balance_sheet"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cadence",
+                      "value": "monthly"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "entity",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "entity_rollup",
+                      "value": "false"
+                    },
+                    {
+                      "key": "group_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"balance_sheet\": [\n    {\n      \"account_id\": \"12172\",\n      \"account_name\": \"Bill.com Money Out Clearing\",\n      \"account_number\": \"111000\",\n      \"hierarchy\": [\n        \"ASSET\",\n        \"12093\",\n        \"12172\"\n      ],\n      \"2022-11-01_Jupiter Consulting, LLC\": 5.73,\n      \"2022-11-01_Total\": 5.36\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6b8e98e1-b389-448a-8342-c9aab4c437a1",
+          "name": "Get Cash Flow",
+          "request": {
+            "name": "Get Cash Flow",
+            "description": {},
+            "url": {
+              "path": [
+                "ca",
+                "api",
+                "get_cash_flow"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "cadence",
+                  "value": "monthly"
+                },
+                {
+                  "disabled": false,
+                  "key": "end_date",
+                  "value": "<date>",
+                  "description": "Latest date (inclusive) for which to retrieve data. Defaults to end of current month"
+                },
+                {
+                  "disabled": false,
+                  "key": "entity",
+                  "value": "<integer>",
+                  "description": "Entity ID(s) to scope the report. Can be repeated (?entity=1&entity=2) or JSON array"
+                },
+                {
+                  "disabled": false,
+                  "key": "entity_rollup",
+                  "value": "false",
+                  "description": "If true, includes all data of children entities in consolidation"
+                },
+                {
+                  "disabled": false,
+                  "key": "group_by",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "start_date",
+                  "value": "<date>",
+                  "description": "Earliest date (inclusive) for which to retrieve data. Defaults to six months ago"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "40eb5f4a-6e86-4999-b75a-a63bcbf4998d",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "api",
+                    "get_cash_flow"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cadence",
+                      "value": "monthly"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "entity",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "entity_rollup",
+                      "value": "false"
+                    },
+                    {
+                      "key": "group_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"cash_flow\": [\n    {\n      \"account_id\": \"12088\",\n      \"account_name\": \"Accounts Receivable\",\n      \"account_number\": \"120000\",\n      \"hierarchy\": [\n        \"OPERATING\",\n        \"ADJUSTMENTS_TO_NET_INCOME\",\n        \"12088\"\n      ],\n      \"transaction_activity\": {\n        \"2023-10-01\": null,\n        \"2023-11-01\": -1400\n      }\n    },\n    {\n      \"account_id\": \"12235\",\n      \"account_name\": \"Expense Card ****3293\",\n      \"account_number\": \"220012\",\n      \"hierarchy\": [\n        \"OPERATING\",\n        \"ADJUSTMENTS_TO_NET_INCOME\",\n        \"12235\"\n      ],\n      \"transaction_activity\": {\n        \"2023-10-01\": 4.639999999999972,\n        \"2023-11-01\": -104.85999999999997\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3ea69e20-d1ed-470c-867b-84432cb7ec1d",
+          "name": "Get Cash Flow Activity",
+          "request": {
+            "name": "Get Cash Flow Activity",
+            "description": {},
+            "url": {
+              "path": [
+                "ca",
+                "api",
+                "get_cash_flow_activity"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "cadence",
+                  "value": "monthly"
+                },
+                {
+                  "disabled": false,
+                  "key": "end_date",
+                  "value": "<date>",
+                  "description": "Latest date (inclusive) for which to retrieve data. Defaults to end of current month"
+                },
+                {
+                  "disabled": false,
+                  "key": "entity",
+                  "value": "<integer>",
+                  "description": "Entity ID(s) to scope the report. Can be repeated (?entity=1&entity=2) or JSON array"
+                },
+                {
+                  "disabled": false,
+                  "key": "entity_rollup",
+                  "value": "false",
+                  "description": "If true, includes all data of children entities in consolidation"
+                },
+                {
+                  "disabled": false,
+                  "key": "start_date",
+                  "value": "<date>",
+                  "description": "Earliest date (inclusive) for which to retrieve data. Defaults to six months ago"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "99724af7-d2c7-4269-8db9-94e71ea10748",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "api",
+                    "get_cash_flow_activity"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cadence",
+                      "value": "monthly"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "entity",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "entity_rollup",
+                      "value": "false"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transaction_activity\": {\n    \"2024-01-01\": {\n      \"total_debit\": 125000,\n      \"total_credit\": -98000\n    },\n    \"2024-02-01\": {\n      \"total_debit\": 130000,\n      \"total_credit\": -102000\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d756138e-19cd-4422-8e13-56dc614a4d1d",
+          "name": "Get Cash Flow Statement",
+          "request": {
+            "name": "Get Cash Flow Statement",
+            "description": {
+              "content": "Sectioned cash flow statement (indirect method): operating (net income, non-cash adjustments, working-capital deltas), transactional investing and financing lines, the effect of exchange-rate changes on cash, and non-cash disclosures. The statement reconciles beginning to ending cash with a zero plug or is not rendered: an unreconciled ledger returns HTTP 422 with the plug by period and the journal entries whose accounts need cashflow classification. Monetary amounts are decimal strings. Pass export=xlsx for a workbook download.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ca",
+                "api",
+                "get_cash_flow_v2"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "cadence",
+                  "value": "monthly"
+                },
+                {
+                  "disabled": false,
+                  "key": "end_date",
+                  "value": "<date>",
+                  "description": "Latest date (inclusive) for which to retrieve data. Defaults to end of current month"
+                },
+                {
+                  "disabled": false,
+                  "key": "entity",
+                  "value": "<integer>",
+                  "description": "Entity ID(s) to scope the report. Can be repeated (?entity=1&entity=2) or JSON array"
+                },
+                {
+                  "disabled": false,
+                  "key": "entity_rollup",
+                  "value": "false",
+                  "description": "If true, includes all data of children entities in consolidation"
+                },
+                {
+                  "disabled": false,
+                  "key": "start_date",
+                  "value": "<date>",
+                  "description": "Earliest date (inclusive) for which to retrieve data. Defaults to six months ago"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "18ccabb9-df42-4ce9-b095-805b5d424da4",
+              "name": "No response body",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "api",
+                    "get_cash_flow_v2"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cadence",
+                      "value": "monthly"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "entity",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "entity_rollup",
+                      "value": "false"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f2a16f53-183a-4e5d-a422-4dcab005e419",
+          "name": "Get Income Statement",
+          "request": {
+            "name": "Get Income Statement",
+            "description": {
+              "content": "Returns account activity (revenue and expense movement) within the `start_date`-`end_date` range, split by `cadence`.\n\nUnlike the balance sheet, the income statement reflects only the activity that falls *inside* the requested date range - `start_date` is the true start of the activity window.\n\n**Breakdowns:** supports entity, department, vendor, and tag breakdowns/filters via `group_by` (pass `group` with a tag group ID when grouping by tag).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ca",
+                "api",
+                "get_income_statement"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "cadence",
+                  "value": "monthly"
+                },
+                {
+                  "disabled": false,
+                  "key": "end_date",
+                  "value": "<date>",
+                  "description": "Latest date (inclusive) for which to retrieve data. Defaults to end of current month"
+                },
+                {
+                  "disabled": false,
+                  "key": "entity",
+                  "value": "<integer>",
+                  "description": "Entity ID(s) to scope the report. Can be repeated (?entity=1&entity=2) or JSON array"
+                },
+                {
+                  "disabled": false,
+                  "key": "entity_rollup",
+                  "value": "false",
+                  "description": "If true, includes all data of children entities in consolidation"
+                },
+                {
+                  "disabled": false,
+                  "key": "group_by",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "start_date",
+                  "value": "<date>",
+                  "description": "Earliest date (inclusive) for which to retrieve data. Defaults to six months ago"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "3dccc436-00e0-408e-b47d-d8b4fefe1c75",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "api",
+                    "get_income_statement"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cadence",
+                      "value": "monthly"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "entity",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "entity_rollup",
+                      "value": "false"
+                    },
+                    {
+                      "key": "group_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"income_statement\": [\n    {\n      \"account_id\": \"2555\",\n      \"account_name\": \"Sales, General, and Administrative Expenses\",\n      \"account_number\": \"600000\",\n      \"hierarchy\": [\n        \"OPERATING_EXPENSES\",\n        \"2555\"\n      ],\n      \"2024-01-01_Total\": 14883.910000000002\n    },\n    {\n      \"account_id\": \"2556\",\n      \"account_name\": \"Sales\",\n      \"account_number\": \"400000\",\n      \"hierarchy\": [\n        \"REVENUE\",\n        \"2556\"\n      ],\n      \"2024-01-01_Total\": 766651\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fe72365a-ab6c-4521-9531-7977668259b0",
+          "name": "Get Trial Balance",
+          "request": {
+            "name": "Get Trial Balance",
+            "description": {
+              "content": "Returns debit and credit totals for each account over a date range.\n\n**The summation window depends on the account type:**\n- **Balance sheet accounts** (assets, liabilities, equity): totals are summed from the beginning of time through `end_date`.\n- **Income statement accounts** (revenue, expenses): the window depends on `income_statement_basis`. With the default `period` basis, totals are summed from `start_date` through `end_date` and a synthetic Net Income (Prior Periods) row carries current-fiscal-year income earned before `start_date`. With `fiscal_ytd`, totals are summed from the fiscal-year start through `end_date` and no Net Income row is emitted.\n\nThe effective income-statement window start is returned as `income_statement_start`.\n\nRetained earnings is included as its own row. For balance sheet ending balances specifically, prefer `GET /ca/api/get_balance_sheet`.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ca",
+                "api",
+                "get_trial_balance"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "department",
+                  "value": "<integer>",
+                  "description": "Filter by department ID. Can be specified multiple times for multiple departments"
+                },
+                {
+                  "disabled": false,
+                  "key": "end_date",
+                  "value": "<date>",
+                  "description": "Latest date (inclusive) for which to retrieve data. Defaults to end of current month"
+                },
+                {
+                  "disabled": false,
+                  "key": "entity",
+                  "value": "<integer>",
+                  "description": "Entity ID(s) to scope the report. Can be repeated (?entity=1&entity=2) or JSON array"
+                },
+                {
+                  "disabled": false,
+                  "key": "entity_rollup",
+                  "value": "false",
+                  "description": "If true, includes all data of children entities in consolidation"
+                },
+                {
+                  "disabled": false,
+                  "key": "group_by",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "income_statement_basis",
+                  "value": "<string>",
+                  "description": "Income-statement window: selected period (default) or fiscal year-to-date."
+                },
+                {
+                  "disabled": false,
+                  "key": "start_date",
+                  "value": "<date>",
+                  "description": "Earliest date (inclusive) for which to retrieve data. Defaults to six months ago"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "503f77d2-4275-49f0-8a6f-39084c4921be",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "api",
+                    "get_trial_balance"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "department",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "entity",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "entity_rollup",
+                      "value": "false"
+                    },
+                    {
+                      "key": "group_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "income_statement_basis",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"trial_balance\": {\n    \"accounts\": [\n      {\n        \"id\": 2550,\n        \"name\": \"Accounts Payable\",\n        \"number\": \"210000\",\n        \"balances\": {\n          \"2023-08-31\": {\n            \"debits\": 0,\n            \"credits\": 123\n          },\n          \"2023-09-30\": {\n            \"debits\": 0,\n            \"credits\": 123\n          }\n        }\n      },\n      {\n        \"id\": 2551,\n        \"name\": \"Credit Cards\",\n        \"number\": \"220000\",\n        \"balances\": {\n          \"2023-08-31\": {\n            \"debits\": 1700.14,\n            \"credits\": 0\n          },\n          \"2023-09-30\": {\n            \"debits\": 1700.14,\n            \"credits\": 0\n          }\n        }\n      }\n    ]\n  },\n  \"start_date\": \"2023-10-01\",\n  \"end_date\": \"2023-11-30\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "de55150e-aecd-45e4-8ca3-acee9e773172",
+          "name": "Get Comparative Income Statement",
+          "request": {
+            "name": "Get Comparative Income Statement",
+            "description": {},
+            "url": {
+              "path": [
+                "ca",
+                "api",
+                "income-statement",
+                "comparative"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "cadence",
+                  "value": "monthly"
+                },
+                {
+                  "disabled": false,
+                  "key": "entity",
+                  "value": "<integer>",
+                  "description": "Entity ID(s) to scope the report. Can be repeated (?entity=1&entity=2) or JSON array"
+                },
+                {
+                  "disabled": false,
+                  "key": "entity_rollup",
+                  "value": "false",
+                  "description": "If true, includes all data of children entities in consolidation"
+                },
+                {
+                  "disabled": false,
+                  "key": "group_by",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "2a8a2313-89fc-4336-9e62-ea518180d31e",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "api",
+                    "income-statement",
+                    "comparative"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cadence",
+                      "value": "monthly"
+                    },
+                    {
+                      "key": "entity",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "entity_rollup",
+                      "value": "false"
+                    },
+                    {
+                      "key": "group_by",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"income_statement\": [\n    {\n      \"account_id\": \"2555\",\n      \"account_name\": \"Sales, General, and Administrative Expenses\",\n      \"account_number\": \"600000\",\n      \"hierarchy\": [\n        \"OPERATING_EXPENSES\",\n        \"2555\"\n      ],\n      \"2024-01-01_Total\": 14883.91,\n      \"2024-02-01_Total\": 15200,\n      \"comparison_1_Difference\": 316.09,\n      \"comparison_1_Percentage\": 2.12\n    }\n  ],\n  \"headers\": {\n    \"comparison_1\": [\n      \"2024-01-01_Total\",\n      \"2024-02-01_Total\",\n      \"comparison_1_Difference\",\n      \"comparison_1_Percentage\"\n    ]\n  },\n  \"budget_id\": null\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "05099616-5edd-44de-833a-124074bb025a",
+          "name": "Get General Ledger",
+          "request": {
+            "name": "Get General Ledger",
+            "description": {},
+            "url": {
+              "path": [
+                "coa",
+                "api",
+                "general-ledger"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "2eeb90ff-3e67-45c9-9e47-fa0b941ecbdc",
+              "name": "No response body",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coa",
+                    "api",
+                    "general-ledger"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.meetcampfire.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "8a82ae8e-9dfb-40bb-8144-03360256311e",
+    "name": "Campfire Developer APIs Accounts Payable Financial Statements API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "## Introduction\nCampfire's developer APIs offer granular access to Campfire's core accounting,\nrevenue recognition, and financial data features.\n\nThese APIs are designed to be used by developers to build custom integrations,\nautomate workflows, and perform any other programmatic operations.\n",
+      "type": "text/plain"
+    }
+  }
+}

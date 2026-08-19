@@ -1,0 +1,2385 @@
+{
+  "item": [
+    {
+      "id": "1a284767-68cb-48c3-a5c8-e5d94df02896",
+      "name": "Bank Reconciliation",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2b482603-9346-4ec9-ad22-05409e083751",
+          "name": "List Bank Reconciliation Reports",
+          "request": {
+            "name": "List Bank Reconciliation Reports",
+            "description": {
+              "content": "Retrieve a paginated list of bank reconciliation reports. Supports filtering by start_date, end_date, entity, account, and search query (q). Default sort is by statement_ending_date descending.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "coa",
+                "api",
+                "v2",
+                "reconciliation"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "account",
+                  "value": "<integer>",
+                  "description": "Filter by account ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "end_date",
+                  "value": "<string>",
+                  "description": "Filter by maximum statement ending date (YYYY-MM-DD)"
+                },
+                {
+                  "disabled": false,
+                  "key": "entity",
+                  "value": "<integer>",
+                  "description": "Filter by entity ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Number of results to return per page."
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "<integer>",
+                  "description": "The initial index from which to return the results."
+                },
+                {
+                  "disabled": false,
+                  "key": "q",
+                  "value": "<string>",
+                  "description": "Search term for account name, number, or reconciled_by name"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "<string>",
+                  "description": "Sort field (prefix with - for descending)"
+                },
+                {
+                  "disabled": false,
+                  "key": "start_date",
+                  "value": "<string>",
+                  "description": "Filter by minimum statement ending date (YYYY-MM-DD)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "008c0e21-2d6f-4281-9322-7f62b7db2f73",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coa",
+                    "api",
+                    "v2",
+                    "reconciliation"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "account",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "entity",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "q",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"count\": 123,\n  \"results\": [\n    {\n      \"account\": 5304,\n      \"account_name\": \"string\",\n      \"account_number\": \"string\",\n      \"account_subtype\": \"string\",\n      \"account_type\": \"string\",\n      \"approved_by\": 3267,\n      \"approved_by_email\": \"string\",\n      \"approved_by_name\": \"string\",\n      \"approved_on\": \"1980-03-23T00:59:15.522Z\",\n      \"async_task\": {\n        \"created_at\": \"1960-05-14T15:33:33.521Z\",\n        \"created_by\": 6518,\n        \"created_by_name\": \"string\",\n        \"customer\": 3858,\n        \"id\": 7765,\n        \"name\": \"string\",\n        \"status\": \"FAILED\",\n        \"error_message\": \"string\",\n        \"error_type\": \"string\",\n        \"retries\": -1413615417,\n        \"completed_at\": \"1947-04-15T18:20:59.961Z\",\n        \"started_at\": \"1970-07-01T16:00:48.730Z\",\n        \"celery_task_id\": \"string\",\n        \"root_task_id\": \"string\",\n        \"parent_task_id\": \"string\",\n        \"trace_id\": \"string\",\n        \"span_id\": \"string\",\n        \"task_args\": {},\n        \"task_kwargs\": {},\n        \"result\": {},\n        \"content\": {}\n      },\n      \"created_at\": \"1951-10-25T18:50:32.387Z\",\n      \"customer\": 3407,\n      \"entity_name\": \"string\",\n      \"id\": 5735,\n      \"last_modified_at\": \"1970-11-16T12:08:59.009Z\",\n      \"reconciled_by_email\": \"string\",\n      \"reconciled_by_name\": \"string\",\n      \"entity\": 9610,\n      \"currency\": \"str\",\n      \"statement_starting_date\": \"2007-08-30\",\n      \"statement_ending_date\": \"1968-11-26\",\n      \"starting_balance\": 877113324237323500,\n      \"ending_balance\": -162103508401451000,\n      \"total_credit_amount\": 690639090370307800,\n      \"total_debit_amount\": 162009542208874240,\n      \"adjustments\": 153537749902703600,\n      \"matching_task\": 6023,\n      \"reconciled_by\": 8960,\n      \"reconciled_on\": \"1989-02-27\",\n      \"status\": \"DELETED\",\n      \"unmatched_statement_transactions\": {},\n      \"statement_recognition_cost_usd\": -48473958.67235233,\n      \"statement_recognition_input_tokens\": 1730365762,\n      \"statement_recognition_output_tokens\": 2034479803,\n      \"statement_recognition_token_total\": 3165653418600862700,\n      \"statement_recognition_model_name\": \"string\"\n    },\n    {\n      \"account\": 9081,\n      \"account_name\": \"string\",\n      \"account_number\": \"string\",\n      \"account_subtype\": \"string\",\n      \"account_type\": \"string\",\n      \"approved_by\": 9224,\n      \"approved_by_email\": \"string\",\n      \"approved_by_name\": \"string\",\n      \"approved_on\": \"2015-08-25T03:41:38.293Z\",\n      \"async_task\": {\n        \"created_at\": \"2001-08-29T23:13:16.389Z\",\n        \"created_by\": 4115,\n        \"created_by_name\": \"string\",\n        \"customer\": 4040,\n        \"id\": 855,\n        \"name\": \"string\",\n        \"status\": \"CANCELLED\",\n        \"error_message\": \"string\",\n        \"error_type\": \"string\",\n        \"retries\": 1778998187,\n        \"completed_at\": \"1975-07-06T22:40:40.299Z\",\n        \"started_at\": \"1991-03-03T13:48:29.137Z\",\n        \"celery_task_id\": \"string\",\n        \"root_task_id\": \"string\",\n        \"parent_task_id\": \"string\",\n        \"trace_id\": \"string\",\n        \"span_id\": \"string\",\n        \"task_args\": {},\n        \"task_kwargs\": {},\n        \"result\": {},\n        \"content\": {}\n      },\n      \"created_at\": \"2000-10-24T21:45:01.219Z\",\n      \"customer\": 7468,\n      \"entity_name\": \"string\",\n      \"id\": 214,\n      \"last_modified_at\": \"1948-05-15T04:06:39.914Z\",\n      \"reconciled_by_email\": \"string\",\n      \"reconciled_by_name\": \"string\",\n      \"entity\": 5861,\n      \"currency\": \"str\",\n      \"statement_starting_date\": \"1958-04-21\",\n      \"statement_ending_date\": \"1982-06-18\",\n      \"starting_balance\": 22318513262128000,\n      \"ending_balance\": 850627960768103400,\n      \"total_credit_amount\": 696900670948723500,\n      \"total_debit_amount\": 573185521951880200,\n      \"adjustments\": 237343675160464400,\n      \"matching_task\": 4166,\n      \"reconciled_by\": 1527,\n      \"reconciled_on\": \"1953-07-24\",\n      \"status\": \"APPROVED\",\n      \"unmatched_statement_transactions\": {},\n      \"statement_recognition_cost_usd\": -14938131.949734733,\n      \"statement_recognition_input_tokens\": 100922543,\n      \"statement_recognition_output_tokens\": 258215282,\n      \"statement_recognition_token_total\": 8787130022791843000,\n      \"statement_recognition_model_name\": \"string\"\n    }\n  ],\n  \"next\": \"http://api.example.org/accounts/?offset=400&limit=100\",\n  \"previous\": \"http://api.example.org/accounts/?offset=200&limit=100\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4cf64fd1-9d08-4aab-b831-d68a9a437c49",
+          "name": "Create Bank Reconciliation Report",
+          "request": {
+            "name": "Create Bank Reconciliation Report",
+            "description": {
+              "content": "Create a new bank reconciliation report for a specific account and date range. Cannot create overlapping date ranges for the same account and entity.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "coa",
+                "api",
+                "v2",
+                "reconciliation"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "account",
+                  "value": "<integer>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "currency",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "statement_starting_date",
+                  "value": "<date>"
+                },
+                {
+                  "disabled": false,
+                  "key": "statement_ending_date",
+                  "value": "<date>"
+                },
+                {
+                  "disabled": false,
+                  "key": "starting_balance",
+                  "value": "<double>"
+                },
+                {
+                  "disabled": false,
+                  "key": "ending_balance",
+                  "value": "<double>"
+                },
+                {
+                  "disabled": false,
+                  "key": "total_credit_amount",
+                  "value": "<double>"
+                },
+                {
+                  "disabled": false,
+                  "key": "total_debit_amount",
+                  "value": "<double>"
+                },
+                {
+                  "disabled": false,
+                  "key": "adjustments",
+                  "value": "<double>"
+                },
+                {
+                  "disabled": false,
+                  "key": "reconciled_on",
+                  "value": "<date>"
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "statement_recognition_cost_usd",
+                  "value": "<double>",
+                  "description": "Estimated USD cost of AI bank-statement parsing for this report (from summed page token usage)."
+                },
+                {
+                  "disabled": false,
+                  "key": "statement_recognition_input_tokens",
+                  "value": "<integer>",
+                  "description": "Sum of input tokens from statement parsing across all pages (set on finalize)."
+                },
+                {
+                  "disabled": false,
+                  "key": "statement_recognition_output_tokens",
+                  "value": "<integer>",
+                  "description": "Sum of output tokens from statement parsing across all pages (set on finalize)."
+                },
+                {
+                  "disabled": false,
+                  "key": "statement_recognition_token_total",
+                  "value": "<long>",
+                  "description": "Input plus output tokens for this report (set on finalize)."
+                },
+                {
+                  "disabled": false,
+                  "key": "statement_recognition_model_name",
+                  "value": "<string>",
+                  "description": "LLM model used for statement parsing when token totals were recorded."
+                },
+                {
+                  "disabled": false,
+                  "key": "entity",
+                  "value": "<integer>"
+                },
+                {
+                  "disabled": false,
+                  "key": "matching_task",
+                  "value": "<integer>"
+                },
+                {
+                  "disabled": false,
+                  "key": "reconciled_by",
+                  "value": "<integer>"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "e1e9a27b-47ec-4918-a98b-153060f98ffa",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coa",
+                    "api",
+                    "v2",
+                    "reconciliation"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "account",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "currency",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "statement_starting_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "statement_ending_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "starting_balance",
+                      "value": "<double>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "ending_balance",
+                      "value": "<double>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "total_credit_amount",
+                      "value": "<double>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "total_debit_amount",
+                      "value": "<double>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "adjustments",
+                      "value": "<double>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "reconciled_on",
+                      "value": "<date>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Estimated USD cost of AI bank-statement parsing for this report (from summed page token usage).",
+                        "type": "text/plain"
+                      },
+                      "key": "statement_recognition_cost_usd",
+                      "value": "<double>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Sum of input tokens from statement parsing across all pages (set on finalize).",
+                        "type": "text/plain"
+                      },
+                      "key": "statement_recognition_input_tokens",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Sum of output tokens from statement parsing across all pages (set on finalize).",
+                        "type": "text/plain"
+                      },
+                      "key": "statement_recognition_output_tokens",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Input plus output tokens for this report (set on finalize).",
+                        "type": "text/plain"
+                      },
+                      "key": "statement_recognition_token_total",
+                      "value": "<long>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "LLM model used for statement parsing when token totals were recorded.",
+                        "type": "text/plain"
+                      },
+                      "key": "statement_recognition_model_name",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "entity",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "matching_task",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "reconciled_by",
+                      "value": "<integer>"
+                    }
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"account\": \"<integer>\",\n  \"id\": 447,\n  \"entity_name\": \"string\",\n  \"account_name\": \"string\",\n  \"account_number\": \"string\",\n  \"account_type\": \"string\",\n  \"account_subtype\": \"string\",\n  \"reconciled_by_name\": \"string\",\n  \"reconciled_by_email\": \"string\",\n  \"approved_by_name\": \"string\",\n  \"approved_by_email\": \"string\",\n  \"async_task\": {\n    \"created_at\": \"1996-07-19T15:56:31.332Z\",\n    \"created_by\": 9585,\n    \"created_by_name\": \"string\",\n    \"customer\": 5500,\n    \"id\": 4736,\n    \"name\": \"string\",\n    \"status\": \"COMPLETED\",\n    \"error_message\": \"string\",\n    \"error_type\": \"string\",\n    \"retries\": -11467658,\n    \"completed_at\": \"1985-12-28T15:27:26.503Z\",\n    \"started_at\": \"2004-09-30T04:53:23.550Z\",\n    \"celery_task_id\": \"string\",\n    \"root_task_id\": \"string\",\n    \"parent_task_id\": \"string\",\n    \"trace_id\": \"string\",\n    \"span_id\": \"string\",\n    \"task_args\": {},\n    \"task_kwargs\": {},\n    \"result\": {},\n    \"content\": {}\n  },\n  \"attachments\": [\n    {\n      \"app\": \"string\",\n      \"created_at\": \"1968-02-13T15:05:50.580Z\",\n      \"created_by\": 7526,\n      \"created_by_email\": \"string\",\n      \"created_by_name\": \"string\",\n      \"customer\": 9893,\n      \"deleted_at\": \"1970-07-27T07:13:52.647Z\",\n      \"id\": 4636,\n      \"is_deleted\": false,\n      \"last_modified_at\": \"2015-04-18T19:10:13.125Z\",\n      \"model\": \"string\",\n      \"name\": \"string\",\n      \"s3_path\": \"string\",\n      \"url\": \"string\",\n      \"s3_content_type\": \"string\",\n      \"s3_content_length\": 1626293076,\n      \"object_id\": 1937691443\n    },\n    {\n      \"app\": \"string\",\n      \"created_at\": \"2019-02-03T01:50:07.941Z\",\n      \"created_by\": 7816,\n      \"created_by_email\": \"string\",\n      \"created_by_name\": \"string\",\n      \"customer\": 1093,\n      \"deleted_at\": \"1998-07-29T00:06:58.357Z\",\n      \"id\": 1800,\n      \"is_deleted\": false,\n      \"last_modified_at\": \"1960-10-01T07:59:53.331Z\",\n      \"model\": \"string\",\n      \"name\": \"string\",\n      \"s3_path\": \"string\",\n      \"url\": \"string\",\n      \"s3_content_type\": \"string\",\n      \"s3_content_length\": 1670489040,\n      \"object_id\": 1405235131\n    }\n  ],\n  \"csv_statements\": \"string\",\n  \"cleared_total_debits\": \"string\",\n  \"cleared_total_credits\": \"string\",\n  \"cleared_activity\": \"string\",\n  \"cleared_item_count\": \"string\",\n  \"matched_total_debits\": \"string\",\n  \"matched_total_credits\": \"string\",\n  \"matched_activity\": \"string\",\n  \"matched_item_count\": \"string\",\n  \"unreconciled_total_debits\": \"string\",\n  \"unreconciled_total_credits\": \"string\",\n  \"unreconciled_activity\": \"string\",\n  \"unreconciled_gl_item_count\": \"string\",\n  \"unreconciled_statement_line_count\": \"string\",\n  \"unreconciled_statement_activity\": \"string\",\n  \"reconciliation_difference\": \"string\",\n  \"open_total_debits\": \"string\",\n  \"open_total_credits\": \"string\",\n  \"open_activity\": \"string\",\n  \"open_gl_item_count\": \"string\",\n  \"open_statement_line_count\": \"string\",\n  \"open_statement_activity\": \"string\",\n  \"statement_activity\": \"string\",\n  \"open_difference\": \"string\",\n  \"currency\": \"<string>\",\n  \"statement_starting_date\": \"<date>\",\n  \"statement_ending_date\": \"<date>\",\n  \"starting_balance\": \"<double>\",\n  \"ending_balance\": \"<double>\",\n  \"total_credit_amount\": \"<double>\",\n  \"total_debit_amount\": \"<double>\",\n  \"adjustments\": \"<double>\",\n  \"created_at\": \"1947-10-05T23:07:25.559Z\",\n  \"last_modified_at\": \"1950-03-04T18:55:57.196Z\",\n  \"reconciled_on\": \"<date>\",\n  \"approved_on\": \"1996-05-09T01:32:52.375Z\",\n  \"status\": \"<string>\",\n  \"unmatched_statement_transactions\": {},\n  \"statement_recognition_cost_usd\": \"<double>\",\n  \"statement_recognition_input_tokens\": \"<integer>\",\n  \"statement_recognition_output_tokens\": \"<integer>\",\n  \"statement_recognition_token_total\": \"<long>\",\n  \"statement_recognition_model_name\": \"<string>\",\n  \"customer\": 8477,\n  \"entity\": \"<integer>\",\n  \"matching_task\": \"<integer>\",\n  \"reconciled_by\": \"<integer>\",\n  \"approved_by\": 1339\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "77be3e27-a9c7-4a3f-bb9a-4f49868ad224",
+          "name": "Get Bank Reconciliation Report",
+          "request": {
+            "name": "Get Bank Reconciliation Report",
+            "description": {
+              "content": "Retrieve a specific bank reconciliation report by ID. Includes report metadata, status, async task status for PDF processing, and attached files/CSV statements.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "coa",
+                "api",
+                "v2",
+                "reconciliation",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "236b2112-cdb3-4d5c-9074-5ddd52177464",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coa",
+                    "api",
+                    "v2",
+                    "reconciliation",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"account\": \"<integer>\",\n  \"id\": 5064,\n  \"entity_name\": \"string\",\n  \"account_name\": \"string\",\n  \"account_number\": \"string\",\n  \"account_type\": \"string\",\n  \"account_subtype\": \"string\",\n  \"reconciled_by_name\": \"string\",\n  \"reconciled_by_email\": \"string\",\n  \"approved_by_name\": \"string\",\n  \"approved_by_email\": \"string\",\n  \"async_task\": {\n    \"created_at\": \"1966-04-04T01:27:31.039Z\",\n    \"created_by\": 5335,\n    \"created_by_name\": \"string\",\n    \"customer\": 2877,\n    \"id\": 4811,\n    \"name\": \"string\",\n    \"status\": \"PROCESSING\",\n    \"error_message\": \"string\",\n    \"error_type\": \"string\",\n    \"retries\": 414273823,\n    \"completed_at\": \"2001-03-06T00:58:07.390Z\",\n    \"started_at\": \"1947-10-15T14:41:26.794Z\",\n    \"celery_task_id\": \"string\",\n    \"root_task_id\": \"string\",\n    \"parent_task_id\": \"string\",\n    \"trace_id\": \"string\",\n    \"span_id\": \"string\",\n    \"task_args\": {},\n    \"task_kwargs\": {},\n    \"result\": {},\n    \"content\": {}\n  },\n  \"attachments\": [\n    {\n      \"app\": \"string\",\n      \"created_at\": \"2013-09-13T15:19:53.513Z\",\n      \"created_by\": 6956,\n      \"created_by_email\": \"string\",\n      \"created_by_name\": \"string\",\n      \"customer\": 7024,\n      \"deleted_at\": \"1980-10-10T07:32:17.911Z\",\n      \"id\": 7718,\n      \"is_deleted\": false,\n      \"last_modified_at\": \"2012-12-23T14:31:05.149Z\",\n      \"model\": \"string\",\n      \"name\": \"string\",\n      \"s3_path\": \"string\",\n      \"url\": \"string\",\n      \"s3_content_type\": \"string\",\n      \"s3_content_length\": 254252901,\n      \"object_id\": 45201165\n    },\n    {\n      \"app\": \"string\",\n      \"created_at\": \"2014-10-12T04:02:31.747Z\",\n      \"created_by\": 372,\n      \"created_by_email\": \"string\",\n      \"created_by_name\": \"string\",\n      \"customer\": 5052,\n      \"deleted_at\": \"1983-11-29T17:56:57.770Z\",\n      \"id\": 6873,\n      \"is_deleted\": false,\n      \"last_modified_at\": \"2019-03-11T05:31:58.691Z\",\n      \"model\": \"string\",\n      \"name\": \"string\",\n      \"s3_path\": \"string\",\n      \"url\": \"string\",\n      \"s3_content_type\": \"string\",\n      \"s3_content_length\": 1415944415,\n      \"object_id\": 554583118\n    }\n  ],\n  \"csv_statements\": \"string\",\n  \"cleared_total_debits\": \"string\",\n  \"cleared_total_credits\": \"string\",\n  \"cleared_activity\": \"string\",\n  \"cleared_item_count\": \"string\",\n  \"matched_total_debits\": \"string\",\n  \"matched_total_credits\": \"string\",\n  \"matched_activity\": \"string\",\n  \"matched_item_count\": \"string\",\n  \"unreconciled_total_debits\": \"string\",\n  \"unreconciled_total_credits\": \"string\",\n  \"unreconciled_activity\": \"string\",\n  \"unreconciled_gl_item_count\": \"string\",\n  \"unreconciled_statement_line_count\": \"string\",\n  \"unreconciled_statement_activity\": \"string\",\n  \"reconciliation_difference\": \"string\",\n  \"open_total_debits\": \"string\",\n  \"open_total_credits\": \"string\",\n  \"open_activity\": \"string\",\n  \"open_gl_item_count\": \"string\",\n  \"open_statement_line_count\": \"string\",\n  \"open_statement_activity\": \"string\",\n  \"statement_activity\": \"string\",\n  \"open_difference\": \"string\",\n  \"currency\": \"<string>\",\n  \"statement_starting_date\": \"<date>\",\n  \"statement_ending_date\": \"<date>\",\n  \"starting_balance\": \"<double>\",\n  \"ending_balance\": \"<double>\",\n  \"total_credit_amount\": \"<double>\",\n  \"total_debit_amount\": \"<double>\",\n  \"adjustments\": \"<double>\",\n  \"created_at\": \"2022-01-24T18:04:55.457Z\",\n  \"last_modified_at\": \"2025-10-30T23:33:05.181Z\",\n  \"reconciled_on\": \"<date>\",\n  \"approved_on\": \"2011-05-31T15:17:57.775Z\",\n  \"status\": \"<string>\",\n  \"unmatched_statement_transactions\": {},\n  \"statement_recognition_cost_usd\": \"<double>\",\n  \"statement_recognition_input_tokens\": \"<integer>\",\n  \"statement_recognition_output_tokens\": \"<integer>\",\n  \"statement_recognition_token_total\": \"<long>\",\n  \"statement_recognition_model_name\": \"<string>\",\n  \"customer\": 3836,\n  \"entity\": \"<integer>\",\n  \"matching_task\": \"<integer>\",\n  \"reconciled_by\": \"<integer>\",\n  \"approved_by\": 2875\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "82212e71-9a33-4693-9535-c4638ffb929a",
+          "name": "Update Bank Reconciliation Report",
+          "request": {
+            "name": "Update Bank Reconciliation Report",
+            "description": {
+              "content": "Update a bank reconciliation report. Supports partial updates via PATCH.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "coa",
+                "api",
+                "v2",
+                "reconciliation",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "account",
+                  "value": "<integer>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "currency",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "statement_starting_date",
+                  "value": "<date>"
+                },
+                {
+                  "disabled": false,
+                  "key": "statement_ending_date",
+                  "value": "<date>"
+                },
+                {
+                  "disabled": false,
+                  "key": "starting_balance",
+                  "value": "<double>"
+                },
+                {
+                  "disabled": false,
+                  "key": "ending_balance",
+                  "value": "<double>"
+                },
+                {
+                  "disabled": false,
+                  "key": "total_credit_amount",
+                  "value": "<double>"
+                },
+                {
+                  "disabled": false,
+                  "key": "total_debit_amount",
+                  "value": "<double>"
+                },
+                {
+                  "disabled": false,
+                  "key": "adjustments",
+                  "value": "<double>"
+                },
+                {
+                  "disabled": false,
+                  "key": "reconciled_on",
+                  "value": "<date>"
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "statement_recognition_cost_usd",
+                  "value": "<double>",
+                  "description": "Estimated USD cost of AI bank-statement parsing for this report (from summed page token usage)."
+                },
+                {
+                  "disabled": false,
+                  "key": "statement_recognition_input_tokens",
+                  "value": "<integer>",
+                  "description": "Sum of input tokens from statement parsing across all pages (set on finalize)."
+                },
+                {
+                  "disabled": false,
+                  "key": "statement_recognition_output_tokens",
+                  "value": "<integer>",
+                  "description": "Sum of output tokens from statement parsing across all pages (set on finalize)."
+                },
+                {
+                  "disabled": false,
+                  "key": "statement_recognition_token_total",
+                  "value": "<long>",
+                  "description": "Input plus output tokens for this report (set on finalize)."
+                },
+                {
+                  "disabled": false,
+                  "key": "statement_recognition_model_name",
+                  "value": "<string>",
+                  "description": "LLM model used for statement parsing when token totals were recorded."
+                },
+                {
+                  "disabled": false,
+                  "key": "entity",
+                  "value": "<integer>"
+                },
+                {
+                  "disabled": false,
+                  "key": "matching_task",
+                  "value": "<integer>"
+                },
+                {
+                  "disabled": false,
+                  "key": "reconciled_by",
+                  "value": "<integer>"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "565fb731-72ed-43b9-8787-cc369b746cc8",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coa",
+                    "api",
+                    "v2",
+                    "reconciliation",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "account",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "currency",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "statement_starting_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "statement_ending_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "starting_balance",
+                      "value": "<double>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "ending_balance",
+                      "value": "<double>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "total_credit_amount",
+                      "value": "<double>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "total_debit_amount",
+                      "value": "<double>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "adjustments",
+                      "value": "<double>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "reconciled_on",
+                      "value": "<date>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Estimated USD cost of AI bank-statement parsing for this report (from summed page token usage).",
+                        "type": "text/plain"
+                      },
+                      "key": "statement_recognition_cost_usd",
+                      "value": "<double>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Sum of input tokens from statement parsing across all pages (set on finalize).",
+                        "type": "text/plain"
+                      },
+                      "key": "statement_recognition_input_tokens",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Sum of output tokens from statement parsing across all pages (set on finalize).",
+                        "type": "text/plain"
+                      },
+                      "key": "statement_recognition_output_tokens",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Input plus output tokens for this report (set on finalize).",
+                        "type": "text/plain"
+                      },
+                      "key": "statement_recognition_token_total",
+                      "value": "<long>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "LLM model used for statement parsing when token totals were recorded.",
+                        "type": "text/plain"
+                      },
+                      "key": "statement_recognition_model_name",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "entity",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "matching_task",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "reconciled_by",
+                      "value": "<integer>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"account\": \"<integer>\",\n  \"id\": 5064,\n  \"entity_name\": \"string\",\n  \"account_name\": \"string\",\n  \"account_number\": \"string\",\n  \"account_type\": \"string\",\n  \"account_subtype\": \"string\",\n  \"reconciled_by_name\": \"string\",\n  \"reconciled_by_email\": \"string\",\n  \"approved_by_name\": \"string\",\n  \"approved_by_email\": \"string\",\n  \"async_task\": {\n    \"created_at\": \"1966-04-04T01:27:31.039Z\",\n    \"created_by\": 5335,\n    \"created_by_name\": \"string\",\n    \"customer\": 2877,\n    \"id\": 4811,\n    \"name\": \"string\",\n    \"status\": \"PROCESSING\",\n    \"error_message\": \"string\",\n    \"error_type\": \"string\",\n    \"retries\": 414273823,\n    \"completed_at\": \"2001-03-06T00:58:07.390Z\",\n    \"started_at\": \"1947-10-15T14:41:26.794Z\",\n    \"celery_task_id\": \"string\",\n    \"root_task_id\": \"string\",\n    \"parent_task_id\": \"string\",\n    \"trace_id\": \"string\",\n    \"span_id\": \"string\",\n    \"task_args\": {},\n    \"task_kwargs\": {},\n    \"result\": {},\n    \"content\": {}\n  },\n  \"attachments\": [\n    {\n      \"app\": \"string\",\n      \"created_at\": \"2013-09-13T15:19:53.513Z\",\n      \"created_by\": 6956,\n      \"created_by_email\": \"string\",\n      \"created_by_name\": \"string\",\n      \"customer\": 7024,\n      \"deleted_at\": \"1980-10-10T07:32:17.911Z\",\n      \"id\": 7718,\n      \"is_deleted\": false,\n      \"last_modified_at\": \"2012-12-23T14:31:05.149Z\",\n      \"model\": \"string\",\n      \"name\": \"string\",\n      \"s3_path\": \"string\",\n      \"url\": \"string\",\n      \"s3_content_type\": \"string\",\n      \"s3_content_length\": 254252901,\n      \"object_id\": 45201165\n    },\n    {\n      \"app\": \"string\",\n      \"created_at\": \"2014-10-12T04:02:31.747Z\",\n      \"created_by\": 372,\n      \"created_by_email\": \"string\",\n      \"created_by_name\": \"string\",\n      \"customer\": 5052,\n      \"deleted_at\": \"1983-11-29T17:56:57.770Z\",\n      \"id\": 6873,\n      \"is_deleted\": false,\n      \"last_modified_at\": \"2019-03-11T05:31:58.691Z\",\n      \"model\": \"string\",\n      \"name\": \"string\",\n      \"s3_path\": \"string\",\n      \"url\": \"string\",\n      \"s3_content_type\": \"string\",\n      \"s3_content_length\": 1415944415,\n      \"object_id\": 554583118\n    }\n  ],\n  \"csv_statements\": \"string\",\n  \"cleared_total_debits\": \"string\",\n  \"cleared_total_credits\": \"string\",\n  \"cleared_activity\": \"string\",\n  \"cleared_item_count\": \"string\",\n  \"matched_total_debits\": \"string\",\n  \"matched_total_credits\": \"string\",\n  \"matched_activity\": \"string\",\n  \"matched_item_count\": \"string\",\n  \"unreconciled_total_debits\": \"string\",\n  \"unreconciled_total_credits\": \"string\",\n  \"unreconciled_activity\": \"string\",\n  \"unreconciled_gl_item_count\": \"string\",\n  \"unreconciled_statement_line_count\": \"string\",\n  \"unreconciled_statement_activity\": \"string\",\n  \"reconciliation_difference\": \"string\",\n  \"open_total_debits\": \"string\",\n  \"open_total_credits\": \"string\",\n  \"open_activity\": \"string\",\n  \"open_gl_item_count\": \"string\",\n  \"open_statement_line_count\": \"string\",\n  \"open_statement_activity\": \"string\",\n  \"statement_activity\": \"string\",\n  \"open_difference\": \"string\",\n  \"currency\": \"<string>\",\n  \"statement_starting_date\": \"<date>\",\n  \"statement_ending_date\": \"<date>\",\n  \"starting_balance\": \"<double>\",\n  \"ending_balance\": \"<double>\",\n  \"total_credit_amount\": \"<double>\",\n  \"total_debit_amount\": \"<double>\",\n  \"adjustments\": \"<double>\",\n  \"created_at\": \"2022-01-24T18:04:55.457Z\",\n  \"last_modified_at\": \"2025-10-30T23:33:05.181Z\",\n  \"reconciled_on\": \"<date>\",\n  \"approved_on\": \"2011-05-31T15:17:57.775Z\",\n  \"status\": \"<string>\",\n  \"unmatched_statement_transactions\": {},\n  \"statement_recognition_cost_usd\": \"<double>\",\n  \"statement_recognition_input_tokens\": \"<integer>\",\n  \"statement_recognition_output_tokens\": \"<integer>\",\n  \"statement_recognition_token_total\": \"<long>\",\n  \"statement_recognition_model_name\": \"<string>\",\n  \"customer\": 3836,\n  \"entity\": \"<integer>\",\n  \"matching_task\": \"<integer>\",\n  \"reconciled_by\": \"<integer>\",\n  \"approved_by\": 2875\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2b9c434b-584d-4ce5-926c-1a783d1b5266",
+          "name": "Partial Update Bank Reconciliation Report",
+          "request": {
+            "name": "Partial Update Bank Reconciliation Report",
+            "description": {
+              "content": "Partially update a bank reconciliation report. Only provided fields are modified.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "coa",
+                "api",
+                "v2",
+                "reconciliation",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "currency",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "statement_starting_date",
+                  "value": "<date>"
+                },
+                {
+                  "disabled": false,
+                  "key": "statement_ending_date",
+                  "value": "<date>"
+                },
+                {
+                  "disabled": false,
+                  "key": "starting_balance",
+                  "value": "<double>"
+                },
+                {
+                  "disabled": false,
+                  "key": "ending_balance",
+                  "value": "<double>"
+                },
+                {
+                  "disabled": false,
+                  "key": "total_credit_amount",
+                  "value": "<double>"
+                },
+                {
+                  "disabled": false,
+                  "key": "total_debit_amount",
+                  "value": "<double>"
+                },
+                {
+                  "disabled": false,
+                  "key": "adjustments",
+                  "value": "<double>"
+                },
+                {
+                  "disabled": false,
+                  "key": "reconciled_on",
+                  "value": "<date>"
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "statement_recognition_cost_usd",
+                  "value": "<double>",
+                  "description": "Estimated USD cost of AI bank-statement parsing for this report (from summed page token usage)."
+                },
+                {
+                  "disabled": false,
+                  "key": "statement_recognition_input_tokens",
+                  "value": "<integer>",
+                  "description": "Sum of input tokens from statement parsing across all pages (set on finalize)."
+                },
+                {
+                  "disabled": false,
+                  "key": "statement_recognition_output_tokens",
+                  "value": "<integer>",
+                  "description": "Sum of output tokens from statement parsing across all pages (set on finalize)."
+                },
+                {
+                  "disabled": false,
+                  "key": "statement_recognition_token_total",
+                  "value": "<long>",
+                  "description": "Input plus output tokens for this report (set on finalize)."
+                },
+                {
+                  "disabled": false,
+                  "key": "statement_recognition_model_name",
+                  "value": "<string>",
+                  "description": "LLM model used for statement parsing when token totals were recorded."
+                },
+                {
+                  "disabled": false,
+                  "key": "entity",
+                  "value": "<integer>"
+                },
+                {
+                  "disabled": false,
+                  "key": "account",
+                  "value": "<integer>"
+                },
+                {
+                  "disabled": false,
+                  "key": "matching_task",
+                  "value": "<integer>"
+                },
+                {
+                  "disabled": false,
+                  "key": "reconciled_by",
+                  "value": "<integer>"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "813c85c6-1313-4290-8ab6-6f78f49005dd",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coa",
+                    "api",
+                    "v2",
+                    "reconciliation",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "key": "currency",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "statement_starting_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "statement_ending_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "starting_balance",
+                      "value": "<double>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "ending_balance",
+                      "value": "<double>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "total_credit_amount",
+                      "value": "<double>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "total_debit_amount",
+                      "value": "<double>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "adjustments",
+                      "value": "<double>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "reconciled_on",
+                      "value": "<date>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Estimated USD cost of AI bank-statement parsing for this report (from summed page token usage).",
+                        "type": "text/plain"
+                      },
+                      "key": "statement_recognition_cost_usd",
+                      "value": "<double>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Sum of input tokens from statement parsing across all pages (set on finalize).",
+                        "type": "text/plain"
+                      },
+                      "key": "statement_recognition_input_tokens",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Sum of output tokens from statement parsing across all pages (set on finalize).",
+                        "type": "text/plain"
+                      },
+                      "key": "statement_recognition_output_tokens",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Input plus output tokens for this report (set on finalize).",
+                        "type": "text/plain"
+                      },
+                      "key": "statement_recognition_token_total",
+                      "value": "<long>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "LLM model used for statement parsing when token totals were recorded.",
+                        "type": "text/plain"
+                      },
+                      "key": "statement_recognition_model_name",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "entity",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "account",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "matching_task",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "reconciled_by",
+                      "value": "<integer>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"account\": \"<integer>\",\n  \"id\": 5064,\n  \"entity_name\": \"string\",\n  \"account_name\": \"string\",\n  \"account_number\": \"string\",\n  \"account_type\": \"string\",\n  \"account_subtype\": \"string\",\n  \"reconciled_by_name\": \"string\",\n  \"reconciled_by_email\": \"string\",\n  \"approved_by_name\": \"string\",\n  \"approved_by_email\": \"string\",\n  \"async_task\": {\n    \"created_at\": \"1966-04-04T01:27:31.039Z\",\n    \"created_by\": 5335,\n    \"created_by_name\": \"string\",\n    \"customer\": 2877,\n    \"id\": 4811,\n    \"name\": \"string\",\n    \"status\": \"PROCESSING\",\n    \"error_message\": \"string\",\n    \"error_type\": \"string\",\n    \"retries\": 414273823,\n    \"completed_at\": \"2001-03-06T00:58:07.390Z\",\n    \"started_at\": \"1947-10-15T14:41:26.794Z\",\n    \"celery_task_id\": \"string\",\n    \"root_task_id\": \"string\",\n    \"parent_task_id\": \"string\",\n    \"trace_id\": \"string\",\n    \"span_id\": \"string\",\n    \"task_args\": {},\n    \"task_kwargs\": {},\n    \"result\": {},\n    \"content\": {}\n  },\n  \"attachments\": [\n    {\n      \"app\": \"string\",\n      \"created_at\": \"2013-09-13T15:19:53.513Z\",\n      \"created_by\": 6956,\n      \"created_by_email\": \"string\",\n      \"created_by_name\": \"string\",\n      \"customer\": 7024,\n      \"deleted_at\": \"1980-10-10T07:32:17.911Z\",\n      \"id\": 7718,\n      \"is_deleted\": false,\n      \"last_modified_at\": \"2012-12-23T14:31:05.149Z\",\n      \"model\": \"string\",\n      \"name\": \"string\",\n      \"s3_path\": \"string\",\n      \"url\": \"string\",\n      \"s3_content_type\": \"string\",\n      \"s3_content_length\": 254252901,\n      \"object_id\": 45201165\n    },\n    {\n      \"app\": \"string\",\n      \"created_at\": \"2014-10-12T04:02:31.747Z\",\n      \"created_by\": 372,\n      \"created_by_email\": \"string\",\n      \"created_by_name\": \"string\",\n      \"customer\": 5052,\n      \"deleted_at\": \"1983-11-29T17:56:57.770Z\",\n      \"id\": 6873,\n      \"is_deleted\": false,\n      \"last_modified_at\": \"2019-03-11T05:31:58.691Z\",\n      \"model\": \"string\",\n      \"name\": \"string\",\n      \"s3_path\": \"string\",\n      \"url\": \"string\",\n      \"s3_content_type\": \"string\",\n      \"s3_content_length\": 1415944415,\n      \"object_id\": 554583118\n    }\n  ],\n  \"csv_statements\": \"string\",\n  \"cleared_total_debits\": \"string\",\n  \"cleared_total_credits\": \"string\",\n  \"cleared_activity\": \"string\",\n  \"cleared_item_count\": \"string\",\n  \"matched_total_debits\": \"string\",\n  \"matched_total_credits\": \"string\",\n  \"matched_activity\": \"string\",\n  \"matched_item_count\": \"string\",\n  \"unreconciled_total_debits\": \"string\",\n  \"unreconciled_total_credits\": \"string\",\n  \"unreconciled_activity\": \"string\",\n  \"unreconciled_gl_item_count\": \"string\",\n  \"unreconciled_statement_line_count\": \"string\",\n  \"unreconciled_statement_activity\": \"string\",\n  \"reconciliation_difference\": \"string\",\n  \"open_total_debits\": \"string\",\n  \"open_total_credits\": \"string\",\n  \"open_activity\": \"string\",\n  \"open_gl_item_count\": \"string\",\n  \"open_statement_line_count\": \"string\",\n  \"open_statement_activity\": \"string\",\n  \"statement_activity\": \"string\",\n  \"open_difference\": \"string\",\n  \"currency\": \"<string>\",\n  \"statement_starting_date\": \"<date>\",\n  \"statement_ending_date\": \"<date>\",\n  \"starting_balance\": \"<double>\",\n  \"ending_balance\": \"<double>\",\n  \"total_credit_amount\": \"<double>\",\n  \"total_debit_amount\": \"<double>\",\n  \"adjustments\": \"<double>\",\n  \"created_at\": \"2022-01-24T18:04:55.457Z\",\n  \"last_modified_at\": \"2025-10-30T23:33:05.181Z\",\n  \"reconciled_on\": \"<date>\",\n  \"approved_on\": \"2011-05-31T15:17:57.775Z\",\n  \"status\": \"<string>\",\n  \"unmatched_statement_transactions\": {},\n  \"statement_recognition_cost_usd\": \"<double>\",\n  \"statement_recognition_input_tokens\": \"<integer>\",\n  \"statement_recognition_output_tokens\": \"<integer>\",\n  \"statement_recognition_token_total\": \"<long>\",\n  \"statement_recognition_model_name\": \"<string>\",\n  \"customer\": 3836,\n  \"entity\": \"<integer>\",\n  \"matching_task\": \"<integer>\",\n  \"reconciled_by\": \"<integer>\",\n  \"approved_by\": 2875\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a26b988f-4241-48ca-a20a-298c29291f68",
+          "name": "Delete Bank Reconciliation Report",
+          "request": {
+            "name": "Delete Bank Reconciliation Report",
+            "description": {
+              "content": "Delete a bank reconciliation report and all associated data.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "coa",
+                "api",
+                "v2",
+                "reconciliation",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "db8f8b1f-e850-419e-89f1-8e3f4b2b101b",
+              "name": "No response body",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coa",
+                    "api",
+                    "v2",
+                    "reconciliation",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a423850c-4de5-4503-a4db-c77b5ed3b3be",
+          "name": "Bulk Match GL Transactions to Statement Transactions",
+          "request": {
+            "name": "Bulk Match GL Transactions to Statement Transactions",
+            "description": {
+              "content": "Match multiple GL transactions to statement transactions in a single request. Pairs are validated atomically — all succeed or none are created.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "coa",
+                "api",
+                "v2",
+                "reconciliation",
+                ":id",
+                "bulk-match-transactions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "pairs",
+                  "value": "{\"statement_transaction_id\":\"<integer>\",\"transaction_id\":\"<integer>\"}",
+                  "description": "(Required) Ordered list of GL-to-statement transaction pairs to match"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "2f45bb93-73d6-4a06-870e-045acc259a4c",
+              "name": "All pairs matched successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coa",
+                    "api",
+                    "v2",
+                    "reconciliation",
+                    ":id",
+                    "bulk-match-transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Ordered list of GL-to-statement transaction pairs to match",
+                        "type": "text/plain"
+                      },
+                      "key": "pairs",
+                      "value": "{\"statement_transaction_id\":\"<integer>\",\"transaction_id\":\"<integer>\"}"
+                    }
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6ba734ce-493c-4452-93c4-0771beeafffa",
+              "name": "Validation error (duplicates, already reconciled, non-draft report)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coa",
+                    "api",
+                    "v2",
+                    "reconciliation",
+                    ":id",
+                    "bulk-match-transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Ordered list of GL-to-statement transaction pairs to match",
+                        "type": "text/plain"
+                      },
+                      "key": "pairs",
+                      "value": "{\"statement_transaction_id\":\"<integer>\",\"transaction_id\":\"<integer>\"}"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c3e445c7-76b4-4b0c-8254-7dc8c58eb8fe",
+              "name": "Report, GL transaction, or statement transaction not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coa",
+                    "api",
+                    "v2",
+                    "reconciliation",
+                    ":id",
+                    "bulk-match-transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Ordered list of GL-to-statement transaction pairs to match",
+                        "type": "text/plain"
+                      },
+                      "key": "pairs",
+                      "value": "{\"statement_transaction_id\":\"<integer>\",\"transaction_id\":\"<integer>\"}"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2636c0f5-b13d-46e5-b034-3654ff7f9b5b",
+          "name": "List GL Transactions for Reconciliation",
+          "request": {
+            "name": "List GL Transactions for Reconciliation",
+            "description": {
+              "content": "List source (GL) transactions available for reconciliation. Supports filtering by date range, bank, vendor, department, tag, currency, and reconciliation status.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "coa",
+                "api",
+                "v2",
+                "reconciliation",
+                ":id",
+                "source-transactions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "bank",
+                  "value": "<integer>",
+                  "description": "Filter by bank account ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "currency",
+                  "value": "<string>",
+                  "description": "Filter by currency code (e.g., USD, EUR)"
+                },
+                {
+                  "disabled": false,
+                  "key": "department",
+                  "value": "<integer>",
+                  "description": "Filter by department ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "end_date",
+                  "value": "<string>",
+                  "description": "Filter by maximum posted date (YYYY-MM-DD)"
+                },
+                {
+                  "disabled": false,
+                  "key": "group",
+                  "value": "<integer>",
+                  "description": "Filter by tag group ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Number of results to return per page."
+                },
+                {
+                  "disabled": false,
+                  "key": "matched",
+                  "value": "<string>",
+                  "description": "Set to 'true' to show only transactions with an explicit statement match, or 'false' to show transactions without an explicit statement match"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "<integer>",
+                  "description": "The initial index from which to return the results."
+                },
+                {
+                  "disabled": false,
+                  "key": "q",
+                  "value": "<string>",
+                  "description": "Search term for bank description, journal memo, journal order, or amount"
+                },
+                {
+                  "disabled": false,
+                  "key": "reconciled_only",
+                  "value": "<string>",
+                  "description": "Set to 'true' to show only reconciled transactions for this report"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "<string>",
+                  "description": "Sort field(s), comma-separated (prefix with - for descending). Default: posted_at"
+                },
+                {
+                  "disabled": false,
+                  "key": "start_date",
+                  "value": "<string>",
+                  "description": "Filter by minimum posted date (YYYY-MM-DD)"
+                },
+                {
+                  "disabled": false,
+                  "key": "tag",
+                  "value": "<integer>",
+                  "description": "Filter by tag ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "unreconciled",
+                  "value": "<string>",
+                  "description": "Set to 'true' to show only unreconciled transactions"
+                },
+                {
+                  "disabled": false,
+                  "key": "vendor",
+                  "value": "<integer>",
+                  "description": "Filter by vendor/payee ID"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "716b1629-1220-4864-b5c1-41c88eede085",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coa",
+                    "api",
+                    "v2",
+                    "reconciliation",
+                    ":id",
+                    "source-transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "bank",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "department",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "group",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "matched",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "q",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "reconciled_only",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "tag",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "unreconciled",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "vendor",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"count\": 123,\n  \"results\": [\n    {\n      \"credit_amount_in_currency\": \"string\",\n      \"currency\": \"string\",\n      \"debit_amount_in_currency\": \"string\",\n      \"id\": 2936,\n      \"is_cleared\": \"string\",\n      \"is_matched\": \"string\",\n      \"journal_id\": 9313,\n      \"journal_order\": \"string\",\n      \"reconciliation_transaction\": [\n        {\n          \"id\": 9223,\n          \"suggestion\": {\n            \"created_at\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"customer\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"date\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"is_matched\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"last_modified_at\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"page\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"page_number\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"reconciliation_report\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"reconciliation_transaction_id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"source_transaction_id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"deposit\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"withdrawal\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"description\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"is_cleared\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"suggestion_id\": 5882,\n          \"status\": \"RECONCILED\"\n        },\n        {\n          \"id\": 273,\n          \"suggestion\": {\n            \"created_at\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"customer\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"date\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"is_matched\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"last_modified_at\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"page\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"page_number\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"reconciliation_report\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"reconciliation_transaction_id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"source_transaction_id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"deposit\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"withdrawal\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"description\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"is_cleared\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"suggestion_id\": 4675,\n          \"status\": \"RECONCILED\"\n        }\n      ],\n      \"posted_at\": \"1989-11-10\",\n      \"bank_description\": \"string\"\n    },\n    {\n      \"credit_amount_in_currency\": \"string\",\n      \"currency\": \"string\",\n      \"debit_amount_in_currency\": \"string\",\n      \"id\": 3448,\n      \"is_cleared\": \"string\",\n      \"is_matched\": \"string\",\n      \"journal_id\": 7818,\n      \"journal_order\": \"string\",\n      \"reconciliation_transaction\": [\n        {\n          \"id\": 2556,\n          \"suggestion\": {\n            \"created_at\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"customer\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"date\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"is_matched\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"last_modified_at\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"page\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"page_number\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"reconciliation_report\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"reconciliation_transaction_id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"source_transaction_id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"deposit\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"withdrawal\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"description\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"is_cleared\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"suggestion_id\": 1503,\n          \"status\": \"RECONCILED\"\n        },\n        {\n          \"id\": 1274,\n          \"suggestion\": {\n            \"created_at\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"customer\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"date\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"is_matched\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"last_modified_at\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"page\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"page_number\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"reconciliation_report\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"reconciliation_transaction_id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"source_transaction_id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"deposit\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"withdrawal\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"description\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"is_cleared\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"suggestion_id\": 7975,\n          \"status\": \"RECONCILED\"\n        }\n      ],\n      \"posted_at\": \"1999-11-16\",\n      \"bank_description\": \"string\"\n    }\n  ],\n  \"next\": \"http://api.example.org/accounts/?offset=400&limit=100\",\n  \"previous\": \"http://api.example.org/accounts/?offset=200&limit=100\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d6dce94a-2d8c-452a-b303-0ee2f04775f8",
+          "name": "Confirm Selection of Transactions to Reconcile",
+          "request": {
+            "name": "Confirm Selection of Transactions to Reconcile",
+            "description": {
+              "content": "Confirm the selection of GL transactions for reconciliation. Pass selected transaction IDs in the request body. Selected transactions are marked as RECONCILED; deselected transactions have their status as suggested matches to this reconciliation report cleared.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "coa",
+                "api",
+                "v2",
+                "reconciliation",
+                ":id",
+                "transactions",
+                "confirm"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "selected",
+                  "value": "<integer>",
+                  "description": "(Required) List of GL transaction IDs to mark as reconciled"
+                },
+                {
+                  "disabled": false,
+                  "key": "selected",
+                  "value": "<integer>",
+                  "description": "(Required) List of GL transaction IDs to mark as reconciled"
+                },
+                {
+                  "disabled": false,
+                  "key": "selected_statements",
+                  "value": "<integer>",
+                  "description": "Statement transaction IDs to auto-match to GL selections by amount"
+                },
+                {
+                  "disabled": false,
+                  "key": "selected_statements",
+                  "value": "<integer>",
+                  "description": "Statement transaction IDs to auto-match to GL selections by amount"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "c210974b-8ee5-49de-9d0e-1094bb4238ad",
+              "name": "No response body",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coa",
+                    "api",
+                    "v2",
+                    "reconciliation",
+                    ":id",
+                    "transactions",
+                    "confirm"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) List of GL transaction IDs to mark as reconciled",
+                        "type": "text/plain"
+                      },
+                      "key": "selected",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) List of GL transaction IDs to mark as reconciled",
+                        "type": "text/plain"
+                      },
+                      "key": "selected",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Statement transaction IDs to auto-match to GL selections by amount",
+                        "type": "text/plain"
+                      },
+                      "key": "selected_statements",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Statement transaction IDs to auto-match to GL selections by amount",
+                        "type": "text/plain"
+                      },
+                      "key": "selected_statements",
+                      "value": "<integer>"
+                    }
+                  ]
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ea0c7fa1-f39b-4abd-8b17-6a3986e663e3",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coa",
+                    "api",
+                    "v2",
+                    "reconciliation",
+                    ":id",
+                    "transactions",
+                    "confirm"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) List of GL transaction IDs to mark as reconciled",
+                        "type": "text/plain"
+                      },
+                      "key": "selected",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) List of GL transaction IDs to mark as reconciled",
+                        "type": "text/plain"
+                      },
+                      "key": "selected",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Statement transaction IDs to auto-match to GL selections by amount",
+                        "type": "text/plain"
+                      },
+                      "key": "selected_statements",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Statement transaction IDs to auto-match to GL selections by amount",
+                        "type": "text/plain"
+                      },
+                      "key": "selected_statements",
+                      "value": "<integer>"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b7bcca4b-7898-49ba-9057-884b50992d6d",
+          "name": "Parse Bank Statement Page",
+          "request": {
+            "name": "Parse Bank Statement Page",
+            "description": {
+              "content": "Parse a bank statement PDF.\n\nAccepts:\n    ``file_id`` (required) -- ID of the uploaded PDF ``File``.\n    ``pages`` (optional, int) -- How many pages to include in the first parse batch.\n        Defaults to ``BATCH_PAGE_SIZE``. Use a small value (e.g. 2) for\n        a fast initial response with just balances and dates.\n\nOnly the first batch is parsed in this request. Parsed output is cached under\n``file_id`` and the effective first-batch page count (``pages`` or default\n``BATCH_PAGE_SIZE``) so different ``pages`` values do not share one cache entry.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "coa",
+                "api",
+                "v2",
+                "reconciliation",
+                "parse-statement-page"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "984963d2-d9b1-4262-879b-2cdabce66e8e",
+              "name": "No response body",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coa",
+                    "api",
+                    "v2",
+                    "reconciliation",
+                    "parse-statement-page"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.meetcampfire.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "bb681138-a0c9-49ff-9b19-7d393bc5fba4",
+    "name": "Campfire Developer APIs Accounts Payable Bank Reconciliation API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "## Introduction\nCampfire's developer APIs offer granular access to Campfire's core accounting,\nrevenue recognition, and financial data features.\n\nThese APIs are designed to be used by developers to build custom integrations,\nautomate workflows, and perform any other programmatic operations.\n",
+      "type": "text/plain"
+    }
+  }
+}

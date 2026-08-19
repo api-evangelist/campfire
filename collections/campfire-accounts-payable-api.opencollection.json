@@ -1,0 +1,1110 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Campfire Developer APIs Accounts Payable API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Accounts Payable",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Accounting Bills",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/v1/bill/",
+            "params": [
+              {
+                "name": "currency",
+                "value": "",
+                "type": "query",
+                "description": "Filter by currency code (e.g., USD, EUR)"
+              },
+              {
+                "name": "download",
+                "value": "",
+                "type": "query",
+                "description": "If true, triggers async download workflow and sends bills via email"
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "Filter bills with bill_date on or before this date (YYYY-MM-DD)"
+              },
+              {
+                "name": "entity",
+                "value": "",
+                "type": "query",
+                "description": "Filter by entity ID. Can be specified multiple times for multiple entities"
+              },
+              {
+                "name": "include_deleted",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', returns ONLY deleted records instead of active records. Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp, and 'last_modified_at'. When 'false' or omitted, returns ONLY active records. This provides clean separation between active and deleted data."
+              },
+              {
+                "name": "last_modified_at__gte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or after this timestamp. Format: ISO 8601 (e.g., '2024-01-01T00:00:00Z' or '2024-01-01'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "last_modified_at__lte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or before this timestamp. Format: ISO 8601 (e.g., '2024-12-31T23:59:59Z' or '2024-12-31'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page (default: 50, max: 1000)"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The initial index from which to return the results"
+              },
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "Search query - searches by mailing address, bill number, message on bill, or vendor name"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. Use field name for ascending, -field for descending. Special fields: vendor_name, total_amount, amount_paid, amount_due, payment. Default: -bill_date"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Filter bills with bill_date on or after this date (YYYY-MM-DD)"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter by payment status"
+              },
+              {
+                "name": "vendor",
+                "value": "",
+                "type": "query",
+                "description": "Filter by vendor ID. Can be specified multiple times for multiple vendors"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Retrieve a paginated list of accounting bills with comprehensive filtering, search, and sorting capabilities.\n\n        This endpoint provides complete access to your bills data with:\n        - Advanced filtering by date ranges, payment status, vendors, entities, and currency\n        - Full-text search across bill numbers, vendor names, addresses, and bill messages\n        - Flexible sorting by any field including calculated fields (totals, amounts due, etc.)\n        - Comprehensive pagi"
+        },
+        {
+          "info": {
+            "name": "Create Accounting Bill",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/v1/bill/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Creates a new accounting bill with line items and automatic journal entry generation.\n\n        This endpoint allows for complex bill creation with:\n        - Multiple line items with different accounts, departments, and vendor assignments\n        - Automatic accounts payable journal entry creation\n        - Tax calculations and tax account handling\n        - Exchange rate support for multi-currency transactions\n        - Custom field support for additional bill metadata\n\n        Require"
+        },
+        {
+          "info": {
+            "name": "List Bill Drafts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/v1/bill-draft",
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "GET list (customer-scoped, ``status`` / ``source`` filterable) + POST UI upload."
+        },
+        {
+          "info": {
+            "name": "Create Bill Draft",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/v1/bill-draft",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "GET list (customer-scoped, ``status`` / ``source`` filterable) + POST UI upload."
+        },
+        {
+          "info": {
+            "name": "Retrieve Bill Draft",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/v1/bill-draft/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "GET detail + PATCH update on a single BillDraft."
+        },
+        {
+          "info": {
+            "name": "Update Bill Draft",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/coa/api/v1/bill-draft/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "GET detail + PATCH update on a single BillDraft."
+        },
+        {
+          "info": {
+            "name": "Partial Update Bill Draft",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.meetcampfire.com/coa/api/v1/bill-draft/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "GET detail + PATCH update on a single BillDraft."
+        },
+        {
+          "info": {
+            "name": "Abandon Bill Draft",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/v1/bill-draft/:id/abandon",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "POST /bill-draft/<pk>/abandon — hard-delete an unfinished UI upload draft."
+        },
+        {
+          "info": {
+            "name": "Discard Bill Draft",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/v1/bill-draft/:id/discard",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "POST /bill-draft/<pk>/discard — terminal state with a required reason."
+        },
+        {
+          "info": {
+            "name": "Promote Bill Draft",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/v1/bill-draft/:id/promote",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "POST /bill-draft/<pk>/promote — routes through the promote service."
+        },
+        {
+          "info": {
+            "name": "List Bill Payments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/v1/bill-payments",
+            "params": [
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Opts into cursor pagination. Pass an empty value (cursor=) on the first request, then follow the 'next' URL from each response until it is null. The cursor value is opaque - do not parse or construct it. Cursor pagination is recommended for full syncs as it avoids the performance penalty of deep offsets on large result sets."
+              },
+              {
+                "name": "last_modified_at__gte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for payments modified on or after this timestamp. Format: ISO 8601 (e.g., '2024-01-01T00:00:00Z' or '2024-01-01'). Use this for incremental syncs: store the highest last_modified_at you have processed and pass it on the next sync run."
+              },
+              {
+                "name": "last_modified_at__lte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for payments modified on or before this timestamp. Format: ISO 8601 (e.g., '2024-12-31T23:59:59Z' or '2024-12-31'). Date-only values are inclusive of the entire day."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of records to return per page. Default 100, maximum 10000. Use with offset to paginate"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to skip before collecting the result page. Use with limit to paginate"
+              },
+              {
+                "name": "skip_count",
+                "value": "",
+                "type": "query",
+                "description": "When 'true', skips the total COUNT query and returns a lower-bound 'count' instead. Recommended for large syncs where the exact total is not needed."
+              },
+              {
+                "name": "voided",
+                "value": "",
+                "type": "query",
+                "description": "Filter by void status. When 'true', returns only voided payments (voided_date is set). When 'false', returns only active payments. When omitted, returns both so integrators can detect and propagate voids."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Retrieve a paginated list of bill payments (payments applied against accounts\n        payable bills), designed for syncing payment data into external systems.\n\n        Results are ordered by (last_modified_at, id) ascending, so pages are stable and\n        a sync can resume from where it left off.\n\n        **Full sync (cursor pagination):**\n        - Pass an empty cursor parameter (cursor=) on the first request\n        - Follow the 'next' URL from each response until it is null\n\n       "
+        },
+        {
+          "info": {
+            "name": "Get Default Department and Tags for Empty Transaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/v1/bill/:bill_id/empty-transaction-default-department-tags",
+            "params": [
+              {
+                "name": "bill_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the bill"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get the default department and tags from the bill line with the largest total amount.\n\n        This endpoint is used to provide default values when creating empty transactions (marking as paid without a transaction).\n        The total amount is calculated as: amount + tax.\n        If multiple lines have the same total amount, the line with the lowest ID (first created) is selected.\n        The department and tags are retrieved directly from the bill line."
+        },
+        {
+          "info": {
+            "name": "Mark Bill as Paid",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/v1/bill/:bill_id/pay/",
+            "params": [
+              {
+                "name": "bill_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the bill to mark as paid"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Mark a bill as paid, allowing partial payments.\n\n        This endpoint supports multiple payment methods:\n        - Apply existing transactions as payments\n        - Apply debit memos to reduce the bill balance\n        - Create manual payments without a transaction\n\n        The request body should contain at least one of:\n        - transactions: List of transaction payments to apply\n        - debit_memos: List of debit memos to apply\n        - empty_transactions: List of manual payments without "
+        },
+        {
+          "info": {
+            "name": "Void Bill Payment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/v1/bill/:bill_id/payment/:payment_id/void/",
+            "params": [
+              {
+                "name": "bill_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the bill"
+              },
+              {
+                "name": "payment_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the payment to void"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Void an existing bill payment.\n\n        This creates a reversing journal entry to void the payment and updates the bill status.\n\n        Optionally accepts a void_date in the request body to specify when the payment should be voided.\n        If not provided, defaults to today's date."
+        },
+        {
+          "info": {
+            "name": "Delete Bill Payment",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.meetcampfire.com/coa/api/v1/bill/:bill_id/payment/:payment_id/void/",
+            "params": [
+              {
+                "name": "bill_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the bill"
+              },
+              {
+                "name": "payment_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the payment to delete"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete a bill payment.\n\n        This removes the payment record and updates the transaction to uncategorized."
+        },
+        {
+          "info": {
+            "name": "Reopen Voided Bill",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/v1/bill/:bill_id/reopen/",
+            "params": [
+              {
+                "name": "bill_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the voided bill to reopen"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Reopen a voided bill.\n\n        This removes the void date and void journal entry, and sets the bill status back to open.\n        The voiding journal entry will be deleted to reverse the void operation."
+        },
+        {
+          "info": {
+            "name": "Sync Bill to Ramp",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/v1/bill/:bill_id/sync-to-ramp/",
+            "params": [
+              {
+                "name": "bill_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Sync a bill without a source to Ramp using the enabled Ramp connection"
+        },
+        {
+          "info": {
+            "name": "Void Bill",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/v1/bill/:bill_id/void/",
+            "params": [
+              {
+                "name": "bill_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the bill to void"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Void an existing bill.\n\n        This creates a reversing journal entry to void the bill by reversing all debit and credit amounts.\n        The bill status will be updated to reflect the void."
+        },
+        {
+          "info": {
+            "name": "Retrieve Accounting Bill",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/v1/bill/:id/",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Retrieve a single accounting bill by ID with complete detail including all line items, payments, and related data.\n\n        This endpoint returns comprehensive bill information including:\n        - Full bill details with vendor, entity, and customer information\n        - All line items with account details, departments, tags, and amortization schedules\n        - Complete payment history with journal entry references\n        - Calculated fields including total amounts, amounts paid, amou"
+        },
+        {
+          "info": {
+            "name": "Update Accounting Bill",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/coa/api/v1/bill/:id/",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Update an existing accounting bill with complete replacement of all data including line items and metadata.\n\n        This endpoint performs a full update (PUT) of an accounting bill with:\n        - Complete replacement of all bill data including vendor, entity, dates, and terms\n        - Full replacement of all line items with new account assignments, amounts, and descriptions\n        - Automatic recalculation of journal entries and accounting transactions\n        - Preservation of paym"
+        },
+        {
+          "info": {
+            "name": "Partial Update Accounting Bill",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.meetcampfire.com/coa/api/v1/bill/:id/",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Performs a partial update of an existing accounting bill using PATCH semantics.\n\n        This endpoint allows selective modification of bill fields without requiring\n        a complete bill replacement. You can update specific aspects of the bill while\n        leaving other fields unchanged.\n\n        **Updatable Fields:**\n        - Bill metadata (number, dates, descriptions, vendor, entity)\n        - Line items (amounts, accounts, descriptions, departments)\n        - Payment terms and d"
+        },
+        {
+          "info": {
+            "name": "Delete Accounting Bill",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.meetcampfire.com/coa/api/v1/bill/:id/",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Permanently deletes an accounting bill and its associated journal entry.\n\n        This endpoint performs a complete deletion of the bill including:\n        - Removal of all bill line items and associated data\n        - Deletion of the corresponding accounts payable journal entry\n        - Cleanup of any tax calculations and allocations\n        - Removal of vendor payment allocations if applicable\n\n        **Important Notes:**\n        - This operation is irreversible and permanently remo"
+        },
+        {
+          "info": {
+            "name": "Generate Bill Amortization Schedule",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/v1/bill/amortization/generate-schedule",
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Generate Bill Amortization Schedule"
+        },
+        {
+          "info": {
+            "name": "Save Bill Amortization Schedule",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/coa/api/v1/bill/amortization/generate-schedule",
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Save Bill Amortization Schedule"
+        },
+        {
+          "info": {
+            "name": "Bulk Search Bills by Number",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/v1/bill/bulk-search",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Search for thousands of bills by exact bill number match in a single request. Optimized for performance."
+        },
+        {
+          "info": {
+            "name": "Bulk Sync Bills to Ramp",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/v1/bill/bulk-sync-to-ramp/",
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Sync multiple bills without a source to Ramp using the enabled Ramp connection"
+        },
+        {
+          "info": {
+            "name": "List Debit Memos",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/v1/debit-memo",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The initial index from which to return the results."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Retrieves a paginated list of accounting debit memos with filtering and sorting capabilities.\n\n        Supports filtering by date ranges, status, vendors, entities, and full-text search.\n        "
+        },
+        {
+          "info": {
+            "name": "Create Debit Memo",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/v1/debit-memo",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Creates a new accounting debit memo with line items and automatic journal entry generation.\n\n        Debit memos are used to record amounts owed to vendors or to adjust vendor account balances.\n        This endpoint handles multi-currency transactions, departmental allocations, and automatic\n        double-entry bookkeeping.\n        "
+        },
+        {
+          "info": {
+            "name": "Mark Debit Memo as Used",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/v1/debit-memo/:debit_memo_id/mark-used",
+            "params": [
+              {
+                "name": "debit_memo_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the debit memo to mark as used"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Mark a debit memo as used by linking to an existing credit-side transaction.\n\n        The transaction's credit amount will be recategorized to A/P to clear the debit memo.\n        The debit memo's status will be updated to \"used\" or \"partially_used\" based on\n        the amount applied vs the total amount."
+        },
+        {
+          "info": {
+            "name": "Void Debit Memo Used Payment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/v1/debit-memo/:debit_memo_id/payment/:payment_id/void",
+            "params": [
+              {
+                "name": "debit_memo_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the debit memo"
+              },
+              {
+                "name": "payment_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the payment to void"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Void a debit memo 'mark used' payment by creating a reversing journal entry.\n\n        This creates a reversing JE that credits the A/P account and debits Uncategorized,\n        then marks the payment as voided."
+        },
+        {
+          "info": {
+            "name": "Delete Debit Memo Used Payment",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.meetcampfire.com/coa/api/v1/debit-memo/:debit_memo_id/payment/:payment_id/void",
+            "params": [
+              {
+                "name": "debit_memo_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the debit memo"
+              },
+              {
+                "name": "payment_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the payment to delete"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Remove a debit memo 'mark used' payment application.\n\n        This recategorizes the transaction back to Uncategorized and deletes the payment record."
+        },
+        {
+          "info": {
+            "name": "Reopen Voided Debit Memo",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/v1/debit-memo/:debit_memo_id/reopen/",
+            "params": [
+              {
+                "name": "debit_memo_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the voided debit memo to reopen"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Reopen a voided debit memo.\n\n        This removes the void date and void journal entry, and sets the debit memo status back to open.\n        The voiding journal entry will be deleted to reverse the void operation."
+        },
+        {
+          "info": {
+            "name": "Void Debit Memo",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/v1/debit-memo/:debit_memo_id/void/",
+            "params": [
+              {
+                "name": "debit_memo_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the debit memo to void"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Void an existing debit memo.\n\n        This creates a reversing journal entry to void the debit memo by reversing all debit and credit amounts.\n        The debit memo status will be updated to reflect the void."
+        },
+        {
+          "info": {
+            "name": "Retrieve Debit Memo",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/v1/debit-memo/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Retrieves a single accounting debit memo with complete details including line items,\n        payments, and accounting relationships.\n        "
+        },
+        {
+          "info": {
+            "name": "Update Debit Memo",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/coa/api/v1/debit-memo/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Performs a complete update of an existing accounting debit memo using PUT semantics.\n\n        This endpoint allows full replacement of debit memo data including line items\n        and journal entry recalculation.\n        "
+        },
+        {
+          "info": {
+            "name": "Partial Update Debit Memo",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.meetcampfire.com/coa/api/v1/debit-memo/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Performs a partial update of an existing accounting debit memo using PATCH semantics.\n\n        This endpoint allows selective modification of debit memo fields without requiring\n        a complete replacement.\n        "
+        },
+        {
+          "info": {
+            "name": "Delete Debit Memo",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.meetcampfire.com/coa/api/v1/debit-memo/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete Debit Memo"
+        },
+        {
+          "info": {
+            "name": "Bulk Search Debit Memos by Number",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/v1/debit-memo/bulk-search",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Search for thousands of debit memos by exact debit memo number match in a single request. Optimized for performance."
+        },
+        {
+          "info": {
+            "name": "Get Next Debit Memo Number",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/v1/debit-memo/next-debit-memo-number",
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get Next Debit Memo Number"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

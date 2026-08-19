@@ -1,0 +1,140 @@
+{
+  "item": [
+    {
+      "id": "b350afdd-291f-4eb6-8f0e-1ad8f7dfe0d9",
+      "name": "coa",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "3dfb6443-4f3a-4bf9-957b-35e98ce98f47",
+          "name": "Upload Entity Invoice Email Attachment",
+          "request": {
+            "name": "Upload Entity Invoice Email Attachment",
+            "description": {
+              "content": "Upload invoice email attachment with proper permissions",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "coa",
+                "api",
+                "entity",
+                ":entity_id",
+                "attachment"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "entity_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "6f0c2533-1ccd-452c-ae94-063dcace91bc",
+              "name": "No response body",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coa",
+                    "api",
+                    "entity",
+                    ":entity_id",
+                    "attachment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "entity_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.meetcampfire.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "7321f2a7-880c-4ae2-810c-a7119fe4d29b",
+    "name": "Campfire Developer APIs Accounts Payable coa API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "## Introduction\nCampfire's developer APIs offer granular access to Campfire's core accounting,\nrevenue recognition, and financial data features.\n\nThese APIs are designed to be used by developers to build custom integrations,\nautomate workflows, and perform any other programmatic operations.\n",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,1521 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Campfire Developer APIs Accounts Payable Accounts Receivable API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Accounts Receivable",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Credit Memos",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/v1/credit-memo",
+            "params": [
+              {
+                "name": "client",
+                "value": "",
+                "type": "query",
+                "description": "Filter by client IDs (can specify multiple)"
+              },
+              {
+                "name": "contract",
+                "value": "",
+                "type": "query",
+                "description": "Filter by contract IDs (can specify multiple)"
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "Filter credit memos created on or before this date (YYYY-MM-DD format)"
+              },
+              {
+                "name": "entity",
+                "value": "",
+                "type": "query",
+                "description": "Filter by entity IDs (can specify multiple)"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to skip for pagination"
+              },
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "Search credit memo numbers, messages, and client names"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sort results by field (prefix with - for descending)"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Filter credit memos created on or after this date (YYYY-MM-DD format)"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter by application status"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Retrieves a paginated list of accounting credit memos with comprehensive filtering and sorting capabilities.\n\n        This endpoint provides a powerful interface for browsing and searching credit memos with:\n        - Advanced filtering by date ranges, status, clients, entities, and contracts\n        - Full-text search across credit memo numbers, messages, and client names\n        - Flexible sorting by multiple fields including amounts and relationships\n        - Optimized performance w"
+        },
+        {
+          "info": {
+            "name": "Create Credit Memo",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/v1/credit-memo",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Creates a new accounting credit memo with line items and automatic journal entry generation.\n\n        This endpoint allows for comprehensive credit memo creation with:\n        - Multiple line items with different products, accounts, amounts, and departmental allocations\n        - Automatic journal entry creation following double-entry bookkeeping principles\n        - Multi-currency support with exchange rate handling\n        - Client and entity relationship management\n        - Contract"
+        },
+        {
+          "info": {
+            "name": "Mark Credit Memo as Used",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/v1/credit-memo/:credit_memo_id/mark-used",
+            "params": [
+              {
+                "name": "credit_memo_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the credit memo to mark as used"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Mark a credit memo as used by linking to an existing transaction.\n\n        The transaction's debit amount will be recategorized to A/R to clear the credit memo.\n        The credit memo's status will be updated to \"used\" or \"partially_used\" based on\n        the amount applied vs the total amount."
+        },
+        {
+          "info": {
+            "name": "Void Credit Memo Used Payment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/v1/credit-memo/:credit_memo_id/payment/:payment_id/void",
+            "params": [
+              {
+                "name": "credit_memo_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the credit memo"
+              },
+              {
+                "name": "payment_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the payment to void"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Void a credit memo 'mark used' payment by creating a reversing journal entry.\n\n        This creates a reversing JE that credits the A/R account and debits Uncategorized,\n        then marks the payment as voided."
+        },
+        {
+          "info": {
+            "name": "Delete Credit Memo Used Payment",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.meetcampfire.com/coa/api/v1/credit-memo/:credit_memo_id/payment/:payment_id/void",
+            "params": [
+              {
+                "name": "credit_memo_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the credit memo"
+              },
+              {
+                "name": "payment_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the payment to delete"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Remove a credit memo 'mark used' payment application.\n\n        This recategorizes the transaction back to Uncategorized and deletes the payment record."
+        },
+        {
+          "info": {
+            "name": "Reopen Voided Credit Memo",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/v1/credit-memo/:credit_memo_id/reopen/",
+            "params": [
+              {
+                "name": "credit_memo_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the voided credit memo to reopen"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Reopen a voided credit memo.\n\n        This removes the void date and void journal entry, and sets the credit memo status back to open.\n        The voiding journal entry will be deleted to reverse the void operation."
+        },
+        {
+          "info": {
+            "name": "Void Credit Memo",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/v1/credit-memo/:credit_memo_id/void/",
+            "params": [
+              {
+                "name": "credit_memo_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the credit memo to void"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Void an existing credit memo.\n\n        This creates a reversing journal entry to void the credit memo by reversing all debit and credit amounts.\n        The credit memo status will be updated to reflect the void."
+        },
+        {
+          "info": {
+            "name": "Retrieve Credit Memo",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/v1/credit-memo/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Retrieves a single accounting credit memo with complete details including line items, payments, and accounting relationships.\n\n        This endpoint provides comprehensive credit memo information with:\n        - Complete credit memo metadata (dates, amounts, status, currency, terms)\n        - All associated line items with product details, account information, and departmental allocations\n        - Payment application history with journal entry references and transaction details\n       "
+        },
+        {
+          "info": {
+            "name": "Update Credit Memo",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/coa/api/v1/credit-memo/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Performs a complete update of an existing accounting credit memo using PUT semantics.\n\n        This endpoint allows full replacement of credit memo data including:\n        - Complete credit memo metadata update (dates, amounts, client, entity, currency)\n        - Full line item replacement with new products, accounts, amounts, and departmental allocations\n        - Journal entry recalculation and update with new accounting transactions\n        - Exchange rate updates for multi-currency "
+        },
+        {
+          "info": {
+            "name": "Partial Update Credit Memo",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.meetcampfire.com/coa/api/v1/credit-memo/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Performs a partial update of an existing accounting credit memo using PATCH semantics.\n\n        This endpoint allows selective modification of credit memo fields without requiring\n        a complete credit memo replacement. You can update specific aspects of the credit memo while\n        leaving other fields unchanged.\n\n        **Updatable Fields:**\n        - Credit memo metadata (dates, messages, descriptions, client, entity, currency)\n        - Line items (amounts, accounts, descripti"
+        },
+        {
+          "info": {
+            "name": "Delete Credit Memo",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.meetcampfire.com/coa/api/v1/credit-memo/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Permanently deletes an accounting credit memo and all associated data from the system.\n\n        This endpoint performs a complete removal of the credit memo including:\n        - Complete credit memo record deletion with all line items\n        - Automatic journal entry removal and accounting transaction cleanup\n\n        **Accounting Impact:**\n        - Associated journal entries are automatically deleted to maintain accounting integrity\n        - Exchange rate records and multi-currency "
+        },
+        {
+          "info": {
+            "name": "Get Credit Memo PDF",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/v1/credit-memo/:id/pdf/",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get Credit Memo PDF"
+        },
+        {
+          "info": {
+            "name": "Send Credit Memo",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/coa/api/v1/credit-memo/:id/send/",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Send a single credit memo via email."
+        },
+        {
+          "info": {
+            "name": "Bulk Search Credit Memos by Number",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/v1/credit-memo/bulk-search",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Search for thousands of credit memos by exact credit memo number match in a single request. Optimized for performance."
+        },
+        {
+          "info": {
+            "name": "Get Next Credit Memo Number",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/v1/credit-memo/next-credit-memo-number",
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get Next Credit Memo Number"
+        },
+        {
+          "info": {
+            "name": "List Invoices",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/v1/invoice/",
+            "params": [
+              {
+                "name": "client",
+                "value": "",
+                "type": "query",
+                "description": "Filter by client ID. Can be specified multiple times"
+              },
+              {
+                "name": "contract",
+                "value": "",
+                "type": "query",
+                "description": "Filter by contract ID"
+              },
+              {
+                "name": "currency",
+                "value": "",
+                "type": "query",
+                "description": "Filter by currency code (e.g., USD, EUR)"
+              },
+              {
+                "name": "download",
+                "value": "",
+                "type": "query",
+                "description": "If true, triggers async CSV download workflow and sends result via email"
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "Filter invoices with invoice_date on or before this date (YYYY-MM-DD)"
+              },
+              {
+                "name": "entity",
+                "value": "",
+                "type": "query",
+                "description": "Filter by entity ID. Can be specified multiple times"
+              },
+              {
+                "name": "invoice_number",
+                "value": "",
+                "type": "query",
+                "description": "Filter by exact invoice number"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "line_tag_group_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter invoices with at least one line item assigned a tag from this tag group ID"
+              },
+              {
+                "name": "line_tag_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter invoices with at least one line item assigned this tag ID"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The initial index from which to return the results."
+              },
+              {
+                "name": "paid_date_from",
+                "value": "",
+                "type": "query",
+                "description": "Filter invoices with paid_date on or after this date (YYYY-MM-DD)"
+              },
+              {
+                "name": "paid_date_to",
+                "value": "",
+                "type": "query",
+                "description": "Filter invoices with paid_date on or before this date (YYYY-MM-DD)"
+              },
+              {
+                "name": "parent_client",
+                "value": "",
+                "type": "query",
+                "description": "Filter by parent client (Vendor) ID. Returns invoices for the specified client and all of its descendants via vendor lineage."
+              },
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "Search query - searches shipping address, invoice number, message, or client name"
+              },
+              {
+                "name": "ref_number",
+                "value": "",
+                "type": "query",
+                "description": "Filter by exact ref number"
+              },
+              {
+                "name": "sentStatus",
+                "value": "",
+                "type": "query",
+                "description": "Filter by sent status"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sort order. Use field name for ascending, -field for descending. Special fields: client_name, amount_due. Default: -invoice_date"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Filter invoices with invoice_date on or after this date (YYYY-MM-DD)"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter by payment status"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Retrieve a paginated list of invoices with comprehensive filtering, sorting, and download capabilities.\n\n        This endpoint provides powerful invoice listing with:\n        - Advanced filtering by date ranges, status, clients, and entities\n        - Full-text search across multiple fields\n        - Flexible sorting options including custom calculated fields\n        - Async CSV export functionality via email\n        - Optimized queries with prefetched relationships\n\n        **Filtering"
+        },
+        {
+          "info": {
+            "name": "Create Invoice",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/v1/invoice/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Creates a new accounting invoice with line items and automatic journal entry generation.\n\n        This endpoint allows for comprehensive invoice creation with:\n        - Multiple line items with different products, rates, quantities, and tax handling\n        - Automatic accounts receivable journal entry creation\n        - Tax calculations and tax account handling\n        - Multi-currency support with exchange rate handling\n        - Product-based taxation rules\n        - Service date tr"
+        },
+        {
+          "info": {
+            "name": "List Invoice Payments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/v1/invoice-payments",
+            "params": [
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Opts into cursor pagination. Pass an empty value (cursor=) on the first request, then follow the 'next' URL from each response until it is null. The cursor value is opaque - do not parse or construct it. Cursor pagination is recommended for full syncs as it avoids the performance penalty of deep offsets on large result sets."
+              },
+              {
+                "name": "external_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter for the payment carrying this upstream external_id. Use it to reconcile a payment you created via the invoice pay endpoint back to your source-system record. An empty value is ignored and returns all payments."
+              },
+              {
+                "name": "invoice_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter for payments applied to this invoice id."
+              },
+              {
+                "name": "last_modified_at__gte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for payments modified on or after this timestamp. Format: ISO 8601 (e.g., '2024-01-01T00:00:00Z' or '2024-01-01'). Use this for incremental syncs: store the highest last_modified_at you have processed and pass it on the next sync run."
+              },
+              {
+                "name": "last_modified_at__lte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for payments modified on or before this timestamp. Format: ISO 8601 (e.g., '2024-12-31T23:59:59Z' or '2024-12-31'). Date-only values are inclusive of the entire day."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of records to return per page. Default 100, maximum 10000. Use with offset to paginate"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to skip before collecting the result page. Use with limit to paginate"
+              },
+              {
+                "name": "skip_count",
+                "value": "",
+                "type": "query",
+                "description": "When 'true', skips the total COUNT query and returns a lower-bound 'count' instead. Recommended for large syncs where the exact total is not needed."
+              },
+              {
+                "name": "voided",
+                "value": "",
+                "type": "query",
+                "description": "Filter by void status. When 'true', returns only voided payments (voided_date is set). When 'false', returns only active payments. When omitted, returns both so integrators can detect and propagate voids."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Retrieve a paginated list of invoice payments (payments applied against accounts\n        receivable invoices), designed for syncing payment data into external systems.\n\n        Results are ordered by (last_modified_at, id) ascending, so pages are stable and\n        a sync can resume from where it left off.\n\n        **Full sync (cursor pagination):**\n        - Pass an empty cursor parameter (cursor=) on the first request\n        - Follow the 'next' URL from each response until it is null"
+        },
+        {
+          "info": {
+            "name": "Calculate Invoice Payment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/v1/invoice/:invoice_id/calculate-payment",
+            "params": [
+              {
+                "name": "invoice_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the invoice"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Calculate the payment details for an invoice.\n\n        This endpoint calculates:\n        - Total amount due on the invoice\n        - Applied payments (existing + proposed)\n        - Applied credits (existing + proposed credit memos)\n        - Payment term discounts (based on payment dates) - ALL OR NOTHING: discount only applies if paying full invoice\n        - Remaining balance due\n\n        Supports payment terms with early payment discounts (all-or-nothing).\n        "
+        },
+        {
+          "info": {
+            "name": "Get Default Payment Amount",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/v1/invoice/:invoice_id/default-payment",
+            "params": [
+              {
+                "name": "invoice_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the invoice"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get the default payment amount for an invoice based on when payment is posted.\n\n        If the invoice has discount terms and the posted date is within the discount period,\n        the discounted amount is returned. Otherwise, the full amount is returned.\n        "
+        },
+        {
+          "info": {
+            "name": "Mark Invoice as Paid",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/v1/invoice/:invoice_id/pay/",
+            "params": [
+              {
+                "name": "invoice_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the invoice to mark as paid"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Mark an invoice as paid, allowing partial payments.\n\n        This endpoint supports multiple payment methods:\n        - Apply existing transactions as payments\n        - Apply credit memos to reduce the invoice balance\n        - Create manual payments without a transaction\n\n        The request body should contain at least one of:\n        - transactions: List of transaction payments to apply\n        - credit_memos: List of credit memos to apply\n        - empty_transactions: List of manual payment"
+        },
+        {
+          "info": {
+            "name": "Void Invoice Payment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/v1/invoice/:invoice_id/payment/:payment_id/void/",
+            "params": [
+              {
+                "name": "invoice_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the invoice"
+              },
+              {
+                "name": "payment_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the payment to void"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Void an existing invoice payment.\n\n        This creates a reversing journal entry to void the payment and updates the invoice status.\n        For Stripe payments, this will also process a refund through Stripe.\n\n        Optionally accepts a void_date in the request body to specify when the payment should be voided.\n        If not provided, defaults to today's date."
+        },
+        {
+          "info": {
+            "name": "Delete Invoice Payment",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.meetcampfire.com/coa/api/v1/invoice/:invoice_id/payment/:payment_id/void/",
+            "params": [
+              {
+                "name": "invoice_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the invoice"
+              },
+              {
+                "name": "payment_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the payment to delete"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete an invoice payment.\n\n        This removes the payment record and updates the transaction to uncategorized.\n        For Stripe payments, this will also process a refund through Stripe."
+        },
+        {
+          "info": {
+            "name": "Reopen Voided Invoice",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/v1/invoice/:invoice_id/reopen/",
+            "params": [
+              {
+                "name": "invoice_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the voided invoice to reopen"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Reopen a voided invoice.\n\n        This removes the void date and void journal entry, and sets the invoice status back to open.\n        The voiding journal entry will be deleted to reverse the void operation."
+        },
+        {
+          "info": {
+            "name": "Void Invoice",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/v1/invoice/:invoice_id/void/",
+            "params": [
+              {
+                "name": "invoice_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the invoice to void"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Void an existing invoice.\n\n        This creates a reversing journal entry to void the invoice by reversing all debit and credit amounts.\n        The invoice status will be updated to reflect the void."
+        },
+        {
+          "info": {
+            "name": "Retrieve Invoice",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/v1/invoice/:id/",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Retrieves a single accounting invoice with complete details including line items, payments, and accounting relationships.\n\n        This endpoint provides comprehensive invoice information with:\n        - Complete invoice metadata (dates, amounts, status, terms)\n        - All associated line items with product details and tax information\n        - Payment history with journal entry references and transaction details\n        "
+        },
+        {
+          "info": {
+            "name": "Update Invoice",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/coa/api/v1/invoice/:id/",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Performs a complete update of an existing accounting invoice using PUT semantics.\n\n        This endpoint allows full replacement of invoice data including:\n        - Complete invoice metadata update (dates, amounts, terms, client, entity)\n        - Full line item replacement with new products, quantities, rates, and tax calculations\n        - Journal entry recalculation and update with new accounting transactions\n        - Exchange rate updates for multi-currency invoices\n\n        **Imp"
+        },
+        {
+          "info": {
+            "name": "Partial Update Invoice",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.meetcampfire.com/coa/api/v1/invoice/:id/",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Performs a partial update of an existing accounting invoice using PATCH semantics.\n\n        This endpoint allows selective modification of invoice fields without requiring\n        a complete invoice replacement. You can update specific aspects of the invoice while\n        leaving other fields unchanged.\n\n        **Updatable Fields:**\n        - Invoice metadata (dates, terms, descriptions, client, entity, currency)\n        - Line items (amounts, accounts, descriptions, departments, produ"
+        },
+        {
+          "info": {
+            "name": "Delete Invoice",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.meetcampfire.com/coa/api/v1/invoice/:id/",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Permanently deletes an accounting invoice and its associated journal entry and related data.\n\n        This endpoint performs a complete deletion of the invoice including:\n        - Removal of all invoice line items and associated product data\n        - Deletion of the corresponding accounts receivable journal entry\n        - Removal of payment records and journal entries\n\n        **Important Notes:**\n        - This operation is irreversible and permanently removes the invoice from the s"
+        },
+        {
+          "info": {
+            "name": "Bulk Apply Transaction Payment to Selected Invoices",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/v1/invoice/bulk-apply-payment",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Apply a single transaction payment to multiple selected invoices.\n\nSupports two selection modes:\n- Explicit invoice IDs (``invoice_ids``)\n- Filter-based selection (``filters``) for \"select all matching\" behaviour\n\nReuses :meth:`MarkInvoicePaidView.apply_transaction_payment` so that\nline-level payment splitting, FX gain/loss realisation, and transaction\ncleanup are all respected.  A single ``DraftQueue`` is created when\napproval is required."
+        },
+        {
+          "info": {
+            "name": "Bulk Create Invoices",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/v1/invoice/bulk-create",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n    Create multiple invoices atomically in a single transaction.\n\n    All invoices are created within a single database transaction. If any invoice creation fails,\n    all invoices are rolled back and no invoices are created.\n\n    This endpoint validates all invoices before creating any of them, ensuring data integrity.\n    "
+        },
+        {
+          "info": {
+            "name": "Bulk Search Invoices by Number",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/v1/invoice/bulk-search",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Search for thousands of invoices by exact invoice number match in a single request. Optimized for performance."
+        },
+        {
+          "info": {
+            "name": "Execute invoice report",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/v1/invoice/report/:id/data",
+            "params": [
+              {
+                "name": "aggregation_fields",
+                "value": "",
+                "type": "query",
+                "description": "Aggregates: sum:amount, sum:amount_paid, sum:amount_due, etc."
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by client ID(s)"
+              },
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by contract ID(s)"
+              },
+              {
+                "name": "currency",
+                "value": "",
+                "type": "query",
+                "description": "Filter by currency code"
+              },
+              {
+                "name": "department_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by department ID(s)"
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "End date (YYYY-MM-DD)"
+              },
+              {
+                "name": "entity_id",
+                "value": "",
+                "type": "query",
+                "description": "Entity ID(s), comma-separated"
+              },
+              {
+                "name": "group_fields",
+                "value": "",
+                "type": "query",
+                "description": "Row dimensions: client_id, invoice_id, invoice_date_month, product_id, etc."
+              },
+              {
+                "name": "group_keys",
+                "value": "",
+                "type": "query",
+                "description": "Drilldown parent keys"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "include_totals",
+                "value": "",
+                "type": "query",
+                "description": "Include grand totals row"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Page size (max 10000)"
+              },
+              {
+                "name": "mode",
+                "value": "",
+                "type": "query",
+                "description": "paginated | full | csv"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Pagination offset"
+              },
+              {
+                "name": "payment_status",
+                "value": "",
+                "type": "query",
+                "description": "Filter by status: draft,open,sent,partial,paid,uncollectible"
+              },
+              {
+                "name": "pivot_fields",
+                "value": "",
+                "type": "query",
+                "description": "Column dimensions: product_id, client_id, etc."
+              },
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by product ID(s)"
+              },
+              {
+                "name": "shouldPivot",
+                "value": "",
+                "type": "query",
+                "description": "Enable pivot columns"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Start date (YYYY-MM-DD)"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Execute saved invoice report and return DataTable-compatible response.\n\n:param request: HTTP request with query params\n:param pk: Custom report ID\n:return: Paginated, sparse-formatted response"
+        },
+        {
+          "info": {
+            "name": "Preview invoice report",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/v1/invoice/report/preview",
+            "params": [
+              {
+                "name": "aggregation_fields",
+                "value": "",
+                "type": "query",
+                "description": "Aggregates: sum:amount, sum:amount_paid, sum:amount_due, etc."
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by client ID(s)"
+              },
+              {
+                "name": "contract_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by contract ID(s)"
+              },
+              {
+                "name": "currency",
+                "value": "",
+                "type": "query",
+                "description": "Filter by currency code"
+              },
+              {
+                "name": "department_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by department ID(s)"
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "End date (YYYY-MM-DD)"
+              },
+              {
+                "name": "entity_id",
+                "value": "",
+                "type": "query",
+                "description": "Entity ID(s), comma-separated"
+              },
+              {
+                "name": "group_fields",
+                "value": "",
+                "type": "query",
+                "description": "Row dimensions: client_id, invoice_id, invoice_date_month, product_id, etc."
+              },
+              {
+                "name": "group_keys",
+                "value": "",
+                "type": "query",
+                "description": "Drilldown parent keys"
+              },
+              {
+                "name": "include_totals",
+                "value": "",
+                "type": "query",
+                "description": "Include grand totals row"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Page size (max 10000)"
+              },
+              {
+                "name": "mode",
+                "value": "",
+                "type": "query",
+                "description": "paginated | full | csv"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Pagination offset"
+              },
+              {
+                "name": "payment_status",
+                "value": "",
+                "type": "query",
+                "description": "Filter by status: draft,open,sent,partial,paid,uncollectible"
+              },
+              {
+                "name": "pivot_fields",
+                "value": "",
+                "type": "query",
+                "description": "Column dimensions: product_id, client_id, etc."
+              },
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by product ID(s)"
+              },
+              {
+                "name": "shouldPivot",
+                "value": "",
+                "type": "query",
+                "description": "Enable pivot columns"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Start date (YYYY-MM-DD)"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Execute invoice report preview from query params.\n\n:param request: HTTP request with report configuration\n:return: Paginated response or CSV stream"
+        },
+        {
+          "info": {
+            "name": "Get Client Invoice Statement PDF",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/v1/invoice/statement/client/:client_id/pdf/",
+            "params": [
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Generate a customer statement PDF for a specific client.\n\nThis creates a professional, customer-facing statement showing:\n- All outstanding invoices as of the specified date\n- Running balance\n- Total balance due\n- Payment advice slip"
+        },
+        {
+          "info": {
+            "name": "List Contract Products",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/rr/api/v1/product",
+            "params": [
+              {
+                "name": "include_deleted",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', returns ONLY deleted records instead of active records. Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp, and 'last_modified_at'. When 'false' or omitted, returns ONLY active records. This provides clean separation between active and deleted data."
+              },
+              {
+                "name": "last_modified_at__gte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or after this timestamp. Format: ISO 8601 (e.g., '2024-01-01T00:00:00Z' or '2024-01-01'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "last_modified_at__lte",
+                "value": "",
+                "type": "query",
+                "description": "Filter for records modified on or before this timestamp. Format: ISO 8601 (e.g., '2024-12-31T23:59:59Z' or '2024-12-31'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The initial index from which to return the results."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "\n        Retrieve a list of contract products with optional filtering and sorting.\n\n        Supports including soft-deleted records for audit and recovery purposes.\n        When include_deleted=true, returns ONLY deleted records instead of active records.\n        Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp,\n        and 'last_modified_at'. When 'false' or omitted, returns ONLY active records.\n        This provides clean separation between active and delet"
+        },
+        {
+          "info": {
+            "name": "Create Contract Product",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/rr/api/v1/product",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create a new product"
+        },
+        {
+          "info": {
+            "name": "Retrieve Product",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/rr/api/v1/product/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve Product"
+        },
+        {
+          "info": {
+            "name": "Update Product",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/rr/api/v1/product/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update Product"
+        },
+        {
+          "info": {
+            "name": "Partial Update Product",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.meetcampfire.com/rr/api/v1/product/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Partial Update Product"
+        },
+        {
+          "info": {
+            "name": "Delete Product",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.meetcampfire.com/rr/api/v1/product/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete Product"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,42 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Campfire Developer APIs Accounts Payable coa API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "coa",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Upload Entity Invoice Email Attachment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/entity/:entity_id/attachment",
+            "params": [
+              {
+                "name": "entity_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Upload invoice email attachment with proper permissions"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

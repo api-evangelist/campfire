@@ -1,0 +1,2825 @@
+{
+  "item": [
+    {
+      "id": "2f318382-7ee2-46e6-a46f-8987131e4ca9",
+      "name": "Cash Management",
+      "description": {
+        "content": "Operations related to accounts, transactions, and other bank-related data.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "91d0a279-92f7-4d06-ad4a-5020a42bfd41",
+          "name": "List Bank Accounts",
+          "request": {
+            "name": "List Bank Accounts",
+            "description": {
+              "content": "\n        Retrieve a paginated list of bank accounts.\n\n        Supports including soft-deleted records for audit and recovery purposes.\n        When include_deleted=true, deleted records will have is_deleted=true\n        and include deletion metadata (deleted_at timestamp).\n\n        Supports sorting by all returned fields:\n        - name, -name (account name)\n        - nickname, -nickname (account nickname)\n        - type, -type (account type)\n        - status, -status (account status)\n        - currency, -currency (account currency)\n        - external_account_id, -external_account_id (external account ID)\n        - institution_id, -institution_id (institution ID)\n        - source, -source (account source)\n        - current_balance, -current_balance (current balance)\n        - available_balance, -available_balance (available balance)\n        - created_at, -created_at (creation date)\n        - last_modified_at, -last_modified_at (last modified date)\n        - account_type, -account_type (chart account type)\n        - account_subtype, -account_subtype (chart account subtype)\n        - account_cashflow_classification, -account_cashflow_classification (cashflow classification)\n        - type_name, -type_name (human-readable account type)\n        - subtype_name, -subtype_name (human-readable account subtype)\n        - cashflow_classification_name, -cashflow_classification_name (human-readable cashflow classification)\n        - entity_name, -entity_name (entity name)\n        - department, -department (department name)\n        - id, -id (account ID)\n        - account_id, -account_id (UUID account ID)\n        ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ca",
+                "api",
+                "account"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "chart_of_accounts_account",
+                  "value": "<integer>",
+                  "description": "Filter bank accounts by their linked chart of accounts account ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "include_deleted",
+                  "value": "false",
+                  "description": "When set to 'true', returns ONLY deleted records instead of active records. Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp, and 'last_modified_at'. When 'false' or omitted, returns ONLY active records. This provides clean separation between active and deleted data."
+                },
+                {
+                  "disabled": false,
+                  "key": "last_modified_at__gte",
+                  "value": "<string>",
+                  "description": "Filter for records modified on or after this timestamp. Format: ISO 8601 (e.g., '2024-01-01T00:00:00Z' or '2024-01-01'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+                },
+                {
+                  "disabled": false,
+                  "key": "last_modified_at__lte",
+                  "value": "<string>",
+                  "description": "Filter for records modified on or before this timestamp. Format: ISO 8601 (e.g., '2024-12-31T23:59:59Z' or '2024-12-31'). Works with both active records and deleted records (filters by deletion time for deleted records)."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Number of results to return per page."
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "<integer>",
+                  "description": "The initial index from which to return the results."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "8fb47224-1172-4508-a26e-4c76af6cc23f",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "api",
+                    "account"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "chart_of_accounts_account",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "include_deleted",
+                      "value": "false"
+                    },
+                    {
+                      "key": "last_modified_at__gte",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "last_modified_at__lte",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"count\": 123,\n  \"results\": [\n    {\n      \"account_cashflow_classification\": \"string\",\n      \"account_id\": \"0e8ba579-df21-91fa-c940-828d15ae0329\",\n      \"account_subtype\": \"string\",\n      \"account_type\": \"string\",\n      \"cashflow_classification_name\": \"string\",\n      \"chart_of_accounts_account_name\": \"string\",\n      \"created_at\": \"1960-09-24T04:13:18.620Z\",\n      \"customer\": 6255,\n      \"deleted_at\": \"2017-08-31T07:56:23.422Z\",\n      \"department_name\": \"string\",\n      \"entity\": 5244,\n      \"entity_name\": \"string\",\n      \"id\": 9451,\n      \"is_deleted\": false,\n      \"last_modified_at\": \"1960-07-03T10:03:36.205Z\",\n      \"subtype_name\": \"string\",\n      \"tags\": [\n        9254,\n        3205\n      ],\n      \"type_name\": \"string\",\n      \"currency\": \"str\",\n      \"external_account_id\": \"string\",\n      \"name\": \"string\",\n      \"nickname\": \"string\",\n      \"status\": \"string\",\n      \"type\": \"CHECKING\",\n      \"available_balance\": -342027612693574000,\n      \"current_balance\": 306972814017098750,\n      \"institution_id\": \"string\",\n      \"source\": \"string\",\n      \"aba_routing_number\": \"string\",\n      \"swift_bic\": \"string\",\n      \"tag_ids\": [\n        5411066061887191000,\n        -5831842770576683000\n      ],\n      \"tag_group_ids\": [\n        -2625166760057829400,\n        -3279518696337928000\n      ],\n      \"chart_of_accounts_account\": 2356,\n      \"department\": 676\n    },\n    {\n      \"account_cashflow_classification\": \"string\",\n      \"account_id\": \"f4ec161b-eb6a-d8e7-9225-82ba18be4104\",\n      \"account_subtype\": \"string\",\n      \"account_type\": \"string\",\n      \"cashflow_classification_name\": \"string\",\n      \"chart_of_accounts_account_name\": \"string\",\n      \"created_at\": \"1989-03-26T04:29:44.618Z\",\n      \"customer\": 8211,\n      \"deleted_at\": \"1987-07-14T14:26:47.063Z\",\n      \"department_name\": \"string\",\n      \"entity\": 3189,\n      \"entity_name\": \"string\",\n      \"id\": 3625,\n      \"is_deleted\": false,\n      \"last_modified_at\": \"1978-06-19T07:12:53.802Z\",\n      \"subtype_name\": \"string\",\n      \"tags\": [\n        7581,\n        8578\n      ],\n      \"type_name\": \"string\",\n      \"currency\": \"str\",\n      \"external_account_id\": \"string\",\n      \"name\": \"string\",\n      \"nickname\": \"string\",\n      \"status\": \"string\",\n      \"type\": \"CREDIT_CARD\",\n      \"available_balance\": -489807145648031500,\n      \"current_balance\": -542146295526058940,\n      \"institution_id\": \"string\",\n      \"source\": \"string\",\n      \"aba_routing_number\": \"string\",\n      \"swift_bic\": \"string\",\n      \"tag_ids\": [\n        -2468070257974722600,\n        3018938003532693500\n      ],\n      \"tag_group_ids\": [\n        8409673095694522000,\n        5206204599586007000\n      ],\n      \"chart_of_accounts_account\": 1618,\n      \"department\": 3305\n    }\n  ],\n  \"next\": \"http://api.example.org/accounts/?offset=400&limit=100\",\n  \"previous\": \"http://api.example.org/accounts/?offset=200&limit=100\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ee74f946-835d-4516-b474-26c00065c40e",
+          "name": "Create Bank Account",
+          "request": {
+            "name": "Create Bank Account",
+            "description": {
+              "content": "Create a new bank account",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ca",
+                "api",
+                "account"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "entity",
+                  "value": "<integer>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "currency",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "external_account_id",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "name",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "nickname",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "available_balance",
+                  "value": "<double>"
+                },
+                {
+                  "disabled": false,
+                  "key": "current_balance",
+                  "value": "<double>"
+                },
+                {
+                  "disabled": false,
+                  "key": "institution_id",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "source",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "aba_routing_number",
+                  "value": "<string>",
+                  "description": "ABA routing number (9 digits) for US bank accounts"
+                },
+                {
+                  "disabled": false,
+                  "key": "swift_bic",
+                  "value": "<string>",
+                  "description": "SWIFT BIC code (8 or 11 characters) for international accounts"
+                },
+                {
+                  "disabled": false,
+                  "key": "tag_ids",
+                  "value": "<long>"
+                },
+                {
+                  "disabled": false,
+                  "key": "tag_ids",
+                  "value": "<long>"
+                },
+                {
+                  "disabled": false,
+                  "key": "tag_group_ids",
+                  "value": "<long>"
+                },
+                {
+                  "disabled": false,
+                  "key": "tag_group_ids",
+                  "value": "<long>"
+                },
+                {
+                  "disabled": false,
+                  "key": "chart_of_accounts_account",
+                  "value": "<integer>"
+                },
+                {
+                  "disabled": false,
+                  "key": "department",
+                  "value": "<integer>"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "04bcb3bf-2e62-417a-a9ca-ef587c447375",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "api",
+                    "account"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "entity",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "currency",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "external_account_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "nickname",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "available_balance",
+                      "value": "<double>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "current_balance",
+                      "value": "<double>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "institution_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "source",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "ABA routing number (9 digits) for US bank accounts",
+                        "type": "text/plain"
+                      },
+                      "key": "aba_routing_number",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "SWIFT BIC code (8 or 11 characters) for international accounts",
+                        "type": "text/plain"
+                      },
+                      "key": "swift_bic",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "tag_ids",
+                      "value": "<long>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "tag_ids",
+                      "value": "<long>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "tag_group_ids",
+                      "value": "<long>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "tag_group_ids",
+                      "value": "<long>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "chart_of_accounts_account",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "department",
+                      "value": "<integer>"
+                    }
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"entity\": \"<integer>\",\n  \"id\": 1143,\n  \"is_deleted\": false,\n  \"deleted_at\": \"2016-11-26T09:17:25.274Z\",\n  \"entity_name\": \"string\",\n  \"department_name\": \"string\",\n  \"chart_of_accounts_account_name\": \"string\",\n  \"account_type\": \"string\",\n  \"account_subtype\": \"string\",\n  \"account_cashflow_classification\": \"string\",\n  \"type_name\": \"string\",\n  \"subtype_name\": \"string\",\n  \"cashflow_classification_name\": \"string\",\n  \"account_id\": \"eb87c7dc-1da1-cbdc-291b-1960e4ac881b\",\n  \"currency\": \"<string>\",\n  \"external_account_id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"nickname\": \"<string>\",\n  \"status\": \"<string>\",\n  \"type\": \"<string>\",\n  \"available_balance\": \"<double>\",\n  \"current_balance\": \"<double>\",\n  \"institution_id\": \"<string>\",\n  \"source\": \"<string>\",\n  \"aba_routing_number\": \"<string>\",\n  \"swift_bic\": \"<string>\",\n  \"created_at\": \"2010-07-15T22:56:10.115Z\",\n  \"last_modified_at\": \"1989-04-21T11:51:52.976Z\",\n  \"tag_ids\": [\n    \"<long>\",\n    \"<long>\"\n  ],\n  \"tag_group_ids\": [\n    \"<long>\",\n    \"<long>\"\n  ],\n  \"customer\": 1174,\n  \"chart_of_accounts_account\": \"<integer>\",\n  \"department\": \"<integer>\",\n  \"tags\": [\n    2182,\n    9136\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "09e38f55-c389-45c3-b884-4715c449e7b3",
+          "name": "Retrieve Bank Account",
+          "request": {
+            "name": "Retrieve Bank Account",
+            "description": {},
+            "url": {
+              "path": [
+                "ca",
+                "api",
+                "account",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "ff30df05-a1e0-43ed-b957-9c0a8e17ca13",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "api",
+                    "account",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"entity\": \"<integer>\",\n  \"id\": 1143,\n  \"is_deleted\": false,\n  \"deleted_at\": \"2016-11-26T09:17:25.274Z\",\n  \"entity_name\": \"string\",\n  \"department_name\": \"string\",\n  \"chart_of_accounts_account_name\": \"string\",\n  \"account_type\": \"string\",\n  \"account_subtype\": \"string\",\n  \"account_cashflow_classification\": \"string\",\n  \"type_name\": \"string\",\n  \"subtype_name\": \"string\",\n  \"cashflow_classification_name\": \"string\",\n  \"account_id\": \"eb87c7dc-1da1-cbdc-291b-1960e4ac881b\",\n  \"currency\": \"<string>\",\n  \"external_account_id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"nickname\": \"<string>\",\n  \"status\": \"<string>\",\n  \"type\": \"<string>\",\n  \"available_balance\": \"<double>\",\n  \"current_balance\": \"<double>\",\n  \"institution_id\": \"<string>\",\n  \"source\": \"<string>\",\n  \"aba_routing_number\": \"<string>\",\n  \"swift_bic\": \"<string>\",\n  \"created_at\": \"2010-07-15T22:56:10.115Z\",\n  \"last_modified_at\": \"1989-04-21T11:51:52.976Z\",\n  \"tag_ids\": [\n    \"<long>\",\n    \"<long>\"\n  ],\n  \"tag_group_ids\": [\n    \"<long>\",\n    \"<long>\"\n  ],\n  \"customer\": 1174,\n  \"chart_of_accounts_account\": \"<integer>\",\n  \"department\": \"<integer>\",\n  \"tags\": [\n    2182,\n    9136\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a193dd40-bd26-4680-bd2c-fd7c78130b52",
+          "name": "Update Bank Account",
+          "request": {
+            "name": "Update Bank Account",
+            "description": {},
+            "url": {
+              "path": [
+                "ca",
+                "api",
+                "account",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "entity",
+                  "value": "<integer>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "currency",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "external_account_id",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "name",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "nickname",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "available_balance",
+                  "value": "<double>"
+                },
+                {
+                  "disabled": false,
+                  "key": "current_balance",
+                  "value": "<double>"
+                },
+                {
+                  "disabled": false,
+                  "key": "institution_id",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "source",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "aba_routing_number",
+                  "value": "<string>",
+                  "description": "ABA routing number (9 digits) for US bank accounts"
+                },
+                {
+                  "disabled": false,
+                  "key": "swift_bic",
+                  "value": "<string>",
+                  "description": "SWIFT BIC code (8 or 11 characters) for international accounts"
+                },
+                {
+                  "disabled": false,
+                  "key": "tag_ids",
+                  "value": "<long>"
+                },
+                {
+                  "disabled": false,
+                  "key": "tag_ids",
+                  "value": "<long>"
+                },
+                {
+                  "disabled": false,
+                  "key": "tag_group_ids",
+                  "value": "<long>"
+                },
+                {
+                  "disabled": false,
+                  "key": "tag_group_ids",
+                  "value": "<long>"
+                },
+                {
+                  "disabled": false,
+                  "key": "chart_of_accounts_account",
+                  "value": "<integer>"
+                },
+                {
+                  "disabled": false,
+                  "key": "department",
+                  "value": "<integer>"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "8f53dfd5-14a5-4dfb-becc-532506db3f60",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "api",
+                    "account",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "entity",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "currency",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "external_account_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "nickname",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "available_balance",
+                      "value": "<double>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "current_balance",
+                      "value": "<double>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "institution_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "source",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "ABA routing number (9 digits) for US bank accounts",
+                        "type": "text/plain"
+                      },
+                      "key": "aba_routing_number",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "SWIFT BIC code (8 or 11 characters) for international accounts",
+                        "type": "text/plain"
+                      },
+                      "key": "swift_bic",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "tag_ids",
+                      "value": "<long>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "tag_ids",
+                      "value": "<long>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "tag_group_ids",
+                      "value": "<long>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "tag_group_ids",
+                      "value": "<long>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "chart_of_accounts_account",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "department",
+                      "value": "<integer>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"entity\": \"<integer>\",\n  \"id\": 1143,\n  \"is_deleted\": false,\n  \"deleted_at\": \"2016-11-26T09:17:25.274Z\",\n  \"entity_name\": \"string\",\n  \"department_name\": \"string\",\n  \"chart_of_accounts_account_name\": \"string\",\n  \"account_type\": \"string\",\n  \"account_subtype\": \"string\",\n  \"account_cashflow_classification\": \"string\",\n  \"type_name\": \"string\",\n  \"subtype_name\": \"string\",\n  \"cashflow_classification_name\": \"string\",\n  \"account_id\": \"eb87c7dc-1da1-cbdc-291b-1960e4ac881b\",\n  \"currency\": \"<string>\",\n  \"external_account_id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"nickname\": \"<string>\",\n  \"status\": \"<string>\",\n  \"type\": \"<string>\",\n  \"available_balance\": \"<double>\",\n  \"current_balance\": \"<double>\",\n  \"institution_id\": \"<string>\",\n  \"source\": \"<string>\",\n  \"aba_routing_number\": \"<string>\",\n  \"swift_bic\": \"<string>\",\n  \"created_at\": \"2010-07-15T22:56:10.115Z\",\n  \"last_modified_at\": \"1989-04-21T11:51:52.976Z\",\n  \"tag_ids\": [\n    \"<long>\",\n    \"<long>\"\n  ],\n  \"tag_group_ids\": [\n    \"<long>\",\n    \"<long>\"\n  ],\n  \"customer\": 1174,\n  \"chart_of_accounts_account\": \"<integer>\",\n  \"department\": \"<integer>\",\n  \"tags\": [\n    2182,\n    9136\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5bfc5418-ddbf-4e80-8606-8697af99d56e",
+          "name": "Partial Update Bank Account",
+          "request": {
+            "name": "Partial Update Bank Account",
+            "description": {},
+            "url": {
+              "path": [
+                "ca",
+                "api",
+                "account",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "currency",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "external_account_id",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "name",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "nickname",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "available_balance",
+                  "value": "<double>"
+                },
+                {
+                  "disabled": false,
+                  "key": "current_balance",
+                  "value": "<double>"
+                },
+                {
+                  "disabled": false,
+                  "key": "institution_id",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "source",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "aba_routing_number",
+                  "value": "<string>",
+                  "description": "ABA routing number (9 digits) for US bank accounts"
+                },
+                {
+                  "disabled": false,
+                  "key": "swift_bic",
+                  "value": "<string>",
+                  "description": "SWIFT BIC code (8 or 11 characters) for international accounts"
+                },
+                {
+                  "disabled": false,
+                  "key": "tag_ids",
+                  "value": "<long>"
+                },
+                {
+                  "disabled": false,
+                  "key": "tag_ids",
+                  "value": "<long>"
+                },
+                {
+                  "disabled": false,
+                  "key": "tag_group_ids",
+                  "value": "<long>"
+                },
+                {
+                  "disabled": false,
+                  "key": "tag_group_ids",
+                  "value": "<long>"
+                },
+                {
+                  "disabled": false,
+                  "key": "entity",
+                  "value": "<integer>"
+                },
+                {
+                  "disabled": false,
+                  "key": "chart_of_accounts_account",
+                  "value": "<integer>"
+                },
+                {
+                  "disabled": false,
+                  "key": "department",
+                  "value": "<integer>"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "5cd644f9-877c-4da3-95f6-ddad87e1952f",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "api",
+                    "account",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "key": "currency",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "external_account_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "nickname",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "available_balance",
+                      "value": "<double>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "current_balance",
+                      "value": "<double>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "institution_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "source",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "ABA routing number (9 digits) for US bank accounts",
+                        "type": "text/plain"
+                      },
+                      "key": "aba_routing_number",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "SWIFT BIC code (8 or 11 characters) for international accounts",
+                        "type": "text/plain"
+                      },
+                      "key": "swift_bic",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "tag_ids",
+                      "value": "<long>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "tag_ids",
+                      "value": "<long>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "tag_group_ids",
+                      "value": "<long>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "tag_group_ids",
+                      "value": "<long>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "entity",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "chart_of_accounts_account",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "department",
+                      "value": "<integer>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"entity\": \"<integer>\",\n  \"id\": 1143,\n  \"is_deleted\": false,\n  \"deleted_at\": \"2016-11-26T09:17:25.274Z\",\n  \"entity_name\": \"string\",\n  \"department_name\": \"string\",\n  \"chart_of_accounts_account_name\": \"string\",\n  \"account_type\": \"string\",\n  \"account_subtype\": \"string\",\n  \"account_cashflow_classification\": \"string\",\n  \"type_name\": \"string\",\n  \"subtype_name\": \"string\",\n  \"cashflow_classification_name\": \"string\",\n  \"account_id\": \"eb87c7dc-1da1-cbdc-291b-1960e4ac881b\",\n  \"currency\": \"<string>\",\n  \"external_account_id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"nickname\": \"<string>\",\n  \"status\": \"<string>\",\n  \"type\": \"<string>\",\n  \"available_balance\": \"<double>\",\n  \"current_balance\": \"<double>\",\n  \"institution_id\": \"<string>\",\n  \"source\": \"<string>\",\n  \"aba_routing_number\": \"<string>\",\n  \"swift_bic\": \"<string>\",\n  \"created_at\": \"2010-07-15T22:56:10.115Z\",\n  \"last_modified_at\": \"1989-04-21T11:51:52.976Z\",\n  \"tag_ids\": [\n    \"<long>\",\n    \"<long>\"\n  ],\n  \"tag_group_ids\": [\n    \"<long>\",\n    \"<long>\"\n  ],\n  \"customer\": 1174,\n  \"chart_of_accounts_account\": \"<integer>\",\n  \"department\": \"<integer>\",\n  \"tags\": [\n    2182,\n    9136\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d36914cc-0066-4b17-8f23-6ff84e9715e8",
+          "name": "Delete Bank Account",
+          "request": {
+            "name": "Delete Bank Account",
+            "description": {},
+            "url": {
+              "path": [
+                "ca",
+                "api",
+                "account",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "new_account",
+                  "value": "<integer>",
+                  "description": "ID of the bank account to reassign transactions to before deletion"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "4e830447-f8b9-4064-8286-2a7c0f5853ca",
+              "name": "No response body",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "api",
+                    "account",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "new_account",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ffe49038-2467-4486-b110-b37891a7582e",
+          "name": "Post Bank Feed",
+          "request": {
+            "name": "Post Bank Feed",
+            "description": {
+              "content": "Ingest bank feed data for a specific bank account. Creates bank transactions with corresponding journal entries, updates account balances, and triggers auto-categorization.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ca",
+                "api",
+                "bank-feed",
+                ":account_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "account_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "available_balance",
+                  "value": "<double>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "balance",
+                  "value": "<double>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "balance_as_of_date",
+                  "value": "<date>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "transactions",
+                  "value": "{\"key_0\":{}}",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "transactions",
+                  "value": "{\"key_0\":{}}",
+                  "description": "(Required) "
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "4735dc48-971f-4e80-be0e-e519a9feb861",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "api",
+                    "bank-feed",
+                    ":account_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "account_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "available_balance",
+                      "value": "<double>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "balance",
+                      "value": "<double>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "balance_as_of_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "transactions",
+                      "value": "{\"key_0\":{}}"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "transactions",
+                      "value": "{\"key_0\":{},\"key_1\":{}}"
+                    }
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Bank feed processed successfully\",\n  \"account_id\": 181,\n  \"submitted_count\": 5388,\n  \"created_count\": 2987,\n  \"skipped_count\": 6857,\n  \"skipped_transactions\": [\n    {\n      \"external_transaction_id\": \"string\",\n      \"reason\": \"string\"\n    },\n    {\n      \"external_transaction_id\": \"string\",\n      \"reason\": \"string\"\n    }\n  ],\n  \"failed_count\": 9508,\n  \"failed_transactions\": [\n    {\n      \"external_transaction_id\": \"string\",\n      \"reason\": \"string\"\n    },\n    {\n      \"external_transaction_id\": \"string\",\n      \"reason\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "96c6265b-56ec-4a6f-b49b-d186333c0b4c",
+          "name": "List Bank Transactions",
+          "request": {
+            "name": "List Bank Transactions",
+            "description": {
+              "content": "\n        Retrieve a paginated list of bank transactions with optional filtering.\n\n        Supports including soft-deleted records for audit and recovery purposes.\n        When include_deleted=true, deleted records will have is_deleted=true\n        and include deletion metadata (deleted_at timestamp).\n        ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ca",
+                "api",
+                "transaction"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "exclude_drafts",
+                  "value": "<boolean>",
+                  "description": "If true, hide bank transactions that have a pending cash-application DraftQueue attached (match drafts or categorize drafts). Default false."
+                },
+                {
+                  "disabled": false,
+                  "key": "include_deleted",
+                  "value": "false",
+                  "description": "When set to 'true', returns ONLY deleted records instead of active records. Deleted records contain minimal data: 'id', 'is_deleted=true', 'deleted_at' timestamp, and 'last_modified_at'. When 'false' or omitted, returns ONLY active records. This provides clean separation between active and deleted data."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Number of results to return per page."
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "<integer>",
+                  "description": "The initial index from which to return the results."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "0acb7443-b639-4741-88d4-ca19a0e996f6",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "api",
+                    "transaction"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "exclude_drafts",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "include_deleted",
+                      "value": "false"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"count\": 123,\n  \"results\": [\n    {\n      \"account\": 488,\n      \"account_name\": \"string\",\n      \"created_at\": \"1948-01-16T05:02:36.622Z\",\n      \"customer\": 7593,\n      \"date_month\": \"string\",\n      \"date_year\": \"string\",\n      \"deleted_at\": \"1990-07-05T12:59:51.263Z\",\n      \"entity_name\": \"string\",\n      \"id\": 8699,\n      \"intercompany_journal\": 2055,\n      \"is_deleted\": false,\n      \"journal\": 8924,\n      \"journal_order\": \"string\",\n      \"last_modified_at\": \"1986-06-18T08:49:08.995Z\",\n      \"reconciliation_report\": 8239,\n      \"reconciliation_report_ending_date\": \"2008-03-23\",\n      \"transaction_id\": \"1304b346-fe3f-575b-c5bb-46459d72584d\",\n      \"external_transaction_id\": \"string\",\n      \"currency\": \"str\",\n      \"amount\": 604707160789230600,\n      \"amount_native\": -870677192094985200,\n      \"posted_at\": \"1956-12-10T05:39:22.897Z\",\n      \"status\": \"string\",\n      \"note\": \"string\",\n      \"bank_description\": \"string\",\n      \"external_memo\": \"string\",\n      \"merchant_id\": \"string\",\n      \"merchant_name\": \"string\",\n      \"merchant_nickname\": \"string\",\n      \"kind\": \"string\",\n      \"excluded\": false,\n      \"assigned\": false,\n      \"metadata\": {}\n    },\n    {\n      \"account\": 937,\n      \"account_name\": \"string\",\n      \"created_at\": \"2003-10-11T14:04:24.301Z\",\n      \"customer\": 6279,\n      \"date_month\": \"string\",\n      \"date_year\": \"string\",\n      \"deleted_at\": \"1962-04-27T11:18:51.799Z\",\n      \"entity_name\": \"string\",\n      \"id\": 376,\n      \"intercompany_journal\": 1540,\n      \"is_deleted\": false,\n      \"journal\": 1459,\n      \"journal_order\": \"string\",\n      \"last_modified_at\": \"2012-12-27T18:30:40.651Z\",\n      \"reconciliation_report\": 1937,\n      \"reconciliation_report_ending_date\": \"1978-07-13\",\n      \"transaction_id\": \"f6f59db7-ba71-7105-6f06-d0eefb337a0e\",\n      \"external_transaction_id\": \"string\",\n      \"currency\": \"str\",\n      \"amount\": -156485167639592580,\n      \"amount_native\": 402351539457759200,\n      \"posted_at\": \"1971-03-29T02:11:49.548Z\",\n      \"status\": \"string\",\n      \"note\": \"string\",\n      \"bank_description\": \"string\",\n      \"external_memo\": \"string\",\n      \"merchant_id\": \"string\",\n      \"merchant_name\": \"string\",\n      \"merchant_nickname\": \"string\",\n      \"kind\": \"string\",\n      \"excluded\": true,\n      \"assigned\": true,\n      \"metadata\": {}\n    }\n  ],\n  \"next\": \"http://api.example.org/accounts/?offset=400&limit=100\",\n  \"previous\": \"http://api.example.org/accounts/?offset=200&limit=100\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c77815b3-c0ea-4e3d-b6ea-6cd9711a0b50",
+          "name": "Create Bank Transaction",
+          "request": {
+            "name": "Create Bank Transaction",
+            "description": {
+              "content": "Create a new bank transaction",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ca",
+                "api",
+                "transaction"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "account",
+                  "value": "<integer>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "transaction_id",
+                  "value": "<uuid>"
+                },
+                {
+                  "disabled": false,
+                  "key": "external_transaction_id",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "currency",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "amount",
+                  "value": "<double>"
+                },
+                {
+                  "disabled": false,
+                  "key": "amount_native",
+                  "value": "<double>"
+                },
+                {
+                  "disabled": false,
+                  "key": "posted_at",
+                  "value": "<dateTime>"
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "note",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "bank_description",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "external_memo",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "merchant_id",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "merchant_name",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "merchant_nickname",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "kind",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "excluded",
+                  "value": "<boolean>"
+                },
+                {
+                  "disabled": false,
+                  "key": "assigned",
+                  "value": "<boolean>"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "ff5bde2c-eb19-4abb-bb9d-e9c7e4aa9eef",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "api",
+                    "transaction"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "account",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "transaction_id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "external_transaction_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "currency",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "amount",
+                      "value": "<double>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "amount_native",
+                      "value": "<double>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "posted_at",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "note",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "bank_description",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "external_memo",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "merchant_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "merchant_name",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "merchant_nickname",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "kind",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "excluded",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "assigned",
+                      "value": "<boolean>"
+                    }
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"account\": \"<integer>\",\n  \"id\": 7710,\n  \"is_deleted\": false,\n  \"deleted_at\": \"1954-02-21T10:54:06.609Z\",\n  \"account_name\": \"string\",\n  \"entity_name\": \"string\",\n  \"date_month\": \"string\",\n  \"date_year\": \"string\",\n  \"journal\": 9039,\n  \"journal_order\": \"string\",\n  \"intercompany_journal\": 3269,\n  \"reconciliation_report\": 7441,\n  \"reconciliation_report_ending_date\": \"1949-03-21\",\n  \"last_modified_at\": \"1977-06-21T06:22:58.701Z\",\n  \"transaction_id\": \"<uuid>\",\n  \"external_transaction_id\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"amount\": \"<double>\",\n  \"amount_native\": \"<double>\",\n  \"posted_at\": \"<dateTime>\",\n  \"status\": \"<string>\",\n  \"note\": \"<string>\",\n  \"bank_description\": \"<string>\",\n  \"external_memo\": \"<string>\",\n  \"merchant_id\": \"<string>\",\n  \"merchant_name\": \"<string>\",\n  \"merchant_nickname\": \"<string>\",\n  \"kind\": \"<string>\",\n  \"excluded\": \"<boolean>\",\n  \"assigned\": \"<boolean>\",\n  \"metadata\": {},\n  \"created_at\": \"1953-11-08T07:20:56.562Z\",\n  \"customer\": 7029\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c81f321a-6533-4bc8-8a11-b77242cb4d3b",
+          "name": "Retrieve Bank Transaction",
+          "request": {
+            "name": "Retrieve Bank Transaction",
+            "description": {},
+            "url": {
+              "path": [
+                "ca",
+                "api",
+                "transaction",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "11058286-2dbd-48b2-a9a3-b1b6f955758a",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "api",
+                    "transaction",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"account\": \"<integer>\",\n  \"id\": 7710,\n  \"is_deleted\": false,\n  \"deleted_at\": \"1954-02-21T10:54:06.609Z\",\n  \"account_name\": \"string\",\n  \"entity_name\": \"string\",\n  \"date_month\": \"string\",\n  \"date_year\": \"string\",\n  \"journal\": 9039,\n  \"journal_order\": \"string\",\n  \"intercompany_journal\": 3269,\n  \"reconciliation_report\": 7441,\n  \"reconciliation_report_ending_date\": \"1949-03-21\",\n  \"last_modified_at\": \"1977-06-21T06:22:58.701Z\",\n  \"transaction_id\": \"<uuid>\",\n  \"external_transaction_id\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"amount\": \"<double>\",\n  \"amount_native\": \"<double>\",\n  \"posted_at\": \"<dateTime>\",\n  \"status\": \"<string>\",\n  \"note\": \"<string>\",\n  \"bank_description\": \"<string>\",\n  \"external_memo\": \"<string>\",\n  \"merchant_id\": \"<string>\",\n  \"merchant_name\": \"<string>\",\n  \"merchant_nickname\": \"<string>\",\n  \"kind\": \"<string>\",\n  \"excluded\": \"<boolean>\",\n  \"assigned\": \"<boolean>\",\n  \"metadata\": {},\n  \"created_at\": \"1953-11-08T07:20:56.562Z\",\n  \"customer\": 7029\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f75961ae-942a-4f58-8ac4-5d2ee0ed7c7c",
+          "name": "Update Bank Transaction",
+          "request": {
+            "name": "Update Bank Transaction",
+            "description": {},
+            "url": {
+              "path": [
+                "ca",
+                "api",
+                "transaction",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "account",
+                  "value": "<integer>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "transaction_id",
+                  "value": "<uuid>"
+                },
+                {
+                  "disabled": false,
+                  "key": "external_transaction_id",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "currency",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "amount",
+                  "value": "<double>"
+                },
+                {
+                  "disabled": false,
+                  "key": "amount_native",
+                  "value": "<double>"
+                },
+                {
+                  "disabled": false,
+                  "key": "posted_at",
+                  "value": "<dateTime>"
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "note",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "bank_description",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "external_memo",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "merchant_id",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "merchant_name",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "merchant_nickname",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "kind",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "excluded",
+                  "value": "<boolean>"
+                },
+                {
+                  "disabled": false,
+                  "key": "assigned",
+                  "value": "<boolean>"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "5c8c36c9-943e-494b-a456-f89ab0823714",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "api",
+                    "transaction",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "account",
+                      "value": "<integer>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "transaction_id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "external_transaction_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "currency",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "amount",
+                      "value": "<double>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "amount_native",
+                      "value": "<double>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "posted_at",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "note",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "bank_description",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "external_memo",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "merchant_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "merchant_name",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "merchant_nickname",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "kind",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "excluded",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "assigned",
+                      "value": "<boolean>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"account\": \"<integer>\",\n  \"id\": 7710,\n  \"is_deleted\": false,\n  \"deleted_at\": \"1954-02-21T10:54:06.609Z\",\n  \"account_name\": \"string\",\n  \"entity_name\": \"string\",\n  \"date_month\": \"string\",\n  \"date_year\": \"string\",\n  \"journal\": 9039,\n  \"journal_order\": \"string\",\n  \"intercompany_journal\": 3269,\n  \"reconciliation_report\": 7441,\n  \"reconciliation_report_ending_date\": \"1949-03-21\",\n  \"last_modified_at\": \"1977-06-21T06:22:58.701Z\",\n  \"transaction_id\": \"<uuid>\",\n  \"external_transaction_id\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"amount\": \"<double>\",\n  \"amount_native\": \"<double>\",\n  \"posted_at\": \"<dateTime>\",\n  \"status\": \"<string>\",\n  \"note\": \"<string>\",\n  \"bank_description\": \"<string>\",\n  \"external_memo\": \"<string>\",\n  \"merchant_id\": \"<string>\",\n  \"merchant_name\": \"<string>\",\n  \"merchant_nickname\": \"<string>\",\n  \"kind\": \"<string>\",\n  \"excluded\": \"<boolean>\",\n  \"assigned\": \"<boolean>\",\n  \"metadata\": {},\n  \"created_at\": \"1953-11-08T07:20:56.562Z\",\n  \"customer\": 7029\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a113a2d5-df1f-447c-b0b8-91a35580799c",
+          "name": "Partial Update Bank Transaction",
+          "request": {
+            "name": "Partial Update Bank Transaction",
+            "description": {},
+            "url": {
+              "path": [
+                "ca",
+                "api",
+                "transaction",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "transaction_id",
+                  "value": "<uuid>"
+                },
+                {
+                  "disabled": false,
+                  "key": "external_transaction_id",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "currency",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "amount",
+                  "value": "<double>"
+                },
+                {
+                  "disabled": false,
+                  "key": "amount_native",
+                  "value": "<double>"
+                },
+                {
+                  "disabled": false,
+                  "key": "posted_at",
+                  "value": "<dateTime>"
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "note",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "bank_description",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "external_memo",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "merchant_id",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "merchant_name",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "merchant_nickname",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "kind",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "excluded",
+                  "value": "<boolean>"
+                },
+                {
+                  "disabled": false,
+                  "key": "assigned",
+                  "value": "<boolean>"
+                },
+                {
+                  "disabled": false,
+                  "key": "account",
+                  "value": "<integer>"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "be9a12f7-29c6-4014-a948-df0f67b41961",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "api",
+                    "transaction",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "key": "transaction_id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "external_transaction_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "currency",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "amount",
+                      "value": "<double>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "amount_native",
+                      "value": "<double>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "posted_at",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "note",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "bank_description",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "external_memo",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "merchant_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "merchant_name",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "merchant_nickname",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "kind",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "excluded",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "assigned",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "disabled": false,
+                      "key": "account",
+                      "value": "<integer>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"account\": \"<integer>\",\n  \"id\": 7710,\n  \"is_deleted\": false,\n  \"deleted_at\": \"1954-02-21T10:54:06.609Z\",\n  \"account_name\": \"string\",\n  \"entity_name\": \"string\",\n  \"date_month\": \"string\",\n  \"date_year\": \"string\",\n  \"journal\": 9039,\n  \"journal_order\": \"string\",\n  \"intercompany_journal\": 3269,\n  \"reconciliation_report\": 7441,\n  \"reconciliation_report_ending_date\": \"1949-03-21\",\n  \"last_modified_at\": \"1977-06-21T06:22:58.701Z\",\n  \"transaction_id\": \"<uuid>\",\n  \"external_transaction_id\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"amount\": \"<double>\",\n  \"amount_native\": \"<double>\",\n  \"posted_at\": \"<dateTime>\",\n  \"status\": \"<string>\",\n  \"note\": \"<string>\",\n  \"bank_description\": \"<string>\",\n  \"external_memo\": \"<string>\",\n  \"merchant_id\": \"<string>\",\n  \"merchant_name\": \"<string>\",\n  \"merchant_nickname\": \"<string>\",\n  \"kind\": \"<string>\",\n  \"excluded\": \"<boolean>\",\n  \"assigned\": \"<boolean>\",\n  \"metadata\": {},\n  \"created_at\": \"1953-11-08T07:20:56.562Z\",\n  \"customer\": 7029\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6d27d499-2b54-4ce0-9c29-908a7eb0c13f",
+          "name": "Delete Bank Transaction",
+          "request": {
+            "name": "Delete Bank Transaction",
+            "description": {},
+            "url": {
+              "path": [
+                "ca",
+                "api",
+                "transaction",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "e637d061-7cb5-4fba-a7a5-e2f4b9fae643",
+              "name": "No response body",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ca",
+                    "api",
+                    "transaction",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.meetcampfire.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "8e231ac9-f47e-4c61-83b9-dead7c0af652",
+    "name": "Campfire Developer APIs Accounts Payable Cash Management API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "## Introduction\nCampfire's developer APIs offer granular access to Campfire's core accounting,\nrevenue recognition, and financial data features.\n\nThese APIs are designed to be used by developers to build custom integrations,\nautomate workflows, and perform any other programmatic operations.\n",
+      "type": "text/plain"
+    }
+  }
+}

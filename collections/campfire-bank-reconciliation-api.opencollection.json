@@ -1,0 +1,397 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Campfire Developer APIs Accounts Payable Bank Reconciliation API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Bank Reconciliation",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Bank Reconciliation Reports",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/v2/reconciliation",
+            "params": [
+              {
+                "name": "account",
+                "value": "",
+                "type": "query",
+                "description": "Filter by account ID"
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "Filter by maximum statement ending date (YYYY-MM-DD)"
+              },
+              {
+                "name": "entity",
+                "value": "",
+                "type": "query",
+                "description": "Filter by entity ID"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The initial index from which to return the results."
+              },
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "Search term for account name, number, or reconciled_by name"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sort field (prefix with - for descending)"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Filter by minimum statement ending date (YYYY-MM-DD)"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve a paginated list of bank reconciliation reports. Supports filtering by start_date, end_date, entity, account, and search query (q). Default sort is by statement_ending_date descending."
+        },
+        {
+          "info": {
+            "name": "Create Bank Reconciliation Report",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/v2/reconciliation",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create a new bank reconciliation report for a specific account and date range. Cannot create overlapping date ranges for the same account and entity."
+        },
+        {
+          "info": {
+            "name": "Get Bank Reconciliation Report",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/v2/reconciliation/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve a specific bank reconciliation report by ID. Includes report metadata, status, async task status for PDF processing, and attached files/CSV statements."
+        },
+        {
+          "info": {
+            "name": "Update Bank Reconciliation Report",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.meetcampfire.com/coa/api/v2/reconciliation/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update a bank reconciliation report. Supports partial updates via PATCH."
+        },
+        {
+          "info": {
+            "name": "Partial Update Bank Reconciliation Report",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.meetcampfire.com/coa/api/v2/reconciliation/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Partially update a bank reconciliation report. Only provided fields are modified."
+        },
+        {
+          "info": {
+            "name": "Delete Bank Reconciliation Report",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.meetcampfire.com/coa/api/v2/reconciliation/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete a bank reconciliation report and all associated data."
+        },
+        {
+          "info": {
+            "name": "Bulk Match GL Transactions to Statement Transactions",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/v2/reconciliation/:id/bulk-match-transactions",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Match multiple GL transactions to statement transactions in a single request. Pairs are validated atomically — all succeed or none are created."
+        },
+        {
+          "info": {
+            "name": "List GL Transactions for Reconciliation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.meetcampfire.com/coa/api/v2/reconciliation/:id/source-transactions",
+            "params": [
+              {
+                "name": "bank",
+                "value": "",
+                "type": "query",
+                "description": "Filter by bank account ID"
+              },
+              {
+                "name": "currency",
+                "value": "",
+                "type": "query",
+                "description": "Filter by currency code (e.g., USD, EUR)"
+              },
+              {
+                "name": "department",
+                "value": "",
+                "type": "query",
+                "description": "Filter by department ID"
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "Filter by maximum posted date (YYYY-MM-DD)"
+              },
+              {
+                "name": "group",
+                "value": "",
+                "type": "query",
+                "description": "Filter by tag group ID"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "matched",
+                "value": "",
+                "type": "query",
+                "description": "Set to 'true' to show only transactions with an explicit statement match, or 'false' to show transactions without an explicit statement match"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The initial index from which to return the results."
+              },
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "Search term for bank description, journal memo, journal order, or amount"
+              },
+              {
+                "name": "reconciled_only",
+                "value": "",
+                "type": "query",
+                "description": "Set to 'true' to show only reconciled transactions for this report"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sort field(s), comma-separated (prefix with - for descending). Default: posted_at"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Filter by minimum posted date (YYYY-MM-DD)"
+              },
+              {
+                "name": "tag",
+                "value": "",
+                "type": "query",
+                "description": "Filter by tag ID"
+              },
+              {
+                "name": "unreconciled",
+                "value": "",
+                "type": "query",
+                "description": "Set to 'true' to show only unreconciled transactions"
+              },
+              {
+                "name": "vendor",
+                "value": "",
+                "type": "query",
+                "description": "Filter by vendor/payee ID"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "List source (GL) transactions available for reconciliation. Supports filtering by date range, bank, vendor, department, tag, currency, and reconciliation status."
+        },
+        {
+          "info": {
+            "name": "Confirm Selection of Transactions to Reconcile",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/v2/reconciliation/:id/transactions/confirm",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Confirm the selection of GL transactions for reconciliation. Pass selected transaction IDs in the request body. Selected transactions are marked as RECONCILED; deselected transactions have their status as suggested matches to this reconciliation report cleared."
+        },
+        {
+          "info": {
+            "name": "Parse Bank Statement Page",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.meetcampfire.com/coa/api/v2/reconciliation/parse-statement-page",
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Parse a bank statement PDF.\n\nAccepts:\n    ``file_id`` (required) -- ID of the uploaded PDF ``File``.\n    ``pages`` (optional, int) -- How many pages to include in the first parse batch.\n        Defaults to ``BATCH_PAGE_SIZE``. Use a small value (e.g. 2) for\n        a fast initial response with just balances and dates.\n\nOnly the first batch is parsed in this request. Parsed output is cached under\n``file_id`` and the effective first-batch page count (``pages`` or default\n``BATCH_PAGE_SIZE``) so di"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
