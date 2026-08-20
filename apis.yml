@@ -42,6 +42,15 @@ tags:
 - Revenue Recognition
 - Accounts Payable
 - Accounts Receivable
+- Artificial Intelligence
+tags_raw:
+- Company
+- Accounting
+- ERP
+- Finance
+- Revenue Recognition
+- Accounts Payable
+- Accounts Receivable
 - AI
 maintainers:
 - FN: Kin Lane
@@ -165,6 +174,8 @@ apis:
   humanURL: https://docs.campfire.ai
   baseURL: https://api.meetcampfire.com
   tags:
+  - Integration
+  tags_raw:
   - Integrations
   properties:
   - type: OpenAPI
