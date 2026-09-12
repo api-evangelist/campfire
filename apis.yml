@@ -220,6 +220,8 @@ apis:
   - type: Webhooks
     url: asyncapi/campfire-webhooks.yml
 common:
+- type: Website
+  url: https://www.campfire.ai/
 - type: Overlay
   url: overlays/campfire-openapi-overlay.yaml
 - type: DomainSecurity
