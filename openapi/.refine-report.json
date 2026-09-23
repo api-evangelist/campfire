@@ -1,36 +1,47 @@
 {
   "provider": "campfire",
   "sources": [
-    "campfire-accounts-payable-api-openapi.yml",
-    "campfire-accounts-receivable-api-openapi.yml",
-    "campfire-bank-reconciliation-api-openapi.yml",
-    "campfire-cash-management-api-openapi.yml",
-    "campfire-coa-api-openapi.yml",
-    "campfire-company-objects-api-openapi.yml",
-    "campfire-core-accounting-api-openapi.yml",
-    "campfire-custom-fields-api-openapi.yml",
-    "campfire-financial-statements-api-openapi.yml",
-    "campfire-integrations-api-openapi.yml",
-    "campfire-revenue-recognition-api-openapi.yml",
-    "campfire-settings-api-openapi.yml"
+    "_original/campfire-openapi-original.json"
   ],
   "outputs": [
     "campfire-accounts-payable-api-openapi.yml",
     "campfire-accounts-receivable-api-openapi.yml",
     "campfire-bank-reconciliation-api-openapi.yml",
     "campfire-cash-management-api-openapi.yml",
-    "campfire-coa-api-openapi.yml",
     "campfire-company-objects-api-openapi.yml",
     "campfire-core-accounting-api-openapi.yml",
     "campfire-custom-fields-api-openapi.yml",
     "campfire-financial-statements-api-openapi.yml",
     "campfire-integrations-api-openapi.yml",
     "campfire-revenue-recognition-api-openapi.yml",
-    "campfire-settings-api-openapi.yml"
+    "campfire-settings-api-openapi.yml",
+    "campfire-coa-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "campfire-openapi-original.json: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "campfire-openapi-original.json: declared missing tag: Bank Reconciliation",
+    "campfire-openapi-original.json: declared missing tag: Company Objects",
+    "campfire-openapi-original.json: declared missing tag: Custom Fields",
+    "campfire-openapi-original.json: declared missing tag: Integrations",
+    "campfire-openapi-original.json: declared missing tag: coa",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "campfire-accounts-payable-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "campfire-accounts-receivable-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "campfire-bank-reconciliation-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "campfire-cash-management-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "campfire-coa-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "campfire-company-objects-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "campfire-core-accounting-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "campfire-custom-fields-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "campfire-financial-statements-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "campfire-integrations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "campfire-revenue-recognition-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "campfire-settings-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

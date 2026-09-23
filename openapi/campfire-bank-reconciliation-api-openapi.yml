@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Campfire Developer APIs Accounts Payable Bank Reconciliation API
+  title: Campfire Developer Bank Reconciliation API
   version: 1.0.0
   description: '## Introduction
 
@@ -11,9 +11,7 @@ info:
 
     These APIs are designed to be used by developers to build custom integrations,
 
-    automate workflows, and perform any other programmatic operations.
-
-    '
+    automate workflows, and perform any other programmatic operations.'
 servers:
 - url: https://api.meetcampfire.com
   description: Production server
@@ -392,7 +390,25 @@ paths:
   /coa/api/v2/reconciliation/parse-statement-page:
     post:
       operationId: parse_bank_statement_page
-      description: "Parse a bank statement PDF.\n\nAccepts:\n    ``file_id`` (required) -- ID of the uploaded PDF ``File``.\n    ``pages`` (optional, int) -- How many pages to include in the first parse batch.\n        Defaults to ``BATCH_PAGE_SIZE``. Use a small value (e.g. 2) for\n        a fast initial response with just balances and dates.\n\nOnly the first batch is parsed in this request. Parsed output is cached under\n``file_id`` and the effective first-batch page count (``pages`` or default\n``BATCH_PAGE_SIZE``) so different ``pages`` values do not share one cache entry."
+      description: 'Parse a bank statement PDF.
+
+
+        Accepts:
+
+        ``file_id`` (required) -- ID of the uploaded PDF ``File``.
+
+        ``pages`` (optional, int) -- How many pages to include in the first parse batch.
+
+        Defaults to ``BATCH_PAGE_SIZE``. Use a small value (e.g. 2) for
+
+        a fast initial response with just balances and dates.
+
+
+        Only the first batch is parsed in this request. Parsed output is cached under
+
+        ``file_id`` and the effective first-batch page count (``pages`` or default
+
+        ``BATCH_PAGE_SIZE``) so different ``pages`` values do not share one cache entry.'
       summary: Parse Bank Statement Page
       tags:
       - Bank Reconciliation
@@ -403,6 +419,124 @@ paths:
           description: No response body
 components:
   schemas:
+    ReconciliationReportV2SourceReconciliationTransaction:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        status:
+          $ref: '#/components/schemas/ReconciliationReportV2SourceReconciliationTransactionStatusEnum'
+        suggestion_id:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+        suggestion:
+          allOf:
+          - $ref: '#/components/schemas/ReconciliationReportV2StatementTransaction'
+          readOnly: true
+      required:
+      - id
+      - suggestion
+      - suggestion_id
+    PaginatedReconciliationReportV2SourceTransactionListList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReconciliationReportV2SourceTransactionList'
+    ReconciliationReportV2SourceReconciliationTransactionStatusEnum:
+      enum:
+      - DRAFT
+      - RECONCILED
+      type: string
+      description: '* `DRAFT` - Draft
+
+        * `RECONCILED` - Reconciled'
+    ReconciliationReportV2SourceTransactionList:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        currency:
+          type: string
+          readOnly: true
+        posted_at:
+          type:
+          - string
+          - 'null'
+          format: date
+          title: Posted Date
+        debit_amount_in_currency:
+          type: string
+          readOnly: true
+        credit_amount_in_currency:
+          type: string
+          readOnly: true
+        bank_description:
+          type:
+          - string
+          - 'null'
+        reconciliation_transaction:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReconciliationReportV2SourceReconciliationTransaction'
+          readOnly: true
+        is_cleared:
+          type: string
+          readOnly: true
+        is_matched:
+          type: string
+          readOnly: true
+        journal_id:
+          type: integer
+          readOnly: true
+        journal_order:
+          type: string
+          readOnly: true
+      required:
+      - credit_amount_in_currency
+      - currency
+      - debit_amount_in_currency
+      - id
+      - is_cleared
+      - is_matched
+      - journal_id
+      - journal_order
+      - reconciliation_transaction
+    MatchTransactionRequest:
+      type: object
+      properties:
+        transaction_id:
+          type: integer
+          description: GL transaction ID to match
+        statement_transaction_id:
+          type: integer
+          description: Statement transaction ID to match
+      required:
+      - statement_transaction_id
+      - transaction_id
     PatchedReconciliationReportV2:
       type: object
       properties:
@@ -521,51 +655,46 @@ components:
           type: string
           maxLength: 3
         statement_starting_date:
-          type: string
+          type:
+          - string
+          - 'null'
           format: date
-          nullable: true
         statement_ending_date:
-          type: string
+          type:
+          - string
+          - 'null'
           format: date
-          nullable: true
         starting_balance:
           type: number
           format: double
-          maximum: 1000000000000000000
-          minimum: -1000000000000000000
-          exclusiveMaximum: true
-          exclusiveMinimum: true
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
         ending_balance:
           type: number
           format: double
-          maximum: 1000000000000000000
-          minimum: -1000000000000000000
-          exclusiveMaximum: true
-          exclusiveMinimum: true
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
         total_credit_amount:
-          type: number
+          type:
+          - number
+          - 'null'
           format: double
-          maximum: 1000000000000000000
-          minimum: -1000000000000000000
-          exclusiveMaximum: true
-          exclusiveMinimum: true
-          nullable: true
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
         total_debit_amount:
-          type: number
+          type:
+          - number
+          - 'null'
           format: double
-          maximum: 1000000000000000000
-          minimum: -1000000000000000000
-          exclusiveMaximum: true
-          exclusiveMinimum: true
-          nullable: true
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
         adjustments:
-          type: number
+          type:
+          - number
+          - 'null'
           format: double
-          maximum: 1000000000000000000
-          minimum: -1000000000000000000
-          exclusiveMaximum: true
-          exclusiveMinimum: true
-          nullable: true
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
         created_at:
           type: string
           format: date-time
@@ -575,77 +704,386 @@ components:
           format: date-time
           readOnly: true
         reconciled_on:
-          type: string
+          type:
+          - string
+          - 'null'
           format: date
-          nullable: true
         approved_on:
-          type: string
+          type:
+          - string
+          - 'null'
           format: date-time
           readOnly: true
-          nullable: true
         status:
           $ref: '#/components/schemas/Status8ecEnum'
-        unmatched_statement_transactions:
-          nullable: true
+        unmatched_statement_transactions: {}
         statement_recognition_cost_usd:
-          type: number
+          type:
+          - number
+          - 'null'
           format: double
-          maximum: 100000000
-          minimum: -100000000
-          exclusiveMaximum: true
-          exclusiveMinimum: true
-          nullable: true
           description: Estimated USD cost of AI bank-statement parsing for this report (from summed page token usage).
+          exclusiveMinimum: -100000000
+          exclusiveMaximum: 100000000
         statement_recognition_input_tokens:
-          type: integer
+          type:
+          - integer
+          - 'null'
           maximum: 2147483647
           minimum: 0
-          nullable: true
           description: Sum of input tokens from statement parsing across all pages (set on finalize).
         statement_recognition_output_tokens:
-          type: integer
+          type:
+          - integer
+          - 'null'
           maximum: 2147483647
           minimum: 0
-          nullable: true
           description: Sum of output tokens from statement parsing across all pages (set on finalize).
         statement_recognition_token_total:
-          type: integer
+          type:
+          - integer
+          - 'null'
           maximum: 9223372036854775807
           minimum: 0
           format: int64
-          nullable: true
           description: Input plus output tokens for this report (set on finalize).
         statement_recognition_model_name:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           description: LLM model used for statement parsing when token totals were recorded.
           maxLength: 128
         customer:
           type: integer
           readOnly: true
         entity:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
         account:
           type: integer
         matching_task:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
         reconciled_by:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
         approved_by:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+    ErrorResponse:
+      type: object
+      description: Standard error response.
+      properties:
+        error:
+          type: string
+          description: Error message describing what went wrong
+      required:
+      - error
+    BulkMatchTransactionRequest:
+      type: object
+      properties:
+        pairs:
+          type: array
+          items:
+            $ref: '#/components/schemas/MatchTransactionRequest'
+          description: Ordered list of GL-to-statement transaction pairs to match
+          minItems: 1
+      required:
+      - pairs
+    ReconciliationReportV2StatementTransaction:
+      type: object
+      properties:
+        id:
           type: integer
           readOnly: true
-          nullable: true
-    ReconciliationReportV2SourceReconciliationTransactionStatusEnum:
+        page_number:
+          type: integer
+          readOnly: true
+        reconciliation_transaction_id:
+          type: string
+          readOnly: true
+        source_transaction_id:
+          type: string
+          readOnly: true
+        is_matched:
+          type: string
+          readOnly: true
+        date:
+          type: string
+          format: date
+        deposit:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        withdrawal:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        description:
+          type:
+          - string
+          - 'null'
+        is_cleared:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        reconciliation_report:
+          type: integer
+          readOnly: true
+        page:
+          type: integer
+          readOnly: true
+      required:
+      - created_at
+      - customer
+      - date
+      - id
+      - is_matched
+      - last_modified_at
+      - page
+      - page_number
+      - reconciliation_report
+      - reconciliation_transaction_id
+      - source_transaction_id
+    Status8ecEnum:
       enum:
       - DRAFT
-      - RECONCILED
+      - PENDING_APPROVAL
+      - APPROVED
+      - DELETED
       type: string
       description: '* `DRAFT` - Draft
 
-        * `RECONCILED` - Reconciled'
+        * `PENDING_APPROVAL` - Pending Approval
+
+        * `APPROVED` - Approved
+
+        * `DELETED` - Deleted'
+    PaginatedReconciliationReportV2ListList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReconciliationReportV2List'
+    AsyncTask:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        created_by_name:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          maxLength: 250
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        status:
+          $ref: '#/components/schemas/AsyncTaskStatusEnum'
+        error_message:
+          type:
+          - string
+          - 'null'
+        error_type:
+          type:
+          - string
+          - 'null'
+          description: Exception class name
+          maxLength: 255
+        retries:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          description: Number of retry attempts
+        completed_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        started_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: When task execution started
+        celery_task_id:
+          type:
+          - string
+          - 'null'
+          description: Celery task UUID from self.request.id
+          maxLength: 255
+        root_task_id:
+          type:
+          - string
+          - 'null'
+          description: Root task ID in workflow chain
+          maxLength: 255
+        parent_task_id:
+          type:
+          - string
+          - 'null'
+          description: Parent task ID if chained
+          maxLength: 255
+        trace_id:
+          type:
+          - string
+          - 'null'
+          description: APM distributed trace ID
+          maxLength: 255
+        span_id:
+          type:
+          - string
+          - 'null'
+          description: APM span ID
+          maxLength: 255
+        task_args:
+          description: Task positional arguments
+        task_kwargs:
+          description: Task keyword arguments
+        result:
+          description: Task execution result
+        content: {}
+        customer:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+        created_by:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+      required:
+      - created_at
+      - created_by
+      - created_by_name
+      - customer
+      - id
+      - name
+    File:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+        created_by_name:
+          type: string
+          readOnly: true
+        created_by_email:
+          type: string
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        name:
+          type: string
+        url:
+          type: string
+          readOnly: true
+        s3_content_type:
+          type:
+          - string
+          - 'null'
+        s3_content_length:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: 0
+        s3_path:
+          type: string
+        object_id:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: 0
+        app:
+          type: string
+          readOnly: true
+        model:
+          type: string
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+      required:
+      - app
+      - created_at
+      - created_by
+      - created_by_email
+      - created_by_name
+      - customer
+      - deleted_at
+      - id
+      - is_deleted
+      - last_modified_at
+      - model
+      - name
+      - s3_path
+      - url
     ReconciliationReportV2:
       type: object
       properties:
@@ -764,51 +1202,46 @@ components:
           type: string
           maxLength: 3
         statement_starting_date:
-          type: string
+          type:
+          - string
+          - 'null'
           format: date
-          nullable: true
         statement_ending_date:
-          type: string
+          type:
+          - string
+          - 'null'
           format: date
-          nullable: true
         starting_balance:
           type: number
           format: double
-          maximum: 1000000000000000000
-          minimum: -1000000000000000000
-          exclusiveMaximum: true
-          exclusiveMinimum: true
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
         ending_balance:
           type: number
           format: double
-          maximum: 1000000000000000000
-          minimum: -1000000000000000000
-          exclusiveMaximum: true
-          exclusiveMinimum: true
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
         total_credit_amount:
-          type: number
+          type:
+          - number
+          - 'null'
           format: double
-          maximum: 1000000000000000000
-          minimum: -1000000000000000000
-          exclusiveMaximum: true
-          exclusiveMinimum: true
-          nullable: true
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
         total_debit_amount:
-          type: number
+          type:
+          - number
+          - 'null'
           format: double
-          maximum: 1000000000000000000
-          minimum: -1000000000000000000
-          exclusiveMaximum: true
-          exclusiveMinimum: true
-          nullable: true
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
         adjustments:
-          type: number
+          type:
+          - number
+          - 'null'
           format: double
-          maximum: 1000000000000000000
-          minimum: -1000000000000000000
-          exclusiveMaximum: true
-          exclusiveMinimum: true
-          nullable: true
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
         created_at:
           type: string
           format: date-time
@@ -818,69 +1251,77 @@ components:
           format: date-time
           readOnly: true
         reconciled_on:
-          type: string
+          type:
+          - string
+          - 'null'
           format: date
-          nullable: true
         approved_on:
-          type: string
+          type:
+          - string
+          - 'null'
           format: date-time
           readOnly: true
-          nullable: true
         status:
           $ref: '#/components/schemas/Status8ecEnum'
-        unmatched_statement_transactions:
-          nullable: true
+        unmatched_statement_transactions: {}
         statement_recognition_cost_usd:
-          type: number
+          type:
+          - number
+          - 'null'
           format: double
-          maximum: 100000000
-          minimum: -100000000
-          exclusiveMaximum: true
-          exclusiveMinimum: true
-          nullable: true
           description: Estimated USD cost of AI bank-statement parsing for this report (from summed page token usage).
+          exclusiveMinimum: -100000000
+          exclusiveMaximum: 100000000
         statement_recognition_input_tokens:
-          type: integer
+          type:
+          - integer
+          - 'null'
           maximum: 2147483647
           minimum: 0
-          nullable: true
           description: Sum of input tokens from statement parsing across all pages (set on finalize).
         statement_recognition_output_tokens:
-          type: integer
+          type:
+          - integer
+          - 'null'
           maximum: 2147483647
           minimum: 0
-          nullable: true
           description: Sum of output tokens from statement parsing across all pages (set on finalize).
         statement_recognition_token_total:
-          type: integer
+          type:
+          - integer
+          - 'null'
           maximum: 9223372036854775807
           minimum: 0
           format: int64
-          nullable: true
           description: Input plus output tokens for this report (set on finalize).
         statement_recognition_model_name:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           description: LLM model used for statement parsing when token totals were recorded.
           maxLength: 128
         customer:
           type: integer
           readOnly: true
         entity:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
         account:
           type: integer
         matching_task:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
         reconciled_by:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
         approved_by:
-          type: integer
+          type:
+          - integer
+          - 'null'
           readOnly: true
-          nullable: true
       required:
       - account
       - account_name
@@ -924,405 +1365,6 @@ components:
       - unreconciled_statement_line_count
       - unreconciled_total_credits
       - unreconciled_total_debits
-    ReconciliationReportV2StatementTransaction:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        page_number:
-          type: integer
-          readOnly: true
-        reconciliation_transaction_id:
-          type: string
-          readOnly: true
-        source_transaction_id:
-          type: string
-          readOnly: true
-        is_matched:
-          type: string
-          readOnly: true
-        date:
-          type: string
-          format: date
-        deposit:
-          type: number
-          format: double
-          maximum: 1000000000000000000
-          minimum: -1000000000000000000
-          exclusiveMaximum: true
-          exclusiveMinimum: true
-          nullable: true
-        withdrawal:
-          type: number
-          format: double
-          maximum: 1000000000000000000
-          minimum: -1000000000000000000
-          exclusiveMaximum: true
-          exclusiveMinimum: true
-          nullable: true
-        description:
-          type: string
-          nullable: true
-        is_cleared:
-          type: boolean
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-        reconciliation_report:
-          type: integer
-          readOnly: true
-        page:
-          type: integer
-          readOnly: true
-      required:
-      - created_at
-      - customer
-      - date
-      - id
-      - is_matched
-      - last_modified_at
-      - page
-      - page_number
-      - reconciliation_report
-      - reconciliation_transaction_id
-      - source_transaction_id
-    File:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        created_by:
-          type: integer
-          readOnly: true
-          nullable: true
-        created_by_name:
-          type: string
-          readOnly: true
-        created_by_email:
-          type: string
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        name:
-          type: string
-        url:
-          type: string
-          readOnly: true
-        s3_content_type:
-          type: string
-          nullable: true
-        s3_content_length:
-          type: integer
-          maximum: 2147483647
-          minimum: 0
-          nullable: true
-        s3_path:
-          type: string
-        object_id:
-          type: integer
-          maximum: 2147483647
-          minimum: 0
-          nullable: true
-        app:
-          type: string
-          readOnly: true
-        model:
-          type: string
-          readOnly: true
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type: string
-          format: date-time
-          readOnly: true
-          nullable: true
-      required:
-      - app
-      - created_at
-      - created_by
-      - created_by_email
-      - created_by_name
-      - customer
-      - deleted_at
-      - id
-      - is_deleted
-      - last_modified_at
-      - model
-      - name
-      - s3_path
-      - url
-    ReconciliationReportV2SourceReconciliationTransaction:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        status:
-          $ref: '#/components/schemas/ReconciliationReportV2SourceReconciliationTransactionStatusEnum'
-        suggestion_id:
-          type: integer
-          nullable: true
-          readOnly: true
-        suggestion:
-          allOf:
-          - $ref: '#/components/schemas/ReconciliationReportV2StatementTransaction'
-          readOnly: true
-      required:
-      - id
-      - suggestion
-      - suggestion_id
-    ErrorResponse:
-      type: object
-      description: Standard error response.
-      properties:
-        error:
-          type: string
-          description: Error message describing what went wrong
-      required:
-      - error
-    Status8ecEnum:
-      enum:
-      - DRAFT
-      - PENDING_APPROVAL
-      - APPROVED
-      - DELETED
-      type: string
-      description: '* `DRAFT` - Draft
-
-        * `PENDING_APPROVAL` - Pending Approval
-
-        * `APPROVED` - Approved
-
-        * `DELETED` - Deleted'
-    ReconciliationReportV2SourceTransactionList:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        currency:
-          type: string
-          readOnly: true
-        posted_at:
-          type: string
-          format: date
-          nullable: true
-          title: Posted Date
-        debit_amount_in_currency:
-          type: string
-          readOnly: true
-        credit_amount_in_currency:
-          type: string
-          readOnly: true
-        bank_description:
-          type: string
-          nullable: true
-        reconciliation_transaction:
-          type: array
-          items:
-            $ref: '#/components/schemas/ReconciliationReportV2SourceReconciliationTransaction'
-          readOnly: true
-        is_cleared:
-          type: string
-          readOnly: true
-        is_matched:
-          type: string
-          readOnly: true
-        journal_id:
-          type: integer
-          readOnly: true
-        journal_order:
-          type: string
-          readOnly: true
-      required:
-      - credit_amount_in_currency
-      - currency
-      - debit_amount_in_currency
-      - id
-      - is_cleared
-      - is_matched
-      - journal_id
-      - journal_order
-      - reconciliation_transaction
-    MatchTransactionRequest:
-      type: object
-      properties:
-        transaction_id:
-          type: integer
-          description: GL transaction ID to match
-        statement_transaction_id:
-          type: integer
-          description: Statement transaction ID to match
-      required:
-      - statement_transaction_id
-      - transaction_id
-    AsyncTask:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        created_by_name:
-          type: string
-          readOnly: true
-        name:
-          type: string
-          maxLength: 250
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        status:
-          $ref: '#/components/schemas/AsyncTaskStatusEnum'
-        error_message:
-          type: string
-          nullable: true
-        error_type:
-          type: string
-          nullable: true
-          description: Exception class name
-          maxLength: 255
-        retries:
-          type: integer
-          maximum: 2147483647
-          minimum: -2147483648
-          description: Number of retry attempts
-        completed_at:
-          type: string
-          format: date-time
-          nullable: true
-        started_at:
-          type: string
-          format: date-time
-          nullable: true
-          description: When task execution started
-        celery_task_id:
-          type: string
-          nullable: true
-          description: Celery task UUID from self.request.id
-          maxLength: 255
-        root_task_id:
-          type: string
-          nullable: true
-          description: Root task ID in workflow chain
-          maxLength: 255
-        parent_task_id:
-          type: string
-          nullable: true
-          description: Parent task ID if chained
-          maxLength: 255
-        trace_id:
-          type: string
-          nullable: true
-          description: APM distributed trace ID
-          maxLength: 255
-        span_id:
-          type: string
-          nullable: true
-          description: APM span ID
-          maxLength: 255
-        task_args:
-          description: Task positional arguments
-        task_kwargs:
-          description: Task keyword arguments
-        result:
-          nullable: true
-          description: Task execution result
-        content:
-          nullable: true
-        customer:
-          type: integer
-          readOnly: true
-          nullable: true
-        created_by:
-          type: integer
-          readOnly: true
-          nullable: true
-      required:
-      - created_at
-      - created_by
-      - created_by_name
-      - customer
-      - id
-      - name
-    PaginatedReconciliationReportV2ListList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/ReconciliationReportV2List'
-    PaginatedReconciliationReportV2SourceTransactionListList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/ReconciliationReportV2SourceTransactionList'
-    BulkMatchTransactionRequest:
-      type: object
-      properties:
-        pairs:
-          type: array
-          items:
-            $ref: '#/components/schemas/MatchTransactionRequest'
-          description: Ordered list of GL-to-statement transaction pairs to match
-          minItems: 1
-      required:
-      - pairs
     ReconciliationReportV2List:
       type: object
       properties:
@@ -1333,8 +1375,9 @@ components:
           type: integer
           readOnly: true
         entity:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
         entity_name:
           type: string
           readOnly: true
@@ -1356,51 +1399,46 @@ components:
           type: string
           maxLength: 3
         statement_starting_date:
-          type: string
+          type:
+          - string
+          - 'null'
           format: date
-          nullable: true
         statement_ending_date:
-          type: string
+          type:
+          - string
+          - 'null'
           format: date
-          nullable: true
         starting_balance:
           type: number
           format: double
-          maximum: 1000000000000000000
-          minimum: -1000000000000000000
-          exclusiveMaximum: true
-          exclusiveMinimum: true
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
         ending_balance:
           type: number
           format: double
-          maximum: 1000000000000000000
-          minimum: -1000000000000000000
-          exclusiveMaximum: true
-          exclusiveMinimum: true
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
         total_credit_amount:
-          type: number
+          type:
+          - number
+          - 'null'
           format: double
-          maximum: 1000000000000000000
-          minimum: -1000000000000000000
-          exclusiveMaximum: true
-          exclusiveMinimum: true
-          nullable: true
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
         total_debit_amount:
-          type: number
+          type:
+          - number
+          - 'null'
           format: double
-          maximum: 1000000000000000000
-          minimum: -1000000000000000000
-          exclusiveMaximum: true
-          exclusiveMinimum: true
-          nullable: true
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
         adjustments:
-          type: number
+          type:
+          - number
+          - 'null'
           format: double
-          maximum: 1000000000000000000
-          minimum: -1000000000000000000
-          exclusiveMaximum: true
-          exclusiveMinimum: true
-          nullable: true
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
         created_at:
           type: string
           format: date-time
@@ -1414,11 +1452,13 @@ components:
           - $ref: '#/components/schemas/AsyncTask'
           readOnly: true
         matching_task:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
         reconciled_by:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
         reconciled_by_name:
           type: string
           readOnly: true
@@ -1426,13 +1466,15 @@ components:
           type: string
           readOnly: true
         reconciled_on:
-          type: string
+          type:
+          - string
+          - 'null'
           format: date
-          nullable: true
         approved_by:
-          type: integer
+          type:
+          - integer
+          - 'null'
           readOnly: true
-          nullable: true
         approved_by_name:
           type: string
           readOnly: true
@@ -1440,45 +1482,48 @@ components:
           type: string
           readOnly: true
         approved_on:
-          type: string
+          type:
+          - string
+          - 'null'
           format: date-time
           readOnly: true
-          nullable: true
         status:
           $ref: '#/components/schemas/Status8ecEnum'
-        unmatched_statement_transactions:
-          nullable: true
+        unmatched_statement_transactions: {}
         statement_recognition_cost_usd:
-          type: number
+          type:
+          - number
+          - 'null'
           format: double
-          maximum: 100000000
-          minimum: -100000000
-          exclusiveMaximum: true
-          exclusiveMinimum: true
-          nullable: true
           description: Estimated USD cost of AI bank-statement parsing for this report (from summed page token usage).
+          exclusiveMinimum: -100000000
+          exclusiveMaximum: 100000000
         statement_recognition_input_tokens:
-          type: integer
+          type:
+          - integer
+          - 'null'
           maximum: 2147483647
           minimum: 0
-          nullable: true
           description: Sum of input tokens from statement parsing across all pages (set on finalize).
         statement_recognition_output_tokens:
-          type: integer
+          type:
+          - integer
+          - 'null'
           maximum: 2147483647
           minimum: 0
-          nullable: true
           description: Sum of output tokens from statement parsing across all pages (set on finalize).
         statement_recognition_token_total:
-          type: integer
+          type:
+          - integer
+          - 'null'
           maximum: 9223372036854775807
           minimum: 0
           format: int64
-          nullable: true
           description: Input plus output tokens for this report (set on finalize).
         statement_recognition_model_name:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           description: LLM model used for statement parsing when token totals were recorded.
           maxLength: 128
       required:
@@ -1499,6 +1544,21 @@ components:
       - last_modified_at
       - reconciled_by_email
       - reconciled_by_name
+    ConfirmTransactionSelectionRequest:
+      type: object
+      properties:
+        selected:
+          type: array
+          items:
+            type: integer
+          description: List of GL transaction IDs to mark as reconciled
+        selected_statements:
+          type: array
+          items:
+            type: integer
+          description: Statement transaction IDs to auto-match to GL selections by amount
+      required:
+      - selected
     AsyncTaskStatusEnum:
       enum:
       - PENDING
@@ -1516,21 +1576,6 @@ components:
         * `FAILED` - Failed
 
         * `CANCELLED` - Cancelled'
-    ConfirmTransactionSelectionRequest:
-      type: object
-      properties:
-        selected:
-          type: array
-          items:
-            type: integer
-          description: List of GL transaction IDs to mark as reconciled
-        selected_statements:
-          type: array
-          items:
-            type: integer
-          description: Statement transaction IDs to auto-match to GL selections by amount
-      required:
-      - selected
   securitySchemes:
     knoxApiToken:
       type: apiKey

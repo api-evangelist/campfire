@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Campfire Developer APIs Accounts Payable Financial Statements API
+  title: Campfire Developer Financial Statements API
   version: 1.0.0
   description: '## Introduction
 
@@ -11,9 +11,7 @@ info:
 
     These APIs are designed to be used by developers to build custom integrations,
 
-    automate workflows, and perform any other programmatic operations.
-
-    '
+    automate workflows, and perform any other programmatic operations.'
 servers:
 - url: https://api.meetcampfire.com
   description: Production server
@@ -84,8 +82,9 @@ paths:
                   headers:
                     type: object
                   budget_id:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
               examples:
                 Example:
                   value:
@@ -924,8 +923,9 @@ paths:
                   headers:
                     type: object
                   budget_id:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
               examples:
                 Example:
                   value:
@@ -961,32 +961,19 @@ paths:
           description: No response body
 components:
   schemas:
-    TrialBalanceData:
-      type: object
-      properties:
-        accounts:
-          type: array
-          items:
-            $ref: '#/components/schemas/TrialBalanceAccount'
-      required:
-      - accounts
     TrialBalanceAccountBalance:
       type: object
       properties:
         debits:
           type: number
           format: double
-          maximum: 10000000000000
-          minimum: -10000000000000
-          exclusiveMaximum: true
-          exclusiveMinimum: true
+          exclusiveMinimum: -10000000000000
+          exclusiveMaximum: 10000000000000
         credits:
           type: number
           format: double
-          maximum: 10000000000000
-          minimum: -10000000000000
-          exclusiveMaximum: true
-          exclusiveMinimum: true
+          exclusiveMinimum: -10000000000000
+          exclusiveMaximum: 10000000000000
       required:
       - credits
       - debits
@@ -1017,6 +1004,15 @@ components:
       - id
       - name
       - number
+    TrialBalanceData:
+      type: object
+      properties:
+        accounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/TrialBalanceAccount'
+      required:
+      - accounts
     TrialBalanceResponse:
       type: object
       properties:

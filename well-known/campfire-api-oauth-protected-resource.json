@@ -1,0 +1,1 @@
+{"resource": "https://api.meetcampfire.com/mcp", "scopes_supported": ["campfire.mcp.read", "campfire.mcp.reports.read", "campfire.mcp.support.read", "campfire.mcp.write", "email", "openid", "profile"], "bearer_methods_supported": ["header"], "authorization_servers": ["https://api.meetcampfire.com"]}

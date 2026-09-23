@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Campfire Developer APIs Accounts Payable Integrations API
+  title: Campfire Developer Integrations API
   version: 1.0.0
   description: '## Introduction
 
@@ -11,9 +11,7 @@ info:
 
     These APIs are designed to be used by developers to build custom integrations,
 
-    automate workflows, and perform any other programmatic operations.
-
-    '
+    automate workflows, and perform any other programmatic operations.'
 servers:
 - url: https://api.meetcampfire.com
   description: Production server
@@ -210,9 +208,10 @@ components:
         http:
           readOnly: true
         webhook:
-          type: integer
+          type:
+          - integer
+          - 'null'
           readOnly: true
-          nullable: true
       required:
       - created_at
       - http
@@ -222,6 +221,51 @@ components:
       - topic
       - url
       - webhook
+    WebhookTopic:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+      required:
+      - id
+      - name
+    PatchedWebhook:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        url:
+          type: string
+          format: uri
+          maxLength: 1024
+        token:
+          type: string
+          readOnly: true
+        topics:
+          type: array
+          items:
+            $ref: '#/components/schemas/WebhookTopic'
+        active:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
     Webhook:
       type: object
       properties:
@@ -265,51 +309,6 @@ components:
       - token
       - url
       - uuid
-    PatchedWebhook:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        uuid:
-          type: string
-          format: uuid
-          readOnly: true
-        url:
-          type: string
-          format: uri
-          maxLength: 1024
-        token:
-          type: string
-          readOnly: true
-        topics:
-          type: array
-          items:
-            $ref: '#/components/schemas/WebhookTopic'
-        active:
-          type: boolean
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-    WebhookTopic:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-      required:
-      - id
-      - name
   securitySchemes:
     knoxApiToken:
       type: apiKey
