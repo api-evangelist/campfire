@@ -186,6 +186,49 @@ paths:
           description: ''
 components:
   schemas:
+    Webhook:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        url:
+          type: string
+          format: uri
+          maxLength: 1024
+        token:
+          type: string
+          readOnly: true
+        topics:
+          type: array
+          items:
+            $ref: '#/components/schemas/WebhookTopic'
+        active:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+      required:
+      - active
+      - created_at
+      - customer
+      - id
+      - last_modified_at
+      - token
+      - url
+      - uuid
     WebhookEvent:
       type: object
       properties:
@@ -266,49 +309,6 @@ components:
         customer:
           type: integer
           readOnly: true
-    Webhook:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        uuid:
-          type: string
-          format: uuid
-          readOnly: true
-        url:
-          type: string
-          format: uri
-          maxLength: 1024
-        token:
-          type: string
-          readOnly: true
-        topics:
-          type: array
-          items:
-            $ref: '#/components/schemas/WebhookTopic'
-        active:
-          type: boolean
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-      required:
-      - active
-      - created_at
-      - customer
-      - id
-      - last_modified_at
-      - token
-      - url
-      - uuid
   securitySchemes:
     knoxApiToken:
       type: apiKey

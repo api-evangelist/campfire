@@ -961,22 +961,28 @@ paths:
           description: No response body
 components:
   schemas:
-    TrialBalanceAccountBalance:
+    TrialBalanceResponse:
       type: object
       properties:
-        debits:
-          type: number
-          format: double
-          exclusiveMinimum: -10000000000000
-          exclusiveMaximum: 10000000000000
-        credits:
-          type: number
-          format: double
-          exclusiveMinimum: -10000000000000
-          exclusiveMaximum: 10000000000000
+        trial_balance:
+          $ref: '#/components/schemas/TrialBalanceData'
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+        income_statement_start:
+          type: string
+          format: date
+        breakdown:
+          type: object
+          additionalProperties: {}
       required:
-      - credits
-      - debits
+      - end_date
+      - income_statement_start
+      - start_date
+      - trial_balance
     TrialBalanceAccount:
       type: object
       properties:
@@ -1004,6 +1010,22 @@ components:
       - id
       - name
       - number
+    TrialBalanceAccountBalance:
+      type: object
+      properties:
+        debits:
+          type: number
+          format: double
+          exclusiveMinimum: -10000000000000
+          exclusiveMaximum: 10000000000000
+        credits:
+          type: number
+          format: double
+          exclusiveMinimum: -10000000000000
+          exclusiveMaximum: 10000000000000
+      required:
+      - credits
+      - debits
     TrialBalanceData:
       type: object
       properties:
@@ -1013,28 +1035,6 @@ components:
             $ref: '#/components/schemas/TrialBalanceAccount'
       required:
       - accounts
-    TrialBalanceResponse:
-      type: object
-      properties:
-        trial_balance:
-          $ref: '#/components/schemas/TrialBalanceData'
-        start_date:
-          type: string
-          format: date
-        end_date:
-          type: string
-          format: date
-        income_statement_start:
-          type: string
-          format: date
-        breakdown:
-          type: object
-          additionalProperties: {}
-      required:
-      - end_date
-      - income_statement_start
-      - start_date
-      - trial_balance
   securitySchemes:
     knoxApiToken:
       type: apiKey

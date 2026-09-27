@@ -782,229 +782,6 @@ components:
       - is_deleted
       - last_modified_at
       - name
-    PatchedChartAccountSettings:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        uncategorized_name_and_number:
-          type: string
-          readOnly: true
-        accounts_payable_name_and_number:
-          type: string
-          readOnly: true
-        accounts_receivable_name_and_number:
-          type: string
-          readOnly: true
-        deferred_revenue_name_and_number:
-          type: string
-          readOnly: true
-        accrued_revenue_name_and_number:
-          type: string
-          readOnly: true
-        unrealized_gain_loss_name_and_number:
-          type: string
-          readOnly: true
-        realized_gain_loss_name_and_number:
-          type: string
-          readOnly: true
-        rounding_account_name_and_number:
-          type: string
-          readOnly: true
-        unapplied_credits_name_and_number:
-          type: string
-          readOnly: true
-        unapplied_debits_name_and_number:
-          type: string
-          readOnly: true
-        unbilled_revenue_name_and_number:
-          type: string
-          readOnly: true
-        default_clearing_name_and_number:
-          type: string
-          readOnly: true
-        discount_account_name_and_number:
-          type: string
-          readOnly: true
-        accrued_discount_account_name_and_number:
-          type: string
-          readOnly: true
-        unbilled_discount_account_name_and_number:
-          type: string
-          readOnly: true
-        refund_account_name_and_number:
-          type: string
-          readOnly: true
-        processing_fees_name_and_number:
-          type: string
-          readOnly: true
-        platform_fees_name_and_number:
-          type: string
-          readOnly: true
-        deferred_processing_fees_name_and_number:
-          type: string
-          readOnly: true
-        tax_account_name_and_number:
-          type: string
-          readOnly: true
-        payout_account_name_and_number:
-          type: string
-          readOnly: true
-        cta_account_name_and_number:
-          type: string
-          readOnly: true
-        oci_translation_account_name_and_number:
-          type: string
-          readOnly: true
-        fixed_asset_disposal_name_and_number:
-          type: string
-          readOnly: true
-        bad_debt_account_name_and_number:
-          type: string
-          readOnly: true
-        dispute_expense_account_name_and_number:
-          type: string
-          readOnly: true
-        dispute_reinstatement_account_name_and_number:
-          type: string
-          readOnly: true
-        recognize_discounts_as_contra_revenue:
-          type: boolean
-          description: When enabled, recognized discounts post to the discount account instead of netting into revenue.
-        enable_mid_month_convention:
-          type: boolean
-          description: When enabled, fixed assets placed in service after the threshold day will begin depreciation the following month (full-month depreciation only)
-        mid_month_threshold:
-          type: integer
-          maximum: 31
-          minimum: 0
-          description: Day of month threshold (0-31). Assets placed in service AFTER this day will start depreciation the following month
-        use_whole_month_accounting_for_prepaids:
-          type: boolean
-          description: When enabled, prepaid amortizations will use whole-month accounting (no proration of first/last months)
-        split_invoice_payments_by_line:
-          type:
-          - boolean
-          - 'null'
-          description: When enabled, invoice payments will be split by line items
-        split_eliminations_by_department:
-          type: boolean
-          description: When enabled, elimination entries are broken out by department in addition to account and entity
-        customer:
-          type: integer
-          readOnly: true
-        uncategorized:
-          type:
-          - integer
-          - 'null'
-        accounts_payable:
-          type:
-          - integer
-          - 'null'
-        accounts_receivable:
-          type:
-          - integer
-          - 'null'
-        deferred_revenue:
-          type:
-          - integer
-          - 'null'
-        accrued_revenue:
-          type:
-          - integer
-          - 'null'
-        unrealized_gain_loss:
-          type:
-          - integer
-          - 'null'
-        realized_gain_loss:
-          type:
-          - integer
-          - 'null'
-        rounding_account:
-          type:
-          - integer
-          - 'null'
-        unapplied_credits:
-          type:
-          - integer
-          - 'null'
-        unapplied_debits:
-          type:
-          - integer
-          - 'null'
-        unbilled_revenue:
-          type:
-          - integer
-          - 'null'
-        default_clearing:
-          type:
-          - integer
-          - 'null'
-        discount_account:
-          type:
-          - integer
-          - 'null'
-        accrued_discount_account:
-          type:
-          - integer
-          - 'null'
-        unbilled_discount_account:
-          type:
-          - integer
-          - 'null'
-        refund_account:
-          type:
-          - integer
-          - 'null'
-        processing_fees:
-          type:
-          - integer
-          - 'null'
-        platform_fees:
-          type:
-          - integer
-          - 'null'
-          description: Account for Stripe platform/subscription fees. Falls back to processing_fees if not set.
-        deferred_processing_fees:
-          type:
-          - integer
-          - 'null'
-        tax_account:
-          type:
-          - integer
-          - 'null'
-        payout_account:
-          type:
-          - integer
-          - 'null'
-        cta_account:
-          type:
-          - integer
-          - 'null'
-        oci_translation_account:
-          type:
-          - integer
-          - 'null'
-        fixed_asset_disposal:
-          type:
-          - integer
-          - 'null'
-        bad_debt_account:
-          type:
-          - integer
-          - 'null'
-        dispute_expense_account:
-          type:
-          - integer
-          - 'null'
-          description: Account for dispute withdrawals (debit) and dispute reinstatement reversals (credit). Falls back to bad_debt_account if not set.
-        dispute_reinstatement_account:
-          type:
-          - integer
-          - 'null'
-          description: Account credited when a dispute is reinstated (won). Falls back to dispute_expense_account if not set.
     PatchedFile:
       type: object
       properties:
@@ -1072,56 +849,6 @@ components:
           - 'null'
           format: date-time
           readOnly: true
-    PaginatedCustomerCurrencyList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/CustomerCurrency'
-    PaginatedFileList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/File'
     PatchedChartEntity:
       type: object
       properties:
@@ -1366,6 +1093,453 @@ components:
         withholding_certificate_number:
           type: string
           readOnly: true
+    PaginatedFileList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/File'
+    PatchedCustomerCurrency:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        currency:
+          type: string
+          default: USD
+          maxLength: 3
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+    ChartEntityMinimal:
+      type: object
+      description: 'Minimal entity serializer for intercompany operations.
+
+
+        Only exposes id, name, and currency - the minimum needed for
+
+        entity selection in intercompany journal entries. This prevents
+
+        data leakage of sensitive entity details (addresses, emails, etc.)
+
+        to users who may not have full access to all entities.'
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        currency:
+          type: string
+          readOnly: true
+      required:
+      - currency
+      - id
+      - name
+    File:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+        created_by_name:
+          type: string
+          readOnly: true
+        created_by_email:
+          type: string
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        name:
+          type: string
+        url:
+          type: string
+          readOnly: true
+        s3_content_type:
+          type:
+          - string
+          - 'null'
+        s3_content_length:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: 0
+        s3_path:
+          type: string
+        object_id:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: 0
+        app:
+          type: string
+          readOnly: true
+        model:
+          type: string
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+      required:
+      - app
+      - created_at
+      - created_by
+      - created_by_email
+      - created_by_name
+      - customer
+      - deleted_at
+      - id
+      - is_deleted
+      - last_modified_at
+      - model
+      - name
+      - s3_path
+      - url
+    PaginatedCustomerCurrencyList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerCurrency'
+    ChartAccountSettings:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        uncategorized_name_and_number:
+          type: string
+          readOnly: true
+        accounts_payable_name_and_number:
+          type: string
+          readOnly: true
+        accounts_receivable_name_and_number:
+          type: string
+          readOnly: true
+        deferred_revenue_name_and_number:
+          type: string
+          readOnly: true
+        accrued_revenue_name_and_number:
+          type: string
+          readOnly: true
+        unrealized_gain_loss_name_and_number:
+          type: string
+          readOnly: true
+        realized_gain_loss_name_and_number:
+          type: string
+          readOnly: true
+        rounding_account_name_and_number:
+          type: string
+          readOnly: true
+        unapplied_credits_name_and_number:
+          type: string
+          readOnly: true
+        unapplied_debits_name_and_number:
+          type: string
+          readOnly: true
+        unbilled_revenue_name_and_number:
+          type: string
+          readOnly: true
+        default_clearing_name_and_number:
+          type: string
+          readOnly: true
+        discount_account_name_and_number:
+          type: string
+          readOnly: true
+        accrued_discount_account_name_and_number:
+          type: string
+          readOnly: true
+        unbilled_discount_account_name_and_number:
+          type: string
+          readOnly: true
+        refund_account_name_and_number:
+          type: string
+          readOnly: true
+        processing_fees_name_and_number:
+          type: string
+          readOnly: true
+        platform_fees_name_and_number:
+          type: string
+          readOnly: true
+        deferred_processing_fees_name_and_number:
+          type: string
+          readOnly: true
+        tax_account_name_and_number:
+          type: string
+          readOnly: true
+        payout_account_name_and_number:
+          type: string
+          readOnly: true
+        cta_account_name_and_number:
+          type: string
+          readOnly: true
+        oci_translation_account_name_and_number:
+          type: string
+          readOnly: true
+        fixed_asset_disposal_name_and_number:
+          type: string
+          readOnly: true
+        bad_debt_account_name_and_number:
+          type: string
+          readOnly: true
+        dispute_expense_account_name_and_number:
+          type: string
+          readOnly: true
+        dispute_reinstatement_account_name_and_number:
+          type: string
+          readOnly: true
+        recognize_discounts_as_contra_revenue:
+          type: boolean
+          description: When enabled, recognized discounts post to the discount account instead of netting into revenue.
+        enable_mid_month_convention:
+          type: boolean
+          description: When enabled, fixed assets placed in service after the threshold day will begin depreciation the following month (full-month depreciation only)
+        mid_month_threshold:
+          type: integer
+          maximum: 31
+          minimum: 0
+          description: Day of month threshold (0-31). Assets placed in service AFTER this day will start depreciation the following month
+        use_whole_month_accounting_for_prepaids:
+          type: boolean
+          description: When enabled, prepaid amortizations will use whole-month accounting (no proration of first/last months)
+        split_invoice_payments_by_line:
+          type:
+          - boolean
+          - 'null'
+          description: When enabled, invoice payments will be split by line items
+        split_eliminations_by_department:
+          type: boolean
+          description: When enabled, elimination entries are broken out by department in addition to account and entity
+        customer:
+          type: integer
+          readOnly: true
+        uncategorized:
+          type:
+          - integer
+          - 'null'
+        accounts_payable:
+          type:
+          - integer
+          - 'null'
+        accounts_receivable:
+          type:
+          - integer
+          - 'null'
+        deferred_revenue:
+          type:
+          - integer
+          - 'null'
+        accrued_revenue:
+          type:
+          - integer
+          - 'null'
+        unrealized_gain_loss:
+          type:
+          - integer
+          - 'null'
+        realized_gain_loss:
+          type:
+          - integer
+          - 'null'
+        rounding_account:
+          type:
+          - integer
+          - 'null'
+        unapplied_credits:
+          type:
+          - integer
+          - 'null'
+        unapplied_debits:
+          type:
+          - integer
+          - 'null'
+        unbilled_revenue:
+          type:
+          - integer
+          - 'null'
+        default_clearing:
+          type:
+          - integer
+          - 'null'
+        discount_account:
+          type:
+          - integer
+          - 'null'
+        accrued_discount_account:
+          type:
+          - integer
+          - 'null'
+        unbilled_discount_account:
+          type:
+          - integer
+          - 'null'
+        refund_account:
+          type:
+          - integer
+          - 'null'
+        processing_fees:
+          type:
+          - integer
+          - 'null'
+        platform_fees:
+          type:
+          - integer
+          - 'null'
+          description: Account for Stripe platform/subscription fees. Falls back to processing_fees if not set.
+        deferred_processing_fees:
+          type:
+          - integer
+          - 'null'
+        tax_account:
+          type:
+          - integer
+          - 'null'
+        payout_account:
+          type:
+          - integer
+          - 'null'
+        cta_account:
+          type:
+          - integer
+          - 'null'
+        oci_translation_account:
+          type:
+          - integer
+          - 'null'
+        fixed_asset_disposal:
+          type:
+          - integer
+          - 'null'
+        bad_debt_account:
+          type:
+          - integer
+          - 'null'
+        dispute_expense_account:
+          type:
+          - integer
+          - 'null'
+          description: Account for dispute withdrawals (debit) and dispute reinstatement reversals (credit). Falls back to bad_debt_account if not set.
+        dispute_reinstatement_account:
+          type:
+          - integer
+          - 'null'
+          description: Account credited when a dispute is reinstated (won). Falls back to dispute_expense_account if not set.
+      required:
+      - accounts_payable_name_and_number
+      - accounts_receivable_name_and_number
+      - accrued_discount_account_name_and_number
+      - accrued_revenue_name_and_number
+      - bad_debt_account_name_and_number
+      - cta_account_name_and_number
+      - customer
+      - default_clearing_name_and_number
+      - deferred_processing_fees_name_and_number
+      - deferred_revenue_name_and_number
+      - discount_account_name_and_number
+      - dispute_expense_account_name_and_number
+      - dispute_reinstatement_account_name_and_number
+      - fixed_asset_disposal_name_and_number
+      - id
+      - oci_translation_account_name_and_number
+      - payout_account_name_and_number
+      - platform_fees_name_and_number
+      - processing_fees_name_and_number
+      - realized_gain_loss_name_and_number
+      - refund_account_name_and_number
+      - rounding_account_name_and_number
+      - tax_account_name_and_number
+      - unapplied_credits_name_and_number
+      - unapplied_debits_name_and_number
+      - unbilled_discount_account_name_and_number
+      - unbilled_revenue_name_and_number
+      - uncategorized_name_and_number
+      - unrealized_gain_loss_name_and_number
     ChartEntity:
       type: object
       properties:
@@ -1632,69 +1806,7 @@ components:
       - primary_entity_name
       - withholding_certificate_number
       - withholding_scheme_name
-    ChartEntityMinimal:
-      type: object
-      description: 'Minimal entity serializer for intercompany operations.
-
-
-        Only exposes id, name, and currency - the minimum needed for
-
-        entity selection in intercompany journal entries. This prevents
-
-        data leakage of sensitive entity details (addresses, emails, etc.)
-
-        to users who may not have full access to all entities.'
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        currency:
-          type: string
-          readOnly: true
-      required:
-      - currency
-      - id
-      - name
-    PatchedCustomerCurrency:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-        currency:
-          type: string
-          default: USD
-          maxLength: 3
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-    ChartAccountSettings:
+    PatchedChartAccountSettings:
       type: object
       properties:
         id:
@@ -1917,118 +2029,6 @@ components:
           - integer
           - 'null'
           description: Account credited when a dispute is reinstated (won). Falls back to dispute_expense_account if not set.
-      required:
-      - accounts_payable_name_and_number
-      - accounts_receivable_name_and_number
-      - accrued_discount_account_name_and_number
-      - accrued_revenue_name_and_number
-      - bad_debt_account_name_and_number
-      - cta_account_name_and_number
-      - customer
-      - default_clearing_name_and_number
-      - deferred_processing_fees_name_and_number
-      - deferred_revenue_name_and_number
-      - discount_account_name_and_number
-      - dispute_expense_account_name_and_number
-      - dispute_reinstatement_account_name_and_number
-      - fixed_asset_disposal_name_and_number
-      - id
-      - oci_translation_account_name_and_number
-      - payout_account_name_and_number
-      - platform_fees_name_and_number
-      - processing_fees_name_and_number
-      - realized_gain_loss_name_and_number
-      - refund_account_name_and_number
-      - rounding_account_name_and_number
-      - tax_account_name_and_number
-      - unapplied_credits_name_and_number
-      - unapplied_debits_name_and_number
-      - unbilled_discount_account_name_and_number
-      - unbilled_revenue_name_and_number
-      - uncategorized_name_and_number
-      - unrealized_gain_loss_name_and_number
-    File:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        created_by:
-          type:
-          - integer
-          - 'null'
-          readOnly: true
-        created_by_name:
-          type: string
-          readOnly: true
-        created_by_email:
-          type: string
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        name:
-          type: string
-        url:
-          type: string
-          readOnly: true
-        s3_content_type:
-          type:
-          - string
-          - 'null'
-        s3_content_length:
-          type:
-          - integer
-          - 'null'
-          maximum: 2147483647
-          minimum: 0
-        s3_path:
-          type: string
-        object_id:
-          type:
-          - integer
-          - 'null'
-          maximum: 2147483647
-          minimum: 0
-        app:
-          type: string
-          readOnly: true
-        model:
-          type: string
-          readOnly: true
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-      required:
-      - app
-      - created_at
-      - created_by
-      - created_by_email
-      - created_by_name
-      - customer
-      - deleted_at
-      - id
-      - is_deleted
-      - last_modified_at
-      - model
-      - name
-      - s3_path
-      - url
   securitySchemes:
     knoxApiToken:
       type: apiKey

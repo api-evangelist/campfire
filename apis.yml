@@ -123,7 +123,7 @@ apis:
   - type: Webhooks
     url: asyncapi/campfire-webhooks.yml
 - aid: campfire:campfire-coa-api
-  name: Campfire coa API
+  name: Campfire Coa API
   description: The coa API from Campfire — 1 operation(s) for coa.
   humanURL: https://docs.campfire.ai
   baseURL: https://api.meetcampfire.com
