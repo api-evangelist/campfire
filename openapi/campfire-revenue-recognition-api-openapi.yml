@@ -2905,623 +2905,96 @@ paths:
           description: No response body
 components:
   schemas:
-    PatchedRevenueTransaction:
+    PrepaidUsageEvent:
       type: object
       properties:
         id:
           type: integer
           readOnly: true
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-        entity_name:
-          type: string
-          readOnly: true
-        entity_currency:
-          type: string
-          readOnly: true
-        client_name:
-          type: string
-          readOnly: true
-        contract_name:
-          type: string
-          readOnly: true
-        contract_status:
-          type: string
-          readOnly: true
-        product_name:
-          type: string
-          readOnly: true
-        product_bundle_name:
-          type: string
-          readOnly: true
-        product_is_taxable:
-          type: boolean
-          readOnly: true
-        contract_identifier:
-          type: string
-          readOnly: true
-        client_identifier:
-          type: string
-          readOnly: true
-        product_identifier:
-          type: string
-          readOnly: true
-        gross_amount:
-          type: string
-          readOnly: true
-        invoice_number:
-          type: string
-          readOnly: true
-        invoice_date:
-          type: string
-          readOnly: true
-        invoice_payment_status:
-          type: string
-          readOnly: true
-        invoice_voided_date:
-          type: string
-          format: date
-          readOnly: true
-        credit_memo_number:
-          type: string
-          readOnly: true
-        credit_memo_date:
-          type: string
-          format: date
-          readOnly: true
-        credit_memo_voided_date:
-          type: string
-          format: date
-          readOnly: true
-        credit_memo_application_status:
-          type: string
-          readOnly: true
-        revenue_type:
-          type: string
-          readOnly: true
-        journal_entry_order:
-          type: string
-          readOnly: true
-        contract_subscription_notes:
-          type: string
-          readOnly: true
-        subscription_discount:
-          type:
-          - number
-          - 'null'
-          format: double
-          readOnly: true
-          exclusiveMinimum: -10000000000000
-          exclusiveMaximum: 10000000000000
-        department_name:
-          type: string
-          readOnly: true
-        parent_department_name:
-          type: string
-          readOnly: true
-        parent_department:
+        prepaid_commit:
           type: integer
           readOnly: true
-        tags:
-          type: string
-        usage_tier_name:
-          type: string
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        anrok_item_id:
-          type: string
-          readOnly: true
-        sphere_item_id:
-          type: string
-          readOnly: true
-        source:
+        consumption:
           type:
-          - string
+          - integer
           - 'null'
-          maxLength: 250
-        description:
-          type:
-          - string
-          - 'null'
+          readOnly: true
         external_id:
           type:
           - string
           - 'null'
+          description: Source row ID
           maxLength: 250
-        client_external_id:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        contract_external_id:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        contract_subscription_external_id:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        product_external_id:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        accounting_period:
+        event_date:
           type:
           - string
           - 'null'
           format: date
-        transaction_date:
-          type:
-          - string
-          - 'null'
-          format: date
-        transaction_end_date:
-          type:
-          - string
-          - 'null'
-          format: date
-        currency:
+          description: Event date (dt)
+        period_month:
           type: string
-          maxLength: 3
-        exchange_rate:
-          type:
-          - number
-          - 'null'
+          format: date
+          description: First-of-month (dm)
+        total_revenue_dollars:
+          type: number
           format: double
           exclusiveMinimum: -100000000000000
           exclusiveMaximum: 100000000000000
-        exchange_rate_book:
+        total_events:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        data:
+          description: Flexible key-value pairs for customer-specific columns (team_id, product_feature, model_intent, etc.)
+        adjustment_date:
           type:
-          - number
+          - string
           - 'null'
-          format: double
-          exclusiveMinimum: -100000000000000
-          exclusiveMaximum: 100000000000000
-        recognized:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        amount:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        quantity:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -100000000000000
-          exclusiveMaximum: 100000000000000
-        rate:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -10000000000000
-          exclusiveMaximum: 10000000000000
-        discount:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        refunds:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        processing_fees:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        platform_fees:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        transfers:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        tax:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        balance_adjustment:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Invoice starting balance or other balance adjustments (e.g., previous balance applied to this transaction)
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        mrr:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        renewall:
+          format: date
+          description: Date the adjustment was recorded. Null for normal events.
+        is_adjustment:
           type: boolean
-        tag_ids:
-          type: array
-          items:
-            type: integer
-            maximum: 9223372036854775807
-            minimum: -9223372036854775808
-            format: int64
-        tag_group_ids:
-          type: array
-          items:
-            type: integer
-            maximum: 9223372036854775807
-            minimum: -9223372036854775808
-            format: int64
-        is_migration_invoiced:
-          type: boolean
-          description: Marked as invoiced during migration. Does not create GL entries or AR.
+        original_period_month:
+          type:
+          - string
+          - 'null'
+          format: date
+          description: The original period being corrected (only for adjustments)
         created_at:
           type:
           - string
           - 'null'
           format: date-time
           readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-        entity:
-          type:
-          - integer
-          - 'null'
-        client:
-          type:
-          - integer
-          - 'null'
-        contract:
-          type:
-          - integer
-          - 'null'
-        contract_subscription:
-          type:
-          - integer
-          - 'null'
-        non_contract_subscription:
-          type:
-          - integer
-          - 'null'
-        contract_usage:
-          type:
-          - integer
-          - 'null'
-        contract_milestone:
-          type:
-          - integer
-          - 'null'
-        non_contract_usage:
-          type:
-          - integer
-          - 'null'
-        prepaid_commit:
-          type:
-          - integer
-          - 'null'
-        product:
-          type:
-          - integer
-          - 'null'
-        product_bundle:
-          type:
-          - integer
-          - 'null'
-        contract_product_bundle:
-          type:
-          - integer
-          - 'null'
-          description: Reference to contract-specific editable product bundle allocation
-        contract_bundle:
-          type:
-          - integer
-          - 'null'
-        journal_entry:
-          type:
-          - integer
-          - 'null'
-        invoice:
-          type:
-          - integer
-          - 'null'
-        credit_memo:
-          type:
-          - integer
-          - 'null'
-        department:
-          type:
-          - integer
-          - 'null'
-        usage_tier:
-          type:
-          - integer
-          - 'null'
-    PatchedProduct:
+      required:
+      - consumption
+      - created_at
+      - id
+      - period_month
+      - prepaid_commit
+    SourceFc1Enum:
+      enum:
+      - SALESFORCE
+      - HUBSPOT
+      - STRIPE
+      - MANUAL
+      type: string
+      description: '* `SALESFORCE` - Salesforce
+
+        * `HUBSPOT` - Hubspot
+
+        * `STRIPE` - Stripe
+
+        * `MANUAL` - Manual'
+    ContractDuplicateResponse:
       type: object
       properties:
         id:
           type: integer
-          readOnly: true
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-        department_name:
-          type: string
-          readOnly: true
-        invoice_account_name:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        revenue_account_name:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        ar_account_name:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        bad_debt_account_name:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        invoice_unbilled_account_name:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        tax_account_name:
-          type: string
-          readOnly: true
-        tags:
-          type: array
-          items:
-            type: object
-            additionalProperties: {}
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        product_uuid:
-          type: string
-          format: uuid
-          readOnly: true
-        display_name:
-          type: string
-          readOnly: true
-        usage_group_count:
-          type: integer
-          readOnly: true
-          default: 0
-        usage_groups:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductUsageGroupSummary'
-          readOnly: true
-        product_id:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        product_name:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        product_description:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        tag_ids:
-          type: array
-          items:
-            type: integer
-            maximum: 9223372036854775807
-            minimum: -9223372036854775808
-            format: int64
-        tag_group_ids:
-          type: array
-          items:
-            type: integer
-            maximum: 9223372036854775807
-            minimum: -9223372036854775808
-            format: int64
-        currency:
-          type:
-          - string
-          - 'null'
-          maxLength: 3
-        price:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -100000000000000
-          exclusiveMaximum: 100000000000000
-        cost:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        exclude_from_mrr:
-          type: boolean
-        is_taxable:
-          type: boolean
-        is_renewable:
-          type: boolean
-        recognize_revenue:
-          type: boolean
-          description: If False, contract-sync skips the revenue-recognition waterfall for this product (no ContractSubscription / RevenueTransaction rows).
-        is_immediate_recognition:
-          type: boolean
-          description: When true, revenue for this product is recognized in full on the invoice finalization date instead of being amortized over the service period.  Used by the Stripe accrual JE waterfall.
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        stripe_product_id:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        avalara_item_id:
-          type:
-          - integer
-          - 'null'
-          maximum: 9223372036854775807
-          minimum: -9223372036854775808
-          format: int64
-        avalara_item_data: {}
-        avalara_tax_code:
-          type:
-          - string
-          - 'null'
-          description: Avalara tax code (e.g., SW052000 for SAAS)
-          maxLength: 50
-        anrok_item_id:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        sphere_item_id:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        apply_dept_tag_to_invoice_journals:
-          type:
-          - boolean
-          - 'null'
-          description: Apply Department and Tag categorization to all lines on Invoice Journals
-        customer:
-          type: integer
-          readOnly: true
-        department:
-          type:
-          - integer
-          - 'null'
-        invoice_account:
-          type:
-          - integer
-          - 'null'
-        revenue_account:
-          type:
-          - integer
-          - 'null'
-        ar_account:
-          type:
-          - integer
-          - 'null'
-        bad_debt_account:
-          type:
-          - integer
-          - 'null'
-        invoice_unbilled_account:
-          type:
-          - integer
-          - 'null'
-    PaginatedProductList:
-      type: object
+          description: The new contract's ID
       required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/Product'
-    ContractStatusEnum:
-      enum:
-      - ACTIVE
-      - PENDING
-      - COMPLETED
-      - DELETED
-      type: string
-      description: '* `ACTIVE` - Active
-
-        * `PENDING` - Pending
-
-        * `COMPLETED` - Completed
-
-        * `DELETED` - Deleted'
-    BulkContract:
-      type: object
-      properties:
-        deal_name:
-          type:
-          - string
-          - 'null'
-    ContractBundle:
+      - id
+    PatchedContractBundle:
       type: object
       properties:
         id:
@@ -3586,17 +3059,131 @@ components:
           readOnly: true
         contract:
           type: integer
+    ContractPrepaidCommitConsumption:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        prepaid_commit:
+          type: integer
+          readOnly: true
+        entity:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+        period_start:
+          type: string
+          format: date
+        period_end:
+          type: string
+          format: date
+          readOnly: true
+        description:
+          type:
+          - string
+          - 'null'
+        currency:
+          type: string
+          readOnly: true
+        gross_usage_amount:
+          type: number
+          format: double
+          description: Pre-discount total from source data
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        discount_amount:
+          type: number
+          format: double
+          readOnly: true
+          description: gross_usage_amount * discount_percentage / 100
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        net_consumption_amount:
+          type: number
+          format: double
+          readOnly: true
+          description: Pool drawdown amount (gross - discount)
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        overage_amount:
+          type: number
+          format: double
+          readOnly: true
+          description: Amount beyond pool at full rate
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        total_events:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        balance_before:
+          type: number
+          format: double
+          readOnly: true
+          description: Pool balance before this period
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        balance_after:
+          type: number
+          format: double
+          readOnly: true
+          description: Pool balance after this period
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        revenue_transaction:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+          description: Recognized revenue for included (prepaid) portion
+        overage_revenue_transaction:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+          description: Recognized revenue for overage portion
+        adjustments:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          description: Return adjustments recorded during this period, grouped by original period with gross/discount/net/overage split.
+          readOnly: true
+        created_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
       required:
-      - bundle_name
-      - contract
+      - adjustments
+      - balance_after
+      - balance_before
       - created_at
-      - customer
-      - deleted_at
+      - currency
+      - discount_amount
+      - entity
+      - gross_usage_amount
       - id
-      - is_deleted
       - last_modified_at
-      - lines
-      - start_date
+      - net_consumption_amount
+      - overage_amount
+      - overage_revenue_transaction
+      - period_end
+      - period_start
+      - prepaid_commit
+      - revenue_transaction
+    NullEnum:
+      enum:
+      - null
     RevenueTransaction:
       type: object
       properties:
@@ -4006,281 +3593,15 @@ components:
       - sphere_item_id
       - subscription_discount
       - usage_tier_name
-    BillingFrequencyEnum:
-      enum:
-      - monthly
-      - quarterly
-      - biannual
-      - annual
-      - one_time
-      - custom
-      type: string
-      description: '* `monthly` - Monthly
-
-        * `quarterly` - Quarterly
-
-        * `biannual` - Bi Annualy
-
-        * `annual` - Annual
-
-        * `one_time` - One Time
-
-        * `custom` - Custom'
-    PatchedContractMilestone:
+    BulkContractSearch:
       type: object
       properties:
-        id:
-          type: integer
-          readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-        contract:
-          type: integer
-        product:
-          type:
-          - integer
-          - 'null'
-        product_bundle:
-          type: string
-          readOnly: true
-        contract_product_bundle:
-          allOf:
-          - $ref: '#/components/schemas/ContractProductBundleRead'
-          readOnly: true
-        product_name:
-          type: string
-          readOnly: true
-        product_bundle_name:
-          type: string
-          readOnly: true
-        milestone_name:
-          type: string
-          maxLength: 250
-        milestone_date:
-          type: string
-          format: date
-        amount:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        quantity:
-          type: number
-          format: double
-          exclusiveMinimum: -10000000000000000
-          exclusiveMaximum: 10000000000000000
-        rate:
-          type: number
-          format: double
-          exclusiveMinimum: -10000000000000
-          exclusiveMaximum: 10000000000000
-        description:
-          type:
-          - string
-          - 'null'
-        department:
-          type:
-          - integer
-          - 'null'
-        department_name:
-          type: string
-          readOnly: true
-        tags:
+        contracts:
           type: array
           items:
-            type: object
-            additionalProperties: {}
-          readOnly: true
-        revenue_transaction_id:
-          type: integer
-          readOnly: true
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_modified_at:
-          type: string
-          readOnly: true
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-    ContractProductBundleUpdate:
-      type: object
-      description: Serializer for the allocation update request body.
-      properties:
-        lines:
-          type: array
-          items:
-            $ref: '#/components/schemas/ContractProductBundleLineUpdate'
+            $ref: '#/components/schemas/BulkContract'
       required:
-      - lines
-    PaginatedPrepaidUsageEventList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/PrepaidUsageEvent'
-    ContractProductBundleLineUpdate:
-      type: object
-      description: Serializer for updating individual line amounts.
-      properties:
-        product:
-          type: integer
-          description: Product ID
-        amount:
-          type: number
-          format: double
-          description: New dollar amount for this product allocation
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-      required:
-      - amount
-      - product
-    TierPriceOverride:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        tier:
-          type: integer
-        tier_name:
-          type: string
-          readOnly: true
-        contract:
-          type: integer
-        deal_name:
-          type: string
-          readOnly: true
-        usage_group_id:
-          type: integer
-          readOnly: true
-        usage_group_name:
-          type: string
-          readOnly: true
-        price:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Override price per unit for this contract+tier
-          exclusiveMinimum: -100000000000000
-          exclusiveMaximum: 100000000000000
-        percentage:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Override percentage for this contract+tier (percentage-based pricing)
-          exclusiveMinimum: -100000000000000
-          exclusiveMaximum: 100000000000000
-        source:
-          $ref: '#/components/schemas/TierPriceOverrideSourceEnum'
-        integration_name:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        external_reference:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        notes:
-          type:
-          - string
-          - 'null'
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-      required:
-      - contract
-      - created_at
-      - deal_name
-      - id
-      - last_modified_at
-      - tier
-      - tier_name
-      - usage_group_id
-      - usage_group_name
-    PatchedProductBundle:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        bundle_name:
-          type: string
-          maxLength: 250
-        bundle_description:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        stripe_product_id:
-          type:
-          - string
-          - 'null'
-          maxLength: 255
-        anrok_item_id:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        lines:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductBundleLine'
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
+      - contracts
     PaginatedRevenueTransactionList:
       type: object
       required:
@@ -4306,121 +3627,45 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/RevenueTransaction'
-    PaginatedContractUsageList:
+    VendorContact:
       type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/ContractUsage'
-    ContractProductBundle:
-      type: object
-      description: 'Serializer for ContractProductBundle with nested lines.
-
-
-        Used for retrieving and updating contract-specific bundle allocations.
-
-        When updating, validates that line amounts sum to total_amount.'
       properties:
         id:
           type: integer
           readOnly: true
-        source_bundle:
-          type:
-          - integer
-          - 'null'
-          readOnly: true
-          description: Original ProductBundle template this was created from
-        source_bundle_name:
+        name:
           type:
           - string
           - 'null'
-          readOnly: true
-        total_amount:
-          type: number
-          format: double
-          readOnly: true
-          description: Total amount to be allocated across products
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        currency:
-          type: string
-          readOnly: true
-        license_term_start_date:
+        first_name:
           type:
           - string
           - 'null'
-          format: date
-          description: Date the license/service term begins. For SF-ingested mixed bundles, drives the linked subscription start_date and milestone milestone_date. Snapshotted at ingest time for audit.
-        lines:
-          type: array
-          items:
-            $ref: '#/components/schemas/ContractProductBundleLine'
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
+          maxLength: 250
+        last_name:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        email:
+          type:
+          - string
+          - 'null'
+          format: email
+          maxLength: 250
+        phone_number:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        mobile_number:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
         last_modified_at:
           type: string
           format: date-time
-          readOnly: true
-      required:
-      - created_at
-      - currency
-      - id
-      - last_modified_at
-      - lines
-      - source_bundle
-      - source_bundle_name
-      - total_amount
-    PaginatedContractList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/Contract'
-    ContractBundleLine:
-      type: object
-      properties:
-        id:
-          type: integer
           readOnly: true
         is_deleted:
           type: boolean
@@ -4432,391 +3677,12 @@ components:
           - 'null'
           format: date-time
           readOnly: true
-        contract_bundle:
-          type: integer
-          writeOnly: true
-        product_name:
-          type: string
-          readOnly: true
-        amount:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-        product:
-          type:
-          - integer
-          - 'null'
       required:
-      - created_at
-      - customer
       - deleted_at
       - id
       - is_deleted
       - last_modified_at
-      - product_name
-    BlankEnum:
-      enum:
-      - ''
-    PatchedContractPrepaidCommit:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        contract:
-          type: integer
-          readOnly: true
-        entity:
-          type:
-          - integer
-          - 'null'
-        entity_name:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        product:
-          type:
-          - integer
-          - 'null'
-        product_name:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        name:
-          type: string
-          maxLength: 250
-        description:
-          type:
-          - string
-          - 'null'
-        currency:
-          type: string
-          maxLength: 3
-        exchange_rate:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -100000000000000
-          exclusiveMaximum: 100000000000000
-        exchange_rate_book:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -100000000000000
-          exclusiveMaximum: 100000000000000
-        total_value:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        remaining_value:
-          type: number
-          format: double
-          readOnly: true
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        discount_percentage:
-          type: number
-          format: double
-          maximum: 100.0
-          minimum: 0.0
-          description: Discount applied to gross usage (e.g. 20.00 for 20%)
-        rate:
-          type:
-          - number
-          - 'null'
-          format: double
-          minimum: 0.0
-          description: List price per unit. Prepaid usage = rate * (1 - discount%). Overage = rate (no discount).
-          exclusiveMaximum: 100000000000000
-        start_date:
-          type: string
-          format: date
-        expiration_date:
-          type:
-          - string
-          - 'null'
-          format: date
-        status:
-          allOf:
-          - $ref: '#/components/schemas/ContractPrepaidCommitStatusEnum'
-          readOnly: true
-        priority:
-          type: integer
-          maximum: 2147483647
-          minimum: -2147483648
-          description: Drawdown order when multiple commits exist (lower = higher priority)
-        is_invoiced:
-          type: boolean
-          readOnly: true
-        invoice:
-          type:
-          - integer
-          - 'null'
-          readOnly: true
-        subledger:
-          type:
-          - integer
-          - 'null'
-        overage_invoice_cadence:
-          allOf:
-          - $ref: '#/components/schemas/OverageInvoiceCadenceEnum'
-          description: 'How often overage/on-demand usage is invoiced
-
-
-            * `monthly` - Monthly
-
-            * `quarterly` - Quarterly
-
-            * `biannual` - Bi Annualy
-
-            * `annual` - Annual
-
-            * `one_time` - One Time
-
-            * `custom` - Custom'
-        auto_send_overage_invoices:
-          type: boolean
-          description: Automatically send overage invoices when generated
-        overage_invoice_start_month:
-          type:
-          - string
-          - 'null'
-          format: date
-          description: Anchor date for overage billing cycles. Defaults to start_date.
-        department:
-          type:
-          - integer
-          - 'null'
-        department_name:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        tags:
-          type:
-          - string
-          - 'null'
-        created_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-        last_modified_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-    TerminateContractResponse:
-      type: object
-      description: Response serializer for contract termination with hints about drafted operations.
-      properties:
-        contract_terminated:
-          type: boolean
-          description: Whether the contract was terminated directly (True) or drafted (False).
-        contract_draft_id:
-          type:
-          - integer
-          - 'null'
-          description: Draft queue ID if contract termination was drafted instead of executed.
-        voided_invoice_ids:
-          type: array
-          items:
-            type: integer
-          description: List of invoice IDs that were voided directly.
-        drafted_invoice_ids:
-          type: array
-          items:
-            type: integer
-          description: List of invoice IDs that were drafted for voiding (user lacks void permission).
-      required:
-      - contract_terminated
-    NestedContractPrepaidCommit:
-      type: object
-      properties:
-        entity:
-          type:
-          - integer
-          - 'null'
-        product:
-          type:
-          - integer
-          - 'null'
-        name:
-          type: string
-          maxLength: 250
-        description:
-          type: string
-          default: ''
-        currency:
-          type:
-          - string
-          - 'null'
-        exchange_rate:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -100000000000000
-          exclusiveMaximum: 100000000000000
-        exchange_rate_book:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -100000000000000
-          exclusiveMaximum: 100000000000000
-        total_value:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        discount_percentage:
-          type: number
-          format: double
-          default: 0.0
-          exclusiveMinimum: -1000
-          exclusiveMaximum: 1000
-        rate:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -100000000000000
-          exclusiveMaximum: 100000000000000
-        start_date:
-          type: string
-          format: date
-        expiration_date:
-          type:
-          - string
-          - 'null'
-          format: date
-        priority:
-          type: integer
-          default: 1
-        subledger:
-          type:
-          - integer
-          - 'null'
-        overage_invoice_cadence:
-          $ref: '#/components/schemas/OverageInvoiceCadenceEnum'
-        auto_send_overage_invoices:
-          type: boolean
-          default: false
-        overage_invoice_start_month:
-          type:
-          - string
-          - 'null'
-          format: date
-        department:
-          type:
-          - integer
-          - 'null'
-        tags:
-          type: array
-          items:
-            type: integer
-      required:
-      - name
-      - start_date
-      - total_value
-    ContractSubscriptionLine:
-      type: object
-      properties:
-        id:
-          type:
-          - integer
-          - 'null'
-        start_date:
-          type: string
-          format: date
-        end_date:
-          type: string
-          format: date
-        original_value:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        total_value:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        original_mrr:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        mrr:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        original_quantity:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -100000000000000
-          exclusiveMaximum: 100000000000000
-        quantity:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -100000000000000
-          exclusiveMaximum: 100000000000000
-        original_rate:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -10000000000000
-          exclusiveMaximum: 10000000000000
-        rate:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -10000000000000
-          exclusiveMaximum: 10000000000000
-        use_daily_accounting:
-          type: boolean
-          default: false
-        is_contract_amendment:
-          type: boolean
-          default: false
-      required:
-      - end_date
-      - start_date
-      - total_value
-    PatchedContractBundle:
+    Product:
       type: object
       properties:
         id:
@@ -4832,159 +3698,208 @@ components:
           - 'null'
           format: date-time
           readOnly: true
-        end_date:
+        department_name:
+          type: string
+          readOnly: true
+        invoice_account_name:
           type:
           - string
           - 'null'
-          format: date
-          description: Bundle end date. Required for standard contracts. For evergreen contracts this may be null to follow the contract timeline, or set to a billing-period end date.
-        rebalance_journal_entries_indefinitely:
-          type: boolean
-          default: false
-          description: Should only be used for Evergreen contracts. When true, linked invoice journal entries are rebalanced on each evergreen contract extension.
-        lines:
+          readOnly: true
+        revenue_account_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        ar_account_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        bad_debt_account_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        invoice_unbilled_account_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        tax_account_name:
+          type: string
+          readOnly: true
+        tags:
           type: array
           items:
-            $ref: '#/components/schemas/ContractBundleLine'
-        bundle_name:
-          type: string
-          maxLength: 250
-        bundle_description:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        start_date:
-          type: string
-          format: date
-        use_daily_accounting:
-          type: boolean
-        proration_method:
-          $ref: '#/components/schemas/ProrationMethodEnum'
-        use_catchup:
-          type: boolean
-        catchup_date:
-          type:
-          - string
-          - 'null'
-          format: date
-        created_at:
-          type: string
-          format: date-time
+            type: object
+            additionalProperties: {}
           readOnly: true
         last_modified_at:
           type: string
           format: date-time
           readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-        contract:
-          type: integer
-    TerminateContract:
-      type: object
-      properties:
-        termination_date:
+        product_uuid:
           type: string
-          format: date
-        void_invoice_ids:
-          type: array
-          items:
-            type: integer
-          description: List of invoice IDs to void atomically when terminating the contract.
-        void_date:
-          type: string
-          format: date
-          description: Date to use when voiding invoices. Required when void_invoice_ids is provided.
-      required:
-      - termination_date
-    ProductUsageGroupSummary:
-      type: object
-      properties:
-        id:
-          type: integer
+          format: uuid
           readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-        pricing_model:
-          $ref: '#/components/schemas/PricingModelEnum'
-        unit_of_measure:
-          type:
-          - string
-          - 'null'
-        tier_count:
+        display_name:
+          type: string
+          readOnly: true
+        usage_group_count:
           type: integer
           readOnly: true
           default: 0
-        tiers:
+        usage_groups:
           type: array
           items:
-            $ref: '#/components/schemas/ProductUsageTierSummary'
+            $ref: '#/components/schemas/ProductUsageGroupSummary'
           readOnly: true
-      required:
-      - id
-      - tier_count
-      - tiers
-    ProductBundleLine:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        product:
-          type: integer
+        product_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
         product_name:
-          type: string
-          readOnly: true
-        product_id_str:
-          type: string
-          readOnly: true
-        percentage_allocation:
-          type: number
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        product_description:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        tag_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        tag_group_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        currency:
+          type:
+          - string
+          - 'null'
+          maxLength: 3
+        price:
+          type:
+          - number
+          - 'null'
           format: double
-          maximum: 100.0
-          minimum: 0.01
-        component_type:
-          description: 'Component type for this line in a mixed-type bundle. NULL = legacy single-type bundle (type inherited from the referencing ContractSubscription/Milestone/Usage).
-
-
-            * `SUBSCRIPTION` - Subscription
-
-            * `MILESTONE` - Milestone
-
-            * `USAGE` - Usage'
-          oneOf:
-          - $ref: '#/components/schemas/ComponentTypeEnum'
-          - $ref: '#/components/schemas/BlankEnum'
-          - $ref: '#/components/schemas/NullEnum'
+          exclusiveMinimum: -100000000000000
+          exclusiveMaximum: 100000000000000
+        cost:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        exclude_from_mrr:
+          type: boolean
+        is_taxable:
+          type: boolean
+        is_renewable:
+          type: boolean
+        recognize_revenue:
+          type: boolean
+          description: If False, contract-sync skips the revenue-recognition waterfall for this product (no ContractSubscription / RevenueTransaction rows).
+        is_immediate_recognition:
+          type: boolean
+          description: When true, revenue for this product is recognized in full on the invoice finalization date instead of being amortized over the service period.  Used by the Stripe accrual JE waterfall.
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        stripe_product_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        avalara_item_id:
+          type:
+          - integer
+          - 'null'
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        avalara_item_data: {}
+        avalara_tax_code:
+          type:
+          - string
+          - 'null'
+          description: Avalara tax code (e.g., SW052000 for SAAS)
+          maxLength: 50
+        anrok_item_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        sphere_item_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        apply_dept_tag_to_invoice_journals:
+          type:
+          - boolean
+          - 'null'
+          description: Apply Department and Tag categorization to all lines on Invoice Journals
+        customer:
+          type: integer
+          readOnly: true
+        department:
+          type:
+          - integer
+          - 'null'
+        invoice_account:
+          type:
+          - integer
+          - 'null'
+        revenue_account:
+          type:
+          - integer
+          - 'null'
+        ar_account:
+          type:
+          - integer
+          - 'null'
+        bad_debt_account:
+          type:
+          - integer
+          - 'null'
+        invoice_unbilled_account:
+          type:
+          - integer
+          - 'null'
       required:
-      - id
-      - percentage_allocation
-      - product
-      - product_id_str
-      - product_name
-    VendorType391Enum:
-      enum:
-      - vendor
+      - ar_account_name
+      - bad_debt_account_name
+      - created_at
       - customer
-      - employee
-      type: string
-      description: '* `vendor` - Vendor
-
-        * `customer` - Customer
-
-        * `employee` - Employee'
-    RenewalBehaviorEnum:
-      enum:
-      - FOLLOW_CONTRACT
-      - FIXED_END
-      type: string
-      description: '* `FOLLOW_CONTRACT` - Follow Contract
-
-        * `FIXED_END` - Fixed End Date'
-    PatchedContractSubscription:
+      - deleted_at
+      - department_name
+      - display_name
+      - id
+      - invoice_account_name
+      - invoice_unbilled_account_name
+      - is_deleted
+      - last_modified_at
+      - product_uuid
+      - revenue_account_name
+      - tags
+      - tax_account_name
+      - usage_group_count
+      - usage_groups
+    ContractSubscription:
       type: object
       properties:
         id:
@@ -5152,305 +4067,21 @@ components:
           type:
           - integer
           - 'null'
-    PrepaidUsageEvent:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        prepaid_commit:
-          type: integer
-          readOnly: true
-        consumption:
-          type:
-          - integer
-          - 'null'
-          readOnly: true
-        external_id:
-          type:
-          - string
-          - 'null'
-          description: Source row ID
-          maxLength: 250
-        event_date:
-          type:
-          - string
-          - 'null'
-          format: date
-          description: Event date (dt)
-        period_month:
-          type: string
-          format: date
-          description: First-of-month (dm)
-        total_revenue_dollars:
-          type: number
-          format: double
-          exclusiveMinimum: -100000000000000
-          exclusiveMaximum: 100000000000000
-        total_events:
-          type: integer
-          maximum: 2147483647
-          minimum: -2147483648
-        data:
-          description: Flexible key-value pairs for customer-specific columns (team_id, product_feature, model_intent, etc.)
-        adjustment_date:
-          type:
-          - string
-          - 'null'
-          format: date
-          description: Date the adjustment was recorded. Null for normal events.
-        is_adjustment:
-          type: boolean
-        original_period_month:
-          type:
-          - string
-          - 'null'
-          format: date
-          description: The original period being corrected (only for adjustments)
-        created_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
       required:
-      - consumption
+      - contract
+      - contract_product_bundle
       - created_at
-      - id
-      - period_month
-      - prepaid_commit
-    TierPriceOverrideSourceEnum:
-      enum:
-      - manual
-      - integration
-      type: string
-      description: '* `manual` - Manual entry
-
-        * `integration` - Integration-driven'
-    PaginatedContractPrepaidCommitList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/ContractPrepaidCommit'
-    NullEnum:
-      enum:
-      - null
-    PatchedContractUsage:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        contract:
-          type: integer
-        product:
-          type:
-          - integer
-          - 'null'
-        product_bundle:
-          type: string
-          readOnly: true
-        contract_product_bundle:
-          allOf:
-          - $ref: '#/components/schemas/ContractProductBundleRead'
-          readOnly: true
-        product_name:
-          type: string
-          readOnly: true
-        product_bundle_name:
-          type: string
-          readOnly: true
-        usage_group:
-          type:
-          - integer
-          - 'null'
-        usage_group_name:
-          type: string
-          readOnly: true
-        department:
-          type:
-          - integer
-          - 'null'
-        tags:
-          type: string
-        description:
-          type:
-          - string
-          - 'null'
-        start_date:
-          type:
-          - string
-          - 'null'
-          format: date
-        end_date:
-          type:
-          - string
-          - 'null'
-          format: date
-        lines:
-          type: string
-          readOnly: true
-        created_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-        last_modified_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-    ContractProductBundleRead:
-      type: object
-      description: Read-only serializer for ContractProductBundle in milestone responses.
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        source_bundle:
-          type:
-          - integer
-          - 'null'
-          description: Original ProductBundle template this was created from
-        source_bundle_name:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        total_amount:
-          type: number
-          format: double
-          description: Total amount to be allocated across products
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        currency:
-          type: string
-          maxLength: 3
-        lines:
-          type: array
-          items:
-            $ref: '#/components/schemas/ContractProductBundleLineRead'
-          readOnly: true
-      required:
-      - id
-      - lines
-      - source_bundle_name
-      - total_amount
-    ComponentTypeEnum:
-      enum:
-      - SUBSCRIPTION
-      - MILESTONE
-      - USAGE
-      type: string
-      description: '* `SUBSCRIPTION` - Subscription
-
-        * `MILESTONE` - Milestone
-
-        * `USAGE` - Usage'
-    File:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        created_by:
-          type:
-          - integer
-          - 'null'
-          readOnly: true
-        created_by_name:
-          type: string
-          readOnly: true
-        created_by_email:
-          type: string
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        name:
-          type: string
-        url:
-          type: string
-          readOnly: true
-        s3_content_type:
-          type:
-          - string
-          - 'null'
-        s3_content_length:
-          type:
-          - integer
-          - 'null'
-          maximum: 2147483647
-          minimum: 0
-        s3_path:
-          type: string
-        object_id:
-          type:
-          - integer
-          - 'null'
-          maximum: 2147483647
-          minimum: 0
-        app:
-          type: string
-          readOnly: true
-        model:
-          type: string
-          readOnly: true
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-      required:
-      - app
-      - created_at
-      - created_by
-      - created_by_email
-      - created_by_name
       - customer
       - deleted_at
       - id
       - is_deleted
       - last_modified_at
-      - model
-      - name
-      - s3_path
-      - url
+      - lines
+      - product_bundle
+      - product_bundle_name
+      - product_is_renewable
+      - product_name
+      - total_value
     PatchedContractCustomer:
       type: object
       properties:
@@ -5845,73 +4476,6 @@ components:
           - integer
           - 'null'
           description: Payment term for this vendor
-    GenerageSubscriptionSchedule:
-      type: object
-      properties:
-        start_date:
-          type: string
-          format: date
-          description: Start date of the subscription period.
-        end_date:
-          type:
-          - string
-          - 'null'
-          format: date
-          description: End date of the subscription period. Defaults to 1 year from start date if not provided.
-        total_value:
-          type: number
-          format: double
-          description: Total contract value for the subscription period.
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        mrr:
-          type: number
-          format: double
-          description: Monthly recurring revenue. If not provided, it is calculated from total_value and the subscription period.
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        use_daily_accounting:
-          type: boolean
-          default: false
-          description: Whether to use daily (vs monthly) revenue recognition.
-        proration_method:
-          description: 'Proration method. When provided, takes precedence over use_daily_accounting (DAILY↔True, STANDARD/THIRTY_DAY↔False).
-
-
-            * `standard` - Standard (actual month length)
-
-            * `thirty_day` - Fixed 30-day month
-
-            * `daily` - Daily'
-          oneOf:
-          - $ref: '#/components/schemas/ProrationMethodEnum'
-          - $ref: '#/components/schemas/NullEnum'
-        use_catchup:
-          type: boolean
-          default: false
-          description: Enable catch-up accounting for retroactive amendments.
-        catchup_date:
-          type:
-          - string
-          - 'null'
-          format: date
-          description: Date from which to apply catch-up adjustments. Required if use_catchup is true.
-        modified_subscription:
-          type:
-          - integer
-          - 'null'
-          description: ID of the existing contract subscription being modified.
-        does_modify_contract_end_date:
-          type: boolean
-          default: false
-          description: Whether this modification changes the contract end date.
-        apply_prospectively:
-          type: boolean
-          default: false
-          description: Apply changes prospectively from catchup_date instead of retroactively. Only valid when use_catchup is true.
-      required:
-      - start_date
-      - total_value
     PaginatedContractCustomerList:
       type: object
       required:
@@ -5937,41 +4501,270 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ContractCustomer'
-    ContractProductBundleLineRead:
+    PatchedContract:
       type: object
-      description: Read-only serializer for ContractProductBundleLine in milestone responses.
       properties:
         id:
           type: integer
           readOnly: true
-        product:
-          type: integer
-        product_name:
+        entity_name:
           type: string
           readOnly: true
-        amount:
+        client_name:
+          type: string
+          readOnly: true
+        client_terms:
+          type: string
+          readOnly: true
+        department_name:
+          type: string
+          readOnly: true
+        parent_department_name:
+          type: string
+          readOnly: true
+        parent_department:
+          type: integer
+          readOnly: true
+        tags:
+          type: string
+        total_revenue:
           type: number
           format: double
-          description: Dollar amount allocated to this product
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        percentage:
+          readOnly: true
+          exclusiveMinimum: -10000000000000
+          exclusiveMaximum: 10000000000000
+        total_mrr:
+          type: number
+          format: double
+          readOnly: true
+          exclusiveMinimum: -10000000000000
+          exclusiveMaximum: 10000000000000
+        total_deferred_revenue:
+          type: number
+          format: double
+          readOnly: true
+          exclusiveMinimum: -10000000000000
+          exclusiveMaximum: 10000000000000
+        currency:
+          type: string
+          default: USD
+        entity_currency:
+          type: string
+          default: USD
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/File'
+          readOnly: true
+        prepaid_commits:
+          type: array
+          items:
+            $ref: '#/components/schemas/NestedContractPrepaidCommit'
+          writeOnly: true
+        contract_end_date:
+          type:
+          - string
+          - 'null'
+          format: date
+          description: Fixed end date for standard contracts. Leave null for evergreen contracts (is_evergreen=true).
+        is_evergreen:
+          type: boolean
+          default: false
+          description: Set true for evergreen contracts (no fixed end date). Evergreen contracts cannot also be auto-renew. Auto-renew is a legacy method to extend contracts.
+        auto_send_invoices:
+          type: boolean
+          default: false
+          description: When true, generated invoices are automatically sent on their invoice date.
+        skip_evergreen_invoice_generation:
+          type: boolean
+          default: false
+          description: For Evergreen contracts only. Set at contract creation; existing contracts cannot change this setting. False means current behavior. True skips only Campfire's auto-generated evergreen invoices; revenue transactions still generate; existing invoices are not cleaned up.
+        auto_apply_customer_stripe_config_to_invoices:
+          type: boolean
+          default: false
+          description: Evergreen contracts only. When true, evergreen-generated invoices inherit stripe_connection and use_stripe_auto_bill from the contract customer.
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        is_deleted:
           type: string
           readOnly: true
-        original_percentage:
+        deleted_at:
+          type: string
+          readOnly: true
+        usage_tiers:
+          type: string
+        has_invoices:
+          type: boolean
+          readOnly: true
+          default: false
+        has_journal_entries:
+          type: boolean
+          readOnly: true
+          default: false
+        has_credit_memos:
+          type: boolean
+          readOnly: true
+          default: false
+        effective_end_date:
+          type: string
+          format: date
+          readOnly: true
+          description: Rolling horizon end date for active evergreen contracts. It will be auto-generated by Campfire backend. Null for standard contracts.
+        working_end_date:
+          type: string
+          format: date
+          readOnly: true
+          description: Canonical end date used by the system. Equals contract_end_date for standard or terminated contracts, and effective_end_date for active evergreen contracts.
+        evergreen_locked_date:
+          type:
+          - string
+          - 'null'
+          format: date
+          readOnly: true
+          description: Inclusive lock date for evergreen contracts based on paid invoices and close books date. Dates on or before this value are immutable. Null for non-evergreen contracts, or when no financial locking events exist.
+        search_vector:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        search_text:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        billing_frequency:
+          $ref: '#/components/schemas/BillingFrequencyEnum'
+        deal_name:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        deal_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        consultant:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        closed_date:
+          type:
+          - string
+          - 'null'
+          format: date
+        total_contract_value:
           type:
           - number
           - 'null'
           format: double
-          description: Original percentage from source ProductBundle for auditing
-          exclusiveMinimum: -1000
-          exclusiveMaximum: 1000
-      required:
-      - amount
-      - id
-      - percentage
-      - product
-      - product_name
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        contract_start_date:
+          type:
+          - string
+          - 'null'
+          format: date
+        exchange_rate:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -100000000000000
+          exclusiveMaximum: 100000000000000
+        exchange_rate_book:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -100000000000000
+          exclusiveMaximum: 100000000000000
+        crm_link:
+          type:
+          - string
+          - 'null'
+          maxLength: 500
+        contract_link:
+          type:
+          - string
+          - 'null'
+          maxLength: 500
+        status:
+          $ref: '#/components/schemas/ContractStatusEnum'
+        source:
+          $ref: '#/components/schemas/SourceFc1Enum'
+        source_deal_data: {}
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        auto_renew:
+          type: boolean
+        auto_renew_duration:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: -2147483648
+        auto_renew_invoice:
+          type: boolean
+        tag_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        tag_group_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        minimum_monthly_commitment_amount:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Minimum monthly commitment amount (allowance threshold)
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        minimum_monthly_commitment_quantity:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Minimum monthly commitment quantity (allowance threshold in units)
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        purchase_order_number:
+          type:
+          - string
+          - 'null'
+          maxLength: 120
+        customer:
+          type: integer
+          readOnly: true
+        entity:
+          type:
+          - integer
+          - 'null'
+        client:
+          type:
+          - integer
+          - 'null'
+        department:
+          type:
+          - integer
+          - 'null'
+        journal_entries:
+          type: array
+          items:
+            type: integer
     PaginatedTierPriceOverrideList:
       type: object
       required:
@@ -5997,6 +4790,553 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/TierPriceOverride'
+    ContractProductBundleLine:
+      type: object
+      description: Serializer for individual product allocation lines within a ContractProductBundle.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        product:
+          type: integer
+          readOnly: true
+        product_name:
+          type: string
+          readOnly: true
+        product_id_str:
+          type: string
+          readOnly: true
+        amount:
+          type: number
+          format: double
+          description: Dollar amount allocated to this product
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        percentage:
+          type: string
+          readOnly: true
+          description: Calculated percentage based on amount / total
+        original_percentage:
+          type:
+          - number
+          - 'null'
+          format: double
+          readOnly: true
+          description: Original percentage from source ProductBundle for auditing
+          exclusiveMinimum: -1000
+          exclusiveMaximum: 1000
+        component_type:
+          readOnly: true
+          description: 'Snapshotted from ProductBundleLine.component_type at snapshot time. NULL = legacy single-type bundle.
+
+
+            * `SUBSCRIPTION` - Subscription
+
+            * `MILESTONE` - Milestone
+
+            * `USAGE` - Usage'
+          oneOf:
+          - $ref: '#/components/schemas/ComponentTypeEnum'
+          - $ref: '#/components/schemas/NullEnum'
+      required:
+      - amount
+      - component_type
+      - id
+      - original_percentage
+      - percentage
+      - product
+      - product_id_str
+      - product_name
+    PatchedContractSubscription:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        lines:
+          type: string
+          readOnly: true
+        product_name:
+          type: string
+          readOnly: true
+        product_is_renewable:
+          type:
+          - boolean
+          - 'null'
+          readOnly: true
+        product_bundle:
+          type: string
+          readOnly: true
+        product_bundle_name:
+          type: string
+          readOnly: true
+        contract_product_bundle:
+          allOf:
+          - $ref: '#/components/schemas/ContractProductBundleRead'
+          readOnly: true
+        total_value:
+          type: number
+          format: double
+          readOnly: true
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        rate:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -10000000000000
+          exclusiveMaximum: 10000000000000
+        quantity:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -100000000000000
+          exclusiveMaximum: 100000000000000
+        renewal_behavior:
+          allOf:
+          - $ref: '#/components/schemas/RenewalBehaviorEnum'
+          description: 'Controls how this subscription ends. FOLLOW_CONTRACT extends with the evergreen contract''s rolling end boundary (working_end_date / effective_end_date). FIXED_END keeps an explicit subscription end_date. Default is FIXED_END.
+
+
+            * `FOLLOW_CONTRACT` - Follow Contract
+
+            * `FIXED_END` - Fixed End Date'
+        period_amount:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Evergreen-only input amount per billing period (for example 10000.00 for a quarterly period). Provide this to auto-generate lines for evergreen subscriptions. Ignored for non-evergreen writes.
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        invoiced_amount_migration:
+          type:
+          - number
+          - 'null'
+          format: double
+          writeOnly: true
+          description: 'Migration-only: total amount already invoiced in a prior system. When provided, marks revenue transactions as migration-invoiced up to this amount.'
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        is_contract_amendment:
+          type: boolean
+        start_date:
+          type:
+          - string
+          - 'null'
+          format: date
+        end_date:
+          type:
+          - string
+          - 'null'
+          format: date
+        mrr:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        discount:
+          type:
+          - number
+          - 'null'
+          format: double
+          minimum: 0.0
+          description: Per-unit discount in contract currency. Line amount is Quantity × (Rate − Discount). Null when no discount is configured.
+          exclusiveMaximum: 10000000000000
+        notes:
+          type:
+          - string
+          - 'null'
+        use_daily_accounting:
+          type: boolean
+        proration_method:
+          $ref: '#/components/schemas/ProrationMethodEnum'
+        use_catchup:
+          type: boolean
+        catchup_date:
+          type:
+          - string
+          - 'null'
+          format: date
+        catchup_manually_overridden:
+          type: boolean
+          description: True when a user explicitly set use_catchup or catchup_date via the modal. Suppresses automatic reconciliation by integration syncs so the user's choice survives.
+        invoice_calculation:
+          allOf:
+          - $ref: '#/components/schemas/InvoiceCalculationEnum'
+          description: 'Fixed Rate: rate stays constant, quantity calculated. Fixed Quantity: quantity stays constant (e.g., seats), rate calculated.
+
+
+            * `FIXED_RATE` - Fixed Rate
+
+            * `FIXED_QUANTITY` - Fixed Quantity'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        source:
+          $ref: '#/components/schemas/SourceFc1Enum'
+        external_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        rates_are_net:
+          type: boolean
+          description: When True, this subscription's rate and waterfall amounts already reflect post-discount (net) pricing. Prevents invoice creation from double-counting discounts via a separate Discount RevenueTransaction.
+        customer:
+          type: integer
+          readOnly: true
+        contract:
+          type: integer
+        product:
+          type:
+          - integer
+          - 'null'
+        modified_subscription:
+          type:
+          - integer
+          - 'null'
+    PaginatedContractPrepaidCommitConsumptionList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContractPrepaidCommitConsumption'
+    Status372Enum:
+      enum:
+      - ACTIVE
+      - INACTIVE
+      type: string
+      description: '* `ACTIVE` - Active
+
+        * `INACTIVE` - Inactive'
+    Contract:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        entity_name:
+          type: string
+          readOnly: true
+        client_name:
+          type: string
+          readOnly: true
+        client_terms:
+          type: string
+          readOnly: true
+        department_name:
+          type: string
+          readOnly: true
+        parent_department_name:
+          type: string
+          readOnly: true
+        parent_department:
+          type: integer
+          readOnly: true
+        tags:
+          type: string
+        total_revenue:
+          type: number
+          format: double
+          readOnly: true
+          exclusiveMinimum: -10000000000000
+          exclusiveMaximum: 10000000000000
+        total_mrr:
+          type: number
+          format: double
+          readOnly: true
+          exclusiveMinimum: -10000000000000
+          exclusiveMaximum: 10000000000000
+        total_deferred_revenue:
+          type: number
+          format: double
+          readOnly: true
+          exclusiveMinimum: -10000000000000
+          exclusiveMaximum: 10000000000000
+        currency:
+          type: string
+          default: USD
+        entity_currency:
+          type: string
+          default: USD
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/File'
+          readOnly: true
+        prepaid_commits:
+          type: array
+          items:
+            $ref: '#/components/schemas/NestedContractPrepaidCommit'
+          writeOnly: true
+        contract_end_date:
+          type:
+          - string
+          - 'null'
+          format: date
+          description: Fixed end date for standard contracts. Leave null for evergreen contracts (is_evergreen=true).
+        is_evergreen:
+          type: boolean
+          default: false
+          description: Set true for evergreen contracts (no fixed end date). Evergreen contracts cannot also be auto-renew. Auto-renew is a legacy method to extend contracts.
+        auto_send_invoices:
+          type: boolean
+          default: false
+          description: When true, generated invoices are automatically sent on their invoice date.
+        skip_evergreen_invoice_generation:
+          type: boolean
+          default: false
+          description: For Evergreen contracts only. Set at contract creation; existing contracts cannot change this setting. False means current behavior. True skips only Campfire's auto-generated evergreen invoices; revenue transactions still generate; existing invoices are not cleaned up.
+        auto_apply_customer_stripe_config_to_invoices:
+          type: boolean
+          default: false
+          description: Evergreen contracts only. When true, evergreen-generated invoices inherit stripe_connection and use_stripe_auto_bill from the contract customer.
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        is_deleted:
+          type: string
+          readOnly: true
+        deleted_at:
+          type: string
+          readOnly: true
+        usage_tiers:
+          type: string
+        has_invoices:
+          type: boolean
+          readOnly: true
+          default: false
+        has_journal_entries:
+          type: boolean
+          readOnly: true
+          default: false
+        has_credit_memos:
+          type: boolean
+          readOnly: true
+          default: false
+        effective_end_date:
+          type: string
+          format: date
+          readOnly: true
+          description: Rolling horizon end date for active evergreen contracts. It will be auto-generated by Campfire backend. Null for standard contracts.
+        working_end_date:
+          type: string
+          format: date
+          readOnly: true
+          description: Canonical end date used by the system. Equals contract_end_date for standard or terminated contracts, and effective_end_date for active evergreen contracts.
+        evergreen_locked_date:
+          type:
+          - string
+          - 'null'
+          format: date
+          readOnly: true
+          description: Inclusive lock date for evergreen contracts based on paid invoices and close books date. Dates on or before this value are immutable. Null for non-evergreen contracts, or when no financial locking events exist.
+        search_vector:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        search_text:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        billing_frequency:
+          $ref: '#/components/schemas/BillingFrequencyEnum'
+        deal_name:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        deal_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        consultant:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        closed_date:
+          type:
+          - string
+          - 'null'
+          format: date
+        total_contract_value:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        contract_start_date:
+          type:
+          - string
+          - 'null'
+          format: date
+        exchange_rate:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -100000000000000
+          exclusiveMaximum: 100000000000000
+        exchange_rate_book:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -100000000000000
+          exclusiveMaximum: 100000000000000
+        crm_link:
+          type:
+          - string
+          - 'null'
+          maxLength: 500
+        contract_link:
+          type:
+          - string
+          - 'null'
+          maxLength: 500
+        status:
+          $ref: '#/components/schemas/ContractStatusEnum'
+        source:
+          $ref: '#/components/schemas/SourceFc1Enum'
+        source_deal_data: {}
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        auto_renew:
+          type: boolean
+        auto_renew_duration:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: -2147483648
+        auto_renew_invoice:
+          type: boolean
+        tag_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        tag_group_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        minimum_monthly_commitment_amount:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Minimum monthly commitment amount (allowance threshold)
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        minimum_monthly_commitment_quantity:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Minimum monthly commitment quantity (allowance threshold in units)
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        purchase_order_number:
+          type:
+          - string
+          - 'null'
+          maxLength: 120
+        customer:
+          type: integer
+          readOnly: true
+        entity:
+          type:
+          - integer
+          - 'null'
+        client:
+          type:
+          - integer
+          - 'null'
+        department:
+          type:
+          - integer
+          - 'null'
+        journal_entries:
+          type: array
+          items:
+            type: integer
+      required:
+      - attachments
+      - client_name
+      - client_terms
+      - created_at
+      - customer
+      - deleted_at
+      - department_name
+      - effective_end_date
+      - entity_name
+      - evergreen_locked_date
+      - has_credit_memos
+      - has_invoices
+      - has_journal_entries
+      - id
+      - is_deleted
+      - last_modified_at
+      - parent_department
+      - parent_department_name
+      - search_text
+      - search_vector
+      - total_deferred_revenue
+      - total_mrr
+      - total_revenue
+      - working_end_date
     ContractMilestone:
       type: object
       properties:
@@ -6101,14 +5441,1422 @@ components:
       - product_name
       - revenue_transaction_id
       - tags
-    ContractDuplicateResponse:
+    ContractProductBundleLineUpdate:
+      type: object
+      description: Serializer for updating individual line amounts.
+      properties:
+        product:
+          type: integer
+          description: Product ID
+        amount:
+          type: number
+          format: double
+          description: New dollar amount for this product allocation
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+      required:
+      - amount
+      - product
+    PaginatedProductBundleList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductBundle'
+    PaginatedProductList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+    TierPriceOverride:
       type: object
       properties:
         id:
           type: integer
-          description: The new contract's ID
+          readOnly: true
+        tier:
+          type: integer
+        tier_name:
+          type: string
+          readOnly: true
+        contract:
+          type: integer
+        deal_name:
+          type: string
+          readOnly: true
+        usage_group_id:
+          type: integer
+          readOnly: true
+        usage_group_name:
+          type: string
+          readOnly: true
+        price:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Override price per unit for this contract+tier
+          exclusiveMinimum: -100000000000000
+          exclusiveMaximum: 100000000000000
+        percentage:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Override percentage for this contract+tier (percentage-based pricing)
+          exclusiveMinimum: -100000000000000
+          exclusiveMaximum: 100000000000000
+        source:
+          $ref: '#/components/schemas/TierPriceOverrideSourceEnum'
+        integration_name:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        external_reference:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        notes:
+          type:
+          - string
+          - 'null'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - contract
+      - created_at
+      - deal_name
+      - id
+      - last_modified_at
+      - tier
+      - tier_name
+      - usage_group_id
+      - usage_group_name
+    ContractStatusEnum:
+      enum:
+      - ACTIVE
+      - PENDING
+      - COMPLETED
+      - DELETED
+      type: string
+      description: '* `ACTIVE` - Active
+
+        * `PENDING` - Pending
+
+        * `COMPLETED` - Completed
+
+        * `DELETED` - Deleted'
+    PatchedContractMilestone:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        contract:
+          type: integer
+        product:
+          type:
+          - integer
+          - 'null'
+        product_bundle:
+          type: string
+          readOnly: true
+        contract_product_bundle:
+          allOf:
+          - $ref: '#/components/schemas/ContractProductBundleRead'
+          readOnly: true
+        product_name:
+          type: string
+          readOnly: true
+        product_bundle_name:
+          type: string
+          readOnly: true
+        milestone_name:
+          type: string
+          maxLength: 250
+        milestone_date:
+          type: string
+          format: date
+        amount:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        quantity:
+          type: number
+          format: double
+          exclusiveMinimum: -10000000000000000
+          exclusiveMaximum: 10000000000000000
+        rate:
+          type: number
+          format: double
+          exclusiveMinimum: -10000000000000
+          exclusiveMaximum: 10000000000000
+        description:
+          type:
+          - string
+          - 'null'
+        department:
+          type:
+          - integer
+          - 'null'
+        department_name:
+          type: string
+          readOnly: true
+        tags:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          readOnly: true
+        revenue_transaction_id:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+    Source3b3Enum:
+      enum:
+      - BILL
+      - BREX
+      - HUBSPOT
+      - MANUAL
+      - PAYROLL
+      - SALESFORCE
+      type: string
+      description: '* `BILL` - Bill
+
+        * `BREX` - Brex
+
+        * `HUBSPOT` - Hubspot
+
+        * `MANUAL` - Manual
+
+        * `PAYROLL` - Payroll
+
+        * `SALESFORCE` - Salesforce'
+    PatchedProduct:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        department_name:
+          type: string
+          readOnly: true
+        invoice_account_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        revenue_account_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        ar_account_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        bad_debt_account_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        invoice_unbilled_account_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        tax_account_name:
+          type: string
+          readOnly: true
+        tags:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        product_uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        display_name:
+          type: string
+          readOnly: true
+        usage_group_count:
+          type: integer
+          readOnly: true
+          default: 0
+        usage_groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductUsageGroupSummary'
+          readOnly: true
+        product_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        product_name:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        product_description:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        tag_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        tag_group_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        currency:
+          type:
+          - string
+          - 'null'
+          maxLength: 3
+        price:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -100000000000000
+          exclusiveMaximum: 100000000000000
+        cost:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        exclude_from_mrr:
+          type: boolean
+        is_taxable:
+          type: boolean
+        is_renewable:
+          type: boolean
+        recognize_revenue:
+          type: boolean
+          description: If False, contract-sync skips the revenue-recognition waterfall for this product (no ContractSubscription / RevenueTransaction rows).
+        is_immediate_recognition:
+          type: boolean
+          description: When true, revenue for this product is recognized in full on the invoice finalization date instead of being amortized over the service period.  Used by the Stripe accrual JE waterfall.
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        stripe_product_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        avalara_item_id:
+          type:
+          - integer
+          - 'null'
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        avalara_item_data: {}
+        avalara_tax_code:
+          type:
+          - string
+          - 'null'
+          description: Avalara tax code (e.g., SW052000 for SAAS)
+          maxLength: 50
+        anrok_item_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        sphere_item_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        apply_dept_tag_to_invoice_journals:
+          type:
+          - boolean
+          - 'null'
+          description: Apply Department and Tag categorization to all lines on Invoice Journals
+        customer:
+          type: integer
+          readOnly: true
+        department:
+          type:
+          - integer
+          - 'null'
+        invoice_account:
+          type:
+          - integer
+          - 'null'
+        revenue_account:
+          type:
+          - integer
+          - 'null'
+        ar_account:
+          type:
+          - integer
+          - 'null'
+        bad_debt_account:
+          type:
+          - integer
+          - 'null'
+        invoice_unbilled_account:
+          type:
+          - integer
+          - 'null'
+    ContractBundleLine:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        contract_bundle:
+          type: integer
+          writeOnly: true
+        product_name:
+          type: string
+          readOnly: true
+        amount:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        product:
+          type:
+          - integer
+          - 'null'
+      required:
+      - created_at
+      - customer
+      - deleted_at
+      - id
+      - is_deleted
+      - last_modified_at
+      - product_name
+    ProductBundle:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        bundle_name:
+          type: string
+          maxLength: 250
+        bundle_description:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        stripe_product_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 255
+        anrok_item_id:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductBundleLine'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+      required:
+      - anrok_item_id
+      - bundle_name
+      - created_at
+      - deleted_at
+      - id
+      - is_deleted
+      - last_modified_at
+      - lines
+    ContractProductBundleUpdate:
+      type: object
+      description: Serializer for the allocation update request body.
+      properties:
+        lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContractProductBundleLineUpdate'
+      required:
+      - lines
+    PaginatedContractList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Contract'
+    PaginatedContractMilestoneList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContractMilestone'
+    PatchedContractPrepaidCommit:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        contract:
+          type: integer
+          readOnly: true
+        entity:
+          type:
+          - integer
+          - 'null'
+        entity_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        product:
+          type:
+          - integer
+          - 'null'
+        product_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type: string
+          maxLength: 250
+        description:
+          type:
+          - string
+          - 'null'
+        currency:
+          type: string
+          maxLength: 3
+        exchange_rate:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -100000000000000
+          exclusiveMaximum: 100000000000000
+        exchange_rate_book:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -100000000000000
+          exclusiveMaximum: 100000000000000
+        total_value:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        remaining_value:
+          type: number
+          format: double
+          readOnly: true
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        discount_percentage:
+          type: number
+          format: double
+          maximum: 100.0
+          minimum: 0.0
+          description: Discount applied to gross usage (e.g. 20.00 for 20%)
+        rate:
+          type:
+          - number
+          - 'null'
+          format: double
+          minimum: 0.0
+          description: List price per unit. Prepaid usage = rate * (1 - discount%). Overage = rate (no discount).
+          exclusiveMaximum: 100000000000000
+        start_date:
+          type: string
+          format: date
+        expiration_date:
+          type:
+          - string
+          - 'null'
+          format: date
+        status:
+          allOf:
+          - $ref: '#/components/schemas/ContractPrepaidCommitStatusEnum'
+          readOnly: true
+        priority:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          description: Drawdown order when multiple commits exist (lower = higher priority)
+        is_invoiced:
+          type: boolean
+          readOnly: true
+        invoice:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+        subledger:
+          type:
+          - integer
+          - 'null'
+        overage_invoice_cadence:
+          allOf:
+          - $ref: '#/components/schemas/OverageInvoiceCadenceEnum'
+          description: 'How often overage/on-demand usage is invoiced
+
+
+            * `monthly` - Monthly
+
+            * `quarterly` - Quarterly
+
+            * `biannual` - Bi Annualy
+
+            * `annual` - Annual
+
+            * `one_time` - One Time
+
+            * `custom` - Custom'
+        auto_send_overage_invoices:
+          type: boolean
+          description: Automatically send overage invoices when generated
+        overage_invoice_start_month:
+          type:
+          - string
+          - 'null'
+          format: date
+          description: Anchor date for overage billing cycles. Defaults to start_date.
+        department:
+          type:
+          - integer
+          - 'null'
+        department_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        tags:
+          type:
+          - string
+          - 'null'
+        created_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+    TerminateContract:
+      type: object
+      properties:
+        termination_date:
+          type: string
+          format: date
+        void_invoice_ids:
+          type: array
+          items:
+            type: integer
+          description: List of invoice IDs to void atomically when terminating the contract.
+        void_date:
+          type: string
+          format: date
+          description: Date to use when voiding invoices. Required when void_invoice_ids is provided.
+      required:
+      - termination_date
+    PatchedRevenueTransaction:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        entity_name:
+          type: string
+          readOnly: true
+        entity_currency:
+          type: string
+          readOnly: true
+        client_name:
+          type: string
+          readOnly: true
+        contract_name:
+          type: string
+          readOnly: true
+        contract_status:
+          type: string
+          readOnly: true
+        product_name:
+          type: string
+          readOnly: true
+        product_bundle_name:
+          type: string
+          readOnly: true
+        product_is_taxable:
+          type: boolean
+          readOnly: true
+        contract_identifier:
+          type: string
+          readOnly: true
+        client_identifier:
+          type: string
+          readOnly: true
+        product_identifier:
+          type: string
+          readOnly: true
+        gross_amount:
+          type: string
+          readOnly: true
+        invoice_number:
+          type: string
+          readOnly: true
+        invoice_date:
+          type: string
+          readOnly: true
+        invoice_payment_status:
+          type: string
+          readOnly: true
+        invoice_voided_date:
+          type: string
+          format: date
+          readOnly: true
+        credit_memo_number:
+          type: string
+          readOnly: true
+        credit_memo_date:
+          type: string
+          format: date
+          readOnly: true
+        credit_memo_voided_date:
+          type: string
+          format: date
+          readOnly: true
+        credit_memo_application_status:
+          type: string
+          readOnly: true
+        revenue_type:
+          type: string
+          readOnly: true
+        journal_entry_order:
+          type: string
+          readOnly: true
+        contract_subscription_notes:
+          type: string
+          readOnly: true
+        subscription_discount:
+          type:
+          - number
+          - 'null'
+          format: double
+          readOnly: true
+          exclusiveMinimum: -10000000000000
+          exclusiveMaximum: 10000000000000
+        department_name:
+          type: string
+          readOnly: true
+        parent_department_name:
+          type: string
+          readOnly: true
+        parent_department:
+          type: integer
+          readOnly: true
+        tags:
+          type: string
+        usage_tier_name:
+          type: string
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        anrok_item_id:
+          type: string
+          readOnly: true
+        sphere_item_id:
+          type: string
+          readOnly: true
+        source:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        description:
+          type:
+          - string
+          - 'null'
+        external_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        client_external_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        contract_external_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        contract_subscription_external_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        product_external_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        accounting_period:
+          type:
+          - string
+          - 'null'
+          format: date
+        transaction_date:
+          type:
+          - string
+          - 'null'
+          format: date
+        transaction_end_date:
+          type:
+          - string
+          - 'null'
+          format: date
+        currency:
+          type: string
+          maxLength: 3
+        exchange_rate:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -100000000000000
+          exclusiveMaximum: 100000000000000
+        exchange_rate_book:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -100000000000000
+          exclusiveMaximum: 100000000000000
+        recognized:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        amount:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        quantity:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -100000000000000
+          exclusiveMaximum: 100000000000000
+        rate:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -10000000000000
+          exclusiveMaximum: 10000000000000
+        discount:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        refunds:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        processing_fees:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        platform_fees:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        transfers:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        tax:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        balance_adjustment:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Invoice starting balance or other balance adjustments (e.g., previous balance applied to this transaction)
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        mrr:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        renewall:
+          type: boolean
+        tag_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        tag_group_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        is_migration_invoiced:
+          type: boolean
+          description: Marked as invoiced during migration. Does not create GL entries or AR.
+        created_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        entity:
+          type:
+          - integer
+          - 'null'
+        client:
+          type:
+          - integer
+          - 'null'
+        contract:
+          type:
+          - integer
+          - 'null'
+        contract_subscription:
+          type:
+          - integer
+          - 'null'
+        non_contract_subscription:
+          type:
+          - integer
+          - 'null'
+        contract_usage:
+          type:
+          - integer
+          - 'null'
+        contract_milestone:
+          type:
+          - integer
+          - 'null'
+        non_contract_usage:
+          type:
+          - integer
+          - 'null'
+        prepaid_commit:
+          type:
+          - integer
+          - 'null'
+        product:
+          type:
+          - integer
+          - 'null'
+        product_bundle:
+          type:
+          - integer
+          - 'null'
+        contract_product_bundle:
+          type:
+          - integer
+          - 'null'
+          description: Reference to contract-specific editable product bundle allocation
+        contract_bundle:
+          type:
+          - integer
+          - 'null'
+        journal_entry:
+          type:
+          - integer
+          - 'null'
+        invoice:
+          type:
+          - integer
+          - 'null'
+        credit_memo:
+          type:
+          - integer
+          - 'null'
+        department:
+          type:
+          - integer
+          - 'null'
+        usage_tier:
+          type:
+          - integer
+          - 'null'
+    ContractProductBundleLineRead:
+      type: object
+      description: Read-only serializer for ContractProductBundleLine in milestone responses.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        product:
+          type: integer
+        product_name:
+          type: string
+          readOnly: true
+        amount:
+          type: number
+          format: double
+          description: Dollar amount allocated to this product
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        percentage:
+          type: string
+          readOnly: true
+        original_percentage:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Original percentage from source ProductBundle for auditing
+          exclusiveMinimum: -1000
+          exclusiveMaximum: 1000
+      required:
+      - amount
+      - id
+      - percentage
+      - product
+      - product_name
+    ProductBundleLine:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        product:
+          type: integer
+        product_name:
+          type: string
+          readOnly: true
+        product_id_str:
+          type: string
+          readOnly: true
+        percentage_allocation:
+          type: number
+          format: double
+          maximum: 100.0
+          minimum: 0.01
+        component_type:
+          description: 'Component type for this line in a mixed-type bundle. NULL = legacy single-type bundle (type inherited from the referencing ContractSubscription/Milestone/Usage).
+
+
+            * `SUBSCRIPTION` - Subscription
+
+            * `MILESTONE` - Milestone
+
+            * `USAGE` - Usage'
+          oneOf:
+          - $ref: '#/components/schemas/ComponentTypeEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - id
+      - percentage_allocation
+      - product
+      - product_id_str
+      - product_name
+    GenerageSubscriptionSchedule:
+      type: object
+      properties:
+        start_date:
+          type: string
+          format: date
+          description: Start date of the subscription period.
+        end_date:
+          type:
+          - string
+          - 'null'
+          format: date
+          description: End date of the subscription period. Defaults to 1 year from start date if not provided.
+        total_value:
+          type: number
+          format: double
+          description: Total contract value for the subscription period.
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        mrr:
+          type: number
+          format: double
+          description: Monthly recurring revenue. If not provided, it is calculated from total_value and the subscription period.
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        use_daily_accounting:
+          type: boolean
+          default: false
+          description: Whether to use daily (vs monthly) revenue recognition.
+        proration_method:
+          description: 'Proration method. When provided, takes precedence over use_daily_accounting (DAILY↔True, STANDARD/THIRTY_DAY↔False).
+
+
+            * `standard` - Standard (actual month length)
+
+            * `thirty_day` - Fixed 30-day month
+
+            * `daily` - Daily'
+          oneOf:
+          - $ref: '#/components/schemas/ProrationMethodEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        use_catchup:
+          type: boolean
+          default: false
+          description: Enable catch-up accounting for retroactive amendments.
+        catchup_date:
+          type:
+          - string
+          - 'null'
+          format: date
+          description: Date from which to apply catch-up adjustments. Required if use_catchup is true.
+        modified_subscription:
+          type:
+          - integer
+          - 'null'
+          description: ID of the existing contract subscription being modified.
+        does_modify_contract_end_date:
+          type: boolean
+          default: false
+          description: Whether this modification changes the contract end date.
+        apply_prospectively:
+          type: boolean
+          default: false
+          description: Apply changes prospectively from catchup_date instead of retroactively. Only valid when use_catchup is true.
+      required:
+      - start_date
+      - total_value
+    BlankEnum:
+      enum:
+      - ''
+    PaginatedPrepaidUsageEventList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/PrepaidUsageEvent'
+    BillingFrequencyEnum:
+      enum:
+      - monthly
+      - quarterly
+      - biannual
+      - annual
+      - one_time
+      - custom
+      type: string
+      description: '* `monthly` - Monthly
+
+        * `quarterly` - Quarterly
+
+        * `biannual` - Bi Annualy
+
+        * `annual` - Annual
+
+        * `one_time` - One Time
+
+        * `custom` - Custom'
+    ContractProductBundleRead:
+      type: object
+      description: Read-only serializer for ContractProductBundle in milestone responses.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        source_bundle:
+          type:
+          - integer
+          - 'null'
+          description: Original ProductBundle template this was created from
+        source_bundle_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        total_amount:
+          type: number
+          format: double
+          description: Total amount to be allocated across products
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        currency:
+          type: string
+          maxLength: 3
+        lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContractProductBundleLineRead'
+          readOnly: true
+      required:
+      - id
+      - lines
+      - source_bundle_name
+      - total_amount
+    TerminateContractResponse:
+      type: object
+      description: Response serializer for contract termination with hints about drafted operations.
+      properties:
+        contract_terminated:
+          type: boolean
+          description: Whether the contract was terminated directly (True) or drafted (False).
+        contract_draft_id:
+          type:
+          - integer
+          - 'null'
+          description: Draft queue ID if contract termination was drafted instead of executed.
+        voided_invoice_ids:
+          type: array
+          items:
+            type: integer
+          description: List of invoice IDs that were voided directly.
+        drafted_invoice_ids:
+          type: array
+          items:
+            type: integer
+          description: List of invoice IDs that were drafted for voiding (user lacks void permission).
+      required:
+      - contract_terminated
     RecordConsumptionInput:
       type: object
       properties:
@@ -6130,6 +6878,336 @@ components:
       required:
       - gross_usage_amount
       - period_month
+    TermsEnum:
+      enum:
+      - custom
+      - net_5
+      - net_7
+      - net_10
+      - net_15
+      - net_20
+      - net_30
+      - net_40
+      - net_45
+      - net_60
+      - net_90
+      - net_105
+      - net_120
+      - due_on_receipt
+      type: string
+      description: '* `custom` - Custom
+
+        * `net_5` - Net 5
+
+        * `net_7` - Net 7
+
+        * `net_10` - Net 10
+
+        * `net_15` - Net 15
+
+        * `net_20` - Net 20
+
+        * `net_30` - Net 30
+
+        * `net_40` - Net 40
+
+        * `net_45` - Net 45
+
+        * `net_60` - Net 60
+
+        * `net_90` - Net 90
+
+        * `net_105` - Net 105
+
+        * `net_120` - Net 120
+
+        * `due_on_receipt` - Due on Receipt'
+    BulkContract:
+      type: object
+      properties:
+        deal_name:
+          type:
+          - string
+          - 'null'
+    ContractProductBundle:
+      type: object
+      description: 'Serializer for ContractProductBundle with nested lines.
+
+
+        Used for retrieving and updating contract-specific bundle allocations.
+
+        When updating, validates that line amounts sum to total_amount.'
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        source_bundle:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+          description: Original ProductBundle template this was created from
+        source_bundle_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        total_amount:
+          type: number
+          format: double
+          readOnly: true
+          description: Total amount to be allocated across products
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        currency:
+          type: string
+          readOnly: true
+        license_term_start_date:
+          type:
+          - string
+          - 'null'
+          format: date
+          description: Date the license/service term begins. For SF-ingested mixed bundles, drives the linked subscription start_date and milestone milestone_date. Snapshotted at ingest time for audit.
+        lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContractProductBundleLine'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - currency
+      - id
+      - last_modified_at
+      - lines
+      - source_bundle
+      - source_bundle_name
+      - total_amount
+    VendorType391Enum:
+      enum:
+      - vendor
+      - customer
+      - employee
+      type: string
+      description: '* `vendor` - Vendor
+
+        * `customer` - Customer
+
+        * `employee` - Employee'
+    ProductUsageTierSummary:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        pricing_type:
+          type: string
+        from_quantity:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        to_quantity:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        price:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -100000000000000
+          exclusiveMaximum: 100000000000000
+        percentage:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -100000000000000
+          exclusiveMaximum: 100000000000000
+      required:
+      - from_quantity
+      - id
+      - name
+      - percentage
+      - price
+      - pricing_type
+      - to_quantity
+    TierPriceOverrideSourceEnum:
+      enum:
+      - manual
+      - integration
+      type: string
+      description: '* `manual` - Manual entry
+
+        * `integration` - Integration-driven'
+    File:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+        created_by_name:
+          type: string
+          readOnly: true
+        created_by_email:
+          type: string
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        name:
+          type: string
+        url:
+          type: string
+          readOnly: true
+        s3_content_type:
+          type:
+          - string
+          - 'null'
+        s3_content_length:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: 0
+        s3_path:
+          type: string
+        object_id:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: 0
+        app:
+          type: string
+          readOnly: true
+        model:
+          type: string
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+      required:
+      - app
+      - created_at
+      - created_by
+      - created_by_email
+      - created_by_name
+      - customer
+      - deleted_at
+      - id
+      - is_deleted
+      - last_modified_at
+      - model
+      - name
+      - s3_path
+      - url
+    ContractSubscriptionLine:
+      type: object
+      properties:
+        id:
+          type:
+          - integer
+          - 'null'
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+        original_value:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        total_value:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        original_mrr:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        mrr:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        original_quantity:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -100000000000000
+          exclusiveMaximum: 100000000000000
+        quantity:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -100000000000000
+          exclusiveMaximum: 100000000000000
+        original_rate:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -10000000000000
+          exclusiveMaximum: 10000000000000
+        rate:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -10000000000000
+          exclusiveMaximum: 10000000000000
+        use_daily_accounting:
+          type: boolean
+          default: false
+        is_contract_amendment:
+          type: boolean
+          default: false
+      required:
+      - end_date
+      - start_date
+      - total_value
     ContractCustomer:
       type: object
       properties:
@@ -6558,6 +7636,357 @@ components:
       - total_revenue
       - total_unbilled
       - vendor_custom_field_1_name
+    InvoiceCalculationEnum:
+      enum:
+      - FIXED_RATE
+      - FIXED_QUANTITY
+      type: string
+      description: '* `FIXED_RATE` - Fixed Rate
+
+        * `FIXED_QUANTITY` - Fixed Quantity'
+    PaginatedContractPrepaidCommitList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContractPrepaidCommit'
+    ProrationMethodEnum:
+      enum:
+      - standard
+      - thirty_day
+      - daily
+      type: string
+      description: '* `standard` - Standard (actual month length)
+
+        * `thirty_day` - Fixed 30-day month
+
+        * `daily` - Daily'
+    ProductUsageGroupSummary:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        pricing_model:
+          $ref: '#/components/schemas/PricingModelEnum'
+        unit_of_measure:
+          type:
+          - string
+          - 'null'
+        tier_count:
+          type: integer
+          readOnly: true
+          default: 0
+        tiers:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductUsageTierSummary'
+          readOnly: true
+      required:
+      - id
+      - tier_count
+      - tiers
+    PatchedContractProductBundleUpdate:
+      type: object
+      description: Serializer for the allocation update request body.
+      properties:
+        lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContractProductBundleLineUpdate'
+    OverageInvoiceCadenceEnum:
+      enum:
+      - monthly
+      - quarterly
+      - biannual
+      - annual
+      - one_time
+      - custom
+      type: string
+      description: '* `monthly` - Monthly
+
+        * `quarterly` - Quarterly
+
+        * `biannual` - Bi Annualy
+
+        * `annual` - Annual
+
+        * `one_time` - One Time
+
+        * `custom` - Custom'
+    ContractPrepaidCommitStatusEnum:
+      enum:
+      - ACTIVE
+      - EXHAUSTED
+      - EXPIRED
+      type: string
+      description: '* `ACTIVE` - Active
+
+        * `EXHAUSTED` - Exhausted
+
+        * `EXPIRED` - Expired'
+    PricingModelEnum:
+      enum:
+      - unit_based
+      - fixed_fee
+      - percentage_based
+      - graduated_tiered
+      - volume_based
+      type: string
+      description: '* `unit_based` - Unit based pricing
+
+        * `fixed_fee` - Fixed fee pricing
+
+        * `percentage_based` - Percentage based pricing
+
+        * `graduated_tiered` - Graduated tiered pricing
+
+        * `volume_based` - Volume based pricing'
+    RenewalBehaviorEnum:
+      enum:
+      - FOLLOW_CONTRACT
+      - FIXED_END
+      type: string
+      description: '* `FOLLOW_CONTRACT` - Follow Contract
+
+        * `FIXED_END` - Fixed End Date'
+    PatchedProductBundle:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        bundle_name:
+          type: string
+          maxLength: 250
+        bundle_description:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        stripe_product_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 255
+        anrok_item_id:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductBundleLine'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+    PatchedContractUsage:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        contract:
+          type: integer
+        product:
+          type:
+          - integer
+          - 'null'
+        product_bundle:
+          type: string
+          readOnly: true
+        contract_product_bundle:
+          allOf:
+          - $ref: '#/components/schemas/ContractProductBundleRead'
+          readOnly: true
+        product_name:
+          type: string
+          readOnly: true
+        product_bundle_name:
+          type: string
+          readOnly: true
+        usage_group:
+          type:
+          - integer
+          - 'null'
+        usage_group_name:
+          type: string
+          readOnly: true
+        department:
+          type:
+          - integer
+          - 'null'
+        tags:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+        start_date:
+          type:
+          - string
+          - 'null'
+          format: date
+        end_date:
+          type:
+          - string
+          - 'null'
+          format: date
+        lines:
+          type: string
+          readOnly: true
+        created_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+    NestedContractPrepaidCommit:
+      type: object
+      properties:
+        entity:
+          type:
+          - integer
+          - 'null'
+        product:
+          type:
+          - integer
+          - 'null'
+        name:
+          type: string
+          maxLength: 250
+        description:
+          type: string
+          default: ''
+        currency:
+          type:
+          - string
+          - 'null'
+        exchange_rate:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -100000000000000
+          exclusiveMaximum: 100000000000000
+        exchange_rate_book:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -100000000000000
+          exclusiveMaximum: 100000000000000
+        total_value:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        discount_percentage:
+          type: number
+          format: double
+          default: 0.0
+          exclusiveMinimum: -1000
+          exclusiveMaximum: 1000
+        rate:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -100000000000000
+          exclusiveMaximum: 100000000000000
+        start_date:
+          type: string
+          format: date
+        expiration_date:
+          type:
+          - string
+          - 'null'
+          format: date
+        priority:
+          type: integer
+          default: 1
+        subledger:
+          type:
+          - integer
+          - 'null'
+        overage_invoice_cadence:
+          $ref: '#/components/schemas/OverageInvoiceCadenceEnum'
+        auto_send_overage_invoices:
+          type: boolean
+          default: false
+        overage_invoice_start_month:
+          type:
+          - string
+          - 'null'
+          format: date
+        department:
+          type:
+          - integer
+          - 'null'
+        tags:
+          type: array
+          items:
+            type: integer
+      required:
+      - name
+      - start_date
+      - total_value
+    ComponentTypeEnum:
+      enum:
+      - SUBSCRIPTION
+      - MILESTONE
+      - USAGE
+      type: string
+      description: '* `SUBSCRIPTION` - Subscription
+
+        * `MILESTONE` - Milestone
+
+        * `USAGE` - Usage'
     ContractPrepaidCommit:
       type: object
       properties:
@@ -6729,12 +8158,36 @@ components:
       - start_date
       - status
       - total_value
-    ProductBundle:
+    ContractBundle:
       type: object
       properties:
         id:
           type: integer
           readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        end_date:
+          type:
+          - string
+          - 'null'
+          format: date
+          description: Bundle end date. Required for standard contracts. For evergreen contracts this may be null to follow the contract timeline, or set to a billing-period end date.
+        rebalance_journal_entries_indefinitely:
+          type: boolean
+          default: false
+          description: Should only be used for Evergreen contracts. When true, linked invoice journal entries are rebalanced on each evergreen contract extension.
+        lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContractBundleLine'
         bundle_name:
           type: string
           maxLength: 250
@@ -6743,20 +8196,20 @@ components:
           - string
           - 'null'
           maxLength: 250
-        stripe_product_id:
+        start_date:
+          type: string
+          format: date
+        use_daily_accounting:
+          type: boolean
+        proration_method:
+          $ref: '#/components/schemas/ProrationMethodEnum'
+        use_catchup:
+          type: boolean
+        catchup_date:
           type:
           - string
           - 'null'
-          maxLength: 255
-        anrok_item_id:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        lines:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductBundleLine'
+          format: date
         created_at:
           type: string
           format: date-time
@@ -6765,585 +8218,22 @@ components:
           type: string
           format: date-time
           readOnly: true
-        is_deleted:
-          type: boolean
+        customer:
+          type: integer
           readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
+        contract:
+          type: integer
       required:
-      - anrok_item_id
       - bundle_name
+      - contract
       - created_at
+      - customer
       - deleted_at
       - id
       - is_deleted
       - last_modified_at
       - lines
-    VendorContact:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-        first_name:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        last_name:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        email:
-          type:
-          - string
-          - 'null'
-          format: email
-          maxLength: 250
-        phone_number:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        mobile_number:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-      required:
-      - deleted_at
-      - id
-      - is_deleted
-      - last_modified_at
-    PaginatedContractMilestoneList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/ContractMilestone'
-    Contract:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        entity_name:
-          type: string
-          readOnly: true
-        client_name:
-          type: string
-          readOnly: true
-        client_terms:
-          type: string
-          readOnly: true
-        department_name:
-          type: string
-          readOnly: true
-        parent_department_name:
-          type: string
-          readOnly: true
-        parent_department:
-          type: integer
-          readOnly: true
-        tags:
-          type: string
-        total_revenue:
-          type: number
-          format: double
-          readOnly: true
-          exclusiveMinimum: -10000000000000
-          exclusiveMaximum: 10000000000000
-        total_mrr:
-          type: number
-          format: double
-          readOnly: true
-          exclusiveMinimum: -10000000000000
-          exclusiveMaximum: 10000000000000
-        total_deferred_revenue:
-          type: number
-          format: double
-          readOnly: true
-          exclusiveMinimum: -10000000000000
-          exclusiveMaximum: 10000000000000
-        currency:
-          type: string
-          default: USD
-        entity_currency:
-          type: string
-          default: USD
-        attachments:
-          type: array
-          items:
-            $ref: '#/components/schemas/File'
-          readOnly: true
-        prepaid_commits:
-          type: array
-          items:
-            $ref: '#/components/schemas/NestedContractPrepaidCommit'
-          writeOnly: true
-        contract_end_date:
-          type:
-          - string
-          - 'null'
-          format: date
-          description: Fixed end date for standard contracts. Leave null for evergreen contracts (is_evergreen=true).
-        is_evergreen:
-          type: boolean
-          default: false
-          description: Set true for evergreen contracts (no fixed end date). Evergreen contracts cannot also be auto-renew. Auto-renew is a legacy method to extend contracts.
-        auto_send_invoices:
-          type: boolean
-          default: false
-          description: When true, generated invoices are automatically sent on their invoice date.
-        skip_evergreen_invoice_generation:
-          type: boolean
-          default: false
-          description: For Evergreen contracts only. Set at contract creation; existing contracts cannot change this setting. False means current behavior. True skips only Campfire's auto-generated evergreen invoices; revenue transactions still generate; existing invoices are not cleaned up.
-        auto_apply_customer_stripe_config_to_invoices:
-          type: boolean
-          default: false
-          description: Evergreen contracts only. When true, evergreen-generated invoices inherit stripe_connection and use_stripe_auto_bill from the contract customer.
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        is_deleted:
-          type: string
-          readOnly: true
-        deleted_at:
-          type: string
-          readOnly: true
-        usage_tiers:
-          type: string
-        has_invoices:
-          type: boolean
-          readOnly: true
-          default: false
-        has_journal_entries:
-          type: boolean
-          readOnly: true
-          default: false
-        has_credit_memos:
-          type: boolean
-          readOnly: true
-          default: false
-        effective_end_date:
-          type: string
-          format: date
-          readOnly: true
-          description: Rolling horizon end date for active evergreen contracts. It will be auto-generated by Campfire backend. Null for standard contracts.
-        working_end_date:
-          type: string
-          format: date
-          readOnly: true
-          description: Canonical end date used by the system. Equals contract_end_date for standard or terminated contracts, and effective_end_date for active evergreen contracts.
-        evergreen_locked_date:
-          type:
-          - string
-          - 'null'
-          format: date
-          readOnly: true
-          description: Inclusive lock date for evergreen contracts based on paid invoices and close books date. Dates on or before this value are immutable. Null for non-evergreen contracts, or when no financial locking events exist.
-        search_vector:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        search_text:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        billing_frequency:
-          $ref: '#/components/schemas/BillingFrequencyEnum'
-        deal_name:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        deal_id:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        consultant:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        closed_date:
-          type:
-          - string
-          - 'null'
-          format: date
-        total_contract_value:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        contract_start_date:
-          type:
-          - string
-          - 'null'
-          format: date
-        exchange_rate:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -100000000000000
-          exclusiveMaximum: 100000000000000
-        exchange_rate_book:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -100000000000000
-          exclusiveMaximum: 100000000000000
-        crm_link:
-          type:
-          - string
-          - 'null'
-          maxLength: 500
-        contract_link:
-          type:
-          - string
-          - 'null'
-          maxLength: 500
-        status:
-          $ref: '#/components/schemas/ContractStatusEnum'
-        source:
-          $ref: '#/components/schemas/SourceFc1Enum'
-        source_deal_data: {}
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        auto_renew:
-          type: boolean
-        auto_renew_duration:
-          type:
-          - integer
-          - 'null'
-          maximum: 2147483647
-          minimum: -2147483648
-        auto_renew_invoice:
-          type: boolean
-        tag_ids:
-          type: array
-          items:
-            type: integer
-            maximum: 9223372036854775807
-            minimum: -9223372036854775808
-            format: int64
-        tag_group_ids:
-          type: array
-          items:
-            type: integer
-            maximum: 9223372036854775807
-            minimum: -9223372036854775808
-            format: int64
-        minimum_monthly_commitment_amount:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Minimum monthly commitment amount (allowance threshold)
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        minimum_monthly_commitment_quantity:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Minimum monthly commitment quantity (allowance threshold in units)
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        purchase_order_number:
-          type:
-          - string
-          - 'null'
-          maxLength: 120
-        customer:
-          type: integer
-          readOnly: true
-        entity:
-          type:
-          - integer
-          - 'null'
-        client:
-          type:
-          - integer
-          - 'null'
-        department:
-          type:
-          - integer
-          - 'null'
-        journal_entries:
-          type: array
-          items:
-            type: integer
-      required:
-      - attachments
-      - client_name
-      - client_terms
-      - created_at
-      - customer
-      - deleted_at
-      - department_name
-      - effective_end_date
-      - entity_name
-      - evergreen_locked_date
-      - has_credit_memos
-      - has_invoices
-      - has_journal_entries
-      - id
-      - is_deleted
-      - last_modified_at
-      - parent_department
-      - parent_department_name
-      - search_text
-      - search_vector
-      - total_deferred_revenue
-      - total_mrr
-      - total_revenue
-      - working_end_date
-    PricingModelEnum:
-      enum:
-      - unit_based
-      - fixed_fee
-      - percentage_based
-      - graduated_tiered
-      - volume_based
-      type: string
-      description: '* `unit_based` - Unit based pricing
-
-        * `fixed_fee` - Fixed fee pricing
-
-        * `percentage_based` - Percentage based pricing
-
-        * `graduated_tiered` - Graduated tiered pricing
-
-        * `volume_based` - Volume based pricing'
-    ProrationMethodEnum:
-      enum:
-      - standard
-      - thirty_day
-      - daily
-      type: string
-      description: '* `standard` - Standard (actual month length)
-
-        * `thirty_day` - Fixed 30-day month
-
-        * `daily` - Daily'
-    PaginatedProductBundleList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductBundle'
-    TermsEnum:
-      enum:
-      - custom
-      - net_5
-      - net_7
-      - net_10
-      - net_15
-      - net_20
-      - net_30
-      - net_40
-      - net_45
-      - net_60
-      - net_90
-      - net_105
-      - net_120
-      - due_on_receipt
-      type: string
-      description: '* `custom` - Custom
-
-        * `net_5` - Net 5
-
-        * `net_7` - Net 7
-
-        * `net_10` - Net 10
-
-        * `net_15` - Net 15
-
-        * `net_20` - Net 20
-
-        * `net_30` - Net 30
-
-        * `net_40` - Net 40
-
-        * `net_45` - Net 45
-
-        * `net_60` - Net 60
-
-        * `net_90` - Net 90
-
-        * `net_105` - Net 105
-
-        * `net_120` - Net 120
-
-        * `due_on_receipt` - Due on Receipt'
-    PatchedContractProductBundleUpdate:
-      type: object
-      description: Serializer for the allocation update request body.
-      properties:
-        lines:
-          type: array
-          items:
-            $ref: '#/components/schemas/ContractProductBundleLineUpdate'
-    BulkContractSearch:
-      type: object
-      properties:
-        contracts:
-          type: array
-          items:
-            $ref: '#/components/schemas/BulkContract'
-      required:
-      - contracts
-    ContractProductBundleLine:
-      type: object
-      description: Serializer for individual product allocation lines within a ContractProductBundle.
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        product:
-          type: integer
-          readOnly: true
-        product_name:
-          type: string
-          readOnly: true
-        product_id_str:
-          type: string
-          readOnly: true
-        amount:
-          type: number
-          format: double
-          description: Dollar amount allocated to this product
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        percentage:
-          type: string
-          readOnly: true
-          description: Calculated percentage based on amount / total
-        original_percentage:
-          type:
-          - number
-          - 'null'
-          format: double
-          readOnly: true
-          description: Original percentage from source ProductBundle for auditing
-          exclusiveMinimum: -1000
-          exclusiveMaximum: 1000
-        component_type:
-          readOnly: true
-          description: 'Snapshotted from ProductBundleLine.component_type at snapshot time. NULL = legacy single-type bundle.
-
-
-            * `SUBSCRIPTION` - Subscription
-
-            * `MILESTONE` - Milestone
-
-            * `USAGE` - Usage'
-          oneOf:
-          - $ref: '#/components/schemas/ComponentTypeEnum'
-          - $ref: '#/components/schemas/NullEnum'
-      required:
-      - amount
-      - component_type
-      - id
-      - original_percentage
-      - percentage
-      - product
-      - product_id_str
-      - product_name
-    Source3b3Enum:
-      enum:
-      - BILL
-      - BREX
-      - HUBSPOT
-      - MANUAL
-      - PAYROLL
-      - SALESFORCE
-      type: string
-      description: '* `BILL` - Bill
-
-        * `BREX` - Brex
-
-        * `HUBSPOT` - Hubspot
-
-        * `MANUAL` - Manual
-
-        * `PAYROLL` - Payroll
-
-        * `SALESFORCE` - Salesforce'
+      - start_date
     ContractUsage:
       type: object
       properties:
@@ -7422,7 +8312,7 @@ components:
       - product_bundle_name
       - product_name
       - usage_group_name
-    PaginatedContractPrepaidCommitConsumptionList:
+    PaginatedContractUsageList:
       type: object
       required:
       - count
@@ -7446,897 +8336,7 @@ components:
         results:
           type: array
           items:
-            $ref: '#/components/schemas/ContractPrepaidCommitConsumption'
-    ContractSubscription:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-        lines:
-          type: string
-          readOnly: true
-        product_name:
-          type: string
-          readOnly: true
-        product_is_renewable:
-          type:
-          - boolean
-          - 'null'
-          readOnly: true
-        product_bundle:
-          type: string
-          readOnly: true
-        product_bundle_name:
-          type: string
-          readOnly: true
-        contract_product_bundle:
-          allOf:
-          - $ref: '#/components/schemas/ContractProductBundleRead'
-          readOnly: true
-        total_value:
-          type: number
-          format: double
-          readOnly: true
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        rate:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -10000000000000
-          exclusiveMaximum: 10000000000000
-        quantity:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -100000000000000
-          exclusiveMaximum: 100000000000000
-        renewal_behavior:
-          allOf:
-          - $ref: '#/components/schemas/RenewalBehaviorEnum'
-          description: 'Controls how this subscription ends. FOLLOW_CONTRACT extends with the evergreen contract''s rolling end boundary (working_end_date / effective_end_date). FIXED_END keeps an explicit subscription end_date. Default is FIXED_END.
-
-
-            * `FOLLOW_CONTRACT` - Follow Contract
-
-            * `FIXED_END` - Fixed End Date'
-        period_amount:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Evergreen-only input amount per billing period (for example 10000.00 for a quarterly period). Provide this to auto-generate lines for evergreen subscriptions. Ignored for non-evergreen writes.
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        invoiced_amount_migration:
-          type:
-          - number
-          - 'null'
-          format: double
-          writeOnly: true
-          description: 'Migration-only: total amount already invoiced in a prior system. When provided, marks revenue transactions as migration-invoiced up to this amount.'
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        is_contract_amendment:
-          type: boolean
-        start_date:
-          type:
-          - string
-          - 'null'
-          format: date
-        end_date:
-          type:
-          - string
-          - 'null'
-          format: date
-        mrr:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        discount:
-          type:
-          - number
-          - 'null'
-          format: double
-          minimum: 0.0
-          description: Per-unit discount in contract currency. Line amount is Quantity × (Rate − Discount). Null when no discount is configured.
-          exclusiveMaximum: 10000000000000
-        notes:
-          type:
-          - string
-          - 'null'
-        use_daily_accounting:
-          type: boolean
-        proration_method:
-          $ref: '#/components/schemas/ProrationMethodEnum'
-        use_catchup:
-          type: boolean
-        catchup_date:
-          type:
-          - string
-          - 'null'
-          format: date
-        catchup_manually_overridden:
-          type: boolean
-          description: True when a user explicitly set use_catchup or catchup_date via the modal. Suppresses automatic reconciliation by integration syncs so the user's choice survives.
-        invoice_calculation:
-          allOf:
-          - $ref: '#/components/schemas/InvoiceCalculationEnum'
-          description: 'Fixed Rate: rate stays constant, quantity calculated. Fixed Quantity: quantity stays constant (e.g., seats), rate calculated.
-
-
-            * `FIXED_RATE` - Fixed Rate
-
-            * `FIXED_QUANTITY` - Fixed Quantity'
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        source:
-          $ref: '#/components/schemas/SourceFc1Enum'
-        external_id:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        rates_are_net:
-          type: boolean
-          description: When True, this subscription's rate and waterfall amounts already reflect post-discount (net) pricing. Prevents invoice creation from double-counting discounts via a separate Discount RevenueTransaction.
-        customer:
-          type: integer
-          readOnly: true
-        contract:
-          type: integer
-        product:
-          type:
-          - integer
-          - 'null'
-        modified_subscription:
-          type:
-          - integer
-          - 'null'
-      required:
-      - contract
-      - contract_product_bundle
-      - created_at
-      - customer
-      - deleted_at
-      - id
-      - is_deleted
-      - last_modified_at
-      - lines
-      - product_bundle
-      - product_bundle_name
-      - product_is_renewable
-      - product_name
-      - total_value
-    ProductUsageTierSummary:
-      type: object
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
-        pricing_type:
-          type: string
-        from_quantity:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        to_quantity:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        price:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -100000000000000
-          exclusiveMaximum: 100000000000000
-        percentage:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -100000000000000
-          exclusiveMaximum: 100000000000000
-      required:
-      - from_quantity
-      - id
-      - name
-      - percentage
-      - price
-      - pricing_type
-      - to_quantity
-    ContractPrepaidCommitStatusEnum:
-      enum:
-      - ACTIVE
-      - EXHAUSTED
-      - EXPIRED
-      type: string
-      description: '* `ACTIVE` - Active
-
-        * `EXHAUSTED` - Exhausted
-
-        * `EXPIRED` - Expired'
-    Product:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-        department_name:
-          type: string
-          readOnly: true
-        invoice_account_name:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        revenue_account_name:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        ar_account_name:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        bad_debt_account_name:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        invoice_unbilled_account_name:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        tax_account_name:
-          type: string
-          readOnly: true
-        tags:
-          type: array
-          items:
-            type: object
-            additionalProperties: {}
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        product_uuid:
-          type: string
-          format: uuid
-          readOnly: true
-        display_name:
-          type: string
-          readOnly: true
-        usage_group_count:
-          type: integer
-          readOnly: true
-          default: 0
-        usage_groups:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductUsageGroupSummary'
-          readOnly: true
-        product_id:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        product_name:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        product_description:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        tag_ids:
-          type: array
-          items:
-            type: integer
-            maximum: 9223372036854775807
-            minimum: -9223372036854775808
-            format: int64
-        tag_group_ids:
-          type: array
-          items:
-            type: integer
-            maximum: 9223372036854775807
-            minimum: -9223372036854775808
-            format: int64
-        currency:
-          type:
-          - string
-          - 'null'
-          maxLength: 3
-        price:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -100000000000000
-          exclusiveMaximum: 100000000000000
-        cost:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        exclude_from_mrr:
-          type: boolean
-        is_taxable:
-          type: boolean
-        is_renewable:
-          type: boolean
-        recognize_revenue:
-          type: boolean
-          description: If False, contract-sync skips the revenue-recognition waterfall for this product (no ContractSubscription / RevenueTransaction rows).
-        is_immediate_recognition:
-          type: boolean
-          description: When true, revenue for this product is recognized in full on the invoice finalization date instead of being amortized over the service period.  Used by the Stripe accrual JE waterfall.
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        stripe_product_id:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        avalara_item_id:
-          type:
-          - integer
-          - 'null'
-          maximum: 9223372036854775807
-          minimum: -9223372036854775808
-          format: int64
-        avalara_item_data: {}
-        avalara_tax_code:
-          type:
-          - string
-          - 'null'
-          description: Avalara tax code (e.g., SW052000 for SAAS)
-          maxLength: 50
-        anrok_item_id:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        sphere_item_id:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        apply_dept_tag_to_invoice_journals:
-          type:
-          - boolean
-          - 'null'
-          description: Apply Department and Tag categorization to all lines on Invoice Journals
-        customer:
-          type: integer
-          readOnly: true
-        department:
-          type:
-          - integer
-          - 'null'
-        invoice_account:
-          type:
-          - integer
-          - 'null'
-        revenue_account:
-          type:
-          - integer
-          - 'null'
-        ar_account:
-          type:
-          - integer
-          - 'null'
-        bad_debt_account:
-          type:
-          - integer
-          - 'null'
-        invoice_unbilled_account:
-          type:
-          - integer
-          - 'null'
-      required:
-      - ar_account_name
-      - bad_debt_account_name
-      - created_at
-      - customer
-      - deleted_at
-      - department_name
-      - display_name
-      - id
-      - invoice_account_name
-      - invoice_unbilled_account_name
-      - is_deleted
-      - last_modified_at
-      - product_uuid
-      - revenue_account_name
-      - tags
-      - tax_account_name
-      - usage_group_count
-      - usage_groups
-    PatchedContract:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        entity_name:
-          type: string
-          readOnly: true
-        client_name:
-          type: string
-          readOnly: true
-        client_terms:
-          type: string
-          readOnly: true
-        department_name:
-          type: string
-          readOnly: true
-        parent_department_name:
-          type: string
-          readOnly: true
-        parent_department:
-          type: integer
-          readOnly: true
-        tags:
-          type: string
-        total_revenue:
-          type: number
-          format: double
-          readOnly: true
-          exclusiveMinimum: -10000000000000
-          exclusiveMaximum: 10000000000000
-        total_mrr:
-          type: number
-          format: double
-          readOnly: true
-          exclusiveMinimum: -10000000000000
-          exclusiveMaximum: 10000000000000
-        total_deferred_revenue:
-          type: number
-          format: double
-          readOnly: true
-          exclusiveMinimum: -10000000000000
-          exclusiveMaximum: 10000000000000
-        currency:
-          type: string
-          default: USD
-        entity_currency:
-          type: string
-          default: USD
-        attachments:
-          type: array
-          items:
-            $ref: '#/components/schemas/File'
-          readOnly: true
-        prepaid_commits:
-          type: array
-          items:
-            $ref: '#/components/schemas/NestedContractPrepaidCommit'
-          writeOnly: true
-        contract_end_date:
-          type:
-          - string
-          - 'null'
-          format: date
-          description: Fixed end date for standard contracts. Leave null for evergreen contracts (is_evergreen=true).
-        is_evergreen:
-          type: boolean
-          default: false
-          description: Set true for evergreen contracts (no fixed end date). Evergreen contracts cannot also be auto-renew. Auto-renew is a legacy method to extend contracts.
-        auto_send_invoices:
-          type: boolean
-          default: false
-          description: When true, generated invoices are automatically sent on their invoice date.
-        skip_evergreen_invoice_generation:
-          type: boolean
-          default: false
-          description: For Evergreen contracts only. Set at contract creation; existing contracts cannot change this setting. False means current behavior. True skips only Campfire's auto-generated evergreen invoices; revenue transactions still generate; existing invoices are not cleaned up.
-        auto_apply_customer_stripe_config_to_invoices:
-          type: boolean
-          default: false
-          description: Evergreen contracts only. When true, evergreen-generated invoices inherit stripe_connection and use_stripe_auto_bill from the contract customer.
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        is_deleted:
-          type: string
-          readOnly: true
-        deleted_at:
-          type: string
-          readOnly: true
-        usage_tiers:
-          type: string
-        has_invoices:
-          type: boolean
-          readOnly: true
-          default: false
-        has_journal_entries:
-          type: boolean
-          readOnly: true
-          default: false
-        has_credit_memos:
-          type: boolean
-          readOnly: true
-          default: false
-        effective_end_date:
-          type: string
-          format: date
-          readOnly: true
-          description: Rolling horizon end date for active evergreen contracts. It will be auto-generated by Campfire backend. Null for standard contracts.
-        working_end_date:
-          type: string
-          format: date
-          readOnly: true
-          description: Canonical end date used by the system. Equals contract_end_date for standard or terminated contracts, and effective_end_date for active evergreen contracts.
-        evergreen_locked_date:
-          type:
-          - string
-          - 'null'
-          format: date
-          readOnly: true
-          description: Inclusive lock date for evergreen contracts based on paid invoices and close books date. Dates on or before this value are immutable. Null for non-evergreen contracts, or when no financial locking events exist.
-        search_vector:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        search_text:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        billing_frequency:
-          $ref: '#/components/schemas/BillingFrequencyEnum'
-        deal_name:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        deal_id:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        consultant:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        closed_date:
-          type:
-          - string
-          - 'null'
-          format: date
-        total_contract_value:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        contract_start_date:
-          type:
-          - string
-          - 'null'
-          format: date
-        exchange_rate:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -100000000000000
-          exclusiveMaximum: 100000000000000
-        exchange_rate_book:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -100000000000000
-          exclusiveMaximum: 100000000000000
-        crm_link:
-          type:
-          - string
-          - 'null'
-          maxLength: 500
-        contract_link:
-          type:
-          - string
-          - 'null'
-          maxLength: 500
-        status:
-          $ref: '#/components/schemas/ContractStatusEnum'
-        source:
-          $ref: '#/components/schemas/SourceFc1Enum'
-        source_deal_data: {}
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        auto_renew:
-          type: boolean
-        auto_renew_duration:
-          type:
-          - integer
-          - 'null'
-          maximum: 2147483647
-          minimum: -2147483648
-        auto_renew_invoice:
-          type: boolean
-        tag_ids:
-          type: array
-          items:
-            type: integer
-            maximum: 9223372036854775807
-            minimum: -9223372036854775808
-            format: int64
-        tag_group_ids:
-          type: array
-          items:
-            type: integer
-            maximum: 9223372036854775807
-            minimum: -9223372036854775808
-            format: int64
-        minimum_monthly_commitment_amount:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Minimum monthly commitment amount (allowance threshold)
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        minimum_monthly_commitment_quantity:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Minimum monthly commitment quantity (allowance threshold in units)
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        purchase_order_number:
-          type:
-          - string
-          - 'null'
-          maxLength: 120
-        customer:
-          type: integer
-          readOnly: true
-        entity:
-          type:
-          - integer
-          - 'null'
-        client:
-          type:
-          - integer
-          - 'null'
-        department:
-          type:
-          - integer
-          - 'null'
-        journal_entries:
-          type: array
-          items:
-            type: integer
-    Status372Enum:
-      enum:
-      - ACTIVE
-      - INACTIVE
-      type: string
-      description: '* `ACTIVE` - Active
-
-        * `INACTIVE` - Inactive'
-    SourceFc1Enum:
-      enum:
-      - SALESFORCE
-      - HUBSPOT
-      - STRIPE
-      - MANUAL
-      type: string
-      description: '* `SALESFORCE` - Salesforce
-
-        * `HUBSPOT` - Hubspot
-
-        * `STRIPE` - Stripe
-
-        * `MANUAL` - Manual'
-    ContractPrepaidCommitConsumption:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        prepaid_commit:
-          type: integer
-          readOnly: true
-        entity:
-          type:
-          - integer
-          - 'null'
-          readOnly: true
-        period_start:
-          type: string
-          format: date
-        period_end:
-          type: string
-          format: date
-          readOnly: true
-        description:
-          type:
-          - string
-          - 'null'
-        currency:
-          type: string
-          readOnly: true
-        gross_usage_amount:
-          type: number
-          format: double
-          description: Pre-discount total from source data
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        discount_amount:
-          type: number
-          format: double
-          readOnly: true
-          description: gross_usage_amount * discount_percentage / 100
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        net_consumption_amount:
-          type: number
-          format: double
-          readOnly: true
-          description: Pool drawdown amount (gross - discount)
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        overage_amount:
-          type: number
-          format: double
-          readOnly: true
-          description: Amount beyond pool at full rate
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        total_events:
-          type: integer
-          maximum: 2147483647
-          minimum: -2147483648
-        balance_before:
-          type: number
-          format: double
-          readOnly: true
-          description: Pool balance before this period
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        balance_after:
-          type: number
-          format: double
-          readOnly: true
-          description: Pool balance after this period
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        revenue_transaction:
-          type:
-          - integer
-          - 'null'
-          readOnly: true
-          description: Recognized revenue for included (prepaid) portion
-        overage_revenue_transaction:
-          type:
-          - integer
-          - 'null'
-          readOnly: true
-          description: Recognized revenue for overage portion
-        adjustments:
-          type: array
-          items:
-            type: object
-            additionalProperties: {}
-          description: Return adjustments recorded during this period, grouped by original period with gross/discount/net/overage split.
-          readOnly: true
-        created_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-        last_modified_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-      required:
-      - adjustments
-      - balance_after
-      - balance_before
-      - created_at
-      - currency
-      - discount_amount
-      - entity
-      - gross_usage_amount
-      - id
-      - last_modified_at
-      - net_consumption_amount
-      - overage_amount
-      - overage_revenue_transaction
-      - period_end
-      - period_start
-      - prepaid_commit
-      - revenue_transaction
-    OverageInvoiceCadenceEnum:
-      enum:
-      - monthly
-      - quarterly
-      - biannual
-      - annual
-      - one_time
-      - custom
-      type: string
-      description: '* `monthly` - Monthly
-
-        * `quarterly` - Quarterly
-
-        * `biannual` - Bi Annualy
-
-        * `annual` - Annual
-
-        * `one_time` - One Time
-
-        * `custom` - Custom'
-    InvoiceCalculationEnum:
-      enum:
-      - FIXED_RATE
-      - FIXED_QUANTITY
-      type: string
-      description: '* `FIXED_RATE` - Fixed Rate
-
-        * `FIXED_QUANTITY` - Fixed Quantity'
+            $ref: '#/components/schemas/ContractUsage'
   securitySchemes:
     knoxApiToken:
       type: apiKey

@@ -740,553 +740,6 @@ paths:
           description: ''
 components:
   schemas:
-    CustomerCurrency:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-        currency:
-          type: string
-          default: USD
-          maxLength: 3
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-      required:
-      - created_at
-      - customer
-      - deleted_at
-      - id
-      - is_deleted
-      - last_modified_at
-      - name
-    PatchedFile:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        created_by:
-          type:
-          - integer
-          - 'null'
-          readOnly: true
-        created_by_name:
-          type: string
-          readOnly: true
-        created_by_email:
-          type: string
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        name:
-          type: string
-        url:
-          type: string
-          readOnly: true
-        s3_content_type:
-          type:
-          - string
-          - 'null'
-        s3_content_length:
-          type:
-          - integer
-          - 'null'
-          maximum: 2147483647
-          minimum: 0
-        s3_path:
-          type: string
-        object_id:
-          type:
-          - integer
-          - 'null'
-          maximum: 2147483647
-          minimum: 0
-        app:
-          type: string
-          readOnly: true
-        model:
-          type: string
-          readOnly: true
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-    PatchedChartEntity:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-        parent:
-          type:
-          - integer
-          - 'null'
-        parent_name:
-          type: string
-          readOnly: true
-        elimination_entity:
-          type:
-          - integer
-          - 'null'
-        primary_entity:
-          type:
-          - integer
-          - 'null'
-          description: When set, this entity is an adjusting entity linked to the specified primary entity.
-        primary_entity_name:
-          type: string
-          readOnly: true
-        is_adjusting:
-          type: boolean
-          readOnly: true
-        is_elimination_entity:
-          type: boolean
-          default: false
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        description:
-          type:
-          - string
-          - 'null'
-        currency:
-          type: string
-          maxLength: 3
-        address_1:
-          type:
-          - string
-          - 'null'
-          title: Address Line 1
-          maxLength: 120
-        address_2:
-          type:
-          - string
-          - 'null'
-          title: Address Line 2
-          maxLength: 120
-        city:
-          type:
-          - string
-          - 'null'
-          maxLength: 120
-        state:
-          type:
-          - string
-          - 'null'
-          maxLength: 120
-        zip_code:
-          type:
-          - string
-          - 'null'
-          maxLength: 120
-        country:
-          type:
-          - string
-          - 'null'
-          maxLength: 120
-        disable_service_date:
-          type: boolean
-          description: When enabled, the Service Date field will be hidden on invoices for this entity
-        logo_url:
-          type:
-          - string
-          - 'null'
-          format: uri
-          maxLength: 500
-        active:
-          type: boolean
-        fiscal_year_month:
-          type: integer
-          maximum: 2147483647
-          minimum: -2147483648
-        fiscal_year_day:
-          type: integer
-          maximum: 2147483647
-          minimum: -2147483648
-        created_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-        enable_mid_month_convention:
-          type:
-          - boolean
-          - 'null'
-          title: Enable Mid-Month Convention (Override)
-          description: Override customer-level mid-month convention setting for this entity. Leave blank to inherit from customer.
-        mid_month_threshold:
-          type:
-          - integer
-          - 'null'
-          maximum: 31
-          minimum: 0
-          title: Mid-Month Threshold (Override)
-          description: Override customer-level threshold. Leave blank to inherit from customer.
-        use_whole_month_accounting_for_prepaids:
-          type:
-          - boolean
-          - 'null'
-          title: Use Whole-Month Accounting for Prepaids (Override)
-          description: Override customer-level whole-month accounting setting for this entity. Leave blank to inherit from customer.
-        allow_payments_in_closed_periods:
-          type: boolean
-          description: When enabled, allows applying existing transactions as payments to invoices/bills even when the transaction date falls in a closed subledger period.
-        auto_apply_catchup_for_closed_periods:
-          type: boolean
-          title: Auto-Apply Catch-Up Revenue for Closed Periods
-          description: When enabled, contracts signed after their revenue start month automatically catch up the elapsed revenue into the sign month, floored at the first open period under the close so it never posts to a closed period. Defaults off — flip in entity settings to opt in.
-        lineage_array:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-            maxLength: 50
-          description: Pre-computed lineage array from root to this entity
-        tax_identification_number:
-          type:
-          - string
-          - 'null'
-          description: Tax ID such as Korean BRN, GST number, or EU VAT number
-          maxLength: 250
-        representative_name:
-          type:
-          - string
-          - 'null'
-          description: Legal representative name
-          maxLength: 250
-        business_type:
-          type:
-          - string
-          - 'null'
-          description: Business type classification
-          maxLength: 250
-        business_category:
-          type:
-          - string
-          - 'null'
-          description: Business category classification
-          maxLength: 250
-        invoice_name:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        invoice_email:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        invoice_message:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        invoice_email_subject:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        invoice_email_body:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        invoice_prefix:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        invoice_address:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        invoice_cc_emails:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        invoice_display_settings:
-          type:
-          - object
-          - 'null'
-          additionalProperties: {}
-          readOnly: true
-        invoice_email_attachments:
-          type:
-          - object
-          - 'null'
-          additionalProperties: {}
-          readOnly: true
-        withholding_scheme:
-          type:
-          - integer
-          - 'null'
-          description: Withholding tax regime this entity operates under (e.g. Israel NB, India TDS). A bill resolves its scheme via bill.entity.withholding_scheme.
-        withholding_scheme_name:
-          type: string
-          readOnly: true
-        withholding_certificate:
-          type:
-          - integer
-          - 'null'
-          description: 'This entity''s own authority-issued certificate (AR side): determines the expected rate customers withhold when paying our invoices under a certificate-based scheme.'
-        withholding_certificate_number:
-          type: string
-          readOnly: true
-    PaginatedFileList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/File'
-    PatchedCustomerCurrency:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-        currency:
-          type: string
-          default: USD
-          maxLength: 3
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-    ChartEntityMinimal:
-      type: object
-      description: 'Minimal entity serializer for intercompany operations.
-
-
-        Only exposes id, name, and currency - the minimum needed for
-
-        entity selection in intercompany journal entries. This prevents
-
-        data leakage of sensitive entity details (addresses, emails, etc.)
-
-        to users who may not have full access to all entities.'
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        currency:
-          type: string
-          readOnly: true
-      required:
-      - currency
-      - id
-      - name
-    File:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        created_by:
-          type:
-          - integer
-          - 'null'
-          readOnly: true
-        created_by_name:
-          type: string
-          readOnly: true
-        created_by_email:
-          type: string
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        name:
-          type: string
-        url:
-          type: string
-          readOnly: true
-        s3_content_type:
-          type:
-          - string
-          - 'null'
-        s3_content_length:
-          type:
-          - integer
-          - 'null'
-          maximum: 2147483647
-          minimum: 0
-        s3_path:
-          type: string
-        object_id:
-          type:
-          - integer
-          - 'null'
-          maximum: 2147483647
-          minimum: 0
-        app:
-          type: string
-          readOnly: true
-        model:
-          type: string
-          readOnly: true
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-      required:
-      - app
-      - created_at
-      - created_by
-      - created_by_email
-      - created_by_name
-      - customer
-      - deleted_at
-      - id
-      - is_deleted
-      - last_modified_at
-      - model
-      - name
-      - s3_path
-      - url
-    PaginatedCustomerCurrencyList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/CustomerCurrency'
     ChartAccountSettings:
       type: object
       properties:
@@ -2029,6 +1482,553 @@ components:
           - integer
           - 'null'
           description: Account credited when a dispute is reinstated (won). Falls back to dispute_expense_account if not set.
+    ChartEntityMinimal:
+      type: object
+      description: 'Minimal entity serializer for intercompany operations.
+
+
+        Only exposes id, name, and currency - the minimum needed for
+
+        entity selection in intercompany journal entries. This prevents
+
+        data leakage of sensitive entity details (addresses, emails, etc.)
+
+        to users who may not have full access to all entities.'
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        currency:
+          type: string
+          readOnly: true
+      required:
+      - currency
+      - id
+      - name
+    CustomerCurrency:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        currency:
+          type: string
+          default: USD
+          maxLength: 3
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+      required:
+      - created_at
+      - customer
+      - deleted_at
+      - id
+      - is_deleted
+      - last_modified_at
+      - name
+    PatchedChartEntity:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        parent:
+          type:
+          - integer
+          - 'null'
+        parent_name:
+          type: string
+          readOnly: true
+        elimination_entity:
+          type:
+          - integer
+          - 'null'
+        primary_entity:
+          type:
+          - integer
+          - 'null'
+          description: When set, this entity is an adjusting entity linked to the specified primary entity.
+        primary_entity_name:
+          type: string
+          readOnly: true
+        is_adjusting:
+          type: boolean
+          readOnly: true
+        is_elimination_entity:
+          type: boolean
+          default: false
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        description:
+          type:
+          - string
+          - 'null'
+        currency:
+          type: string
+          maxLength: 3
+        address_1:
+          type:
+          - string
+          - 'null'
+          title: Address Line 1
+          maxLength: 120
+        address_2:
+          type:
+          - string
+          - 'null'
+          title: Address Line 2
+          maxLength: 120
+        city:
+          type:
+          - string
+          - 'null'
+          maxLength: 120
+        state:
+          type:
+          - string
+          - 'null'
+          maxLength: 120
+        zip_code:
+          type:
+          - string
+          - 'null'
+          maxLength: 120
+        country:
+          type:
+          - string
+          - 'null'
+          maxLength: 120
+        disable_service_date:
+          type: boolean
+          description: When enabled, the Service Date field will be hidden on invoices for this entity
+        logo_url:
+          type:
+          - string
+          - 'null'
+          format: uri
+          maxLength: 500
+        active:
+          type: boolean
+        fiscal_year_month:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        fiscal_year_day:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        created_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        enable_mid_month_convention:
+          type:
+          - boolean
+          - 'null'
+          title: Enable Mid-Month Convention (Override)
+          description: Override customer-level mid-month convention setting for this entity. Leave blank to inherit from customer.
+        mid_month_threshold:
+          type:
+          - integer
+          - 'null'
+          maximum: 31
+          minimum: 0
+          title: Mid-Month Threshold (Override)
+          description: Override customer-level threshold. Leave blank to inherit from customer.
+        use_whole_month_accounting_for_prepaids:
+          type:
+          - boolean
+          - 'null'
+          title: Use Whole-Month Accounting for Prepaids (Override)
+          description: Override customer-level whole-month accounting setting for this entity. Leave blank to inherit from customer.
+        allow_payments_in_closed_periods:
+          type: boolean
+          description: When enabled, allows applying existing transactions as payments to invoices/bills even when the transaction date falls in a closed subledger period.
+        auto_apply_catchup_for_closed_periods:
+          type: boolean
+          title: Auto-Apply Catch-Up Revenue for Closed Periods
+          description: When enabled, contracts signed after their revenue start month automatically catch up the elapsed revenue into the sign month, floored at the first open period under the close so it never posts to a closed period. Defaults off — flip in entity settings to opt in.
+        lineage_array:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            maxLength: 50
+          description: Pre-computed lineage array from root to this entity
+        tax_identification_number:
+          type:
+          - string
+          - 'null'
+          description: Tax ID such as Korean BRN, GST number, or EU VAT number
+          maxLength: 250
+        representative_name:
+          type:
+          - string
+          - 'null'
+          description: Legal representative name
+          maxLength: 250
+        business_type:
+          type:
+          - string
+          - 'null'
+          description: Business type classification
+          maxLength: 250
+        business_category:
+          type:
+          - string
+          - 'null'
+          description: Business category classification
+          maxLength: 250
+        invoice_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        invoice_email:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        invoice_message:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        invoice_email_subject:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        invoice_email_body:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        invoice_prefix:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        invoice_address:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        invoice_cc_emails:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        invoice_display_settings:
+          type:
+          - object
+          - 'null'
+          additionalProperties: {}
+          readOnly: true
+        invoice_email_attachments:
+          type:
+          - object
+          - 'null'
+          additionalProperties: {}
+          readOnly: true
+        withholding_scheme:
+          type:
+          - integer
+          - 'null'
+          description: Withholding tax regime this entity operates under (e.g. Israel NB, India TDS). A bill resolves its scheme via bill.entity.withholding_scheme.
+        withholding_scheme_name:
+          type: string
+          readOnly: true
+        withholding_certificate:
+          type:
+          - integer
+          - 'null'
+          description: 'This entity''s own authority-issued certificate (AR side): determines the expected rate customers withhold when paying our invoices under a certificate-based scheme.'
+        withholding_certificate_number:
+          type: string
+          readOnly: true
+    PaginatedCustomerCurrencyList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerCurrency'
+    PatchedFile:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+        created_by_name:
+          type: string
+          readOnly: true
+        created_by_email:
+          type: string
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        name:
+          type: string
+        url:
+          type: string
+          readOnly: true
+        s3_content_type:
+          type:
+          - string
+          - 'null'
+        s3_content_length:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: 0
+        s3_path:
+          type: string
+        object_id:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: 0
+        app:
+          type: string
+          readOnly: true
+        model:
+          type: string
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+    File:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+        created_by_name:
+          type: string
+          readOnly: true
+        created_by_email:
+          type: string
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        name:
+          type: string
+        url:
+          type: string
+          readOnly: true
+        s3_content_type:
+          type:
+          - string
+          - 'null'
+        s3_content_length:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: 0
+        s3_path:
+          type: string
+        object_id:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: 0
+        app:
+          type: string
+          readOnly: true
+        model:
+          type: string
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+      required:
+      - app
+      - created_at
+      - created_by
+      - created_by_email
+      - created_by_name
+      - customer
+      - deleted_at
+      - id
+      - is_deleted
+      - last_modified_at
+      - model
+      - name
+      - s3_path
+      - url
+    PatchedCustomerCurrency:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        currency:
+          type: string
+          default: USD
+          maxLength: 3
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+    PaginatedFileList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/File'
   securitySchemes:
     knoxApiToken:
       type: apiKey
