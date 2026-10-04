@@ -224,6 +224,9 @@ apis:
   - type: Webhooks
     url: asyncapi/campfire-webhooks.yml
 common:
+- type: CapabilityMap
+  url: capabilities/campfire-capability-edges.yml
+  name: Campfire Business Capability Map
 - type: Website
   url: https://www.campfire.ai/
 - type: Overlay

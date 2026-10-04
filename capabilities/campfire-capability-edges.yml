@@ -1,0 +1,75 @@
+slug: campfire
+provider: Campfire
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 6
+edges:
+- tag: Accounts Payable
+  spec_file: campfire-accounts-payable-api-openapi.yml
+  capability_id: BC-200.20
+  capability_id_l1: BC-200
+  capability_name: Accounts Payable Management
+  confidence: 0.95
+  evidence: '"POST /coa/api/v1/bill/ Create Accounting Bill", "GET /coa/api/v1/bill-payments List Bill
+    Payments", schema "BillPaymentSync"'
+  reason: Operations create and process vendor bills, bill drafts, debit memos and bill payments — classic
+    invoice processing and payment to vendors, i.e. Accounts Payable Management.
+- tag: Accounts Receivable
+  spec_file: campfire-accounts-receivable-api-openapi.yml
+  capability_id: BC-200.30
+  capability_id_l1: BC-200
+  capability_name: Accounts Receivable Management
+  confidence: 0.95
+  evidence: '"List Credit Memos", "Mark Credit Memo as Used", schemas "AccountingInvoice", "PaginatedAccountingInvoiceListList",
+    "MarkInvoicePaidAutoCreatedCreditMemo"'
+  reason: Customer invoices, credit memos and payment application against them are Accounts Receivable
+    Management operations.
+- tag: Financial Statements
+  spec_file: campfire-financial-statements-api-openapi.yml
+  capability_id: BC-200.60
+  capability_id_l1: BC-200
+  capability_name: Financial Reporting Management
+  confidence: 0.9
+  evidence: '"Get Balance Sheet", "Get Income Statement", "Get Cash Flow Statement", "Get Trial Balance"'
+  reason: Produces the standard financial statements and trial balance — financial reporting delivery.
+- tag: Core Accounting
+  spec_file: campfire-core-accounting-api-openapi.yml
+  capability_id: BC-200
+  capability_id_l1: BC-200
+  capability_name: Financial Management
+  confidence: 0.85
+  evidence: schemas "JournalEntry", "PatchedIntercompanyJournalEntry", "FixedAssetDisposal", "ChartTransaction";
+    "POST /coa/api/budgets Create Budget"
+  reason: Clearly core accounting (journal entries, intercompany entries, fixed asset disposal, budgets);
+    spans several sub-capabilities so only the L1 Financial Management is asserted.
+- tag: Bank Reconciliation
+  spec_file: campfire-bank-reconciliation-api-openapi.yml
+  capability_id: BC-200.10
+  capability_id_l1: BC-200
+  capability_name: General Ledger Management
+  confidence: 0.7
+  evidence: '"Bulk Match GL Transactions to Statement Transactions", "List GL Transactions for Reconciliation",
+    "Parse Bank Statement Page"'
+  reason: Matching general-ledger transactions to bank statement lines is part of record-to-report ledger
+    control and period close; sits under Financial Management / General Ledger Management rather than
+    treasury cash positioning.
+- tag: Revenue Recognition
+  spec_file: campfire-revenue-recognition-api-openapi.yml
+  capability_id: BC-4250.50
+  capability_id_l1: BC-4250
+  capability_name: Subscription Revenue Recognition
+  confidence: 0.7
+  evidence: '"List Contracts", "Create Contract Milestone", "Get Bundle Allocations", schemas "RevenueTransaction",
+    "ContractSubscription", "PrepaidUsageEvent"'
+  reason: Contract-based revenue allocation across bundles and milestones with revenue transactions is
+    ASC 606-style revenue recognition over subscription contracts; could alternatively be framed as general
+    financial reporting.
