@@ -961,31 +961,6 @@ paths:
           description: No response body
 components:
   schemas:
-    TrialBalanceAccountBalance:
-      type: object
-      properties:
-        debits:
-          type: number
-          format: double
-          exclusiveMinimum: -10000000000000
-          exclusiveMaximum: 10000000000000
-        credits:
-          type: number
-          format: double
-          exclusiveMinimum: -10000000000000
-          exclusiveMaximum: 10000000000000
-      required:
-      - credits
-      - debits
-    TrialBalanceData:
-      type: object
-      properties:
-        accounts:
-          type: array
-          items:
-            $ref: '#/components/schemas/TrialBalanceAccount'
-      required:
-      - accounts
     TrialBalanceAccount:
       type: object
       properties:
@@ -1035,6 +1010,31 @@ components:
       - income_statement_start
       - start_date
       - trial_balance
+    TrialBalanceAccountBalance:
+      type: object
+      properties:
+        debits:
+          type: number
+          format: double
+          exclusiveMinimum: -10000000000000
+          exclusiveMaximum: 10000000000000
+        credits:
+          type: number
+          format: double
+          exclusiveMinimum: -10000000000000
+          exclusiveMaximum: 10000000000000
+      required:
+      - credits
+      - debits
+    TrialBalanceData:
+      type: object
+      properties:
+        accounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/TrialBalanceAccount'
+      required:
+      - accounts
   securitySchemes:
     knoxApiToken:
       type: apiKey

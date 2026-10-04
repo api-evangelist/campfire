@@ -497,7 +497,33 @@ paths:
           description: No response body
 components:
   schemas:
-    PaginatedBankTransactionList:
+    BankFeed:
+      type: object
+      properties:
+        balance:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        available_balance:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        balance_as_of_date:
+          type: string
+          format: date
+        transactions:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+      required:
+      - available_balance
+      - balance
+      - balance_as_of_date
+      - transactions
+    PaginatedBankAccountList:
       type: object
       required:
       - count
@@ -521,168 +547,7 @@ components:
         results:
           type: array
           items:
-            $ref: '#/components/schemas/BankTransaction'
-    PatchedBankTransaction:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-        account_name:
-          type: string
-          readOnly: true
-        entity_name:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        date_month:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        date_year:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        journal:
-          type:
-          - integer
-          - 'null'
-          readOnly: true
-        journal_order:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        intercompany_journal:
-          type:
-          - integer
-          - 'null'
-          readOnly: true
-        reconciliation_report:
-          type: integer
-          readOnly: true
-        reconciliation_report_ending_date:
-          type: string
-          format: date
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        transaction_id:
-          type: string
-          format: uuid
-        external_transaction_id:
-          type:
-          - string
-          - 'null'
-          maxLength: 200
-        currency:
-          type: string
-          maxLength: 3
-        amount:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        amount_native:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        posted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        status:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        note:
-          type:
-          - string
-          - 'null'
-          maxLength: 1024
-        bank_description:
-          type:
-          - string
-          - 'null'
-        external_memo:
-          type:
-          - string
-          - 'null'
-        merchant_id:
-          type:
-          - string
-          - 'null'
-        merchant_name:
-          type:
-          - string
-          - 'null'
-        merchant_nickname:
-          type:
-          - string
-          - 'null'
-        kind:
-          type:
-          - string
-          - 'null'
-        excluded:
-          type: boolean
-        assigned:
-          type: boolean
-        metadata: {}
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-        account:
-          type: integer
-    NullEnum:
-      enum:
-      - null
-    BankAccountTypeEnum:
-      enum:
-      - CHECKING
-      - SAVING
-      - CREDIT_CARD
-      - DEBIT_CARD
-      - INVESTMENT
-      - LOAN
-      type: string
-      description: '* `CHECKING` - Checking
-
-        * `SAVING` - Savings
-
-        * `CREDIT_CARD` - Credit Card
-
-        * `DEBIT_CARD` - Debit Card
-
-        * `INVESTMENT` - Investment
-
-        * `LOAN` - Loan'
+            $ref: '#/components/schemas/BankAccount'
     BankTransaction:
       type: object
       properties:
@@ -838,6 +703,164 @@ components:
       - last_modified_at
       - reconciliation_report
       - reconciliation_report_ending_date
+    PatchedBankTransaction:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        account_name:
+          type: string
+          readOnly: true
+        entity_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        date_month:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        date_year:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        journal:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+        journal_order:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        intercompany_journal:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+        reconciliation_report:
+          type: integer
+          readOnly: true
+        reconciliation_report_ending_date:
+          type: string
+          format: date
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        transaction_id:
+          type: string
+          format: uuid
+        external_transaction_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 200
+        currency:
+          type: string
+          maxLength: 3
+        amount:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        amount_native:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        posted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        status:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        note:
+          type:
+          - string
+          - 'null'
+          maxLength: 1024
+        bank_description:
+          type:
+          - string
+          - 'null'
+        external_memo:
+          type:
+          - string
+          - 'null'
+        merchant_id:
+          type:
+          - string
+          - 'null'
+        merchant_name:
+          type:
+          - string
+          - 'null'
+        merchant_nickname:
+          type:
+          - string
+          - 'null'
+        kind:
+          type:
+          - string
+          - 'null'
+        excluded:
+          type: boolean
+        assigned:
+          type: boolean
+        metadata: {}
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        account:
+          type: integer
+    BankAccountTypeEnum:
+      enum:
+      - CHECKING
+      - SAVING
+      - CREDIT_CARD
+      - DEBIT_CARD
+      - INVESTMENT
+      - LOAN
+      type: string
+      description: '* `CHECKING` - Checking
+
+        * `SAVING` - Savings
+
+        * `CREDIT_CARD` - Credit Card
+
+        * `DEBIT_CARD` - Debit Card
+
+        * `INVESTMENT` - Investment
+
+        * `LOAN` - Loan'
     BankAccount:
       type: object
       properties:
@@ -1008,57 +1031,12 @@ components:
       - subtype_name
       - tags
       - type_name
-    BankFeed:
-      type: object
-      properties:
-        balance:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        available_balance:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        balance_as_of_date:
-          type: string
-          format: date
-        transactions:
-          type: array
-          items:
-            type: object
-            additionalProperties: {}
-      required:
-      - available_balance
-      - balance
-      - balance_as_of_date
-      - transactions
-    PaginatedBankAccountList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/BankAccount'
+    BlankEnum:
+      enum:
+      - ''
+    NullEnum:
+      enum:
+      - null
     PatchedBankAccount:
       type: object
       properties:
@@ -1210,9 +1188,31 @@ components:
           items:
             type: integer
           readOnly: true
-    BlankEnum:
-      enum:
-      - ''
+    PaginatedBankTransactionList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/BankTransaction'
   securitySchemes:
     knoxApiToken:
       type: apiKey

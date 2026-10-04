@@ -2209,346 +2209,49 @@ paths:
           description: No response body
 components:
   schemas:
-    BillPaymentSync:
+    BillDraftWrite:
       type: object
+      description: Editable subset used during review (PATCH).
       properties:
-        id:
-          type: integer
-          readOnly: true
-        bill_id:
-          type: integer
-          readOnly: true
-        bill_number:
-          type: string
-          readOnly: true
-        amount:
-          type: number
-          format: double
-          readOnly: true
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        currency:
-          type: string
-          readOnly: true
-        payment_date:
+        entity:
+          type:
+          - integer
+          - 'null'
+        extracted_vendor_name:
+          type:
+          - string
+          - 'null'
+        extracted_bill_number:
+          type:
+          - string
+          - 'null'
+        extracted_bill_date:
           type:
           - string
           - 'null'
           format: date
-          readOnly: true
-        source:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        source_id:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        voided_date:
+        extracted_due_date:
           type:
           - string
           - 'null'
           format: date
-          readOnly: true
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-      required:
-      - amount
-      - bill_id
-      - bill_number
-      - created_at
-      - currency
-      - id
-      - last_modified_at
-      - payment_date
-      - source
-      - source_id
-      - voided_date
-    BulkDebitMemo:
-      type: object
-      properties:
-        debit_memo_number:
-          type: string
-      required:
-      - debit_memo_number
-    NullEnum:
-      enum:
-      - null
-    BillTypeEnum:
-      enum:
-      - BILL
-      - PAYROLL
-      - REIMBURSEMENT
-      type: string
-      description: '* `BILL` - Bill
-
-        * `PAYROLL` - Payroll
-
-        * `REIMBURSEMENT` - Reimbursement'
-    VoidPayment:
-      type: object
-      properties:
-        void_date:
+        extracted_currency:
           type:
           - string
           - 'null'
-          format: date
-    BillDraftReadStatusEnum:
-      enum:
-      - parsing
-      - parse_failed
-      - not_a_bill
-      - needs_review
-      - unassigned
-      - ready
-      - promoted
-      - discarded
-      type: string
-      description: '* `parsing` - Parsing
-
-        * `parse_failed` - Parse Failed
-
-        * `not_a_bill` - Not a Bill
-
-        * `needs_review` - Needs Review
-
-        * `unassigned` - Unassigned
-
-        * `ready` - Ready
-
-        * `promoted` - Promoted
-
-        * `discarded` - Discarded'
-    AccountingBillLine:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        bill:
-          type: integer
-          writeOnly: true
-        account_number:
-          type: string
-          readOnly: true
-        account_name:
-          type:
-          - string
-          - 'null'
-          description: Combines account number and name in the format "number - name"
-          readOnly: true
-        department_name:
-          type: string
-          readOnly: true
-        department_code:
-          type: string
-          readOnly: true
-        bill_customer_name:
-          type: string
-          readOnly: true
-        tags:
-          type: array
-          items:
-            type: object
-            additionalProperties: {}
-          readOnly: true
-        amortization_schedule:
-          type: array
-          items:
-            $ref: '#/components/schemas/AmortizationSchedule'
-          readOnly: true
-        tax_rate_name:
-          type: string
-          readOnly: true
-        tax_rate_value:
-          type: number
-          format: double
-          readOnly: true
-          exclusiveMinimum: -1000000
-          exclusiveMaximum: 1000000
-        description:
-          type:
-          - string
-          - 'null'
-        amount:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        tax:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        tax_description:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        tag_ids:
-          type: array
-          items:
-            type: integer
-            maximum: 9223372036854775807
-            minimum: -9223372036854775808
-            format: int64
-        tag_group_ids:
-          type: array
-          items:
-            type: integer
-            maximum: 9223372036854775807
-            minimum: -9223372036854775808
-            format: int64
-        source:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        source_id:
-          type:
-          - string
-          - 'null'
-        currency:
-          type: string
           maxLength: 3
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-        account:
-          type: integer
-        tax_rate:
-          type:
-          - integer
-          - 'null'
-        bill_customer:
-          type:
-          - integer
-          - 'null'
-        department:
-          type:
-          - integer
-          - 'null'
-      required:
-      - account
-      - account_name
-      - account_number
-      - amortization_schedule
-      - bill_customer_name
-      - created_at
-      - customer
-      - department_code
-      - department_name
-      - id
-      - last_modified_at
-      - tags
-      - tax_rate_name
-      - tax_rate_value
-    MarkPaidTransaction:
-      type: object
-      properties:
-        transaction_match_id:
-          type:
-          - integer
-          - 'null'
-        transaction_id:
-          type:
-          - integer
-          - 'null'
-        transaction_ids:
-          type:
-          - array
-          - 'null'
-          items:
-            type: integer
-        account_id:
-          type:
-          - integer
-          - 'null'
-        amount:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        amount_payable:
+        extracted_total_amount:
           type:
           - number
           - 'null'
           format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        credit_account_id:
+          exclusiveMinimum: -100000000000000
+          exclusiveMaximum: 100000000000000
+        extracted_line_items: {}
+        resolved_vendor:
           type:
           - integer
           - 'null'
-        writeoff_account_id:
-          type:
-          - integer
-          - 'null'
-        withholding_amount:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        withholding_tax_rate_id:
-          type:
-          - integer
-          - 'null'
-      required:
-      - amount
-    MarkDebitMemoUsed:
-      type: object
-      description: Serializer for marking a debit memo as used with a transaction.
-      properties:
-        transaction_id:
-          type: integer
-        account_id:
-          type: integer
-        amount:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        payment_date:
-          type: string
-          format: date
-        memo:
-          type:
-          - string
-          - 'null'
-      required:
-      - account_id
-      - amount
-      - payment_date
-      - transaction_id
-    BulkBillSearch:
-      type: object
-      properties:
-        bills:
-          type: array
-          items:
-            $ref: '#/components/schemas/BulkBill'
-          maxItems: 10000
-          minItems: 1
-      required:
-      - bills
     PatchedAccountingDebitMemo:
       type: object
       properties:
@@ -2731,72 +2434,733 @@ components:
           type:
           - integer
           - 'null'
-    MarkPaid:
+    ApplicationStatusEnum:
+      enum:
+      - open
+      - partially_used
+      - used
+      - voided
+      type: string
+      description: '* `open` - Open
+
+        * `partially_used` - Partially Used
+
+        * `used` - Used
+
+        * `voided` - Voided'
+    BulkBill:
       type: object
       properties:
-        transaction_match_id:
-          type:
-          - integer
-          - 'null'
-        transactions:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/MarkPaidTransaction'
-        credit_memos:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/MarkPaidCreditMemo'
-        debit_memos:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/MarkPaidDebitMemo'
-        empty_transactions:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/MarkPaidEmptyTransaction'
-    VoidBillRequest:
-      type: object
-      properties:
-        void_date:
+        bill_number:
           type: string
+      required:
+      - bill_number
+    AccountingBillPayment:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        payment_transaction_bank_description:
+          type: string
+          readOnly: true
+        payment_journal_entry_order:
+          type: string
+          readOnly: true
+        voided_journal_entry_order:
+          type: string
+          readOnly: true
+        withheld_amount:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: 'Tax withheld on this payment (AP): sum of the payment''s withholding credit legs.
+
+
+            Reads the ``bill_withheld_by_je`` map that ``AccountingBillSerializer`` populated from
+
+            prefetched records, so no per-payment query runs. Void reversals live on a different
+
+            journal, so they are naturally excluded.'
+          readOnly: true
+        currency:
+          type: string
+          maxLength: 3
+        amount:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        payment_date:
+          type:
+          - string
+          - 'null'
           format: date
-      required:
-      - void_date
-    BillDraftCreate:
-      type: object
-      description: UI-upload create shape. ``source_file`` must be an already-uploaded File row.
-      properties:
         source:
-          $ref: '#/components/schemas/BillDraftCreateSourceEnum'
-        source_file:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        source_id:
+          type:
+          - string
+          - 'null'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        voided_date:
+          type:
+          - string
+          - 'null'
+          format: date
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        bill:
+          type: integer
+        payment_journal_entry:
+          type: integer
+        payment_transaction:
           type:
           - integer
           - 'null'
-        entity:
+        voided_journal_entry:
           type:
           - integer
           - 'null'
       required:
-      - source
-    BulkDebitMemoSearch:
+      - bill
+      - created_at
+      - customer
+      - id
+      - last_modified_at
+      - payment_journal_entry
+      - payment_journal_entry_order
+      - payment_transaction_bank_description
+      - voided_journal_entry_order
+      - withheld_amount
+    NullEnum:
+      enum:
+      - null
+    PaginatedBillPaymentSyncList:
       type: object
+      required:
+      - count
+      - results
       properties:
-        debit_memos:
+        count:
+          type: integer
+          example: 123
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
           type: array
           items:
-            $ref: '#/components/schemas/BulkDebitMemo'
+            $ref: '#/components/schemas/BillPaymentSync'
+    MarkPaidEmptyTransaction:
+      type: object
+      properties:
+        account_id:
+          type: integer
+        account_name:
+          type: string
+        amount:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        payment_date:
+          type: string
+          format: date
+        department_id:
+          type:
+          - integer
+          - 'null'
+        tag_ids:
+          type: array
+          items:
+            type: integer
+        memo:
+          type:
+          - string
+          - 'null'
+        external_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 256
+        currency:
+          type:
+          - string
+          - 'null'
+        amount_in_invoice_currency:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        amount_in_bill_currency:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        withholding_amount:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        withholding_tax_rate_id:
+          type:
+          - integer
+          - 'null'
+      required:
+      - account_id
+      - account_name
+      - amount
+      - payment_date
+    File:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+        created_by_name:
+          type: string
+          readOnly: true
+        created_by_email:
+          type: string
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        name:
+          type: string
+        url:
+          type: string
+          readOnly: true
+        s3_content_type:
+          type:
+          - string
+          - 'null'
+        s3_content_length:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: 0
+        s3_path:
+          type: string
+        object_id:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: 0
+        app:
+          type: string
+          readOnly: true
+        model:
+          type: string
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+      required:
+      - app
+      - created_at
+      - created_by
+      - created_by_email
+      - created_by_name
+      - customer
+      - deleted_at
+      - id
+      - is_deleted
+      - last_modified_at
+      - model
+      - name
+      - s3_path
+      - url
+    BulkBillSearch:
+      type: object
+      properties:
+        bills:
+          type: array
+          items:
+            $ref: '#/components/schemas/BulkBill'
           maxItems: 10000
           minItems: 1
       required:
-      - debit_memos
+      - bills
+    AccountingBillLine:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        bill:
+          type: integer
+          writeOnly: true
+        account_number:
+          type: string
+          readOnly: true
+        account_name:
+          type:
+          - string
+          - 'null'
+          description: Combines account number and name in the format "number - name"
+          readOnly: true
+        department_name:
+          type: string
+          readOnly: true
+        department_code:
+          type: string
+          readOnly: true
+        bill_customer_name:
+          type: string
+          readOnly: true
+        tags:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          readOnly: true
+        amortization_schedule:
+          type: array
+          items:
+            $ref: '#/components/schemas/AmortizationSchedule'
+          readOnly: true
+        tax_rate_name:
+          type: string
+          readOnly: true
+        tax_rate_value:
+          type: number
+          format: double
+          readOnly: true
+          exclusiveMinimum: -1000000
+          exclusiveMaximum: 1000000
+        description:
+          type:
+          - string
+          - 'null'
+        amount:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        tax:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        tax_description:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        tag_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        tag_group_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        source:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        source_id:
+          type:
+          - string
+          - 'null'
+        currency:
+          type: string
+          maxLength: 3
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        account:
+          type: integer
+        tax_rate:
+          type:
+          - integer
+          - 'null'
+        bill_customer:
+          type:
+          - integer
+          - 'null'
+        department:
+          type:
+          - integer
+          - 'null'
+      required:
+      - account
+      - account_name
+      - account_number
+      - amortization_schedule
+      - bill_customer_name
+      - created_at
+      - customer
+      - department_code
+      - department_name
+      - id
+      - last_modified_at
+      - tags
+      - tax_rate_name
+      - tax_rate_value
+    AccountingDebitMemo:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountingDebitMemoLine'
+        payments:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountingDebitMemoPayment'
+          readOnly: true
+        amount_remaining:
+          type: number
+          format: double
+          description: Calculate amount remaining from database fields
+          readOnly: true
+        entity_name:
+          type: string
+          readOnly: true
+        entity_currency:
+          type: string
+          readOnly: true
+        vendor_name:
+          type: string
+          readOnly: true
+        debit_account_number:
+          type: string
+          readOnly: true
+        debit_account_name:
+          type:
+          - string
+          - 'null'
+          description: Combines account number and name in the format "number - name"
+          readOnly: true
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/File'
+          readOnly: true
+        debit_memo_number:
+          type: string
+        migrated_journal_id:
+          type:
+          - integer
+          - 'null'
+          writeOnly: true
+        voided_date:
+          type: string
+          format: date
+          readOnly: true
+        voided_journal_entry_order:
+          type: string
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        chat_uuid:
+          type: string
+          format: uuid
+          writeOnly: true
+        search_vector:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        search_text:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        ref_number:
+          type:
+          - string
+          - 'null'
+          maxLength: 120
+        debit_memo_date:
+          type: string
+          format: date
+        applied_date:
+          type:
+          - string
+          - 'null'
+          format: date
+        message_on_debit_memo:
+          type:
+          - string
+          - 'null'
+        source_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 120
+        source:
+          type:
+          - string
+          - 'null'
+          maxLength: 120
+        application_status:
+          oneOf:
+          - $ref: '#/components/schemas/ApplicationStatusEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        currency:
+          type: string
+          maxLength: 3
+        exchange_rate:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -100000000000000
+          exclusiveMaximum: 100000000000000
+        exchange_rate_book:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -100000000000000
+          exclusiveMaximum: 100000000000000
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        total_amount:
+          type: number
+          format: double
+          description: Sum of all line item amounts
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        amount_used:
+          type: number
+          format: double
+          description: Sum of all non-voided payment amounts
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        chat_id:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: -2147483648
+        tax_behavior:
+          oneOf:
+          - $ref: '#/components/schemas/TaxBehaviorEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        customer:
+          type: integer
+          readOnly: true
+        entity:
+          type: integer
+        vendor:
+          type:
+          - integer
+          - 'null'
+        debit_account:
+          type:
+          - integer
+          - 'null'
+        journal_entry:
+          type:
+          - integer
+          - 'null'
+        voided_journal_entry:
+          type:
+          - integer
+          - 'null'
+      required:
+      - amount_remaining
+      - attachments
+      - created_at
+      - customer
+      - debit_account_name
+      - debit_account_number
+      - debit_memo_date
+      - deleted_at
+      - entity
+      - entity_currency
+      - entity_name
+      - id
+      - is_deleted
+      - last_modified_at
+      - lines
+      - payments
+      - search_text
+      - search_vector
+      - vendor_name
+      - voided_date
+      - voided_journal_entry_order
+    AmortizationSchedule:
+      type: object
+      properties:
+        id:
+          type: integer
+        amortization:
+          type: integer
+          writeOnly: true
+        accounting_amortization:
+          type: integer
+          writeOnly: true
+        journal_entry_order:
+          type: string
+          readOnly: true
+        date:
+          type: string
+          format: date
+        amount:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        posted:
+          type: boolean
+        customer:
+          type: integer
+          readOnly: true
+        transaction:
+          type:
+          - integer
+          - 'null'
+        bill_line:
+          type:
+          - integer
+          - 'null'
+        journal_entry:
+          type:
+          - integer
+          - 'null'
+      required:
+      - amount
+      - customer
+      - date
+      - journal_entry_order
+    BillDraftCreateSourceEnum:
+      enum:
+      - ui_upload
+      type: string
+      description: '* `ui_upload` - ui_upload'
+    TermsEnum:
+      enum:
+      - custom
+      - net_5
+      - net_7
+      - net_10
+      - net_15
+      - net_20
+      - net_30
+      - net_40
+      - net_45
+      - net_60
+      - net_90
+      - net_105
+      - net_120
+      - due_on_receipt
+      type: string
+      description: '* `custom` - Custom
+
+        * `net_5` - Net 5
+
+        * `net_7` - Net 7
+
+        * `net_10` - Net 10
+
+        * `net_15` - Net 15
+
+        * `net_20` - Net 20
+
+        * `net_30` - Net 30
+
+        * `net_40` - Net 40
+
+        * `net_45` - Net 45
+
+        * `net_60` - Net 60
+
+        * `net_90` - Net 90
+
+        * `net_105` - Net 105
+
+        * `net_120` - Net 120
+
+        * `due_on_receipt` - Due on Receipt'
     PatchedAccountingBill:
       type: object
       properties:
@@ -3085,141 +3449,100 @@ components:
           type:
           - integer
           - 'null'
-    TaxBehaviorEnum:
-      enum:
-      - inclusive
-      - exclusive
-      type: string
-      description: '* `inclusive` - Inclusive
-
-        * `exclusive` - Exclusive'
-    PatchedBillDraftWrite:
+    MarkDebitMemoUsed:
       type: object
-      description: Editable subset used during review (PATCH).
+      description: Serializer for marking a debit memo as used with a transaction.
       properties:
-        entity:
-          type:
-          - integer
-          - 'null'
-        extracted_vendor_name:
-          type:
-          - string
-          - 'null'
-        extracted_bill_number:
-          type:
-          - string
-          - 'null'
-        extracted_bill_date:
-          type:
-          - string
-          - 'null'
-          format: date
-        extracted_due_date:
-          type:
-          - string
-          - 'null'
-          format: date
-        extracted_currency:
-          type:
-          - string
-          - 'null'
-          maxLength: 3
-        extracted_total_amount:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -100000000000000
-          exclusiveMaximum: 100000000000000
-        extracted_line_items: {}
-        resolved_vendor:
-          type:
-          - integer
-          - 'null'
-    BulkBill:
-      type: object
-      properties:
-        bill_number:
-          type: string
-      required:
-      - bill_number
-    BlankEnum:
-      enum:
-      - ''
-    AmortizationSchedule:
-      type: object
-      properties:
-        id:
+        transaction_id:
           type: integer
-        amortization:
+        account_id:
           type: integer
-          writeOnly: true
-        accounting_amortization:
-          type: integer
-          writeOnly: true
-        journal_entry_order:
-          type: string
-          readOnly: true
-        date:
-          type: string
-          format: date
-        amount:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        posted:
-          type: boolean
-        customer:
-          type: integer
-          readOnly: true
-        transaction:
-          type:
-          - integer
-          - 'null'
-        bill_line:
-          type:
-          - integer
-          - 'null'
-        journal_entry:
-          type:
-          - integer
-          - 'null'
-      required:
-      - amount
-      - customer
-      - date
-      - journal_entry_order
-    AccountingDebitMemoPayment:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        payment_journal_entry_order:
-          type: string
-          readOnly: true
-        voided_journal_entry_order:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        bill:
-          type: string
-          readOnly: true
-        currency:
-          type: string
-          maxLength: 3
         amount:
           type: number
           format: double
           exclusiveMinimum: -1000000000000000000
           exclusiveMaximum: 1000000000000000000
         payment_date:
+          type: string
+          format: date
+        memo:
           type:
           - string
           - 'null'
-          format: date
+      required:
+      - account_id
+      - amount
+      - payment_date
+      - transaction_id
+    AccountingDebitMemoLine:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        debit_memo:
+          type: integer
+          writeOnly: true
+        account_number:
+          type: string
+          readOnly: true
+        account_name:
+          type:
+          - string
+          - 'null'
+          description: Combines account number and name in the format "number - name"
+          readOnly: true
+        department_name:
+          type: string
+          readOnly: true
+        tags:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          readOnly: true
+        tax_rate_name:
+          type: string
+          readOnly: true
+        tax_rate_value:
+          type: number
+          format: double
+          readOnly: true
+          exclusiveMinimum: -10000000000
+          exclusiveMaximum: 10000000000
+        description:
+          type:
+          - string
+          - 'null'
+        amount:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        tax:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        tax_description:
+          type:
+          - string
+          - 'null'
+          maxLength: 255
+        tag_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        tag_group_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
         created_at:
           type: string
           format: date-time
@@ -3228,86 +3551,72 @@ components:
           type: string
           format: date-time
           readOnly: true
-        voided_date:
-          type:
-          - string
-          - 'null'
-          format: date
         customer:
           type: integer
           readOnly: true
-        debit_memo:
+        account:
           type: integer
-        payment_journal_entry:
-          type: integer
-        payment_transaction:
+        tax_rate:
           type:
           - integer
           - 'null'
-        voided_journal_entry:
+        department:
           type:
           - integer
           - 'null'
       required:
-      - bill
+      - account
+      - account_name
+      - account_number
       - created_at
       - customer
-      - debit_memo
+      - department_name
       - id
       - last_modified_at
-      - payment_journal_entry
-      - payment_journal_entry_order
-      - voided_journal_entry_order
-    MarkPaidEmptyTransaction:
+      - tags
+      - tax_rate_name
+      - tax_rate_value
+    MarkPaidTransaction:
       type: object
       properties:
+        transaction_match_id:
+          type:
+          - integer
+          - 'null'
+        transaction_id:
+          type:
+          - integer
+          - 'null'
+        transaction_ids:
+          type:
+          - array
+          - 'null'
+          items:
+            type: integer
         account_id:
-          type: integer
-        account_name:
-          type: string
+          type:
+          - integer
+          - 'null'
         amount:
           type: number
           format: double
           exclusiveMinimum: -1000000000000000000
           exclusiveMaximum: 1000000000000000000
-        payment_date:
-          type: string
-          format: date
-        department_id:
+        amount_payable:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        credit_account_id:
           type:
           - integer
           - 'null'
-        tag_ids:
-          type: array
-          items:
-            type: integer
-        memo:
+        writeoff_account_id:
           type:
-          - string
+          - integer
           - 'null'
-        external_id:
-          type:
-          - string
-          - 'null'
-          maxLength: 256
-        currency:
-          type:
-          - string
-          - 'null'
-        amount_in_invoice_currency:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        amount_in_bill_currency:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
         withholding_amount:
           type:
           - number
@@ -3320,69 +3629,11 @@ components:
           - integer
           - 'null'
       required:
-      - account_id
-      - account_name
       - amount
-      - payment_date
-    ApplicationStatusEnum:
+    BlankEnum:
       enum:
-      - open
-      - partially_used
-      - used
-      - voided
-      type: string
-      description: '* `open` - Open
-
-        * `partially_used` - Partially Used
-
-        * `used` - Used
-
-        * `voided` - Voided'
-    TermsEnum:
-      enum:
-      - custom
-      - net_5
-      - net_7
-      - net_10
-      - net_15
-      - net_20
-      - net_30
-      - net_40
-      - net_45
-      - net_60
-      - net_90
-      - net_105
-      - net_120
-      - due_on_receipt
-      type: string
-      description: '* `custom` - Custom
-
-        * `net_5` - Net 5
-
-        * `net_7` - Net 7
-
-        * `net_10` - Net 10
-
-        * `net_15` - Net 15
-
-        * `net_20` - Net 20
-
-        * `net_30` - Net 30
-
-        * `net_40` - Net 40
-
-        * `net_45` - Net 45
-
-        * `net_60` - Net 60
-
-        * `net_90` - Net 90
-
-        * `net_105` - Net 105
-
-        * `net_120` - Net 120
-
-        * `due_on_receipt` - Due on Receipt'
-    VoidDebitMemoRequest:
+      - ''
+    VoidBillRequest:
       type: object
       properties:
         void_date:
@@ -3390,6 +3641,45 @@ components:
           format: date
       required:
       - void_date
+    ItaBillTypeEnum:
+      enum:
+      - other
+      - equipment
+      type: string
+      description: '* `other` - Other
+
+        * `equipment` - Equipment'
+    MarkPaid:
+      type: object
+      properties:
+        transaction_match_id:
+          type:
+          - integer
+          - 'null'
+        transactions:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/MarkPaidTransaction'
+        credit_memos:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/MarkPaidCreditMemo'
+        debit_memos:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/MarkPaidDebitMemo'
+        empty_transactions:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/MarkPaidEmptyTransaction'
     BillDraftRead:
       type: object
       description: Full BillDraft read shape — feeds the Drafts tab and detail view.
@@ -3503,7 +3793,38 @@ components:
       - promoted_bill
       - source
       - status
-    PaginatedBillPaymentSyncList:
+    BulkDebitMemoSearch:
+      type: object
+      properties:
+        debit_memos:
+          type: array
+          items:
+            $ref: '#/components/schemas/BulkDebitMemo'
+          maxItems: 10000
+          minItems: 1
+      required:
+      - debit_memos
+    AccountingBillPaymentStatusEnum:
+      enum:
+      - partial
+      - open
+      - paid
+      - payment_not_found
+      - payment_pending
+      - voided
+      type: string
+      description: '* `partial` - Partially Paid
+
+        * `open` - Open
+
+        * `paid` - Paid
+
+        * `payment_not_found` - Payment Not Found
+
+        * `payment_pending` - Payment Pending
+
+        * `voided` - Voided'
+    PaginatedAccountingDebitMemoList:
       type: object
       required:
       - count
@@ -3527,191 +3848,15 @@ components:
         results:
           type: array
           items:
-            $ref: '#/components/schemas/BillPaymentSync'
-    AccountingDebitMemoLine:
+            $ref: '#/components/schemas/AccountingDebitMemo'
+    VoidDebitMemoRequest:
       type: object
       properties:
-        id:
-          type: integer
-          readOnly: true
-        debit_memo:
-          type: integer
-          writeOnly: true
-        account_number:
+        void_date:
           type: string
-          readOnly: true
-        account_name:
-          type:
-          - string
-          - 'null'
-          description: Combines account number and name in the format "number - name"
-          readOnly: true
-        department_name:
-          type: string
-          readOnly: true
-        tags:
-          type: array
-          items:
-            type: object
-            additionalProperties: {}
-          readOnly: true
-        tax_rate_name:
-          type: string
-          readOnly: true
-        tax_rate_value:
-          type: number
-          format: double
-          readOnly: true
-          exclusiveMinimum: -10000000000
-          exclusiveMaximum: 10000000000
-        description:
-          type:
-          - string
-          - 'null'
-        amount:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        tax:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        tax_description:
-          type:
-          - string
-          - 'null'
-          maxLength: 255
-        tag_ids:
-          type: array
-          items:
-            type: integer
-            maximum: 9223372036854775807
-            minimum: -9223372036854775808
-            format: int64
-        tag_group_ids:
-          type: array
-          items:
-            type: integer
-            maximum: 9223372036854775807
-            minimum: -9223372036854775808
-            format: int64
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-        account:
-          type: integer
-        tax_rate:
-          type:
-          - integer
-          - 'null'
-        department:
-          type:
-          - integer
-          - 'null'
+          format: date
       required:
-      - account
-      - account_name
-      - account_number
-      - created_at
-      - customer
-      - department_name
-      - id
-      - last_modified_at
-      - tags
-      - tax_rate_name
-      - tax_rate_value
-    File:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        created_by:
-          type:
-          - integer
-          - 'null'
-          readOnly: true
-        created_by_name:
-          type: string
-          readOnly: true
-        created_by_email:
-          type: string
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        name:
-          type: string
-        url:
-          type: string
-          readOnly: true
-        s3_content_type:
-          type:
-          - string
-          - 'null'
-        s3_content_length:
-          type:
-          - integer
-          - 'null'
-          maximum: 2147483647
-          minimum: 0
-        s3_path:
-          type: string
-        object_id:
-          type:
-          - integer
-          - 'null'
-          maximum: 2147483647
-          minimum: 0
-        app:
-          type: string
-          readOnly: true
-        model:
-          type: string
-          readOnly: true
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-      required:
-      - app
-      - created_at
-      - created_by
-      - created_by_email
-      - created_by_name
-      - customer
-      - deleted_at
-      - id
-      - is_deleted
-      - last_modified_at
-      - model
-      - name
-      - s3_path
-      - url
+      - void_date
     AccountingBill:
       type: object
       properties:
@@ -4035,223 +4180,13 @@ components:
       - voided_journal_entry_order
       - withholding_info
       - zip_metadata
-    AccountingDebitMemo:
+    BulkDebitMemo:
       type: object
       properties:
-        id:
-          type: integer
-          readOnly: true
-        lines:
-          type: array
-          items:
-            $ref: '#/components/schemas/AccountingDebitMemoLine'
-        payments:
-          type: array
-          items:
-            $ref: '#/components/schemas/AccountingDebitMemoPayment'
-          readOnly: true
-        amount_remaining:
-          type: number
-          format: double
-          description: Calculate amount remaining from database fields
-          readOnly: true
-        entity_name:
-          type: string
-          readOnly: true
-        entity_currency:
-          type: string
-          readOnly: true
-        vendor_name:
-          type: string
-          readOnly: true
-        debit_account_number:
-          type: string
-          readOnly: true
-        debit_account_name:
-          type:
-          - string
-          - 'null'
-          description: Combines account number and name in the format "number - name"
-          readOnly: true
-        attachments:
-          type: array
-          items:
-            $ref: '#/components/schemas/File'
-          readOnly: true
         debit_memo_number:
           type: string
-        migrated_journal_id:
-          type:
-          - integer
-          - 'null'
-          writeOnly: true
-        voided_date:
-          type: string
-          format: date
-          readOnly: true
-        voided_journal_entry_order:
-          type: string
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-        chat_uuid:
-          type: string
-          format: uuid
-          writeOnly: true
-        search_vector:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        search_text:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        ref_number:
-          type:
-          - string
-          - 'null'
-          maxLength: 120
-        debit_memo_date:
-          type: string
-          format: date
-        applied_date:
-          type:
-          - string
-          - 'null'
-          format: date
-        message_on_debit_memo:
-          type:
-          - string
-          - 'null'
-        source_id:
-          type:
-          - string
-          - 'null'
-          maxLength: 120
-        source:
-          type:
-          - string
-          - 'null'
-          maxLength: 120
-        application_status:
-          oneOf:
-          - $ref: '#/components/schemas/ApplicationStatusEnum'
-          - $ref: '#/components/schemas/BlankEnum'
-          - $ref: '#/components/schemas/NullEnum'
-        currency:
-          type: string
-          maxLength: 3
-        exchange_rate:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -100000000000000
-          exclusiveMaximum: 100000000000000
-        exchange_rate_book:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -100000000000000
-          exclusiveMaximum: 100000000000000
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        total_amount:
-          type: number
-          format: double
-          description: Sum of all line item amounts
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        amount_used:
-          type: number
-          format: double
-          description: Sum of all non-voided payment amounts
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        chat_id:
-          type:
-          - integer
-          - 'null'
-          maximum: 2147483647
-          minimum: -2147483648
-        tax_behavior:
-          oneOf:
-          - $ref: '#/components/schemas/TaxBehaviorEnum'
-          - $ref: '#/components/schemas/BlankEnum'
-          - $ref: '#/components/schemas/NullEnum'
-        customer:
-          type: integer
-          readOnly: true
-        entity:
-          type: integer
-        vendor:
-          type:
-          - integer
-          - 'null'
-        debit_account:
-          type:
-          - integer
-          - 'null'
-        journal_entry:
-          type:
-          - integer
-          - 'null'
-        voided_journal_entry:
-          type:
-          - integer
-          - 'null'
       required:
-      - amount_remaining
-      - attachments
-      - created_at
-      - customer
-      - debit_account_name
-      - debit_account_number
-      - debit_memo_date
-      - deleted_at
-      - entity
-      - entity_currency
-      - entity_name
-      - id
-      - is_deleted
-      - last_modified_at
-      - lines
-      - payments
-      - search_text
-      - search_vector
-      - vendor_name
-      - voided_date
-      - voided_journal_entry_order
-    BillDraftCreateSourceEnum:
-      enum:
-      - ui_upload
-      type: string
-      description: '* `ui_upload` - ui_upload'
-    BillDraftReadSourceEnum:
-      enum:
-      - email
-      - ui_upload
-      type: string
-      description: '* `email` - Email
-
-        * `ui_upload` - UI Upload'
+      - debit_memo_number
     MarkPaidDebitMemo:
       type: object
       properties:
@@ -4269,27 +4204,221 @@ components:
       - amount
       - debit_memo_id
       - posted_at
-    AccountingBillPaymentStatusEnum:
+    BillPaymentSync:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        bill_id:
+          type: integer
+          readOnly: true
+        bill_number:
+          type: string
+          readOnly: true
+        amount:
+          type: number
+          format: double
+          readOnly: true
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        currency:
+          type: string
+          readOnly: true
+        payment_date:
+          type:
+          - string
+          - 'null'
+          format: date
+          readOnly: true
+        source:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        source_id:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        voided_date:
+          type:
+          - string
+          - 'null'
+          format: date
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - amount
+      - bill_id
+      - bill_number
+      - created_at
+      - currency
+      - id
+      - last_modified_at
+      - payment_date
+      - source
+      - source_id
+      - voided_date
+    BillDraftCreate:
+      type: object
+      description: UI-upload create shape. ``source_file`` must be an already-uploaded File row.
+      properties:
+        source:
+          $ref: '#/components/schemas/BillDraftCreateSourceEnum'
+        source_file:
+          type:
+          - integer
+          - 'null'
+        entity:
+          type:
+          - integer
+          - 'null'
+      required:
+      - source
+    AccountingDebitMemoPayment:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        payment_journal_entry_order:
+          type: string
+          readOnly: true
+        voided_journal_entry_order:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        bill:
+          type: string
+          readOnly: true
+        currency:
+          type: string
+          maxLength: 3
+        amount:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        payment_date:
+          type:
+          - string
+          - 'null'
+          format: date
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        voided_date:
+          type:
+          - string
+          - 'null'
+          format: date
+        customer:
+          type: integer
+          readOnly: true
+        debit_memo:
+          type: integer
+        payment_journal_entry:
+          type: integer
+        payment_transaction:
+          type:
+          - integer
+          - 'null'
+        voided_journal_entry:
+          type:
+          - integer
+          - 'null'
+      required:
+      - bill
+      - created_at
+      - customer
+      - debit_memo
+      - id
+      - last_modified_at
+      - payment_journal_entry
+      - payment_journal_entry_order
+      - voided_journal_entry_order
+    TaxBehaviorEnum:
       enum:
-      - partial
-      - open
-      - paid
-      - payment_not_found
-      - payment_pending
-      - voided
+      - inclusive
+      - exclusive
       type: string
-      description: '* `partial` - Partially Paid
+      description: '* `inclusive` - Inclusive
 
-        * `open` - Open
+        * `exclusive` - Exclusive'
+    MarkPaidCreditMemo:
+      type: object
+      properties:
+        credit_memo_id:
+          type: integer
+        amount:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        posted_at:
+          type: string
+          format: date
+      required:
+      - amount
+      - credit_memo_id
+      - posted_at
+    BillDraftReadStatusEnum:
+      enum:
+      - parsing
+      - parse_failed
+      - not_a_bill
+      - needs_review
+      - unassigned
+      - ready
+      - promoted
+      - discarded
+      type: string
+      description: '* `parsing` - Parsing
 
-        * `paid` - Paid
+        * `parse_failed` - Parse Failed
 
-        * `payment_not_found` - Payment Not Found
+        * `not_a_bill` - Not a Bill
 
-        * `payment_pending` - Payment Pending
+        * `needs_review` - Needs Review
 
-        * `voided` - Voided'
-    BillDraftWrite:
+        * `unassigned` - Unassigned
+
+        * `ready` - Ready
+
+        * `promoted` - Promoted
+
+        * `discarded` - Discarded'
+    BillDraftReadSourceEnum:
+      enum:
+      - email
+      - ui_upload
+      type: string
+      description: '* `email` - Email
+
+        * `ui_upload` - UI Upload'
+    VoidPayment:
+      type: object
+      properties:
+        void_date:
+          type:
+          - string
+          - 'null'
+          format: date
+    PatchedBillDraftWrite:
       type: object
       description: Editable subset used during review (PATCH).
       properties:
@@ -4332,146 +4461,17 @@ components:
           type:
           - integer
           - 'null'
-    MarkPaidCreditMemo:
-      type: object
-      properties:
-        credit_memo_id:
-          type: integer
-        amount:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        posted_at:
-          type: string
-          format: date
-      required:
-      - amount
-      - credit_memo_id
-      - posted_at
-    AccountingBillPayment:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        payment_transaction_bank_description:
-          type: string
-          readOnly: true
-        payment_journal_entry_order:
-          type: string
-          readOnly: true
-        voided_journal_entry_order:
-          type: string
-          readOnly: true
-        withheld_amount:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: 'Tax withheld on this payment (AP): sum of the payment''s withholding credit legs.
-
-
-            Reads the ``bill_withheld_by_je`` map that ``AccountingBillSerializer`` populated from
-
-            prefetched records, so no per-payment query runs. Void reversals live on a different
-
-            journal, so they are naturally excluded.'
-          readOnly: true
-        currency:
-          type: string
-          maxLength: 3
-        amount:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        payment_date:
-          type:
-          - string
-          - 'null'
-          format: date
-        source:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        source_id:
-          type:
-          - string
-          - 'null'
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        voided_date:
-          type:
-          - string
-          - 'null'
-          format: date
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-        bill:
-          type: integer
-        payment_journal_entry:
-          type: integer
-        payment_transaction:
-          type:
-          - integer
-          - 'null'
-        voided_journal_entry:
-          type:
-          - integer
-          - 'null'
-      required:
-      - bill
-      - created_at
-      - customer
-      - id
-      - last_modified_at
-      - payment_journal_entry
-      - payment_journal_entry_order
-      - payment_transaction_bank_description
-      - voided_journal_entry_order
-      - withheld_amount
-    PaginatedAccountingDebitMemoList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/AccountingDebitMemo'
-    ItaBillTypeEnum:
+    BillTypeEnum:
       enum:
-      - other
-      - equipment
+      - BILL
+      - PAYROLL
+      - REIMBURSEMENT
       type: string
-      description: '* `other` - Other
+      description: '* `BILL` - Bill
 
-        * `equipment` - Equipment'
+        * `PAYROLL` - Payroll
+
+        * `REIMBURSEMENT` - Reimbursement'
   securitySchemes:
     knoxApiToken:
       type: apiKey

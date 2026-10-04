@@ -1925,6 +1925,1810 @@ paths:
           description: No response body
 components:
   schemas:
+    PatchedFixedAssetClass:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        asset_account_name:
+          type: string
+          readOnly: true
+        accumulated_depreciation_account_name:
+          type: string
+          readOnly: true
+        depreciation_expense_account_name:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          maxLength: 250
+        useful_life:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: -2147483648
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        asset_account:
+          type:
+          - integer
+          - 'null'
+        accumulated_depreciation_account:
+          type:
+          - integer
+          - 'null'
+        depreciation_expense_account:
+          type:
+          - integer
+          - 'null'
+    PaginatedVendorList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Vendor'
+    PatchedDepartment:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        parent_name:
+          type: string
+          readOnly: true
+        tags:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        active:
+          type: boolean
+          default: true
+        code:
+          type: string
+          maxLength: 250
+        name:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        display_name:
+          type:
+          - string
+          - 'null'
+          maxLength: 600
+        tag_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        tag_group_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        parent:
+          type:
+          - integer
+          - 'null'
+    PatchedTransactionTagGroup:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        slug:
+          type: string
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+    AccountCashflowClassificationEnum:
+      enum:
+      - NONE
+      - OPERATING
+      - INVESTING
+      - FINANCING
+      type: string
+      description: '* `NONE` - None
+
+        * `OPERATING` - Operating
+
+        * `INVESTING` - Investing
+
+        * `FINANCING` - Financing'
+    Source3b3Enum:
+      enum:
+      - BILL
+      - BREX
+      - HUBSPOT
+      - MANUAL
+      - PAYROLL
+      - SALESFORCE
+      type: string
+      description: '* `BILL` - Bill
+
+        * `BREX` - Brex
+
+        * `HUBSPOT` - Hubspot
+
+        * `MANUAL` - Manual
+
+        * `PAYROLL` - Payroll
+
+        * `SALESFORCE` - Salesforce'
+    NullEnum:
+      enum:
+      - null
+    PaginatedFixedAssetClassList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/FixedAssetClass'
+    PatchedCustomField:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        app:
+          type: string
+          readOnly: true
+        model:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        label:
+          type: string
+          maxLength: 100
+        field_type:
+          $ref: '#/components/schemas/FieldTypeEnum'
+        options: {}
+        is_required:
+          type: boolean
+        display_order:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        is_active:
+          type: boolean
+        include_on_invoice:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+    PaginatedCostAllocationList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CostAllocation'
+    VendorSummary:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        dba:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        total_spend:
+          type: number
+          format: double
+          default: 0.0
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        total_bill_spend:
+          type: number
+          format: double
+          default: 0.0
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        total_card_spend:
+          type: number
+          format: double
+          default: 0.0
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        total_paid:
+          type: number
+          format: double
+          default: 0.0
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        total_unpaid:
+          type: number
+          format: double
+          default: 0.0
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        total_credits:
+          type: number
+          format: double
+          default: 0.0
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        credit_used:
+          type: number
+          format: double
+          default: 0.0
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        credit_available:
+          type: number
+          format: double
+          default: 0.0
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        total_spend_book:
+          type: number
+          format: double
+          default: 0.0
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        total_bill_spend_book:
+          type: number
+          format: double
+          default: 0.0
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        total_card_spend_book:
+          type: number
+          format: double
+          default: 0.0
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        total_paid_book:
+          type: number
+          format: double
+          default: 0.0
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        total_unpaid_book:
+          type: number
+          format: double
+          default: 0.0
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        total_credits_book:
+          type: number
+          format: double
+          default: 0.0
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        credit_used_book:
+          type: number
+          format: double
+          default: 0.0
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        credit_available_book:
+          type: number
+          format: double
+          default: 0.0
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+      required:
+      - id
+    TermsEnum:
+      enum:
+      - custom
+      - net_5
+      - net_7
+      - net_10
+      - net_15
+      - net_20
+      - net_30
+      - net_40
+      - net_45
+      - net_60
+      - net_90
+      - net_105
+      - net_120
+      - due_on_receipt
+      type: string
+      description: '* `custom` - Custom
+
+        * `net_5` - Net 5
+
+        * `net_7` - Net 7
+
+        * `net_10` - Net 10
+
+        * `net_15` - Net 15
+
+        * `net_20` - Net 20
+
+        * `net_30` - Net 30
+
+        * `net_40` - Net 40
+
+        * `net_45` - Net 45
+
+        * `net_60` - Net 60
+
+        * `net_90` - Net 90
+
+        * `net_105` - Net 105
+
+        * `net_120` - Net 120
+
+        * `due_on_receipt` - Due on Receipt'
+    CostAllocation:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/CostAllocationLine'
+        line_count:
+          type: integer
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        name:
+          type: string
+          maxLength: 250
+        number:
+          type:
+          - string
+          - 'null'
+          maxLength: 120
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        account:
+          type:
+          - integer
+          - 'null'
+      required:
+      - created_at
+      - customer
+      - deleted_at
+      - id
+      - is_deleted
+      - last_modified_at
+      - line_count
+      - lines
+      - name
+    VendorContact:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        first_name:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        last_name:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        email:
+          type:
+          - string
+          - 'null'
+          format: email
+          maxLength: 250
+        phone_number:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        mobile_number:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+      required:
+      - deleted_at
+      - id
+      - is_deleted
+      - last_modified_at
+    FixedAssetClass:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        asset_account_name:
+          type: string
+          readOnly: true
+        accumulated_depreciation_account_name:
+          type: string
+          readOnly: true
+        depreciation_expense_account_name:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          maxLength: 250
+        useful_life:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: -2147483648
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        asset_account:
+          type:
+          - integer
+          - 'null'
+        accumulated_depreciation_account:
+          type:
+          - integer
+          - 'null'
+        depreciation_expense_account:
+          type:
+          - integer
+          - 'null'
+      required:
+      - accumulated_depreciation_account_name
+      - asset_account_name
+      - created_at
+      - customer
+      - deleted_at
+      - depreciation_expense_account_name
+      - id
+      - is_deleted
+      - last_modified_at
+      - name
+    BlankEnum:
+      enum:
+      - ''
+    PaginatedDepartmentList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Department'
+    PaginatedChartAccountList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChartAccount'
+    Status372Enum:
+      enum:
+      - ACTIVE
+      - INACTIVE
+      type: string
+      description: '* `ACTIVE` - Active
+
+        * `INACTIVE` - Inactive'
+    VendorType391Enum:
+      enum:
+      - vendor
+      - customer
+      - employee
+      type: string
+      description: '* `vendor` - Vendor
+
+        * `customer` - Customer
+
+        * `employee` - Employee'
+    AccountSubtypeEnum:
+      enum:
+      - BANK
+      - ACCOUNTS_RECEIVABLE
+      - OTHER_CURRENT_ASSET
+      - FIXED_ASSET
+      - OTHER_ASSET
+      - ACCOUNTS_PAYABLE
+      - UNAPPLIED_CREDITS
+      - CREDIT_CARD
+      - ACCRUED_REVENUE
+      - DEFERRED_REVENUE
+      - OTHER_CURRENT_LIABILITY
+      - LONG_TERM_LIABILITY
+      - UNBILLED_RECEIVABLE
+      - EQUITY
+      - RETAINED_EARNINGS
+      - INCOME
+      - COST_OF_GOODS_SOLD
+      - EXPENSE
+      - DEFERRED_EXPENSE
+      - OTHER_INCOME
+      - OTHER_EXPENSE
+      - REALIZED_GAIN_LOSS
+      - UNREALIZED_GAIN_LOSS
+      - PREPAID
+      - COST_ALLOCATION
+      - UNCATEGORIZED
+      type: string
+      description: '* `BANK` - Bank
+
+        * `ACCOUNTS_RECEIVABLE` - Accounts Receivable
+
+        * `OTHER_CURRENT_ASSET` - Other Current Asset
+
+        * `FIXED_ASSET` - Fixed Asset
+
+        * `OTHER_ASSET` - Other Asset
+
+        * `ACCOUNTS_PAYABLE` - Accounts Payable
+
+        * `UNAPPLIED_CREDITS` - Unapplied Credits
+
+        * `CREDIT_CARD` - Credit Card
+
+        * `ACCRUED_REVENUE` - Accrued Revenue
+
+        * `DEFERRED_REVENUE` - Deferred Revenue
+
+        * `OTHER_CURRENT_LIABILITY` - Other Current Liability
+
+        * `LONG_TERM_LIABILITY` - Long Term Liability
+
+        * `UNBILLED_RECEIVABLE` - Unbilled Receivable
+
+        * `EQUITY` - Equity
+
+        * `RETAINED_EARNINGS` - Retained Earnings
+
+        * `INCOME` - Income
+
+        * `COST_OF_GOODS_SOLD` - Cost of Goods Sold
+
+        * `EXPENSE` - Expense
+
+        * `DEFERRED_EXPENSE` - Deferred Expense
+
+        * `OTHER_INCOME` - Other Income
+
+        * `OTHER_EXPENSE` - Other Expense
+
+        * `REALIZED_GAIN_LOSS` - Realized Gain Loss
+
+        * `UNREALIZED_GAIN_LOSS` - Unrealized Gain Loss
+
+        * `PREPAID` - Prepaid
+
+        * `COST_ALLOCATION` - Cost Allocation
+
+        * `UNCATEGORIZED` - Uncategorized'
+    PaginatedTransactionTagList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransactionTag'
+    PatchedVendorCustomField1:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        value:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+    PaginatedTransactionTagGroupList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransactionTagGroup'
+    FieldTypeEnum:
+      enum:
+      - text
+      - single_select
+      - date
+      - number
+      - boolean
+      type: string
+      description: '* `text` - Free Text
+
+        * `single_select` - Single Select
+
+        * `date` - Date
+
+        * `number` - Number
+
+        * `boolean` - Boolean'
+    VendorCustomField1:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        value:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+      required:
+      - created_at
+      - customer
+      - id
+      - last_modified_at
+    TransactionTagGroup:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        slug:
+          type: string
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+      required:
+      - created_at
+      - customer
+      - id
+      - last_modified_at
+      - name
+      - slug
+    CostAllocationLine:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        allocation:
+          type: integer
+          writeOnly: true
+        account_name:
+          type:
+          - string
+          - 'null'
+          description: Combines account number and name in the format "number - name"
+          readOnly: true
+        department_name:
+          type: string
+          readOnly: true
+        tags:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          readOnly: true
+        percentage:
+          type: number
+          format: double
+          exclusiveMinimum: -1000
+          exclusiveMaximum: 1000
+        tag_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        tag_group_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        account:
+          type: integer
+        department:
+          type:
+          - integer
+          - 'null'
+      required:
+      - account
+      - account_name
+      - created_at
+      - customer
+      - department_name
+      - id
+      - last_modified_at
+      - tags
+    PatchedTransactionTag:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        group_name:
+          type: string
+          readOnly: true
+        parent_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        parent:
+          type:
+          - integer
+          - 'null'
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        is_active:
+          type: boolean
+          default: true
+        name:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        group:
+          type:
+          - integer
+          - 'null'
+    PaginatedVendorSummaryList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/VendorSummary'
+    TransactionTag:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        group_name:
+          type: string
+          readOnly: true
+        parent_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        parent:
+          type:
+          - integer
+          - 'null'
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        is_active:
+          type: boolean
+          default: true
+        name:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        group:
+          type:
+          - integer
+          - 'null'
+      required:
+      - created_at
+      - customer
+      - deleted_at
+      - group_name
+      - id
+      - is_deleted
+      - last_modified_at
+      - name
+      - parent_name
+    PatchedCostAllocation:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/CostAllocationLine'
+        line_count:
+          type: integer
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        name:
+          type: string
+          maxLength: 250
+        number:
+          type:
+          - string
+          - 'null'
+          maxLength: 120
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        account:
+          type:
+          - integer
+          - 'null'
+    ChartAccount:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        reconciliation_ending_date:
+          type: string
+          format: date
+          readOnly: true
+        reconciliation_ending_balance:
+          type: number
+          format: double
+          readOnly: true
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        balance_ytd:
+          type: number
+          format: double
+          readOnly: true
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        name_and_number:
+          type: string
+          readOnly: true
+        parent_name_and_number:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        sort_key:
+          type: string
+          readOnly: true
+        has_associated_data:
+          type: boolean
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        account_id:
+          type: string
+          format: uuid
+          readOnly: true
+        number:
+          type:
+          - string
+          - 'null'
+          maxLength: 12
+        currency:
+          type: string
+          maxLength: 3
+        name:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        nickname:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        description:
+          type:
+          - string
+          - 'null'
+        status:
+          $ref: '#/components/schemas/Status372Enum'
+        account_type:
+          $ref: '#/components/schemas/AccountTypeEnum'
+        account_subtype:
+          $ref: '#/components/schemas/AccountSubtypeEnum'
+        account_cashflow_classification:
+          $ref: '#/components/schemas/AccountCashflowClassificationEnum'
+        include_in_eliminations:
+          type: boolean
+        include_in_revaluations:
+          type: boolean
+        protected:
+          type: boolean
+        skip_subledger_validation:
+          type: boolean
+          description: Allow manual journal entries to post to this AR/AP account, bypassing subledger validation
+        external_id:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_recompute_balance_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        lock_recompute_balance_key:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        current_balance:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        current_balance_book:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        lineage_array:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            maxLength: 50
+          description: Pre-computed lineage array from root to this account
+        customer:
+          type: integer
+          readOnly: true
+        parent:
+          type:
+          - integer
+          - 'null'
+        parent_bank_account:
+          type:
+          - integer
+          - 'null'
+        default_department:
+          type:
+          - integer
+          - 'null'
+        default_tags:
+          type: array
+          items:
+            type: integer
+      required:
+      - account_id
+      - balance_ytd
+      - created_at
+      - customer
+      - deleted_at
+      - external_id
+      - has_associated_data
+      - id
+      - is_deleted
+      - last_modified_at
+      - name_and_number
+      - number
+      - parent_name_and_number
+      - reconciliation_ending_balance
+      - reconciliation_ending_date
+      - sort_key
+    PatchedVendor:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        contacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/VendorContact'
+        parent_name:
+          type: string
+          readOnly: true
+        stripe_connection_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        stripe_connection_entity:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+        stripe_connection_portal_url:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        stripe_connection_portal_enabled:
+          type:
+          - boolean
+          - 'null'
+          readOnly: true
+        stripe_connection_invoicing_enabled:
+          type:
+          - boolean
+          - 'null'
+          readOnly: true
+        vendor_custom_field_1_name:
+          type: string
+          readOnly: true
+        payment_term_name_display:
+          type: string
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        search_vector:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        search_text:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        vendor_type:
+          default: vendor
+          title: Payee Type
+          oneOf:
+          - $ref: '#/components/schemas/VendorType391Enum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        name:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        dba:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        company_name:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        website:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        first_name:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        last_name:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        email:
+          type:
+          - string
+          - 'null'
+          format: email
+          maxLength: 250
+        phone_number:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        mobile_number:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        address_street_1:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        address_street_2:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        city:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        state:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        zip_code:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        country:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        billing_address_street_1:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        billing_address_street_2:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        billing_city:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        billing_state:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        billing_zip_code:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        billing_country:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        shipping_addressee:
+          type:
+          - string
+          - 'null'
+          maxLength: 255
+        billing_addressee:
+          type:
+          - string
+          - 'null'
+          maxLength: 255
+        notes:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        business_id_ssn:
+          type:
+          - string
+          - 'null'
+          title: Business ID/SSN
+          maxLength: 250
+        is_1099:
+          type: boolean
+        vat_number:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        business_type:
+          type:
+          - string
+          - 'null'
+          description: Business type classification (e.g., Korean NTS 업태)
+          maxLength: 250
+        business_category:
+          type:
+          - string
+          - 'null'
+          description: Business category classification (e.g., Korean NTS 종목)
+          maxLength: 250
+        entity_use_code:
+          type:
+          - string
+          - 'null'
+          description: Avalara entity/use code for tax exemptions (e.g., A - Federal Government, B - State/Local Govt)
+          maxLength: 25
+        withholding_tax_id:
+          type:
+          - string
+          - 'null'
+          description: Vendor's tax-authority ID for withholding (PAN for India, TZ for Israel). Dedicated field since these have format/checksum rules distinct from business_id_ssn.
+          maxLength: 250
+        stripe_customer_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        use_stripe_auto_bill:
+          type:
+          - boolean
+          - 'null'
+        bill_vendor_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        external_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        source:
+          oneOf:
+          - $ref: '#/components/schemas/Source3b3Enum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        invoice_message:
+          type:
+          - string
+          - 'null'
+        abbreviation:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        status:
+          $ref: '#/components/schemas/Status372Enum'
+        anrok_customer_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        terms:
+          oneOf:
+          - $ref: '#/components/schemas/TermsEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        invoice_labels: {}
+        invoice_language:
+          type:
+          - string
+          - 'null'
+          maxLength: 10
+        lineage_array:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            maxLength: 50
+          description: Pre-computed lineage array from root to this vendor
+        customer:
+          type: integer
+          readOnly: true
+        parent:
+          type:
+          - integer
+          - 'null'
+        stripe_connection:
+          type:
+          - integer
+          - 'null'
+        default_expense_category:
+          type:
+          - integer
+          - 'null'
+        vendor_custom_field_1:
+          type:
+          - integer
+          - 'null'
+        payment_term:
+          type:
+          - integer
+          - 'null'
+          description: Payment term for this vendor
+    PaginatedCustomFieldList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomField'
+    AccountTypeEnum:
+      enum:
+      - ASSET
+      - LIABILITY
+      - EQUITY
+      - REVENUE
+      - COGS
+      - OPERATING_EXPENSES
+      - OTHER_INCOME
+      - OTHER_EXPENSE
+      - UNCATEGORIZED
+      - COST_ALLOCATION
+      type: string
+      description: '* `ASSET` - Asset
+
+        * `LIABILITY` - Liability
+
+        * `EQUITY` - Equity
+
+        * `REVENUE` - Revenue
+
+        * `COGS` - Cost of Goods Sold
+
+        * `OPERATING_EXPENSES` - Operating Expenses
+
+        * `OTHER_INCOME` - Other Income
+
+        * `OTHER_EXPENSE` - Other Expense
+
+        * `UNCATEGORIZED` - Uncategorized
+
+        * `COST_ALLOCATION` - Cost Allocation'
+    CustomField:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        app:
+          type: string
+          readOnly: true
+        model:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        label:
+          type: string
+          maxLength: 100
+        field_type:
+          $ref: '#/components/schemas/FieldTypeEnum'
+        options: {}
+        is_required:
+          type: boolean
+        display_order:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        is_active:
+          type: boolean
+        include_on_invoice:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+      required:
+      - app
+      - created_at
+      - deleted_at
+      - field_type
+      - id
+      - is_deleted
+      - label
+      - last_modified_at
+      - model
+      - name
+      - updated_at
     Vendor:
       type: object
       properties:
@@ -2263,145 +4067,6 @@ components:
       - stripe_connection_portal_enabled
       - stripe_connection_portal_url
       - vendor_custom_field_1_name
-    PaginatedCostAllocationList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/CostAllocation'
-    NullEnum:
-      enum:
-      - null
-    CostAllocation:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        lines:
-          type: array
-          items:
-            $ref: '#/components/schemas/CostAllocationLine'
-        line_count:
-          type: integer
-          readOnly: true
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-        name:
-          type: string
-          maxLength: 250
-        number:
-          type:
-          - string
-          - 'null'
-          maxLength: 120
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-        account:
-          type:
-          - integer
-          - 'null'
-      required:
-      - created_at
-      - customer
-      - deleted_at
-      - id
-      - is_deleted
-      - last_modified_at
-      - line_count
-      - lines
-      - name
-    VendorContact:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-        first_name:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        last_name:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        email:
-          type:
-          - string
-          - 'null'
-          format: email
-          maxLength: 250
-        phone_number:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        mobile_number:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-      required:
-      - deleted_at
-      - id
-      - is_deleted
-      - last_modified_at
     PatchedChartAccount:
       type: object
       properties:
@@ -2551,75 +4216,6 @@ components:
           type: array
           items:
             type: integer
-    CostAllocationLine:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        allocation:
-          type: integer
-          writeOnly: true
-        account_name:
-          type:
-          - string
-          - 'null'
-          description: Combines account number and name in the format "number - name"
-          readOnly: true
-        department_name:
-          type: string
-          readOnly: true
-        tags:
-          type: array
-          items:
-            type: object
-            additionalProperties: {}
-          readOnly: true
-        percentage:
-          type: number
-          format: double
-          exclusiveMinimum: -1000
-          exclusiveMaximum: 1000
-        tag_ids:
-          type: array
-          items:
-            type: integer
-            maximum: 9223372036854775807
-            minimum: -9223372036854775808
-            format: int64
-        tag_group_ids:
-          type: array
-          items:
-            type: integer
-            maximum: 9223372036854775807
-            minimum: -9223372036854775808
-            format: int64
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-        account:
-          type: integer
-        department:
-          type:
-          - integer
-          - 'null'
-      required:
-      - account
-      - account_name
-      - created_at
-      - customer
-      - department_name
-      - id
-      - last_modified_at
-      - tags
     Department:
       type: object
       properties:
@@ -2689,1602 +4285,6 @@ components:
       - name
       - parent_name
       - tags
-    Status372Enum:
-      enum:
-      - ACTIVE
-      - INACTIVE
-      type: string
-      description: '* `ACTIVE` - Active
-
-        * `INACTIVE` - Inactive'
-    AccountTypeEnum:
-      enum:
-      - ASSET
-      - LIABILITY
-      - EQUITY
-      - REVENUE
-      - COGS
-      - OPERATING_EXPENSES
-      - OTHER_INCOME
-      - OTHER_EXPENSE
-      - UNCATEGORIZED
-      - COST_ALLOCATION
-      type: string
-      description: '* `ASSET` - Asset
-
-        * `LIABILITY` - Liability
-
-        * `EQUITY` - Equity
-
-        * `REVENUE` - Revenue
-
-        * `COGS` - Cost of Goods Sold
-
-        * `OPERATING_EXPENSES` - Operating Expenses
-
-        * `OTHER_INCOME` - Other Income
-
-        * `OTHER_EXPENSE` - Other Expense
-
-        * `UNCATEGORIZED` - Uncategorized
-
-        * `COST_ALLOCATION` - Cost Allocation'
-    FixedAssetClass:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-        asset_account_name:
-          type: string
-          readOnly: true
-        accumulated_depreciation_account_name:
-          type: string
-          readOnly: true
-        depreciation_expense_account_name:
-          type: string
-          readOnly: true
-        name:
-          type: string
-          maxLength: 250
-        useful_life:
-          type:
-          - integer
-          - 'null'
-          maximum: 2147483647
-          minimum: -2147483648
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-        asset_account:
-          type:
-          - integer
-          - 'null'
-        accumulated_depreciation_account:
-          type:
-          - integer
-          - 'null'
-        depreciation_expense_account:
-          type:
-          - integer
-          - 'null'
-      required:
-      - accumulated_depreciation_account_name
-      - asset_account_name
-      - created_at
-      - customer
-      - deleted_at
-      - depreciation_expense_account_name
-      - id
-      - is_deleted
-      - last_modified_at
-      - name
-    PaginatedFixedAssetClassList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/FixedAssetClass'
-    TransactionTagGroup:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        slug:
-          type: string
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-      required:
-      - created_at
-      - customer
-      - id
-      - last_modified_at
-      - name
-      - slug
-    Source3b3Enum:
-      enum:
-      - BILL
-      - BREX
-      - HUBSPOT
-      - MANUAL
-      - PAYROLL
-      - SALESFORCE
-      type: string
-      description: '* `BILL` - Bill
-
-        * `BREX` - Brex
-
-        * `HUBSPOT` - Hubspot
-
-        * `MANUAL` - Manual
-
-        * `PAYROLL` - Payroll
-
-        * `SALESFORCE` - Salesforce'
-    AccountSubtypeEnum:
-      enum:
-      - BANK
-      - ACCOUNTS_RECEIVABLE
-      - OTHER_CURRENT_ASSET
-      - FIXED_ASSET
-      - OTHER_ASSET
-      - ACCOUNTS_PAYABLE
-      - UNAPPLIED_CREDITS
-      - CREDIT_CARD
-      - ACCRUED_REVENUE
-      - DEFERRED_REVENUE
-      - OTHER_CURRENT_LIABILITY
-      - LONG_TERM_LIABILITY
-      - UNBILLED_RECEIVABLE
-      - EQUITY
-      - RETAINED_EARNINGS
-      - INCOME
-      - COST_OF_GOODS_SOLD
-      - EXPENSE
-      - DEFERRED_EXPENSE
-      - OTHER_INCOME
-      - OTHER_EXPENSE
-      - REALIZED_GAIN_LOSS
-      - UNREALIZED_GAIN_LOSS
-      - PREPAID
-      - COST_ALLOCATION
-      - UNCATEGORIZED
-      type: string
-      description: '* `BANK` - Bank
-
-        * `ACCOUNTS_RECEIVABLE` - Accounts Receivable
-
-        * `OTHER_CURRENT_ASSET` - Other Current Asset
-
-        * `FIXED_ASSET` - Fixed Asset
-
-        * `OTHER_ASSET` - Other Asset
-
-        * `ACCOUNTS_PAYABLE` - Accounts Payable
-
-        * `UNAPPLIED_CREDITS` - Unapplied Credits
-
-        * `CREDIT_CARD` - Credit Card
-
-        * `ACCRUED_REVENUE` - Accrued Revenue
-
-        * `DEFERRED_REVENUE` - Deferred Revenue
-
-        * `OTHER_CURRENT_LIABILITY` - Other Current Liability
-
-        * `LONG_TERM_LIABILITY` - Long Term Liability
-
-        * `UNBILLED_RECEIVABLE` - Unbilled Receivable
-
-        * `EQUITY` - Equity
-
-        * `RETAINED_EARNINGS` - Retained Earnings
-
-        * `INCOME` - Income
-
-        * `COST_OF_GOODS_SOLD` - Cost of Goods Sold
-
-        * `EXPENSE` - Expense
-
-        * `DEFERRED_EXPENSE` - Deferred Expense
-
-        * `OTHER_INCOME` - Other Income
-
-        * `OTHER_EXPENSE` - Other Expense
-
-        * `REALIZED_GAIN_LOSS` - Realized Gain Loss
-
-        * `UNREALIZED_GAIN_LOSS` - Unrealized Gain Loss
-
-        * `PREPAID` - Prepaid
-
-        * `COST_ALLOCATION` - Cost Allocation
-
-        * `UNCATEGORIZED` - Uncategorized'
-    PatchedCostAllocation:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        lines:
-          type: array
-          items:
-            $ref: '#/components/schemas/CostAllocationLine'
-        line_count:
-          type: integer
-          readOnly: true
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-        name:
-          type: string
-          maxLength: 250
-        number:
-          type:
-          - string
-          - 'null'
-          maxLength: 120
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-        account:
-          type:
-          - integer
-          - 'null'
-    PatchedTransactionTagGroup:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        slug:
-          type: string
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-    PatchedFixedAssetClass:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-        asset_account_name:
-          type: string
-          readOnly: true
-        accumulated_depreciation_account_name:
-          type: string
-          readOnly: true
-        depreciation_expense_account_name:
-          type: string
-          readOnly: true
-        name:
-          type: string
-          maxLength: 250
-        useful_life:
-          type:
-          - integer
-          - 'null'
-          maximum: 2147483647
-          minimum: -2147483648
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-        asset_account:
-          type:
-          - integer
-          - 'null'
-        accumulated_depreciation_account:
-          type:
-          - integer
-          - 'null'
-        depreciation_expense_account:
-          type:
-          - integer
-          - 'null'
-    PaginatedTransactionTagGroupList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/TransactionTagGroup'
-    PatchedVendorCustomField1:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        value:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-    PatchedVendor:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        contacts:
-          type: array
-          items:
-            $ref: '#/components/schemas/VendorContact'
-        parent_name:
-          type: string
-          readOnly: true
-        stripe_connection_name:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        stripe_connection_entity:
-          type:
-          - integer
-          - 'null'
-          readOnly: true
-        stripe_connection_portal_url:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        stripe_connection_portal_enabled:
-          type:
-          - boolean
-          - 'null'
-          readOnly: true
-        stripe_connection_invoicing_enabled:
-          type:
-          - boolean
-          - 'null'
-          readOnly: true
-        vendor_custom_field_1_name:
-          type: string
-          readOnly: true
-        payment_term_name_display:
-          type: string
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-        search_vector:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        search_text:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        vendor_type:
-          default: vendor
-          title: Payee Type
-          oneOf:
-          - $ref: '#/components/schemas/VendorType391Enum'
-          - $ref: '#/components/schemas/BlankEnum'
-          - $ref: '#/components/schemas/NullEnum'
-        name:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        dba:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        company_name:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        website:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        first_name:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        last_name:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        email:
-          type:
-          - string
-          - 'null'
-          format: email
-          maxLength: 250
-        phone_number:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        mobile_number:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        address_street_1:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        address_street_2:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        city:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        state:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        zip_code:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        country:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        billing_address_street_1:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        billing_address_street_2:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        billing_city:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        billing_state:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        billing_zip_code:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        billing_country:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        shipping_addressee:
-          type:
-          - string
-          - 'null'
-          maxLength: 255
-        billing_addressee:
-          type:
-          - string
-          - 'null'
-          maxLength: 255
-        notes:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        business_id_ssn:
-          type:
-          - string
-          - 'null'
-          title: Business ID/SSN
-          maxLength: 250
-        is_1099:
-          type: boolean
-        vat_number:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        business_type:
-          type:
-          - string
-          - 'null'
-          description: Business type classification (e.g., Korean NTS 업태)
-          maxLength: 250
-        business_category:
-          type:
-          - string
-          - 'null'
-          description: Business category classification (e.g., Korean NTS 종목)
-          maxLength: 250
-        entity_use_code:
-          type:
-          - string
-          - 'null'
-          description: Avalara entity/use code for tax exemptions (e.g., A - Federal Government, B - State/Local Govt)
-          maxLength: 25
-        withholding_tax_id:
-          type:
-          - string
-          - 'null'
-          description: Vendor's tax-authority ID for withholding (PAN for India, TZ for Israel). Dedicated field since these have format/checksum rules distinct from business_id_ssn.
-          maxLength: 250
-        stripe_customer_id:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        use_stripe_auto_bill:
-          type:
-          - boolean
-          - 'null'
-        bill_vendor_id:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        external_id:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        source:
-          oneOf:
-          - $ref: '#/components/schemas/Source3b3Enum'
-          - $ref: '#/components/schemas/BlankEnum'
-          - $ref: '#/components/schemas/NullEnum'
-        invoice_message:
-          type:
-          - string
-          - 'null'
-        abbreviation:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        status:
-          $ref: '#/components/schemas/Status372Enum'
-        anrok_customer_id:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        terms:
-          oneOf:
-          - $ref: '#/components/schemas/TermsEnum'
-          - $ref: '#/components/schemas/BlankEnum'
-          - $ref: '#/components/schemas/NullEnum'
-        invoice_labels: {}
-        invoice_language:
-          type:
-          - string
-          - 'null'
-          maxLength: 10
-        lineage_array:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-            maxLength: 50
-          description: Pre-computed lineage array from root to this vendor
-        customer:
-          type: integer
-          readOnly: true
-        parent:
-          type:
-          - integer
-          - 'null'
-        stripe_connection:
-          type:
-          - integer
-          - 'null'
-        default_expense_category:
-          type:
-          - integer
-          - 'null'
-        vendor_custom_field_1:
-          type:
-          - integer
-          - 'null'
-        payment_term:
-          type:
-          - integer
-          - 'null'
-          description: Payment term for this vendor
-    BlankEnum:
-      enum:
-      - ''
-    AccountCashflowClassificationEnum:
-      enum:
-      - NONE
-      - OPERATING
-      - INVESTING
-      - FINANCING
-      type: string
-      description: '* `NONE` - None
-
-        * `OPERATING` - Operating
-
-        * `INVESTING` - Investing
-
-        * `FINANCING` - Financing'
-    VendorCustomField1:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        value:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-      required:
-      - created_at
-      - customer
-      - id
-      - last_modified_at
-    CustomField:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        app:
-          type: string
-          readOnly: true
-        model:
-          type: string
-          readOnly: true
-        name:
-          type: string
-          maxLength: 100
-        label:
-          type: string
-          maxLength: 100
-        field_type:
-          $ref: '#/components/schemas/FieldTypeEnum'
-        options: {}
-        is_required:
-          type: boolean
-        display_order:
-          type: integer
-          maximum: 2147483647
-          minimum: -2147483648
-        is_active:
-          type: boolean
-        include_on_invoice:
-          type: boolean
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        updated_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-      required:
-      - app
-      - created_at
-      - deleted_at
-      - field_type
-      - id
-      - is_deleted
-      - label
-      - last_modified_at
-      - model
-      - name
-      - updated_at
-    TermsEnum:
-      enum:
-      - custom
-      - net_5
-      - net_7
-      - net_10
-      - net_15
-      - net_20
-      - net_30
-      - net_40
-      - net_45
-      - net_60
-      - net_90
-      - net_105
-      - net_120
-      - due_on_receipt
-      type: string
-      description: '* `custom` - Custom
-
-        * `net_5` - Net 5
-
-        * `net_7` - Net 7
-
-        * `net_10` - Net 10
-
-        * `net_15` - Net 15
-
-        * `net_20` - Net 20
-
-        * `net_30` - Net 30
-
-        * `net_40` - Net 40
-
-        * `net_45` - Net 45
-
-        * `net_60` - Net 60
-
-        * `net_90` - Net 90
-
-        * `net_105` - Net 105
-
-        * `net_120` - Net 120
-
-        * `due_on_receipt` - Due on Receipt'
-    PaginatedVendorSummaryList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/VendorSummary'
-    PatchedDepartment:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        parent_name:
-          type: string
-          readOnly: true
-        tags:
-          type: array
-          items:
-            type: object
-            additionalProperties: {}
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        active:
-          type: boolean
-          default: true
-        code:
-          type: string
-          maxLength: 250
-        name:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        display_name:
-          type:
-          - string
-          - 'null'
-          maxLength: 600
-        tag_ids:
-          type: array
-          items:
-            type: integer
-            maximum: 9223372036854775807
-            minimum: -9223372036854775808
-            format: int64
-        tag_group_ids:
-          type: array
-          items:
-            type: integer
-            maximum: 9223372036854775807
-            minimum: -9223372036854775808
-            format: int64
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-        parent:
-          type:
-          - integer
-          - 'null'
-    VendorType391Enum:
-      enum:
-      - vendor
-      - customer
-      - employee
-      type: string
-      description: '* `vendor` - Vendor
-
-        * `customer` - Customer
-
-        * `employee` - Employee'
-    PaginatedDepartmentList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/Department'
-    PaginatedChartAccountList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/ChartAccount'
-    PaginatedVendorList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/Vendor'
-    PaginatedTransactionTagList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/TransactionTag'
-    VendorSummary:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        dba:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        total_spend:
-          type: number
-          format: double
-          default: 0.0
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        total_bill_spend:
-          type: number
-          format: double
-          default: 0.0
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        total_card_spend:
-          type: number
-          format: double
-          default: 0.0
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        total_paid:
-          type: number
-          format: double
-          default: 0.0
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        total_unpaid:
-          type: number
-          format: double
-          default: 0.0
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        total_credits:
-          type: number
-          format: double
-          default: 0.0
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        credit_used:
-          type: number
-          format: double
-          default: 0.0
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        credit_available:
-          type: number
-          format: double
-          default: 0.0
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        total_spend_book:
-          type: number
-          format: double
-          default: 0.0
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        total_bill_spend_book:
-          type: number
-          format: double
-          default: 0.0
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        total_card_spend_book:
-          type: number
-          format: double
-          default: 0.0
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        total_paid_book:
-          type: number
-          format: double
-          default: 0.0
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        total_unpaid_book:
-          type: number
-          format: double
-          default: 0.0
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        total_credits_book:
-          type: number
-          format: double
-          default: 0.0
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        credit_used_book:
-          type: number
-          format: double
-          default: 0.0
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        credit_available_book:
-          type: number
-          format: double
-          default: 0.0
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-      required:
-      - id
-    PaginatedCustomFieldList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/CustomField'
-    FieldTypeEnum:
-      enum:
-      - text
-      - single_select
-      - date
-      - number
-      - boolean
-      type: string
-      description: '* `text` - Free Text
-
-        * `single_select` - Single Select
-
-        * `date` - Date
-
-        * `number` - Number
-
-        * `boolean` - Boolean'
-    ChartAccount:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-        reconciliation_ending_date:
-          type: string
-          format: date
-          readOnly: true
-        reconciliation_ending_balance:
-          type: number
-          format: double
-          readOnly: true
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        balance_ytd:
-          type: number
-          format: double
-          readOnly: true
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        name_and_number:
-          type: string
-          readOnly: true
-        parent_name_and_number:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        sort_key:
-          type: string
-          readOnly: true
-        has_associated_data:
-          type: boolean
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        account_id:
-          type: string
-          format: uuid
-          readOnly: true
-        number:
-          type:
-          - string
-          - 'null'
-          maxLength: 12
-        currency:
-          type: string
-          maxLength: 3
-        name:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        nickname:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        description:
-          type:
-          - string
-          - 'null'
-        status:
-          $ref: '#/components/schemas/Status372Enum'
-        account_type:
-          $ref: '#/components/schemas/AccountTypeEnum'
-        account_subtype:
-          $ref: '#/components/schemas/AccountSubtypeEnum'
-        account_cashflow_classification:
-          $ref: '#/components/schemas/AccountCashflowClassificationEnum'
-        include_in_eliminations:
-          type: boolean
-        include_in_revaluations:
-          type: boolean
-        protected:
-          type: boolean
-        skip_subledger_validation:
-          type: boolean
-          description: Allow manual journal entries to post to this AR/AP account, bypassing subledger validation
-        external_id:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_recompute_balance_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        lock_recompute_balance_key:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        current_balance:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        current_balance_book:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        lineage_array:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-            maxLength: 50
-          description: Pre-computed lineage array from root to this account
-        customer:
-          type: integer
-          readOnly: true
-        parent:
-          type:
-          - integer
-          - 'null'
-        parent_bank_account:
-          type:
-          - integer
-          - 'null'
-        default_department:
-          type:
-          - integer
-          - 'null'
-        default_tags:
-          type: array
-          items:
-            type: integer
-      required:
-      - account_id
-      - balance_ytd
-      - created_at
-      - customer
-      - deleted_at
-      - external_id
-      - has_associated_data
-      - id
-      - is_deleted
-      - last_modified_at
-      - name_and_number
-      - number
-      - parent_name_and_number
-      - reconciliation_ending_balance
-      - reconciliation_ending_date
-      - sort_key
-    PatchedTransactionTag:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        group_name:
-          type: string
-          readOnly: true
-        parent_name:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        parent:
-          type:
-          - integer
-          - 'null'
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-        is_active:
-          type: boolean
-          default: true
-        name:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-        group:
-          type:
-          - integer
-          - 'null'
-    PatchedCustomField:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        app:
-          type: string
-          readOnly: true
-        model:
-          type: string
-          readOnly: true
-        name:
-          type: string
-          maxLength: 100
-        label:
-          type: string
-          maxLength: 100
-        field_type:
-          $ref: '#/components/schemas/FieldTypeEnum'
-        options: {}
-        is_required:
-          type: boolean
-        display_order:
-          type: integer
-          maximum: 2147483647
-          minimum: -2147483648
-        is_active:
-          type: boolean
-        include_on_invoice:
-          type: boolean
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        updated_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-    TransactionTag:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        group_name:
-          type: string
-          readOnly: true
-        parent_name:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        parent:
-          type:
-          - integer
-          - 'null'
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-        is_active:
-          type: boolean
-          default: true
-        name:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-        group:
-          type:
-          - integer
-          - 'null'
-      required:
-      - created_at
-      - customer
-      - deleted_at
-      - group_name
-      - id
-      - is_deleted
-      - last_modified_at
-      - name
-      - parent_name
   securitySchemes:
     knoxApiToken:
       type: apiKey

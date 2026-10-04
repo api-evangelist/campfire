@@ -186,17 +186,6 @@ paths:
           description: ''
 components:
   schemas:
-    WebhookTopic:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-      required:
-      - id
-      - name
     PatchedWebhook:
       type: object
       properties:
@@ -231,6 +220,52 @@ components:
         customer:
           type: integer
           readOnly: true
+    WebhookEvent:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        object: {}
+        status:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        url:
+          type: string
+          format: uri
+          maxLength: 1024
+        topic:
+          type: string
+        http:
+          readOnly: true
+        webhook:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+      required:
+      - created_at
+      - http
+      - id
+      - object
+      - status
+      - topic
+      - url
+      - webhook
+    WebhookTopic:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+      required:
+      - id
+      - name
     Webhook:
       type: object
       properties:
@@ -274,41 +309,6 @@ components:
       - token
       - url
       - uuid
-    WebhookEvent:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        object: {}
-        status:
-          type: string
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        url:
-          type: string
-          format: uri
-          maxLength: 1024
-        topic:
-          type: string
-        http:
-          readOnly: true
-        webhook:
-          type:
-          - integer
-          - 'null'
-          readOnly: true
-      required:
-      - created_at
-      - http
-      - id
-      - object
-      - status
-      - topic
-      - url
-      - webhook
   securitySchemes:
     knoxApiToken:
       type: apiKey

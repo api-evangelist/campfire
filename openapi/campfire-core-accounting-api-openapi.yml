@@ -5082,50 +5082,596 @@ paths:
           description: ''
 components:
   schemas:
-    Vendor:
+    PatchedChartTransaction:
       type: object
       properties:
         id:
           type: integer
           readOnly: true
-        contacts:
-          type: array
-          items:
-            $ref: '#/components/schemas/VendorContact'
-        parent_name:
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        entity_name:
           type: string
           readOnly: true
-        stripe_connection_name:
+        entity_currency:
+          type: string
+          readOnly: true
+        account_name:
+          type:
+          - string
+          - 'null'
+          description: Combines account number and name in the format "number - name"
+          readOnly: true
+        account_number:
+          type: string
+          readOnly: true
+        vendor_name:
+          type: string
+          readOnly: true
+          description: Name of the linked Campfire Vendor object. Distinct from `merchant_name`, which is free text stored directly on the transaction and not linked to a Campfire object.
+        vendor_id:
+          type: string
+          readOnly: true
+        department_name:
+          type: string
+          readOnly: true
+        department_code:
+          type: string
+          readOnly: true
+        parent_department_name:
+          type: string
+          readOnly: true
+        parent_department:
+          type: integer
+          readOnly: true
+        tags:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          readOnly: true
+        journal:
+          type: integer
+          readOnly: true
+        journal_order:
+          type: string
+          readOnly: true
+        journal_memo:
+          type: string
+          readOnly: true
+        journal_type:
+          type: string
+          readOnly: true
+        intercompany_journal:
+          type: integer
+          readOnly: true
+        created_automatically:
+          type: boolean
+          readOnly: true
+        journal_attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/File'
+          readOnly: true
+        journal_type_name:
           type:
           - string
           - 'null'
           readOnly: true
-        stripe_connection_entity:
+        invoice:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        bill:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        date_month:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+          description: Two-digit month (MM) derived from `posted_at`, the transaction date.
+        date_year:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+          description: Four-digit year (YYYY) derived from `posted_at`, the transaction date.
+        balance_after_transaction:
+          type: number
+          format: double
+          readOnly: true
+        bank_account:
+          type: string
+          readOnly: true
+        bank_account_name:
+          type: string
+          readOnly: true
+        account:
+          type:
+          - integer
+          - 'null'
+        last_modified_by_name:
+          type: string
+          readOnly: true
+        account_type:
+          type: string
+          readOnly: true
+        account_subtype:
+          type: string
+          readOnly: true
+        parent_account_name:
+          type: string
+          readOnly: true
+        files:
+          type: string
+          readOnly: true
+        invoice_id:
           type:
           - integer
           - 'null'
           readOnly: true
-        stripe_connection_portal_url:
+        invoice_number:
           type:
           - string
           - 'null'
           readOnly: true
-        stripe_connection_portal_enabled:
+        bill_id:
           type:
-          - boolean
+          - integer
           - 'null'
           readOnly: true
-        stripe_connection_invoicing_enabled:
+        bill_number:
           type:
-          - boolean
+          - string
           - 'null'
           readOnly: true
-        vendor_custom_field_1_name:
+        file_names:
           type: string
           readOnly: true
-        payment_term_name_display:
+        has_matches:
+          type: boolean
+          readOnly: true
+        has_ai:
+          type: boolean
+          readOnly: true
+        has_rules:
+          type: boolean
+          readOnly: true
+        has_merges:
+          type: boolean
+          readOnly: true
+        has_fixed_asset_rule_matches:
+          type: boolean
+          readOnly: true
+        primary_action_type:
           type: string
           readOnly: true
+        suggested_account:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+        suggested_account_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        suggested_account_number:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        amount:
+          type: number
+          format: double
+          readOnly: true
+          description: Amount in consolidated currency (the currency of the root entity).
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        amount_native:
+          type: number
+          format: double
+          readOnly: true
+          description: Amount in the currency the transaction was originally created in.
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        amount_book:
+          type: number
+          format: double
+          readOnly: true
+          description: Amount in the currency of the entity this transaction belongs to.
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        amortization_schedule:
+          type: array
+          items:
+            $ref: '#/components/schemas/AmortizationSchedule'
+          readOnly: true
+        linked_amortizations:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          readOnly: true
+        created_fixed_assets:
+          type: array
+          items:
+            type: object
+            additionalProperties:
+              type: string
+          description: 'Return all fixed assets this transaction is linked to — via the legacy
+
+            `purchase_transaction` FK (reverse: `created_fixed_assets`) AND the
+
+            new `purchase_transactions` M2M (reverse: `linked_fixed_assets`).
+
+            Dual-write keeps the FK target in the M2M, but using both covers any
+
+            pre-backfill drift and surfaces non-primary M2M-only links (e.g. the
+
+            secondary txns in a multi-txn fixed asset, or a split-resized txn).'
+          readOnly: true
+        reconciliation_report:
+          type: string
+          readOnly: true
+        opposing_account_name:
+          type: string
+          readOnly: true
+        opposing_account_number:
+          type: string
+          readOnly: true
+        tax_rate:
+          type:
+          - integer
+          - 'null'
+          writeOnly: true
+        apply_both_sides:
+          type: boolean
+          writeOnly: true
+          default: false
+        transaction_match_id:
+          type:
+          - integer
+          - 'null'
+          writeOnly: true
+        transaction_id:
+          type: string
+          format: uuid
+          readOnly: true
+        debit_amount:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        credit_amount:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        debit_amount_book:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        credit_amount_book:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        debit_amount_native:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        credit_amount_native:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        currency:
+          type: string
+          maxLength: 3
+        exchange_rate:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -100000000000000
+          exclusiveMaximum: 100000000000000
+        exchange_rate_book:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -100000000000000
+          exclusiveMaximum: 100000000000000
+        posted_at:
+          type:
+          - string
+          - 'null'
+          format: date
+          title: Posted Date
+        merchant_name:
+          type:
+          - string
+          - 'null'
+        bank_description:
+          type:
+          - string
+          - 'null'
+        tag_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        tag_group_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        note:
+          type:
+          - string
+          - 'null'
+        receipt_url:
+          type:
+          - string
+          - 'null'
+          format: uri
+          maxLength: 512
+        balance_before_transaction:
+          type:
+          - number
+          - 'null'
+          format: double
+          readOnly: true
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        external_id:
+          type:
+          - string
+          - 'null'
+        needs_review:
+          type: boolean
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        draft_matches: {}
+        last_lam_prediction_attempt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        customer:
+          type: integer
+          readOnly: true
+        entity:
+          type: integer
+        source_entity:
+          type:
+          - integer
+          - 'null'
+          title: Source Operating Entity
+        parent_bank_transaction:
+          type:
+          - integer
+          - 'null'
+        vendor:
+          type:
+          - integer
+          - 'null'
+        department:
+          type:
+          - integer
+          - 'null'
+        last_modified_by:
+          type:
+          - integer
+          - 'null'
+    FixedAssetAutomationRule:
+      type: object
+      description: Serializer for automation rules
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          description: Descriptive name for this rule
+          maxLength: 255
+        entity:
+          type: integer
+          description: Entity this rule applies to (determines book currency)
+        entity_name:
+          type: string
+          readOnly: true
+        currency:
+          type: string
+          readOnly: true
+          description: Book currency from entity (auto-populated)
+        account:
+          type: integer
+          description: Create assets when transactions are posted to this account
+        account_name:
+          type: string
+          readOnly: true
+        account_number:
+          type: string
+          readOnly: true
+        amount_threshold:
+          type: number
+          format: double
+          description: Minimum transaction amount in book currency (materiality threshold)
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        asset_class:
+          type: integer
+          description: Asset class to use for created assets
+        asset_class_name:
+          type: string
+          readOnly: true
+        needs_review:
+          type: boolean
+          description: If true, queue assets for review before creation
+        forward_looking:
+          type: boolean
+          description: Only apply to transactions created after this rule
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - account
+      - account_name
+      - account_number
+      - amount_threshold
+      - asset_class
+      - asset_class_name
+      - created_at
+      - currency
+      - entity
+      - entity_name
+      - id
+      - last_modified_at
+      - name
+    FixedAsset:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        entity_name:
+          type: string
+          readOnly: true
+        entity_currency:
+          type: string
+          readOnly: true
+        useful_life:
+          type: string
+          readOnly: true
+        asset_class_useful_life:
+          type: integer
+          readOnly: true
+        asset_class_name:
+          type: string
+          readOnly: true
+        asset_account:
+          type: string
+          readOnly: true
+        asset_account_name:
+          type: string
+          readOnly: true
+        depreciation_expense_account:
+          type: string
+          readOnly: true
+        depreciation_expense_account_name:
+          type: string
+          readOnly: true
+        accumulated_depreciation_account:
+          type: string
+          readOnly: true
+        accumulated_depreciation_account_name:
+          type: string
+          readOnly: true
+        purchase_journal_entry_order:
+          type: string
+          readOnly: true
+        purchase_transaction_id:
+          type: string
+          readOnly: true
+        vendor_name:
+          type: string
+          readOnly: true
+        department_name:
+          type: string
+          readOnly: true
+        tags:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          readOnly: true
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/File'
+          readOnly: true
+        depreciations:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/FixedAssetDepreciation'
+        depreciation_start_date:
+          type:
+          - string
+          - 'null'
+          format: date
+        depreciation_end_date:
+          type:
+          - string
+          - 'null'
+          format: date
+        disposals:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/FixedAssetDisposal'
+          readOnly: true
+        transfers:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/FixedAssetTransfer'
+          readOnly: true
+        net_book_value:
+          type: string
+          readOnly: true
+        depreciated_until:
+          type:
+          - string
+          - 'null'
+          format: date
+          writeOnly: true
         last_modified_at:
           type: string
           format: date-time
@@ -5140,286 +5686,300 @@ components:
           - 'null'
           format: date-time
           readOnly: true
-        search_vector:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        search_text:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        vendor_type:
-          default: vendor
-          title: Payee Type
-          oneOf:
-          - $ref: '#/components/schemas/VendorType391Enum'
-          - $ref: '#/components/schemas/BlankEnum'
-          - $ref: '#/components/schemas/NullEnum'
+        chat_uuid:
+          type: string
+          format: uuid
+          writeOnly: true
         name:
-          type:
-          - string
-          - 'null'
+          type: string
           maxLength: 250
-        dba:
+        description:
           type:
           - string
           - 'null'
-          maxLength: 250
-        company_name:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        website:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        first_name:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        last_name:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        email:
-          type:
-          - string
-          - 'null'
-          format: email
-          maxLength: 250
-        phone_number:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        mobile_number:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        address_street_1:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        address_street_2:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        city:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        state:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        zip_code:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        country:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        billing_address_street_1:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        billing_address_street_2:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        billing_city:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        billing_state:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        billing_zip_code:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        billing_country:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        shipping_addressee:
-          type:
-          - string
-          - 'null'
-          maxLength: 255
-        billing_addressee:
-          type:
-          - string
-          - 'null'
-          maxLength: 255
-        notes:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        business_id_ssn:
-          type:
-          - string
-          - 'null'
-          title: Business ID/SSN
-          maxLength: 250
-        is_1099:
-          type: boolean
-        vat_number:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        business_type:
-          type:
-          - string
-          - 'null'
-          description: Business type classification (e.g., Korean NTS 업태)
-          maxLength: 250
-        business_category:
-          type:
-          - string
-          - 'null'
-          description: Business category classification (e.g., Korean NTS 종목)
-          maxLength: 250
-        entity_use_code:
-          type:
-          - string
-          - 'null'
-          description: Avalara entity/use code for tax exemptions (e.g., A - Federal Government, B - State/Local Govt)
-          maxLength: 25
-        withholding_tax_id:
-          type:
-          - string
-          - 'null'
-          description: Vendor's tax-authority ID for withholding (PAN for India, TZ for Israel). Dedicated field since these have format/checksum rules distinct from business_id_ssn.
-          maxLength: 250
-        stripe_customer_id:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        use_stripe_auto_bill:
-          type:
-          - boolean
-          - 'null'
-        bill_vendor_id:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        external_id:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        source:
-          oneOf:
-          - $ref: '#/components/schemas/Source3b3Enum'
-          - $ref: '#/components/schemas/BlankEnum'
-          - $ref: '#/components/schemas/NullEnum'
-        invoice_message:
-          type:
-          - string
-          - 'null'
-        abbreviation:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
+        currency:
+          type: string
+          maxLength: 3
+        initial_value:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        salvage_value:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        purchase_date:
+          type: string
+          format: date
         created_at:
           type: string
           format: date-time
           readOnly: true
         status:
-          $ref: '#/components/schemas/Status372Enum'
-        anrok_customer_id:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        terms:
-          oneOf:
-          - $ref: '#/components/schemas/TermsEnum'
-          - $ref: '#/components/schemas/BlankEnum'
-          - $ref: '#/components/schemas/NullEnum'
-        invoice_labels: {}
-        invoice_language:
-          type:
-          - string
-          - 'null'
-          maxLength: 10
-        lineage_array:
-          type:
-          - array
-          - 'null'
+          $ref: '#/components/schemas/FixedAssetStatusEnum'
+        tag_ids:
+          type: array
           items:
-            type: string
-            maxLength: 50
-          description: Pre-computed lineage array from root to this vendor
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        tag_group_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        exchange_rate:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -100000000000000
+          exclusiveMaximum: 100000000000000
+        exchange_rate_book:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -100000000000000
+          exclusiveMaximum: 100000000000000
+        is_non_depreciable:
+          type:
+          - boolean
+          - 'null'
+        pause_date:
+          type:
+          - string
+          - 'null'
+          format: date
+          readOnly: true
+        pause_reason:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        last_resume_date:
+          type:
+          - string
+          - 'null'
+          format: date
+          readOnly: true
+        chat_id:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: -2147483648
         customer:
           type: integer
           readOnly: true
-        parent:
+        entity:
           type:
           - integer
           - 'null'
-        stripe_connection:
+        asset_class:
           type:
           - integer
           - 'null'
-        default_expense_category:
+        purchase_journal_entry:
           type:
           - integer
           - 'null'
-        vendor_custom_field_1:
+        purchase_transaction:
           type:
           - integer
           - 'null'
-        payment_term:
+        vendor:
           type:
           - integer
           - 'null'
-          description: Payment term for this vendor
+        department:
+          type:
+          - integer
+          - 'null'
+        purchase_transactions:
+          type: array
+          items:
+            type: integer
       required:
+      - accumulated_depreciation_account
+      - accumulated_depreciation_account_name
+      - asset_account
+      - asset_account_name
+      - asset_class_name
+      - asset_class_useful_life
+      - attachments
       - created_at
       - customer
       - deleted_at
+      - department_name
+      - depreciation_expense_account
+      - depreciation_expense_account_name
+      - disposals
+      - entity_currency
+      - entity_name
       - id
       - is_deleted
       - last_modified_at
+      - last_resume_date
       - name
-      - parent_name
-      - payment_term_name_display
-      - search_text
-      - search_vector
-      - stripe_connection_entity
-      - stripe_connection_invoicing_enabled
-      - stripe_connection_name
-      - stripe_connection_portal_enabled
-      - stripe_connection_portal_url
-      - vendor_custom_field_1_name
+      - net_book_value
+      - pause_date
+      - pause_reason
+      - purchase_date
+      - purchase_journal_entry_order
+      - purchase_transaction_id
+      - tags
+      - transfers
+      - useful_life
+      - vendor_name
+    PaginatedFixedAssetAutomationRuleList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/FixedAssetAutomationRule'
+    PaginatedJournalEntryList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/JournalEntry'
+    PatchedFixedAssetAutomationRule:
+      type: object
+      description: Serializer for automation rules
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          description: Descriptive name for this rule
+          maxLength: 255
+        entity:
+          type: integer
+          description: Entity this rule applies to (determines book currency)
+        entity_name:
+          type: string
+          readOnly: true
+        currency:
+          type: string
+          readOnly: true
+          description: Book currency from entity (auto-populated)
+        account:
+          type: integer
+          description: Create assets when transactions are posted to this account
+        account_name:
+          type: string
+          readOnly: true
+        account_number:
+          type: string
+          readOnly: true
+        amount_threshold:
+          type: number
+          format: double
+          description: Minimum transaction amount in book currency (materiality threshold)
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        asset_class:
+          type: integer
+          description: Asset class to use for created assets
+        asset_class_name:
+          type: string
+          readOnly: true
+        needs_review:
+          type: boolean
+          description: If true, queue assets for review before creation
+        forward_looking:
+          type: boolean
+          description: Only apply to transactions created after this rule
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+    NullEnum:
+      enum:
+      - null
+    Source3b3Enum:
+      enum:
+      - BILL
+      - BREX
+      - HUBSPOT
+      - MANUAL
+      - PAYROLL
+      - SALESFORCE
+      type: string
+      description: '* `BILL` - Bill
+
+        * `BREX` - Brex
+
+        * `HUBSPOT` - Hubspot
+
+        * `MANUAL` - Manual
+
+        * `PAYROLL` - Payroll
+
+        * `SALESFORCE` - Salesforce'
+    TransactionMatchStatusEnum:
+      enum:
+      - pending
+      - draft
+      - accepted
+      - rejected
+      type: string
+      description: '* `pending` - Pending
+
+        * `draft` - Draft
+
+        * `accepted` - Accepted
+
+        * `rejected` - Rejected'
     PatchedFixedAssetAutomationMatch:
       type: object
       description: Serializer for pending asset matches in review queue
@@ -5500,7 +6060,89 @@ components:
           type: string
           format: date-time
           readOnly: true
-    PaginatedFixedAssetAutomationRuleList:
+    File:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+        created_by_name:
+          type: string
+          readOnly: true
+        created_by_email:
+          type: string
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        name:
+          type: string
+        url:
+          type: string
+          readOnly: true
+        s3_content_type:
+          type:
+          - string
+          - 'null'
+        s3_content_length:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: 0
+        s3_path:
+          type: string
+        object_id:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: 0
+        app:
+          type: string
+          readOnly: true
+        model:
+          type: string
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+      required:
+      - app
+      - created_at
+      - created_by
+      - created_by_email
+      - created_by_name
+      - customer
+      - deleted_at
+      - id
+      - is_deleted
+      - last_modified_at
+      - model
+      - name
+      - s3_path
+      - url
+    PaginatedIntercompanyJournalEntryList:
       type: object
       required:
       - count
@@ -5524,7 +6166,720 @@ components:
         results:
           type: array
           items:
-            $ref: '#/components/schemas/FixedAssetAutomationRule'
+            $ref: '#/components/schemas/IntercompanyJournalEntry'
+    AmortizationSchedule:
+      type: object
+      properties:
+        id:
+          type: integer
+        amortization:
+          type: integer
+          writeOnly: true
+        accounting_amortization:
+          type: integer
+          writeOnly: true
+        journal_entry_order:
+          type: string
+          readOnly: true
+        date:
+          type: string
+          format: date
+        amount:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        posted:
+          type: boolean
+        customer:
+          type: integer
+          readOnly: true
+        transaction:
+          type:
+          - integer
+          - 'null'
+        bill_line:
+          type:
+          - integer
+          - 'null'
+        journal_entry:
+          type:
+          - integer
+          - 'null'
+      required:
+      - amount
+      - customer
+      - date
+      - journal_entry_order
+    TermsEnum:
+      enum:
+      - custom
+      - net_5
+      - net_7
+      - net_10
+      - net_15
+      - net_20
+      - net_30
+      - net_40
+      - net_45
+      - net_60
+      - net_90
+      - net_105
+      - net_120
+      - due_on_receipt
+      type: string
+      description: '* `custom` - Custom
+
+        * `net_5` - Net 5
+
+        * `net_7` - Net 7
+
+        * `net_10` - Net 10
+
+        * `net_15` - Net 15
+
+        * `net_20` - Net 20
+
+        * `net_30` - Net 30
+
+        * `net_40` - Net 40
+
+        * `net_45` - Net 45
+
+        * `net_60` - Net 60
+
+        * `net_90` - Net 90
+
+        * `net_105` - Net 105
+
+        * `net_120` - Net 120
+
+        * `due_on_receipt` - Due on Receipt'
+    PatchedFixedAsset:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        entity_name:
+          type: string
+          readOnly: true
+        entity_currency:
+          type: string
+          readOnly: true
+        useful_life:
+          type: string
+          readOnly: true
+        asset_class_useful_life:
+          type: integer
+          readOnly: true
+        asset_class_name:
+          type: string
+          readOnly: true
+        asset_account:
+          type: string
+          readOnly: true
+        asset_account_name:
+          type: string
+          readOnly: true
+        depreciation_expense_account:
+          type: string
+          readOnly: true
+        depreciation_expense_account_name:
+          type: string
+          readOnly: true
+        accumulated_depreciation_account:
+          type: string
+          readOnly: true
+        accumulated_depreciation_account_name:
+          type: string
+          readOnly: true
+        purchase_journal_entry_order:
+          type: string
+          readOnly: true
+        purchase_transaction_id:
+          type: string
+          readOnly: true
+        vendor_name:
+          type: string
+          readOnly: true
+        department_name:
+          type: string
+          readOnly: true
+        tags:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          readOnly: true
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/File'
+          readOnly: true
+        depreciations:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/FixedAssetDepreciation'
+        depreciation_start_date:
+          type:
+          - string
+          - 'null'
+          format: date
+        depreciation_end_date:
+          type:
+          - string
+          - 'null'
+          format: date
+        disposals:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/FixedAssetDisposal'
+          readOnly: true
+        transfers:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/FixedAssetTransfer'
+          readOnly: true
+        net_book_value:
+          type: string
+          readOnly: true
+        depreciated_until:
+          type:
+          - string
+          - 'null'
+          format: date
+          writeOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        chat_uuid:
+          type: string
+          format: uuid
+          writeOnly: true
+        name:
+          type: string
+          maxLength: 250
+        description:
+          type:
+          - string
+          - 'null'
+        currency:
+          type: string
+          maxLength: 3
+        initial_value:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        salvage_value:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        purchase_date:
+          type: string
+          format: date
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        status:
+          $ref: '#/components/schemas/FixedAssetStatusEnum'
+        tag_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        tag_group_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        exchange_rate:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -100000000000000
+          exclusiveMaximum: 100000000000000
+        exchange_rate_book:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -100000000000000
+          exclusiveMaximum: 100000000000000
+        is_non_depreciable:
+          type:
+          - boolean
+          - 'null'
+        pause_date:
+          type:
+          - string
+          - 'null'
+          format: date
+          readOnly: true
+        pause_reason:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        last_resume_date:
+          type:
+          - string
+          - 'null'
+          format: date
+          readOnly: true
+        chat_id:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: -2147483648
+        customer:
+          type: integer
+          readOnly: true
+        entity:
+          type:
+          - integer
+          - 'null'
+        asset_class:
+          type:
+          - integer
+          - 'null'
+        purchase_journal_entry:
+          type:
+          - integer
+          - 'null'
+        purchase_transaction:
+          type:
+          - integer
+          - 'null'
+        vendor:
+          type:
+          - integer
+          - 'null'
+        department:
+          type:
+          - integer
+          - 'null'
+        purchase_transactions:
+          type: array
+          items:
+            type: integer
+    BulkTagSearch:
+      type: object
+      properties:
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/BulkTag'
+        upsert:
+          type: boolean
+          default: false
+          description: If true, create tags that don't exist
+      required:
+      - tags
+    VendorContact:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        first_name:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        last_name:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        email:
+          type:
+          - string
+          - 'null'
+          format: email
+          maxLength: 250
+        phone_number:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        mobile_number:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+      required:
+      - deleted_at
+      - id
+      - is_deleted
+      - last_modified_at
+    BlankEnum:
+      enum:
+      - ''
+    Status372Enum:
+      enum:
+      - ACTIVE
+      - INACTIVE
+      type: string
+      description: '* `ACTIVE` - Active
+
+        * `INACTIVE` - Inactive'
+    JournalEntry:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        transactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChartTransaction'
+          readOnly: true
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/File'
+          readOnly: true
+        invoice:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+        reversal_of_order:
+          type: string
+          readOnly: true
+        reversals:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          readOnly: true
+        reversal_date:
+          type:
+          - string
+          - 'null'
+          format: date
+          writeOnly: true
+        entity_name:
+          type: string
+          readOnly: true
+        entity_currency:
+          type: string
+          readOnly: true
+        created_by:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+          description: Derived user ID of the journal entry creator. Check created_by_source before explaining provenance.
+        created_by_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+          description: Derived name of the journal entry creator. Check created_by_source before explaining provenance.
+        created_by_source:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+          description: 'Provenance for created_by and created_by_name: ''draft_queue_created_by'', ''chart_transaction_last_modified_by_fallback'', or null.'
+        order:
+          type: string
+        revenue_transactions:
+          type: array
+          items:
+            type: integer
+          writeOnly: true
+        bulk_upload:
+          type: boolean
+          writeOnly: true
+        chat_uuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          writeOnly: true
+        close_task_id:
+          type: string
+        update_reversal:
+          type: boolean
+          writeOnly: true
+          default: false
+        credit_memos:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          readOnly: true
+        debit_memos:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          readOnly: true
+        journals_to_delete:
+          type: array
+          items:
+            type: integer
+          writeOnly: true
+        ramp_use_sandbox:
+          type: string
+          readOnly: true
+        navan_region:
+          type:
+          - string
+          - 'null'
+          description: 'Navan data region (``US``/``EU``) for a Navan-sourced journal entry, else ``None``.
+
+
+            Mirrors ``ramp_use_sandbox``: the frontend builds the "Open in Navan" deep
+
+            link from ``source_id`` and uses this to pick the web-app host
+
+            (US -> app.navan.com, EU -> app-fra.navan.com). Navan records carry no FK to
+
+            their connection, so the region is resolved per customer and memoized to
+
+            avoid an N+1 lookup across a transaction list.'
+          readOnly: true
+        search_vector:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        search_text:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        type:
+          $ref: '#/components/schemas/TypeF19Enum'
+        journal_id:
+          type: string
+          format: uuid
+        memo:
+          type:
+          - string
+          - 'null'
+        currency:
+          type: string
+          maxLength: 3
+        exchange_rate:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -100000000000000
+          exclusiveMaximum: 100000000000000
+        exchange_rate_book:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -100000000000000
+          exclusiveMaximum: 100000000000000
+        use_average_rate:
+          type:
+          - boolean
+          - 'null'
+        created_automatically:
+          type: boolean
+        date:
+          type: string
+          format: date
+        ref_number:
+          type:
+          - string
+          - 'null'
+          maxLength: 100
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        source:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        source_id:
+          type:
+          - string
+          - 'null'
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        recurrent_journal_entry:
+          type:
+          - integer
+          - 'null'
+        entity:
+          type:
+          - integer
+          - 'null'
+        reversal_of:
+          type:
+          - integer
+          - 'null'
+        intercompany_journal:
+          type:
+          - integer
+          - 'null'
+        source_file:
+          type:
+          - integer
+          - 'null'
+        chat:
+          type:
+          - integer
+          - 'null'
+        last_draft:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+      required:
+      - attachments
+      - created_at
+      - created_by
+      - created_by_name
+      - created_by_source
+      - credit_memos
+      - customer
+      - debit_memos
+      - deleted_at
+      - entity_currency
+      - entity_name
+      - id
+      - invoice
+      - is_deleted
+      - last_draft
+      - last_modified_at
+      - navan_region
+      - ramp_use_sandbox
+      - reversal_of_order
+      - reversals
+      - search_text
+      - search_vector
+      - transactions
+    PatchedTransactionMatch:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        matched_object:
+          type: string
+          readOnly: true
+        app_label:
+          type: string
+          readOnly: true
+        model:
+          type: string
+          readOnly: true
+        drafts:
+          type: string
+          readOnly: true
+        object_id:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        reviewed_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        status:
+          $ref: '#/components/schemas/TransactionMatchStatusEnum'
+        confidence_score:
+          type:
+          - number
+          - 'null'
+          format: double
+          maximum: 1.0
+          minimum: 0.0
+        reason:
+          type:
+          - string
+          - 'null'
+          description: Why the matcher assigned this status (e.g. reference_surfaced, reference_auto_approved, needs_review, auto_approved). Display/observability only.
+          maxLength: 64
+        snapshot:
+          description: Snapshot of transaction data preserved for training data when the transaction is deleted.
+        customer:
+          type: integer
+        transaction:
+          type:
+          - integer
+          - 'null'
+        content_type:
+          type: integer
+        reviewed_by:
+          type:
+          - integer
+          - 'null'
     BulkVendor:
       type: object
       properties:
@@ -5545,10 +6900,156 @@ components:
           format: email
       required:
       - name
-    NullEnum:
+    VendorType391Enum:
       enum:
-      - null
-    PatchedIntercompanyJournalEntry:
+      - vendor
+      - customer
+      - employee
+      type: string
+      description: '* `vendor` - Vendor
+
+        * `customer` - Customer
+
+        * `employee` - Employee'
+    BulkDepartmentSearch:
+      type: object
+      properties:
+        departments:
+          type: array
+          items:
+            $ref: '#/components/schemas/BulkDepartment'
+          maxItems: 10000
+          minItems: 1
+        upsert:
+          type: boolean
+          default: false
+          description: If true, create departments that don't exist
+      required:
+      - departments
+    FixedAssetAutomationMatch:
+      type: object
+      description: Serializer for pending asset matches in review queue
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        rule:
+          type: integer
+        rule_name:
+          type: string
+          readOnly: true
+        rule_account_name:
+          type: string
+          readOnly: true
+        rule_threshold:
+          type: number
+          format: double
+          readOnly: true
+          exclusiveMinimum: -10000000000000
+          exclusiveMaximum: 10000000000000
+        rule_needs_review:
+          type: boolean
+          readOnly: true
+        transaction:
+          type: integer
+          readOnly: true
+        transaction_description:
+          type: string
+          readOnly: true
+        transaction_date:
+          type: string
+          format: date
+          readOnly: true
+        transaction_amount:
+          type: string
+          readOnly: true
+        proposed_name:
+          type: string
+          maxLength: 250
+        proposed_asset_class:
+          type: integer
+        proposed_initial_value:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        proposed_salvage_value:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        proposed_purchase_date:
+          type: string
+          format: date
+        proposed_depreciation_start_date:
+          type: string
+          format: date
+        proposed_entity:
+          type:
+          - integer
+          - 'null'
+        proposed_department:
+          type:
+          - integer
+          - 'null'
+        proposed_vendor:
+          type:
+          - integer
+          - 'null'
+        created_asset:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+          description: The asset created when this match was accepted
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_asset
+      - created_at
+      - id
+      - proposed_asset_class
+      - proposed_depreciation_start_date
+      - proposed_initial_value
+      - proposed_name
+      - proposed_purchase_date
+      - rule
+      - rule_account_name
+      - rule_name
+      - rule_needs_review
+      - rule_threshold
+      - transaction
+      - transaction_amount
+      - transaction_date
+      - transaction_description
+    PaginatedVendorContactList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/VendorContact'
+    IntercompanyJournalEntry:
       type: object
       properties:
         id:
@@ -5655,59 +7156,22 @@ components:
           items:
             type: integer
           description: Entities involved in this intercompany journal entry. Used for consolidation filtering.
-    TransactionMatchStatusEnum:
-      enum:
-      - pending
-      - draft
-      - accepted
-      - rejected
-      type: string
-      description: '* `pending` - Pending
-
-        * `draft` - Draft
-
-        * `accepted` - Accepted
-
-        * `rejected` - Rejected'
-    VendorContact:
+      required:
+      - attachments
+      - created_at
+      - customer
+      - deleted_at
+      - id
+      - is_deleted
+      - last_modified_at
+      - reversal_of_order
+      - reversals
+      - transactions
+    PatchedBudgetAccount:
       type: object
       properties:
         id:
           type: integer
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-        first_name:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        last_name:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        email:
-          type:
-          - string
-          - 'null'
-          format: email
-          maxLength: 250
-        phone_number:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        mobile_number:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        last_modified_at:
-          type: string
-          format: date-time
           readOnly: true
         is_deleted:
           type: boolean
@@ -5719,59 +7183,25 @@ components:
           - 'null'
           format: date-time
           readOnly: true
-      required:
-      - deleted_at
-      - id
-      - is_deleted
-      - last_modified_at
-    PatchedFixedAssetAutomationRule:
-      type: object
-      description: Serializer for automation rules
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-          description: Descriptive name for this rule
-          maxLength: 255
-        entity:
-          type: integer
-          description: Entity this rule applies to (determines book currency)
-        entity_name:
-          type: string
-          readOnly: true
-        currency:
-          type: string
-          readOnly: true
-          description: Book currency from entity (auto-populated)
-        account:
-          type: integer
-          description: Create assets when transactions are posted to this account
         account_name:
           type: string
           readOnly: true
-        account_number:
+        account_lineage:
           type: string
           readOnly: true
-        amount_threshold:
+        department_name:
+          type: string
+          readOnly: true
+        period:
+          type: integer
+          maximum: 32767
+          minimum: 0
+          default: 1
+        amount:
           type: number
           format: double
-          description: Minimum transaction amount in book currency (materiality threshold)
           exclusiveMinimum: -1000000000000000000
           exclusiveMaximum: 1000000000000000000
-        asset_class:
-          type: integer
-          description: Asset class to use for created assets
-        asset_class_name:
-          type: string
-          readOnly: true
-        needs_review:
-          type: boolean
-          description: If true, queue assets for review before creation
-        forward_looking:
-          type: boolean
-          description: Only apply to transactions created after this rule
         created_at:
           type: string
           format: date-time
@@ -5780,24 +7210,289 @@ components:
           type: string
           format: date-time
           readOnly: true
-    BulkVendorVendorTypeEnum:
-      enum:
-      - vendor
-      - customer
-      - employee
-      type: string
-      description: '* `vendor` - vendor
-
-        * `customer` - customer
-
-        * `employee` - employee'
-    Department:
+        customer:
+          type: integer
+          readOnly: true
+        budget:
+          type: integer
+          readOnly: true
+        account:
+          type: integer
+          readOnly: true
+        department:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+    PaginatedFixedAssetList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/FixedAsset'
+    PatchedJournalEntry:
       type: object
       properties:
         id:
           type: integer
           readOnly: true
-        parent_name:
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        transactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChartTransaction'
+          readOnly: true
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/File'
+          readOnly: true
+        invoice:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+        reversal_of_order:
+          type: string
+          readOnly: true
+        reversals:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          readOnly: true
+        reversal_date:
+          type:
+          - string
+          - 'null'
+          format: date
+          writeOnly: true
+        entity_name:
+          type: string
+          readOnly: true
+        entity_currency:
+          type: string
+          readOnly: true
+        created_by:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+          description: Derived user ID of the journal entry creator. Check created_by_source before explaining provenance.
+        created_by_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+          description: Derived name of the journal entry creator. Check created_by_source before explaining provenance.
+        created_by_source:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+          description: 'Provenance for created_by and created_by_name: ''draft_queue_created_by'', ''chart_transaction_last_modified_by_fallback'', or null.'
+        order:
+          type: string
+        revenue_transactions:
+          type: array
+          items:
+            type: integer
+          writeOnly: true
+        bulk_upload:
+          type: boolean
+          writeOnly: true
+        chat_uuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          writeOnly: true
+        close_task_id:
+          type: string
+        update_reversal:
+          type: boolean
+          writeOnly: true
+          default: false
+        credit_memos:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          readOnly: true
+        debit_memos:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          readOnly: true
+        journals_to_delete:
+          type: array
+          items:
+            type: integer
+          writeOnly: true
+        ramp_use_sandbox:
+          type: string
+          readOnly: true
+        navan_region:
+          type:
+          - string
+          - 'null'
+          description: 'Navan data region (``US``/``EU``) for a Navan-sourced journal entry, else ``None``.
+
+
+            Mirrors ``ramp_use_sandbox``: the frontend builds the "Open in Navan" deep
+
+            link from ``source_id`` and uses this to pick the web-app host
+
+            (US -> app.navan.com, EU -> app-fra.navan.com). Navan records carry no FK to
+
+            their connection, so the region is resolved per customer and memoized to
+
+            avoid an N+1 lookup across a transaction list.'
+          readOnly: true
+        search_vector:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        search_text:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        type:
+          $ref: '#/components/schemas/TypeF19Enum'
+        journal_id:
+          type: string
+          format: uuid
+        memo:
+          type:
+          - string
+          - 'null'
+        currency:
+          type: string
+          maxLength: 3
+        exchange_rate:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -100000000000000
+          exclusiveMaximum: 100000000000000
+        exchange_rate_book:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -100000000000000
+          exclusiveMaximum: 100000000000000
+        use_average_rate:
+          type:
+          - boolean
+          - 'null'
+        created_automatically:
+          type: boolean
+        date:
+          type: string
+          format: date
+        ref_number:
+          type:
+          - string
+          - 'null'
+          maxLength: 100
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        source:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        source_id:
+          type:
+          - string
+          - 'null'
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        recurrent_journal_entry:
+          type:
+          - integer
+          - 'null'
+        entity:
+          type:
+          - integer
+          - 'null'
+        reversal_of:
+          type:
+          - integer
+          - 'null'
+        intercompany_journal:
+          type:
+          - integer
+          - 'null'
+        source_file:
+          type:
+          - integer
+          - 'null'
+        chat:
+          type:
+          - integer
+          - 'null'
+        last_draft:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+    PatchedBudget:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        entity_name:
+          type: string
+          readOnly: true
+        prior_start_date:
+          type: string
+          readOnly: true
+        prior_end_date:
+          type: string
+          readOnly: true
+        department_name:
           type: string
           readOnly: true
         tags:
@@ -5806,26 +7501,40 @@ components:
             type: object
             additionalProperties: {}
           readOnly: true
-        last_modified_at:
-          type: string
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
           format: date-time
           readOnly: true
-        active:
-          type: boolean
-          default: true
-        code:
-          type: string
-          maxLength: 250
         name:
+          type: string
+        description:
           type:
           - string
           - 'null'
-          maxLength: 250
-        display_name:
+        cadence:
           type:
           - string
           - 'null'
-          maxLength: 600
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type:
+          - string
+          - 'null'
+          format: date
+        periods:
+          type: integer
+          maximum: 32767
+          minimum: 0
+        breakdown_type:
+          $ref: '#/components/schemas/BreakdownTypeEnum'
         tag_ids:
           type: array
           items:
@@ -5840,26 +7549,35 @@ components:
             maximum: 9223372036854775807
             minimum: -9223372036854775808
             format: int64
+        currency:
+          type: string
+          maxLength: 3
         created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
           type: string
           format: date-time
           readOnly: true
         customer:
           type: integer
           readOnly: true
-        parent:
+        entity:
           type:
           - integer
           - 'null'
+        department:
+          type:
+          - integer
+          - 'null'
+    BulkTag:
+      type: object
+      properties:
+        name:
+          type: string
       required:
-      - code
-      - created_at
-      - customer
-      - id
-      - last_modified_at
       - name
-      - parent_name
-      - tags
     ChartTransaction:
       type: object
       properties:
@@ -6343,356 +8061,6 @@ components:
       - transaction_id
       - vendor_id
       - vendor_name
-    FixedAssetAutomationMatch:
-      type: object
-      description: Serializer for pending asset matches in review queue
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        rule:
-          type: integer
-        rule_name:
-          type: string
-          readOnly: true
-        rule_account_name:
-          type: string
-          readOnly: true
-        rule_threshold:
-          type: number
-          format: double
-          readOnly: true
-          exclusiveMinimum: -10000000000000
-          exclusiveMaximum: 10000000000000
-        rule_needs_review:
-          type: boolean
-          readOnly: true
-        transaction:
-          type: integer
-          readOnly: true
-        transaction_description:
-          type: string
-          readOnly: true
-        transaction_date:
-          type: string
-          format: date
-          readOnly: true
-        transaction_amount:
-          type: string
-          readOnly: true
-        proposed_name:
-          type: string
-          maxLength: 250
-        proposed_asset_class:
-          type: integer
-        proposed_initial_value:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        proposed_salvage_value:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        proposed_purchase_date:
-          type: string
-          format: date
-        proposed_depreciation_start_date:
-          type: string
-          format: date
-        proposed_entity:
-          type:
-          - integer
-          - 'null'
-        proposed_department:
-          type:
-          - integer
-          - 'null'
-        proposed_vendor:
-          type:
-          - integer
-          - 'null'
-        created_asset:
-          type:
-          - integer
-          - 'null'
-          readOnly: true
-          description: The asset created when this match was accepted
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-      required:
-      - created_asset
-      - created_at
-      - id
-      - proposed_asset_class
-      - proposed_depreciation_start_date
-      - proposed_initial_value
-      - proposed_name
-      - proposed_purchase_date
-      - rule
-      - rule_account_name
-      - rule_name
-      - rule_needs_review
-      - rule_threshold
-      - transaction
-      - transaction_amount
-      - transaction_date
-      - transaction_description
-    JournalEntry:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-        transactions:
-          type: array
-          items:
-            $ref: '#/components/schemas/ChartTransaction'
-          readOnly: true
-        attachments:
-          type: array
-          items:
-            $ref: '#/components/schemas/File'
-          readOnly: true
-        invoice:
-          type:
-          - integer
-          - 'null'
-          readOnly: true
-        reversal_of_order:
-          type: string
-          readOnly: true
-        reversals:
-          type: array
-          items:
-            type: object
-            additionalProperties: {}
-          readOnly: true
-        reversal_date:
-          type:
-          - string
-          - 'null'
-          format: date
-          writeOnly: true
-        entity_name:
-          type: string
-          readOnly: true
-        entity_currency:
-          type: string
-          readOnly: true
-        created_by:
-          type:
-          - integer
-          - 'null'
-          readOnly: true
-          description: Derived user ID of the journal entry creator. Check created_by_source before explaining provenance.
-        created_by_name:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-          description: Derived name of the journal entry creator. Check created_by_source before explaining provenance.
-        created_by_source:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-          description: 'Provenance for created_by and created_by_name: ''draft_queue_created_by'', ''chart_transaction_last_modified_by_fallback'', or null.'
-        order:
-          type: string
-        revenue_transactions:
-          type: array
-          items:
-            type: integer
-          writeOnly: true
-        bulk_upload:
-          type: boolean
-          writeOnly: true
-        chat_uuid:
-          type:
-          - string
-          - 'null'
-          format: uuid
-          writeOnly: true
-        close_task_id:
-          type: string
-        update_reversal:
-          type: boolean
-          writeOnly: true
-          default: false
-        credit_memos:
-          type: array
-          items:
-            type: object
-            additionalProperties: {}
-          readOnly: true
-        debit_memos:
-          type: array
-          items:
-            type: object
-            additionalProperties: {}
-          readOnly: true
-        journals_to_delete:
-          type: array
-          items:
-            type: integer
-          writeOnly: true
-        ramp_use_sandbox:
-          type: string
-          readOnly: true
-        navan_region:
-          type:
-          - string
-          - 'null'
-          description: 'Navan data region (``US``/``EU``) for a Navan-sourced journal entry, else ``None``.
-
-
-            Mirrors ``ramp_use_sandbox``: the frontend builds the "Open in Navan" deep
-
-            link from ``source_id`` and uses this to pick the web-app host
-
-            (US -> app.navan.com, EU -> app-fra.navan.com). Navan records carry no FK to
-
-            their connection, so the region is resolved per customer and memoized to
-
-            avoid an N+1 lookup across a transaction list.'
-          readOnly: true
-        search_vector:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        search_text:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        type:
-          $ref: '#/components/schemas/TypeF19Enum'
-        journal_id:
-          type: string
-          format: uuid
-        memo:
-          type:
-          - string
-          - 'null'
-        currency:
-          type: string
-          maxLength: 3
-        exchange_rate:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -100000000000000
-          exclusiveMaximum: 100000000000000
-        exchange_rate_book:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -100000000000000
-          exclusiveMaximum: 100000000000000
-        use_average_rate:
-          type:
-          - boolean
-          - 'null'
-        created_automatically:
-          type: boolean
-        date:
-          type: string
-          format: date
-        ref_number:
-          type:
-          - string
-          - 'null'
-          maxLength: 100
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        source:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        source_id:
-          type:
-          - string
-          - 'null'
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-        recurrent_journal_entry:
-          type:
-          - integer
-          - 'null'
-        entity:
-          type:
-          - integer
-          - 'null'
-        reversal_of:
-          type:
-          - integer
-          - 'null'
-        intercompany_journal:
-          type:
-          - integer
-          - 'null'
-        source_file:
-          type:
-          - integer
-          - 'null'
-        chat:
-          type:
-          - integer
-          - 'null'
-        last_draft:
-          type:
-          - integer
-          - 'null'
-          readOnly: true
-      required:
-      - attachments
-      - created_at
-      - created_by
-      - created_by_name
-      - created_by_source
-      - credit_memos
-      - customer
-      - debit_memos
-      - deleted_at
-      - entity_currency
-      - entity_name
-      - id
-      - invoice
-      - is_deleted
-      - last_draft
-      - last_modified_at
-      - navan_region
-      - ramp_use_sandbox
-      - reversal_of_order
-      - reversals
-      - search_text
-      - search_vector
-      - transactions
     PaginatedBudgetList:
       type: object
       required:
@@ -6718,77 +8086,118 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Budget'
-    TransactionMatch:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        matched_object:
-          type: string
-          readOnly: true
-        app_label:
-          type: string
-          readOnly: true
-        model:
-          type: string
-          readOnly: true
-        drafts:
-          type: string
-          readOnly: true
-        object_id:
-          type: integer
-          maximum: 2147483647
-          minimum: 0
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        reviewed_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        status:
-          $ref: '#/components/schemas/TransactionMatchStatusEnum'
-        confidence_score:
-          type:
-          - number
-          - 'null'
-          format: double
-          maximum: 1.0
-          minimum: 0.0
-        reason:
-          type:
-          - string
-          - 'null'
-          description: Why the matcher assigned this status (e.g. reference_surfaced, reference_auto_approved, needs_review, auto_approved). Display/observability only.
-          maxLength: 64
-        snapshot:
-          description: Snapshot of transaction data preserved for training data when the transaction is deleted.
-        customer:
-          type: integer
-        transaction:
-          type:
-          - integer
-          - 'null'
-        content_type:
-          type: integer
-        reviewed_by:
-          type:
-          - integer
-          - 'null'
-      required:
-      - app_label
-      - content_type
-      - created_at
+    BulkVendorVendorTypeEnum:
+      enum:
+      - vendor
       - customer
-      - drafts
-      - id
-      - matched_object
-      - model
-      - object_id
-      - transaction
+      - employee
+      type: string
+      description: '* `vendor` - vendor
+
+        * `customer` - customer
+
+        * `employee` - employee'
+    TypeF19Enum:
+      enum:
+      - bill
+      - bill_payment
+      - bill_prepayment
+      - check
+      - credit_card
+      - credit_memo
+      - credit_memo_payment
+      - debit_memo
+      - debit_memo_payment
+      - deposit
+      - expense
+      - invoice
+      - intercompany_journal
+      - invoice_payment
+      - journal_entry
+      - lease
+      - payment
+      - receive_payment
+      - refund
+      - revenue_recognition
+      - sales_receipt
+      - transfer
+      - vendor_credit
+      - void_bill
+      - void_bill_payment
+      - void_invoice_payment
+      - void_credit_memo
+      - void_credit_memo_payment
+      - void_debit_memo_payment
+      - void_invoice
+      - elimination
+      - revaluation
+      - asset_reclassification
+      type: string
+      description: '* `bill` - Bill
+
+        * `bill_payment` - Bill Payment
+
+        * `bill_prepayment` - Bill Prepayment
+
+        * `check` - Check
+
+        * `credit_card` - Credit Card
+
+        * `credit_memo` - Credit Memo
+
+        * `credit_memo_payment` - Credit Memo Payment
+
+        * `debit_memo` - Debit Memo
+
+        * `debit_memo_payment` - Debit Memo Payment
+
+        * `deposit` - Deposit
+
+        * `expense` - Expense
+
+        * `invoice` - Invoice
+
+        * `intercompany_journal` - Intercompany Journal
+
+        * `invoice_payment` - Invoice Payment
+
+        * `journal_entry` - Journal Entry
+
+        * `lease` - Lease
+
+        * `payment` - Payment
+
+        * `receive_payment` - Receive Payment
+
+        * `refund` - Refund
+
+        * `revenue_recognition` - Revenue Recognition
+
+        * `sales_receipt` - Sales Receipt
+
+        * `transfer` - Transfer
+
+        * `vendor_credit` - Vendor Credit
+
+        * `void_bill` - Void Bill
+
+        * `void_bill_payment` - Void Bill Payment
+
+        * `void_invoice_payment` - Void Invoice Payment
+
+        * `void_credit_memo` - Void Credit Memo
+
+        * `void_credit_memo_payment` - Void Credit Memo Payment
+
+        * `void_debit_memo_payment` - Void Debit Memo Payment
+
+        * `void_invoice` - Void Invoice
+
+        * `elimination` - Elimination
+
+        * `revaluation` - Revaluation
+
+        * `asset_reclassification` - Asset Reclassification'
     FixedAssetDisposal:
       type: object
       properties:
@@ -6840,540 +8249,7 @@ components:
       - id
       - journal_entry_order
       - last_modified_at
-    Status372Enum:
-      enum:
-      - ACTIVE
-      - INACTIVE
-      type: string
-      description: '* `ACTIVE` - Active
-
-        * `INACTIVE` - Inactive'
-    Source3b3Enum:
-      enum:
-      - BILL
-      - BREX
-      - HUBSPOT
-      - MANUAL
-      - PAYROLL
-      - SALESFORCE
-      type: string
-      description: '* `BILL` - Bill
-
-        * `BREX` - Brex
-
-        * `HUBSPOT` - Hubspot
-
-        * `MANUAL` - Manual
-
-        * `PAYROLL` - Payroll
-
-        * `SALESFORCE` - Salesforce'
-    BulkDepartment:
-      type: object
-      properties:
-        name:
-          type: string
-        parent_id:
-          type:
-          - integer
-          - 'null'
-      required:
-      - name
-    FixedAssetAutomationRule:
-      type: object
-      description: Serializer for automation rules
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-          description: Descriptive name for this rule
-          maxLength: 255
-        entity:
-          type: integer
-          description: Entity this rule applies to (determines book currency)
-        entity_name:
-          type: string
-          readOnly: true
-        currency:
-          type: string
-          readOnly: true
-          description: Book currency from entity (auto-populated)
-        account:
-          type: integer
-          description: Create assets when transactions are posted to this account
-        account_name:
-          type: string
-          readOnly: true
-        account_number:
-          type: string
-          readOnly: true
-        amount_threshold:
-          type: number
-          format: double
-          description: Minimum transaction amount in book currency (materiality threshold)
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        asset_class:
-          type: integer
-          description: Asset class to use for created assets
-        asset_class_name:
-          type: string
-          readOnly: true
-        needs_review:
-          type: boolean
-          description: If true, queue assets for review before creation
-        forward_looking:
-          type: boolean
-          description: Only apply to transactions created after this rule
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-      required:
-      - account
-      - account_name
-      - account_number
-      - amount_threshold
-      - asset_class
-      - asset_class_name
-      - created_at
-      - currency
-      - entity
-      - entity_name
-      - id
-      - last_modified_at
-      - name
-    FixedAssetStatusEnum:
-      enum:
-      - ACTIVE
-      - PAUSED
-      - DEPRECIATED
-      - DISPOSED
-      type: string
-      description: '* `ACTIVE` - Active
-
-        * `PAUSED` - Paused
-
-        * `DEPRECIATED` - Depreciated
-
-        * `DISPOSED` - Disposed'
-    PaginatedVendorContactList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/VendorContact'
-    FixedAsset:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        entity_name:
-          type: string
-          readOnly: true
-        entity_currency:
-          type: string
-          readOnly: true
-        useful_life:
-          type: string
-          readOnly: true
-        asset_class_useful_life:
-          type: integer
-          readOnly: true
-        asset_class_name:
-          type: string
-          readOnly: true
-        asset_account:
-          type: string
-          readOnly: true
-        asset_account_name:
-          type: string
-          readOnly: true
-        depreciation_expense_account:
-          type: string
-          readOnly: true
-        depreciation_expense_account_name:
-          type: string
-          readOnly: true
-        accumulated_depreciation_account:
-          type: string
-          readOnly: true
-        accumulated_depreciation_account_name:
-          type: string
-          readOnly: true
-        purchase_journal_entry_order:
-          type: string
-          readOnly: true
-        purchase_transaction_id:
-          type: string
-          readOnly: true
-        vendor_name:
-          type: string
-          readOnly: true
-        department_name:
-          type: string
-          readOnly: true
-        tags:
-          type: array
-          items:
-            type: object
-            additionalProperties: {}
-          readOnly: true
-        attachments:
-          type: array
-          items:
-            $ref: '#/components/schemas/File'
-          readOnly: true
-        depreciations:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/FixedAssetDepreciation'
-        depreciation_start_date:
-          type:
-          - string
-          - 'null'
-          format: date
-        depreciation_end_date:
-          type:
-          - string
-          - 'null'
-          format: date
-        disposals:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/FixedAssetDisposal'
-          readOnly: true
-        transfers:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/FixedAssetTransfer'
-          readOnly: true
-        net_book_value:
-          type: string
-          readOnly: true
-        depreciated_until:
-          type:
-          - string
-          - 'null'
-          format: date
-          writeOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-        chat_uuid:
-          type: string
-          format: uuid
-          writeOnly: true
-        name:
-          type: string
-          maxLength: 250
-        description:
-          type:
-          - string
-          - 'null'
-        currency:
-          type: string
-          maxLength: 3
-        initial_value:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        salvage_value:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        purchase_date:
-          type: string
-          format: date
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        status:
-          $ref: '#/components/schemas/FixedAssetStatusEnum'
-        tag_ids:
-          type: array
-          items:
-            type: integer
-            maximum: 9223372036854775807
-            minimum: -9223372036854775808
-            format: int64
-        tag_group_ids:
-          type: array
-          items:
-            type: integer
-            maximum: 9223372036854775807
-            minimum: -9223372036854775808
-            format: int64
-        exchange_rate:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -100000000000000
-          exclusiveMaximum: 100000000000000
-        exchange_rate_book:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -100000000000000
-          exclusiveMaximum: 100000000000000
-        is_non_depreciable:
-          type:
-          - boolean
-          - 'null'
-        pause_date:
-          type:
-          - string
-          - 'null'
-          format: date
-          readOnly: true
-        pause_reason:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        last_resume_date:
-          type:
-          - string
-          - 'null'
-          format: date
-          readOnly: true
-        chat_id:
-          type:
-          - integer
-          - 'null'
-          maximum: 2147483647
-          minimum: -2147483648
-        customer:
-          type: integer
-          readOnly: true
-        entity:
-          type:
-          - integer
-          - 'null'
-        asset_class:
-          type:
-          - integer
-          - 'null'
-        purchase_journal_entry:
-          type:
-          - integer
-          - 'null'
-        purchase_transaction:
-          type:
-          - integer
-          - 'null'
-        vendor:
-          type:
-          - integer
-          - 'null'
-        department:
-          type:
-          - integer
-          - 'null'
-        purchase_transactions:
-          type: array
-          items:
-            type: integer
-      required:
-      - accumulated_depreciation_account
-      - accumulated_depreciation_account_name
-      - asset_account
-      - asset_account_name
-      - asset_class_name
-      - asset_class_useful_life
-      - attachments
-      - created_at
-      - customer
-      - deleted_at
-      - department_name
-      - depreciation_expense_account
-      - depreciation_expense_account_name
-      - disposals
-      - entity_currency
-      - entity_name
-      - id
-      - is_deleted
-      - last_modified_at
-      - last_resume_date
-      - name
-      - net_book_value
-      - pause_date
-      - pause_reason
-      - purchase_date
-      - purchase_journal_entry_order
-      - purchase_transaction_id
-      - tags
-      - transfers
-      - useful_life
-      - vendor_name
-    BulkVendorSearch:
-      type: object
-      properties:
-        vendors:
-          type: array
-          items:
-            $ref: '#/components/schemas/BulkVendor'
-          maxItems: 10000
-          minItems: 1
-        upsert:
-          type: boolean
-          default: false
-          description: If true, create vendors that don't exist
-      required:
-      - vendors
-    AmortizationSchedule:
-      type: object
-      properties:
-        id:
-          type: integer
-        amortization:
-          type: integer
-          writeOnly: true
-        accounting_amortization:
-          type: integer
-          writeOnly: true
-        journal_entry_order:
-          type: string
-          readOnly: true
-        date:
-          type: string
-          format: date
-        amount:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        posted:
-          type: boolean
-        customer:
-          type: integer
-          readOnly: true
-        transaction:
-          type:
-          - integer
-          - 'null'
-        bill_line:
-          type:
-          - integer
-          - 'null'
-        journal_entry:
-          type:
-          - integer
-          - 'null'
-      required:
-      - amount
-      - customer
-      - date
-      - journal_entry_order
-    BlankEnum:
-      enum:
-      - ''
-    PatchedBudgetAccount:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-        account_name:
-          type: string
-          readOnly: true
-        account_lineage:
-          type: string
-          readOnly: true
-        department_name:
-          type: string
-          readOnly: true
-        period:
-          type: integer
-          maximum: 32767
-          minimum: 0
-          default: 1
-        amount:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-        budget:
-          type: integer
-          readOnly: true
-        account:
-          type: integer
-          readOnly: true
-        department:
-          type:
-          - integer
-          - 'null'
-          readOnly: true
-    PatchedBudget:
+    Budget:
       type: object
       properties:
         id:
@@ -7467,494 +8343,20 @@ components:
           type:
           - integer
           - 'null'
-    TermsEnum:
-      enum:
-      - custom
-      - net_5
-      - net_7
-      - net_10
-      - net_15
-      - net_20
-      - net_30
-      - net_40
-      - net_45
-      - net_60
-      - net_90
-      - net_105
-      - net_120
-      - due_on_receipt
-      type: string
-      description: '* `custom` - Custom
-
-        * `net_5` - Net 5
-
-        * `net_7` - Net 7
-
-        * `net_10` - Net 10
-
-        * `net_15` - Net 15
-
-        * `net_20` - Net 20
-
-        * `net_30` - Net 30
-
-        * `net_40` - Net 40
-
-        * `net_45` - Net 45
-
-        * `net_60` - Net 60
-
-        * `net_90` - Net 90
-
-        * `net_105` - Net 105
-
-        * `net_120` - Net 120
-
-        * `due_on_receipt` - Due on Receipt'
-    VendorType391Enum:
-      enum:
-      - vendor
-      - customer
-      - employee
-      type: string
-      description: '* `vendor` - Vendor
-
-        * `customer` - Customer
-
-        * `employee` - Employee'
-    PaginatedFixedAssetList:
-      type: object
       required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/FixedAsset'
-    PaginatedFixedAssetAutomationMatchList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/FixedAssetAutomationMatch'
-    File:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        created_by:
-          type:
-          - integer
-          - 'null'
-          readOnly: true
-        created_by_name:
-          type: string
-          readOnly: true
-        created_by_email:
-          type: string
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        name:
-          type: string
-        url:
-          type: string
-          readOnly: true
-        s3_content_type:
-          type:
-          - string
-          - 'null'
-        s3_content_length:
-          type:
-          - integer
-          - 'null'
-          maximum: 2147483647
-          minimum: 0
-        s3_path:
-          type: string
-        object_id:
-          type:
-          - integer
-          - 'null'
-          maximum: 2147483647
-          minimum: 0
-        app:
-          type: string
-          readOnly: true
-        model:
-          type: string
-          readOnly: true
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-      required:
-      - app
       - created_at
-      - created_by
-      - created_by_email
-      - created_by_name
       - customer
       - deleted_at
+      - department_name
+      - entity_name
       - id
       - is_deleted
       - last_modified_at
-      - model
       - name
-      - s3_path
-      - url
-    BulkTag:
-      type: object
-      properties:
-        name:
-          type: string
-      required:
-      - name
-    PatchedFixedAsset:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        entity_name:
-          type: string
-          readOnly: true
-        entity_currency:
-          type: string
-          readOnly: true
-        useful_life:
-          type: string
-          readOnly: true
-        asset_class_useful_life:
-          type: integer
-          readOnly: true
-        asset_class_name:
-          type: string
-          readOnly: true
-        asset_account:
-          type: string
-          readOnly: true
-        asset_account_name:
-          type: string
-          readOnly: true
-        depreciation_expense_account:
-          type: string
-          readOnly: true
-        depreciation_expense_account_name:
-          type: string
-          readOnly: true
-        accumulated_depreciation_account:
-          type: string
-          readOnly: true
-        accumulated_depreciation_account_name:
-          type: string
-          readOnly: true
-        purchase_journal_entry_order:
-          type: string
-          readOnly: true
-        purchase_transaction_id:
-          type: string
-          readOnly: true
-        vendor_name:
-          type: string
-          readOnly: true
-        department_name:
-          type: string
-          readOnly: true
-        tags:
-          type: array
-          items:
-            type: object
-            additionalProperties: {}
-          readOnly: true
-        attachments:
-          type: array
-          items:
-            $ref: '#/components/schemas/File'
-          readOnly: true
-        depreciations:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/FixedAssetDepreciation'
-        depreciation_start_date:
-          type:
-          - string
-          - 'null'
-          format: date
-        depreciation_end_date:
-          type:
-          - string
-          - 'null'
-          format: date
-        disposals:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/FixedAssetDisposal'
-          readOnly: true
-        transfers:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/FixedAssetTransfer'
-          readOnly: true
-        net_book_value:
-          type: string
-          readOnly: true
-        depreciated_until:
-          type:
-          - string
-          - 'null'
-          format: date
-          writeOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-        chat_uuid:
-          type: string
-          format: uuid
-          writeOnly: true
-        name:
-          type: string
-          maxLength: 250
-        description:
-          type:
-          - string
-          - 'null'
-        currency:
-          type: string
-          maxLength: 3
-        initial_value:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        salvage_value:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        purchase_date:
-          type: string
-          format: date
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        status:
-          $ref: '#/components/schemas/FixedAssetStatusEnum'
-        tag_ids:
-          type: array
-          items:
-            type: integer
-            maximum: 9223372036854775807
-            minimum: -9223372036854775808
-            format: int64
-        tag_group_ids:
-          type: array
-          items:
-            type: integer
-            maximum: 9223372036854775807
-            minimum: -9223372036854775808
-            format: int64
-        exchange_rate:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -100000000000000
-          exclusiveMaximum: 100000000000000
-        exchange_rate_book:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -100000000000000
-          exclusiveMaximum: 100000000000000
-        is_non_depreciable:
-          type:
-          - boolean
-          - 'null'
-        pause_date:
-          type:
-          - string
-          - 'null'
-          format: date
-          readOnly: true
-        pause_reason:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        last_resume_date:
-          type:
-          - string
-          - 'null'
-          format: date
-          readOnly: true
-        chat_id:
-          type:
-          - integer
-          - 'null'
-          maximum: 2147483647
-          minimum: -2147483648
-        customer:
-          type: integer
-          readOnly: true
-        entity:
-          type:
-          - integer
-          - 'null'
-        asset_class:
-          type:
-          - integer
-          - 'null'
-        purchase_journal_entry:
-          type:
-          - integer
-          - 'null'
-        purchase_transaction:
-          type:
-          - integer
-          - 'null'
-        vendor:
-          type:
-          - integer
-          - 'null'
-        department:
-          type:
-          - integer
-          - 'null'
-        purchase_transactions:
-          type: array
-          items:
-            type: integer
-    PatchedTransactionMatch:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        matched_object:
-          type: string
-          readOnly: true
-        app_label:
-          type: string
-          readOnly: true
-        model:
-          type: string
-          readOnly: true
-        drafts:
-          type: string
-          readOnly: true
-        object_id:
-          type: integer
-          maximum: 2147483647
-          minimum: 0
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        reviewed_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        status:
-          $ref: '#/components/schemas/TransactionMatchStatusEnum'
-        confidence_score:
-          type:
-          - number
-          - 'null'
-          format: double
-          maximum: 1.0
-          minimum: 0.0
-        reason:
-          type:
-          - string
-          - 'null'
-          description: Why the matcher assigned this status (e.g. reference_surfaced, reference_auto_approved, needs_review, auto_approved). Display/observability only.
-          maxLength: 64
-        snapshot:
-          description: Snapshot of transaction data preserved for training data when the transaction is deleted.
-        customer:
-          type: integer
-        transaction:
-          type:
-          - integer
-          - 'null'
-        content_type:
-          type: integer
-        reviewed_by:
-          type:
-          - integer
-          - 'null'
+      - prior_end_date
+      - prior_start_date
+      - start_date
+      - tags
     FixedAssetTransfer:
       type: object
       properties:
@@ -8064,591 +8466,6 @@ components:
       - reclassification_journal_entry_order
       - source_asset_class
       - source_asset_class_name
-    PaginatedIntercompanyJournalEntryList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/IntercompanyJournalEntry'
-    PaginatedTransactionMatchList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/TransactionMatch'
-    TypeF19Enum:
-      enum:
-      - bill
-      - bill_payment
-      - bill_prepayment
-      - check
-      - credit_card
-      - credit_memo
-      - credit_memo_payment
-      - debit_memo
-      - debit_memo_payment
-      - deposit
-      - expense
-      - invoice
-      - intercompany_journal
-      - invoice_payment
-      - journal_entry
-      - lease
-      - payment
-      - receive_payment
-      - refund
-      - revenue_recognition
-      - sales_receipt
-      - transfer
-      - vendor_credit
-      - void_bill
-      - void_bill_payment
-      - void_invoice_payment
-      - void_credit_memo
-      - void_credit_memo_payment
-      - void_debit_memo_payment
-      - void_invoice
-      - elimination
-      - revaluation
-      - asset_reclassification
-      type: string
-      description: '* `bill` - Bill
-
-        * `bill_payment` - Bill Payment
-
-        * `bill_prepayment` - Bill Prepayment
-
-        * `check` - Check
-
-        * `credit_card` - Credit Card
-
-        * `credit_memo` - Credit Memo
-
-        * `credit_memo_payment` - Credit Memo Payment
-
-        * `debit_memo` - Debit Memo
-
-        * `debit_memo_payment` - Debit Memo Payment
-
-        * `deposit` - Deposit
-
-        * `expense` - Expense
-
-        * `invoice` - Invoice
-
-        * `intercompany_journal` - Intercompany Journal
-
-        * `invoice_payment` - Invoice Payment
-
-        * `journal_entry` - Journal Entry
-
-        * `lease` - Lease
-
-        * `payment` - Payment
-
-        * `receive_payment` - Receive Payment
-
-        * `refund` - Refund
-
-        * `revenue_recognition` - Revenue Recognition
-
-        * `sales_receipt` - Sales Receipt
-
-        * `transfer` - Transfer
-
-        * `vendor_credit` - Vendor Credit
-
-        * `void_bill` - Void Bill
-
-        * `void_bill_payment` - Void Bill Payment
-
-        * `void_invoice_payment` - Void Invoice Payment
-
-        * `void_credit_memo` - Void Credit Memo
-
-        * `void_credit_memo_payment` - Void Credit Memo Payment
-
-        * `void_debit_memo_payment` - Void Debit Memo Payment
-
-        * `void_invoice` - Void Invoice
-
-        * `elimination` - Elimination
-
-        * `revaluation` - Revaluation
-
-        * `asset_reclassification` - Asset Reclassification'
-    BulkDepartmentSearch:
-      type: object
-      properties:
-        departments:
-          type: array
-          items:
-            $ref: '#/components/schemas/BulkDepartment'
-          maxItems: 10000
-          minItems: 1
-        upsert:
-          type: boolean
-          default: false
-          description: If true, create departments that don't exist
-      required:
-      - departments
-    PatchedChartTransaction:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-        entity_name:
-          type: string
-          readOnly: true
-        entity_currency:
-          type: string
-          readOnly: true
-        account_name:
-          type:
-          - string
-          - 'null'
-          description: Combines account number and name in the format "number - name"
-          readOnly: true
-        account_number:
-          type: string
-          readOnly: true
-        vendor_name:
-          type: string
-          readOnly: true
-          description: Name of the linked Campfire Vendor object. Distinct from `merchant_name`, which is free text stored directly on the transaction and not linked to a Campfire object.
-        vendor_id:
-          type: string
-          readOnly: true
-        department_name:
-          type: string
-          readOnly: true
-        department_code:
-          type: string
-          readOnly: true
-        parent_department_name:
-          type: string
-          readOnly: true
-        parent_department:
-          type: integer
-          readOnly: true
-        tags:
-          type: array
-          items:
-            type: object
-            additionalProperties: {}
-          readOnly: true
-        journal:
-          type: integer
-          readOnly: true
-        journal_order:
-          type: string
-          readOnly: true
-        journal_memo:
-          type: string
-          readOnly: true
-        journal_type:
-          type: string
-          readOnly: true
-        intercompany_journal:
-          type: integer
-          readOnly: true
-        created_automatically:
-          type: boolean
-          readOnly: true
-        journal_attachments:
-          type: array
-          items:
-            $ref: '#/components/schemas/File'
-          readOnly: true
-        journal_type_name:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        invoice:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        bill:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        date_month:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-          description: Two-digit month (MM) derived from `posted_at`, the transaction date.
-        date_year:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-          description: Four-digit year (YYYY) derived from `posted_at`, the transaction date.
-        balance_after_transaction:
-          type: number
-          format: double
-          readOnly: true
-        bank_account:
-          type: string
-          readOnly: true
-        bank_account_name:
-          type: string
-          readOnly: true
-        account:
-          type:
-          - integer
-          - 'null'
-        last_modified_by_name:
-          type: string
-          readOnly: true
-        account_type:
-          type: string
-          readOnly: true
-        account_subtype:
-          type: string
-          readOnly: true
-        parent_account_name:
-          type: string
-          readOnly: true
-        files:
-          type: string
-          readOnly: true
-        invoice_id:
-          type:
-          - integer
-          - 'null'
-          readOnly: true
-        invoice_number:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        bill_id:
-          type:
-          - integer
-          - 'null'
-          readOnly: true
-        bill_number:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        file_names:
-          type: string
-          readOnly: true
-        has_matches:
-          type: boolean
-          readOnly: true
-        has_ai:
-          type: boolean
-          readOnly: true
-        has_rules:
-          type: boolean
-          readOnly: true
-        has_merges:
-          type: boolean
-          readOnly: true
-        has_fixed_asset_rule_matches:
-          type: boolean
-          readOnly: true
-        primary_action_type:
-          type: string
-          readOnly: true
-        suggested_account:
-          type:
-          - integer
-          - 'null'
-          readOnly: true
-        suggested_account_name:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        suggested_account_number:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        amount:
-          type: number
-          format: double
-          readOnly: true
-          description: Amount in consolidated currency (the currency of the root entity).
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        amount_native:
-          type: number
-          format: double
-          readOnly: true
-          description: Amount in the currency the transaction was originally created in.
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        amount_book:
-          type: number
-          format: double
-          readOnly: true
-          description: Amount in the currency of the entity this transaction belongs to.
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        amortization_schedule:
-          type: array
-          items:
-            $ref: '#/components/schemas/AmortizationSchedule'
-          readOnly: true
-        linked_amortizations:
-          type: array
-          items:
-            type: object
-            additionalProperties: {}
-          readOnly: true
-        created_fixed_assets:
-          type: array
-          items:
-            type: object
-            additionalProperties:
-              type: string
-          description: 'Return all fixed assets this transaction is linked to — via the legacy
-
-            `purchase_transaction` FK (reverse: `created_fixed_assets`) AND the
-
-            new `purchase_transactions` M2M (reverse: `linked_fixed_assets`).
-
-            Dual-write keeps the FK target in the M2M, but using both covers any
-
-            pre-backfill drift and surfaces non-primary M2M-only links (e.g. the
-
-            secondary txns in a multi-txn fixed asset, or a split-resized txn).'
-          readOnly: true
-        reconciliation_report:
-          type: string
-          readOnly: true
-        opposing_account_name:
-          type: string
-          readOnly: true
-        opposing_account_number:
-          type: string
-          readOnly: true
-        tax_rate:
-          type:
-          - integer
-          - 'null'
-          writeOnly: true
-        apply_both_sides:
-          type: boolean
-          writeOnly: true
-          default: false
-        transaction_match_id:
-          type:
-          - integer
-          - 'null'
-          writeOnly: true
-        transaction_id:
-          type: string
-          format: uuid
-          readOnly: true
-        debit_amount:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        credit_amount:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        debit_amount_book:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        credit_amount_book:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        debit_amount_native:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        credit_amount_native:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        currency:
-          type: string
-          maxLength: 3
-        exchange_rate:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -100000000000000
-          exclusiveMaximum: 100000000000000
-        exchange_rate_book:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -100000000000000
-          exclusiveMaximum: 100000000000000
-        posted_at:
-          type:
-          - string
-          - 'null'
-          format: date
-          title: Posted Date
-        merchant_name:
-          type:
-          - string
-          - 'null'
-        bank_description:
-          type:
-          - string
-          - 'null'
-        tag_ids:
-          type: array
-          items:
-            type: integer
-            maximum: 9223372036854775807
-            minimum: -9223372036854775808
-            format: int64
-        tag_group_ids:
-          type: array
-          items:
-            type: integer
-            maximum: 9223372036854775807
-            minimum: -9223372036854775808
-            format: int64
-        note:
-          type:
-          - string
-          - 'null'
-        receipt_url:
-          type:
-          - string
-          - 'null'
-          format: uri
-          maxLength: 512
-        balance_before_transaction:
-          type:
-          - number
-          - 'null'
-          format: double
-          readOnly: true
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        external_id:
-          type:
-          - string
-          - 'null'
-        needs_review:
-          type: boolean
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        draft_matches: {}
-        last_lam_prediction_attempt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        customer:
-          type: integer
-          readOnly: true
-        entity:
-          type: integer
-        source_entity:
-          type:
-          - integer
-          - 'null'
-          title: Source Operating Entity
-        parent_bank_transaction:
-          type:
-          - integer
-          - 'null'
-        vendor:
-          type:
-          - integer
-          - 'null'
-        department:
-          type:
-          - integer
-          - 'null'
-        last_modified_by:
-          type:
-          - integer
-          - 'null'
     FixedAssetDepreciation:
       type: object
       properties:
@@ -8697,7 +8514,7 @@ components:
       - journal_entry_order
       - last_modified_at
       - post_date
-    PaginatedJournalEntryList:
+    PaginatedFixedAssetAutomationMatchList:
       type: object
       required:
       - count
@@ -8721,7 +8538,108 @@ components:
         results:
           type: array
           items:
-            $ref: '#/components/schemas/JournalEntry'
+            $ref: '#/components/schemas/FixedAssetAutomationMatch'
+    TransactionTag:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        group_name:
+          type: string
+          readOnly: true
+        parent_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        parent:
+          type:
+          - integer
+          - 'null'
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        is_active:
+          type: boolean
+          default: true
+        name:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        group:
+          type:
+          - integer
+          - 'null'
+      required:
+      - created_at
+      - customer
+      - deleted_at
+      - group_name
+      - id
+      - is_deleted
+      - last_modified_at
+      - name
+      - parent_name
+    FixedAssetStatusEnum:
+      enum:
+      - ACTIVE
+      - PAUSED
+      - DEPRECIATED
+      - DISPOSED
+      type: string
+      description: '* `ACTIVE` - Active
+
+        * `PAUSED` - Paused
+
+        * `DEPRECIATED` - Depreciated
+
+        * `DISPOSED` - Disposed'
+    BulkDepartment:
+      type: object
+      properties:
+        name:
+          type: string
+        parent_id:
+          type:
+          - integer
+          - 'null'
+      required:
+      - name
+    BulkVendorSearch:
+      type: object
+      properties:
+        vendors:
+          type: array
+          items:
+            $ref: '#/components/schemas/BulkVendor'
+          maxItems: 10000
+          minItems: 1
+        upsert:
+          type: boolean
+          default: false
+          description: If true, create vendors that don't exist
+      required:
+      - vendors
     BudgetAccount:
       type: object
       properties:
@@ -8792,404 +8710,86 @@ components:
       - id
       - is_deleted
       - last_modified_at
-    TransactionTag:
+    BreakdownTypeEnum:
+      enum:
+      - standard
+      - department_row
+      type: string
+      description: '* `standard` - Standard (Account-based)
+
+        * `department_row` - Department (Row)'
+    TransactionMatch:
       type: object
       properties:
         id:
           type: integer
           readOnly: true
-        group_name:
+        matched_object:
           type: string
           readOnly: true
-        parent_name:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        parent:
-          type:
-          - integer
-          - 'null'
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-        is_active:
-          type: boolean
-          default: true
-        name:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        created_at:
+        app_label:
           type: string
-          format: date-time
           readOnly: true
-        last_modified_at:
+        model:
           type: string
-          format: date-time
           readOnly: true
-        customer:
+        drafts:
+          type: string
+          readOnly: true
+        object_id:
           type: integer
-          readOnly: true
-        group:
-          type:
-          - integer
-          - 'null'
-      required:
-      - created_at
-      - customer
-      - deleted_at
-      - group_name
-      - id
-      - is_deleted
-      - last_modified_at
-      - name
-      - parent_name
-    Budget:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        entity_name:
-          type: string
-          readOnly: true
-        prior_start_date:
-          type: string
-          readOnly: true
-        prior_end_date:
-          type: string
-          readOnly: true
-        department_name:
-          type: string
-          readOnly: true
-        tags:
-          type: array
-          items:
-            type: object
-            additionalProperties: {}
-          readOnly: true
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-        name:
-          type: string
-        description:
-          type:
-          - string
-          - 'null'
-        cadence:
-          type:
-          - string
-          - 'null'
-        start_date:
-          type: string
-          format: date
-        end_date:
-          type:
-          - string
-          - 'null'
-          format: date
-        periods:
-          type: integer
-          maximum: 32767
+          maximum: 2147483647
           minimum: 0
-        breakdown_type:
-          $ref: '#/components/schemas/BreakdownTypeEnum'
-        tag_ids:
-          type: array
-          items:
-            type: integer
-            maximum: 9223372036854775807
-            minimum: -9223372036854775808
-            format: int64
-        tag_group_ids:
-          type: array
-          items:
-            type: integer
-            maximum: 9223372036854775807
-            minimum: -9223372036854775808
-            format: int64
-        currency:
-          type: string
-          maxLength: 3
         created_at:
           type: string
           format: date-time
           readOnly: true
-        last_modified_at:
-          type: string
+        reviewed_at:
+          type:
+          - string
+          - 'null'
           format: date-time
-          readOnly: true
+        status:
+          $ref: '#/components/schemas/TransactionMatchStatusEnum'
+        confidence_score:
+          type:
+          - number
+          - 'null'
+          format: double
+          maximum: 1.0
+          minimum: 0.0
+        reason:
+          type:
+          - string
+          - 'null'
+          description: Why the matcher assigned this status (e.g. reference_surfaced, reference_auto_approved, needs_review, auto_approved). Display/observability only.
+          maxLength: 64
+        snapshot:
+          description: Snapshot of transaction data preserved for training data when the transaction is deleted.
         customer:
           type: integer
-          readOnly: true
-        entity:
+        transaction:
           type:
           - integer
           - 'null'
-        department:
+        content_type:
+          type: integer
+        reviewed_by:
           type:
           - integer
           - 'null'
       required:
+      - app_label
+      - content_type
       - created_at
       - customer
-      - deleted_at
-      - department_name
-      - entity_name
+      - drafts
       - id
-      - is_deleted
-      - last_modified_at
-      - name
-      - prior_end_date
-      - prior_start_date
-      - start_date
-      - tags
-    PatchedJournalEntry:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-        transactions:
-          type: array
-          items:
-            $ref: '#/components/schemas/ChartTransaction'
-          readOnly: true
-        attachments:
-          type: array
-          items:
-            $ref: '#/components/schemas/File'
-          readOnly: true
-        invoice:
-          type:
-          - integer
-          - 'null'
-          readOnly: true
-        reversal_of_order:
-          type: string
-          readOnly: true
-        reversals:
-          type: array
-          items:
-            type: object
-            additionalProperties: {}
-          readOnly: true
-        reversal_date:
-          type:
-          - string
-          - 'null'
-          format: date
-          writeOnly: true
-        entity_name:
-          type: string
-          readOnly: true
-        entity_currency:
-          type: string
-          readOnly: true
-        created_by:
-          type:
-          - integer
-          - 'null'
-          readOnly: true
-          description: Derived user ID of the journal entry creator. Check created_by_source before explaining provenance.
-        created_by_name:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-          description: Derived name of the journal entry creator. Check created_by_source before explaining provenance.
-        created_by_source:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-          description: 'Provenance for created_by and created_by_name: ''draft_queue_created_by'', ''chart_transaction_last_modified_by_fallback'', or null.'
-        order:
-          type: string
-        revenue_transactions:
-          type: array
-          items:
-            type: integer
-          writeOnly: true
-        bulk_upload:
-          type: boolean
-          writeOnly: true
-        chat_uuid:
-          type:
-          - string
-          - 'null'
-          format: uuid
-          writeOnly: true
-        close_task_id:
-          type: string
-        update_reversal:
-          type: boolean
-          writeOnly: true
-          default: false
-        credit_memos:
-          type: array
-          items:
-            type: object
-            additionalProperties: {}
-          readOnly: true
-        debit_memos:
-          type: array
-          items:
-            type: object
-            additionalProperties: {}
-          readOnly: true
-        journals_to_delete:
-          type: array
-          items:
-            type: integer
-          writeOnly: true
-        ramp_use_sandbox:
-          type: string
-          readOnly: true
-        navan_region:
-          type:
-          - string
-          - 'null'
-          description: 'Navan data region (``US``/``EU``) for a Navan-sourced journal entry, else ``None``.
-
-
-            Mirrors ``ramp_use_sandbox``: the frontend builds the "Open in Navan" deep
-
-            link from ``source_id`` and uses this to pick the web-app host
-
-            (US -> app.navan.com, EU -> app-fra.navan.com). Navan records carry no FK to
-
-            their connection, so the region is resolved per customer and memoized to
-
-            avoid an N+1 lookup across a transaction list.'
-          readOnly: true
-        search_vector:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        search_text:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        type:
-          $ref: '#/components/schemas/TypeF19Enum'
-        journal_id:
-          type: string
-          format: uuid
-        memo:
-          type:
-          - string
-          - 'null'
-        currency:
-          type: string
-          maxLength: 3
-        exchange_rate:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -100000000000000
-          exclusiveMaximum: 100000000000000
-        exchange_rate_book:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -100000000000000
-          exclusiveMaximum: 100000000000000
-        use_average_rate:
-          type:
-          - boolean
-          - 'null'
-        created_automatically:
-          type: boolean
-        date:
-          type: string
-          format: date
-        ref_number:
-          type:
-          - string
-          - 'null'
-          maxLength: 100
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        source:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        source_id:
-          type:
-          - string
-          - 'null'
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-        recurrent_journal_entry:
-          type:
-          - integer
-          - 'null'
-        entity:
-          type:
-          - integer
-          - 'null'
-        reversal_of:
-          type:
-          - integer
-          - 'null'
-        intercompany_journal:
-          type:
-          - integer
-          - 'null'
-        source_file:
-          type:
-          - integer
-          - 'null'
-        chat:
-          type:
-          - integer
-          - 'null'
-        last_draft:
-          type:
-          - integer
-          - 'null'
-          readOnly: true
-    IntercompanyJournalEntry:
+      - matched_object
+      - model
+      - object_id
+      - transaction
+    PatchedIntercompanyJournalEntry:
       type: object
       properties:
         id:
@@ -9296,37 +8896,437 @@ components:
           items:
             type: integer
           description: Entities involved in this intercompany journal entry. Used for consolidation filtering.
+    PaginatedTransactionMatchList:
+      type: object
       required:
-      - attachments
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransactionMatch'
+    Vendor:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        contacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/VendorContact'
+        parent_name:
+          type: string
+          readOnly: true
+        stripe_connection_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        stripe_connection_entity:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+        stripe_connection_portal_url:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        stripe_connection_portal_enabled:
+          type:
+          - boolean
+          - 'null'
+          readOnly: true
+        stripe_connection_invoicing_enabled:
+          type:
+          - boolean
+          - 'null'
+          readOnly: true
+        vendor_custom_field_1_name:
+          type: string
+          readOnly: true
+        payment_term_name_display:
+          type: string
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        search_vector:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        search_text:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        vendor_type:
+          default: vendor
+          title: Payee Type
+          oneOf:
+          - $ref: '#/components/schemas/VendorType391Enum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        name:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        dba:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        company_name:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        website:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        first_name:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        last_name:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        email:
+          type:
+          - string
+          - 'null'
+          format: email
+          maxLength: 250
+        phone_number:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        mobile_number:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        address_street_1:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        address_street_2:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        city:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        state:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        zip_code:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        country:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        billing_address_street_1:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        billing_address_street_2:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        billing_city:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        billing_state:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        billing_zip_code:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        billing_country:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        shipping_addressee:
+          type:
+          - string
+          - 'null'
+          maxLength: 255
+        billing_addressee:
+          type:
+          - string
+          - 'null'
+          maxLength: 255
+        notes:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        business_id_ssn:
+          type:
+          - string
+          - 'null'
+          title: Business ID/SSN
+          maxLength: 250
+        is_1099:
+          type: boolean
+        vat_number:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        business_type:
+          type:
+          - string
+          - 'null'
+          description: Business type classification (e.g., Korean NTS 업태)
+          maxLength: 250
+        business_category:
+          type:
+          - string
+          - 'null'
+          description: Business category classification (e.g., Korean NTS 종목)
+          maxLength: 250
+        entity_use_code:
+          type:
+          - string
+          - 'null'
+          description: Avalara entity/use code for tax exemptions (e.g., A - Federal Government, B - State/Local Govt)
+          maxLength: 25
+        withholding_tax_id:
+          type:
+          - string
+          - 'null'
+          description: Vendor's tax-authority ID for withholding (PAN for India, TZ for Israel). Dedicated field since these have format/checksum rules distinct from business_id_ssn.
+          maxLength: 250
+        stripe_customer_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        use_stripe_auto_bill:
+          type:
+          - boolean
+          - 'null'
+        bill_vendor_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        external_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        source:
+          oneOf:
+          - $ref: '#/components/schemas/Source3b3Enum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        invoice_message:
+          type:
+          - string
+          - 'null'
+        abbreviation:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        status:
+          $ref: '#/components/schemas/Status372Enum'
+        anrok_customer_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        terms:
+          oneOf:
+          - $ref: '#/components/schemas/TermsEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        invoice_labels: {}
+        invoice_language:
+          type:
+          - string
+          - 'null'
+          maxLength: 10
+        lineage_array:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            maxLength: 50
+          description: Pre-computed lineage array from root to this vendor
+        customer:
+          type: integer
+          readOnly: true
+        parent:
+          type:
+          - integer
+          - 'null'
+        stripe_connection:
+          type:
+          - integer
+          - 'null'
+        default_expense_category:
+          type:
+          - integer
+          - 'null'
+        vendor_custom_field_1:
+          type:
+          - integer
+          - 'null'
+        payment_term:
+          type:
+          - integer
+          - 'null'
+          description: Payment term for this vendor
+      required:
       - created_at
       - customer
       - deleted_at
       - id
       - is_deleted
       - last_modified_at
-      - reversal_of_order
-      - reversals
-      - transactions
-    BreakdownTypeEnum:
-      enum:
-      - standard
-      - department_row
-      type: string
-      description: '* `standard` - Standard (Account-based)
-
-        * `department_row` - Department (Row)'
-    BulkTagSearch:
+      - name
+      - parent_name
+      - payment_term_name_display
+      - search_text
+      - search_vector
+      - stripe_connection_entity
+      - stripe_connection_invoicing_enabled
+      - stripe_connection_name
+      - stripe_connection_portal_enabled
+      - stripe_connection_portal_url
+      - vendor_custom_field_1_name
+    Department:
       type: object
       properties:
+        id:
+          type: integer
+          readOnly: true
+        parent_name:
+          type: string
+          readOnly: true
         tags:
           type: array
           items:
-            $ref: '#/components/schemas/BulkTag'
-        upsert:
+            type: object
+            additionalProperties: {}
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        active:
           type: boolean
-          default: false
-          description: If true, create tags that don't exist
+          default: true
+        code:
+          type: string
+          maxLength: 250
+        name:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        display_name:
+          type:
+          - string
+          - 'null'
+          maxLength: 600
+        tag_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        tag_group_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        parent:
+          type:
+          - integer
+          - 'null'
       required:
+      - code
+      - created_at
+      - customer
+      - id
+      - last_modified_at
+      - name
+      - parent_name
       - tags
   securitySchemes:
     knoxApiToken:
