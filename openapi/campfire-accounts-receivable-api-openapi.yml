@@ -2859,513 +2859,22 @@ paths:
           description: No response body
 components:
   schemas:
-    Product:
+    BulkApplyInvoicePayment:
       type: object
       properties:
-        id:
+        transaction_id:
           type: integer
-          readOnly: true
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
+        invoice_ids:
           type:
-          - string
+          - array
           - 'null'
-          format: date-time
-          readOnly: true
-        department_name:
-          type: string
-          readOnly: true
-        invoice_account_name:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        revenue_account_name:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        ar_account_name:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        bad_debt_account_name:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        invoice_unbilled_account_name:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        tax_account_name:
-          type: string
-          readOnly: true
-        tags:
-          type: array
-          items:
-            type: object
-            additionalProperties: {}
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        product_uuid:
-          type: string
-          format: uuid
-          readOnly: true
-        display_name:
-          type: string
-          readOnly: true
-        usage_group_count:
-          type: integer
-          readOnly: true
-          default: 0
-        usage_groups:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductUsageGroupSummary'
-          readOnly: true
-        product_id:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        product_name:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        product_description:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        tag_ids:
-          type: array
           items:
             type: integer
-            maximum: 9223372036854775807
-            minimum: -9223372036854775808
-            format: int64
-        tag_group_ids:
-          type: array
-          items:
-            type: integer
-            maximum: 9223372036854775807
-            minimum: -9223372036854775808
-            format: int64
-        currency:
-          type:
-          - string
-          - 'null'
-          maxLength: 3
-        price:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -100000000000000
-          exclusiveMaximum: 100000000000000
-        cost:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        exclude_from_mrr:
-          type: boolean
-        is_taxable:
-          type: boolean
-        is_renewable:
-          type: boolean
-        recognize_revenue:
-          type: boolean
-          description: If False, contract-sync skips the revenue-recognition waterfall for this product (no ContractSubscription / RevenueTransaction rows).
-        is_immediate_recognition:
-          type: boolean
-          description: When true, revenue for this product is recognized in full on the invoice finalization date instead of being amortized over the service period.  Used by the Stripe accrual JE waterfall.
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        stripe_product_id:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        avalara_item_id:
-          type:
-          - integer
-          - 'null'
-          maximum: 9223372036854775807
-          minimum: -9223372036854775808
-          format: int64
-        avalara_item_data: {}
-        avalara_tax_code:
-          type:
-          - string
-          - 'null'
-          description: Avalara tax code (e.g., SW052000 for SAAS)
-          maxLength: 50
-        anrok_item_id:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        sphere_item_id:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        apply_dept_tag_to_invoice_journals:
-          type:
-          - boolean
-          - 'null'
-          description: Apply Department and Tag categorization to all lines on Invoice Journals
-        customer:
-          type: integer
-          readOnly: true
-        department:
-          type:
-          - integer
-          - 'null'
-        invoice_account:
-          type:
-          - integer
-          - 'null'
-        revenue_account:
-          type:
-          - integer
-          - 'null'
-        ar_account:
-          type:
-          - integer
-          - 'null'
-        bad_debt_account:
-          type:
-          - integer
-          - 'null'
-        invoice_unbilled_account:
-          type:
-          - integer
-          - 'null'
+        filters:
+          allOf:
+          - $ref: '#/components/schemas/BulkApplyInvoicePaymentFilters'
       required:
-      - ar_account_name
-      - bad_debt_account_name
-      - created_at
-      - customer
-      - deleted_at
-      - department_name
-      - display_name
-      - id
-      - invoice_account_name
-      - invoice_unbilled_account_name
-      - is_deleted
-      - last_modified_at
-      - product_uuid
-      - revenue_account_name
-      - tags
-      - tax_account_name
-      - usage_group_count
-      - usage_groups
-    AccountingInvoiceLine:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        invoice:
-          type: integer
-          writeOnly: true
-        product_name:
-          type: string
-          readOnly: true
-        product_bundle_name:
-          type: string
-          readOnly: true
-        stripe_product_id:
-          type: string
-          readOnly: true
-        product_is_taxable:
-          type: boolean
-          readOnly: true
-        anrok_item_id:
-          type: string
-          readOnly: true
-        sphere_item_id:
-          type: string
-          readOnly: true
-        service_date:
-          type:
-          - string
-          - 'null'
-          format: date
-        tags:
-          type: array
-          items:
-            type: object
-            additionalProperties: {}
-          readOnly: true
-        department_name:
-          type: string
-          readOnly: true
-        department_code:
-          type: string
-          readOnly: true
-        withholding_tax_rate_name:
-          type: string
-          readOnly: true
-        withholding_tax_rate_value:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Sum of the selected withholding rate's component rates, for line-level preview.
-          readOnly: true
-        description:
-          type:
-          - string
-          - 'null'
-        quantity:
-          type: number
-          format: double
-          exclusiveMinimum: -10000000000000000
-          exclusiveMaximum: 10000000000000000
-        rate:
-          type: number
-          format: double
-          exclusiveMinimum: -10000000000000
-          exclusiveMaximum: 10000000000000
-        currency:
-          type: string
-          maxLength: 3
-        amount:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        tax:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        tax_description:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        entity_use_code:
-          type:
-          - string
-          - 'null'
-          description: Avalara entity/use code for line-level tax exemptions
-          maxLength: 25
-        discount:
-          type: number
-          format: double
-          description: Discount amount in currency
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        discount_percentage:
-          type: number
-          format: double
-          description: Discount percentage (0-100)
-          exclusiveMinimum: -1000
-          exclusiveMaximum: 1000
-        discount_amount:
-          type: number
-          format: double
-          description: Discount amount calculated from percentage
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        tag_ids:
-          type: array
-          items:
-            type: integer
-            maximum: 9223372036854775807
-            minimum: -9223372036854775808
-            format: int64
-        tag_group_ids:
-          type: array
-          items:
-            type: integer
-            maximum: 9223372036854775807
-            minimum: -9223372036854775808
-            format: int64
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-        product:
-          type:
-          - integer
-          - 'null'
-        product_bundle:
-          type:
-          - integer
-          - 'null'
-        withholding_tax_rate:
-          type:
-          - integer
-          - 'null'
-          description: Marks this line as subject to withholding; used for preview only. Null = not subject.
-        department:
-          type:
-          - integer
-          - 'null'
-      required:
-      - anrok_item_id
-      - created_at
-      - customer
-      - department_code
-      - department_name
-      - id
-      - last_modified_at
-      - product_bundle_name
-      - product_is_taxable
-      - product_name
-      - sphere_item_id
-      - stripe_product_id
-      - tags
-      - withholding_tax_rate_name
-      - withholding_tax_rate_value
-    ProductUsageGroupSummary:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-        pricing_model:
-          $ref: '#/components/schemas/PricingModelEnum'
-        unit_of_measure:
-          type:
-          - string
-          - 'null'
-        tier_count:
-          type: integer
-          readOnly: true
-          default: 0
-        tiers:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductUsageTierSummary'
-          readOnly: true
-      required:
-      - id
-      - tier_count
-      - tiers
-    ApplicationStatusEnum:
-      enum:
-      - open
-      - partially_used
-      - used
-      - voided
-      type: string
-      description: '* `open` - Open
-
-        * `partially_used` - Partially Used
-
-        * `used` - Used
-
-        * `voided` - Voided'
-    AccountingCreditMemoPayment:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        payment_journal_entry_order:
-          type: string
-          readOnly: true
-        voided_journal_entry_order:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        invoice:
-          type: string
-          readOnly: true
-        currency:
-          type: string
-          maxLength: 3
-        amount:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        payment_date:
-          type:
-          - string
-          - 'null'
-          format: date
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        voided_date:
-          type:
-          - string
-          - 'null'
-          format: date
-        customer:
-          type: integer
-          readOnly: true
-        credit_memo:
-          type: integer
-        payment_journal_entry:
-          type: integer
-        payment_transaction:
-          type:
-          - integer
-          - 'null'
-        voided_journal_entry:
-          type:
-          - integer
-          - 'null'
-      required:
-      - created_at
-      - credit_memo
-      - customer
-      - id
-      - invoice
-      - last_modified_at
-      - payment_journal_entry
-      - payment_journal_entry_order
-      - voided_journal_entry_order
-    BulkCreditMemoSearch:
-      type: object
-      properties:
-        credit_memos:
-          type: array
-          items:
-            $ref: '#/components/schemas/BulkCreditMemo'
-          maxItems: 10000
-          minItems: 1
-      required:
-      - credit_memos
+      - transaction_id
     AccountingCreditMemoLine:
       type: object
       properties:
@@ -3480,475 +2989,14 @@ components:
       - tags
       - tax_rate_name
       - tax_rate_value
-    NullEnum:
-      enum:
-      - null
-    PaymentTypeEnum:
-      enum:
-      - CREDIT_MEMO
-      - BANK_TRANSACTION
-      - MANUAL_TRANSACTION
-      type: string
-      description: '* `CREDIT_MEMO` - Credit Memo
-
-        * `BANK_TRANSACTION` - Bank Transaction
-
-        * `MANUAL_TRANSACTION` - Manual Transaction'
-    Source24dEnum:
-      enum:
-      - STRIPE
-      - MANUAL
-      type: string
-      description: '* `STRIPE` - Stripe
-
-        * `MANUAL` - Manual'
-    MarkPaidEmptyTransaction:
+    VoidPayment:
       type: object
       properties:
-        account_id:
-          type: integer
-        account_name:
-          type: string
-        amount:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        payment_date:
-          type: string
-          format: date
-        department_id:
-          type:
-          - integer
-          - 'null'
-        tag_ids:
-          type: array
-          items:
-            type: integer
-        memo:
-          type:
-          - string
-          - 'null'
-        external_id:
-          type:
-          - string
-          - 'null'
-          maxLength: 256
-        currency:
-          type:
-          - string
-          - 'null'
-        amount_in_invoice_currency:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        amount_in_bill_currency:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        withholding_amount:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        withholding_tax_rate_id:
-          type:
-          - integer
-          - 'null'
-      required:
-      - account_id
-      - account_name
-      - amount
-      - payment_date
-    CalculatePaymentInput:
-      type: object
-      properties:
-        transactions:
-          type: array
-          items:
-            $ref: '#/components/schemas/TransactionPaymentInput'
-        credit_memos:
-          type: array
-          items:
-            $ref: '#/components/schemas/CreditMemoPaymentInput'
-        empty_transactions:
-          type: array
-          items:
-            $ref: '#/components/schemas/EmptyTransactionInput'
-    GetDefaultPaymentOutput:
-      type: object
-      properties:
-        default_payment_amount:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        payment_term_discount_note:
-          type:
-          - string
-          - 'null'
-      required:
-      - default_payment_amount
-    PaginatedInvoicePaymentSyncList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/InvoicePaymentSync'
-    BulkApplyInvoicePaymentFilters:
-      type: object
-      properties:
-        entity:
-          type:
-          - integer
-          - 'null'
-        client:
-          type:
-          - integer
-          - 'null'
-        status:
-          type:
-          - string
-          - 'null'
-        max_date:
+        void_date:
           type:
           - string
           - 'null'
           format: date
-        search_query:
-          type:
-          - string
-          - 'null'
-    File:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        created_by:
-          type:
-          - integer
-          - 'null'
-          readOnly: true
-        created_by_name:
-          type: string
-          readOnly: true
-        created_by_email:
-          type: string
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        name:
-          type: string
-        url:
-          type: string
-          readOnly: true
-        s3_content_type:
-          type:
-          - string
-          - 'null'
-        s3_content_length:
-          type:
-          - integer
-          - 'null'
-          maximum: 2147483647
-          minimum: 0
-        s3_path:
-          type: string
-        object_id:
-          type:
-          - integer
-          - 'null'
-          maximum: 2147483647
-          minimum: 0
-        app:
-          type: string
-          readOnly: true
-        model:
-          type: string
-          readOnly: true
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-      required:
-      - app
-      - created_at
-      - created_by
-      - created_by_email
-      - created_by_name
-      - customer
-      - deleted_at
-      - id
-      - is_deleted
-      - last_modified_at
-      - model
-      - name
-      - s3_path
-      - url
-    PatchedProduct:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        is_deleted:
-          type: boolean
-          readOnly: true
-          default: false
-        deleted_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-        department_name:
-          type: string
-          readOnly: true
-        invoice_account_name:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        revenue_account_name:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        ar_account_name:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        bad_debt_account_name:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        invoice_unbilled_account_name:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        tax_account_name:
-          type: string
-          readOnly: true
-        tags:
-          type: array
-          items:
-            type: object
-            additionalProperties: {}
-          readOnly: true
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        product_uuid:
-          type: string
-          format: uuid
-          readOnly: true
-        display_name:
-          type: string
-          readOnly: true
-        usage_group_count:
-          type: integer
-          readOnly: true
-          default: 0
-        usage_groups:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductUsageGroupSummary'
-          readOnly: true
-        product_id:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        product_name:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        product_description:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        tag_ids:
-          type: array
-          items:
-            type: integer
-            maximum: 9223372036854775807
-            minimum: -9223372036854775808
-            format: int64
-        tag_group_ids:
-          type: array
-          items:
-            type: integer
-            maximum: 9223372036854775807
-            minimum: -9223372036854775808
-            format: int64
-        currency:
-          type:
-          - string
-          - 'null'
-          maxLength: 3
-        price:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -100000000000000
-          exclusiveMaximum: 100000000000000
-        cost:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        exclude_from_mrr:
-          type: boolean
-        is_taxable:
-          type: boolean
-        is_renewable:
-          type: boolean
-        recognize_revenue:
-          type: boolean
-          description: If False, contract-sync skips the revenue-recognition waterfall for this product (no ContractSubscription / RevenueTransaction rows).
-        is_immediate_recognition:
-          type: boolean
-          description: When true, revenue for this product is recognized in full on the invoice finalization date instead of being amortized over the service period.  Used by the Stripe accrual JE waterfall.
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        stripe_product_id:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        avalara_item_id:
-          type:
-          - integer
-          - 'null'
-          maximum: 9223372036854775807
-          minimum: -9223372036854775808
-          format: int64
-        avalara_item_data: {}
-        avalara_tax_code:
-          type:
-          - string
-          - 'null'
-          description: Avalara tax code (e.g., SW052000 for SAAS)
-          maxLength: 50
-        anrok_item_id:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        sphere_item_id:
-          type:
-          - string
-          - 'null'
-          maxLength: 250
-        apply_dept_tag_to_invoice_journals:
-          type:
-          - boolean
-          - 'null'
-          description: Apply Department and Tag categorization to all lines on Invoice Journals
-        customer:
-          type: integer
-          readOnly: true
-        department:
-          type:
-          - integer
-          - 'null'
-        invoice_account:
-          type:
-          - integer
-          - 'null'
-        revenue_account:
-          type:
-          - integer
-          - 'null'
-        ar_account:
-          type:
-          - integer
-          - 'null'
-        bad_debt_account:
-          type:
-          - integer
-          - 'null'
-        invoice_unbilled_account:
-          type:
-          - integer
-          - 'null'
-    PaymentStatusCdcEnum:
-      enum:
-      - draft
-      - open
-      - sent
-      - partial
-      - paid
-      - uncollectible
-      - voided
-      type: string
-      description: '* `draft` - Draft
-
-        * `open` - Open
-
-        * `sent` - Sent
-
-        * `partial` - Partially Paid
-
-        * `paid` - Paid
-
-        * `uncollectible` - Uncollectible
-
-        * `voided` - Voided'
     AccountingInvoiceJournalEntryTypeEnum:
       enum:
       - reclassification
@@ -3972,93 +3020,29 @@ components:
         * `fx_loss` - FX Loss
 
         * `recoverables` - Recoverables'
-    TermsEnum:
-      enum:
-      - custom
-      - net_5
-      - net_7
-      - net_10
-      - net_15
-      - net_20
-      - net_30
-      - net_40
-      - net_45
-      - net_60
-      - net_90
-      - net_105
-      - net_120
-      - due_on_receipt
-      type: string
-      description: '* `custom` - Custom
-
-        * `net_5` - Net 5
-
-        * `net_7` - Net 7
-
-        * `net_10` - Net 10
-
-        * `net_15` - Net 15
-
-        * `net_20` - Net 20
-
-        * `net_30` - Net 30
-
-        * `net_40` - Net 40
-
-        * `net_45` - Net 45
-
-        * `net_60` - Net 60
-
-        * `net_90` - Net 90
-
-        * `net_105` - Net 105
-
-        * `net_120` - Net 120
-
-        * `due_on_receipt` - Due on Receipt'
-    CreditMemoPaymentInput:
+    GetDefaultPaymentInput:
       type: object
       properties:
-        credit_memo_id:
-          type: integer
-        amount:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
         posted_at:
           type: string
           format: date
-          description: Application date
-      required:
-      - amount
-      - credit_memo_id
-      - posted_at
-    TransactionPaymentInput:
-      type: object
-      properties:
-        transaction_id:
-          type: integer
-        amount:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        posted_at:
-          type: string
-          format: date
-          description: Payment date for term discount calculation
-        withholding_amount:
+          description: Date when payment would be posted
+        transaction_amount:
           type:
           - number
           - 'null'
           format: double
-          minimum: 0.0
+          description: Optional transaction amount
+          exclusiveMinimum: -1000000000000000000
           exclusiveMaximum: 1000000000000000000
       required:
-      - amount
       - posted_at
-      - transaction_id
+    VoidInvoiceRequest:
+      type: object
+      properties:
+        void_date:
+          type: string
+          format: date
     MarkPaidTransaction:
       type: object
       properties:
@@ -4113,32 +3097,7 @@ components:
           - 'null'
       required:
       - amount
-    BlankEnum:
-      enum:
-      - ''
-    EngineUsedEnum:
-      enum:
-      - postgres
-      type: string
-      description: '* `postgres` - postgres'
-    PricingModelEnum:
-      enum:
-      - unit_based
-      - fixed_fee
-      - percentage_based
-      - graduated_tiered
-      - volume_based
-      type: string
-      description: '* `unit_based` - Unit based pricing
-
-        * `fixed_fee` - Fixed fee pricing
-
-        * `percentage_based` - Percentage based pricing
-
-        * `graduated_tiered` - Graduated tiered pricing
-
-        * `volume_based` - Volume based pricing'
-    AccountingCreditMemo:
+    PatchedAccountingCreditMemo:
       type: object
       properties:
         id:
@@ -4351,39 +3310,276 @@ components:
           type:
           - integer
           - 'null'
-      required:
-      - amount_remaining
-      - attachments
-      - client_email
-      - client_name
-      - contract_name
-      - created_at
-      - credit_account_name
-      - credit_account_number
-      - credit_memo_date
-      - customer
-      - deleted_at
-      - entity
-      - entity_currency
-      - entity_name
-      - id
-      - is_deleted
-      - last_modified_at
-      - lines
-      - payments
-      - search_text
-      - search_vector
-      - voided_date
-      - voided_journal_entry_order
-    BulkInvoice:
+    EmptyTransactionInput:
       type: object
       properties:
-        invoice_number:
+        amount:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        payment_date:
+          type: string
+          format: date
+          description: Payment date for term discount calculation
+        withholding_amount:
+          type:
+          - number
+          - 'null'
+          format: double
+          minimum: 0.0
+          exclusiveMaximum: 1000000000000000000
+      required:
+      - amount
+      - payment_date
+    ApplicationStatusEnum:
+      enum:
+      - open
+      - partially_used
+      - used
+      - voided
+      type: string
+      description: '* `open` - Open
+
+        * `partially_used` - Partially Used
+
+        * `used` - Used
+
+        * `voided` - Voided'
+    MarkPaidDebitMemo:
+      type: object
+      properties:
+        debit_memo_id:
+          type: integer
+        amount:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        posted_at:
+          type: string
+          format: date
+      required:
+      - amount
+      - debit_memo_id
+      - posted_at
+    BulkCreateInvoices:
+      type: object
+      description: Serializer for bulk invoice creation. Accepts a list of invoice data.
+      properties:
+        invoices:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          description: List of invoice data dictionaries matching AccountingInvoiceSerializer structure
+          minItems: 1
+      required:
+      - invoices
+    MarkInvoicePaidAutoCreatedCreditMemo:
+      type: object
+      properties:
+        id:
+          type: integer
+        credit_memo_number:
           type: string
       required:
-      - invoice_number
-    PatchedAccountingInvoice:
+      - credit_memo_number
+      - id
+    CreditMemoPaymentInput:
       type: object
+      properties:
+        credit_memo_id:
+          type: integer
+        amount:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        posted_at:
+          type: string
+          format: date
+          description: Application date
+      required:
+      - amount
+      - credit_memo_id
+      - posted_at
+    AccountingInvoiceLine:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        invoice:
+          type: integer
+          writeOnly: true
+        product_name:
+          type: string
+          readOnly: true
+        product_bundle_name:
+          type: string
+          readOnly: true
+        stripe_product_id:
+          type: string
+          readOnly: true
+        product_is_taxable:
+          type: boolean
+          readOnly: true
+        anrok_item_id:
+          type: string
+          readOnly: true
+        sphere_item_id:
+          type: string
+          readOnly: true
+        service_date:
+          type:
+          - string
+          - 'null'
+          format: date
+        tags:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          readOnly: true
+        department_name:
+          type: string
+          readOnly: true
+        department_code:
+          type: string
+          readOnly: true
+        withholding_tax_rate_name:
+          type: string
+          readOnly: true
+        withholding_tax_rate_value:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Sum of the selected withholding rate's component rates, for line-level preview.
+          readOnly: true
+        description:
+          type:
+          - string
+          - 'null'
+        quantity:
+          type: number
+          format: double
+          exclusiveMinimum: -10000000000000000
+          exclusiveMaximum: 10000000000000000
+        rate:
+          type: number
+          format: double
+          exclusiveMinimum: -10000000000000
+          exclusiveMaximum: 10000000000000
+        currency:
+          type: string
+          maxLength: 3
+        amount:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        tax:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        tax_description:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        entity_use_code:
+          type:
+          - string
+          - 'null'
+          description: Avalara entity/use code for line-level tax exemptions
+          maxLength: 25
+        discount:
+          type: number
+          format: double
+          description: Discount amount in currency
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        discount_percentage:
+          type: number
+          format: double
+          description: Discount percentage (0-100)
+          exclusiveMinimum: -1000
+          exclusiveMaximum: 1000
+        discount_amount:
+          type: number
+          format: double
+          description: Discount amount calculated from percentage
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        tag_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        tag_group_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        product:
+          type:
+          - integer
+          - 'null'
+        product_bundle:
+          type:
+          - integer
+          - 'null'
+        withholding_tax_rate:
+          type:
+          - integer
+          - 'null'
+          description: Marks this line as subject to withholding; used for preview only. Null = not subject.
+        department:
+          type:
+          - integer
+          - 'null'
+      required:
+      - anrok_item_id
+      - created_at
+      - customer
+      - department_code
+      - department_name
+      - id
+      - last_modified_at
+      - product_bundle_name
+      - product_is_taxable
+      - product_name
+      - sphere_item_id
+      - stripe_product_id
+      - tags
+      - withholding_tax_rate_name
+      - withholding_tax_rate_value
+    AccountingInvoiceList:
+      type: object
+      description: 'Lightweight serializer for the invoice list endpoint.
+
+
+        Excludes heavy nested fields (emails, payments, attachments, payment_journal_entries)
+
+        that are only needed on the detail view. Keeps lines for the duplicate invoice action.'
       properties:
         id:
           type: integer
@@ -4392,26 +3588,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/AccountingInvoiceLine'
-        emails:
-          type: array
-          items:
-            type: object
-            additionalProperties: {}
-          readOnly: true
-        payments:
-          type: array
-          items:
-            $ref: '#/components/schemas/AccountingInvoicePayment'
-          readOnly: true
-        related_journal_entries:
-          type: array
-          items:
-            $ref: '#/components/schemas/AccountingInvoiceJournalEntry'
-          readOnly: true
-        payment_journal_entries:
-          type: array
-          items:
-            type: integer
           readOnly: true
         journal_entry_intercompany:
           type: string
@@ -4431,10 +3607,16 @@ components:
         client_use_stripe_auto_bill:
           type: boolean
           readOnly: true
-        public_invoice_payment_url:
-          type:
-          - string
-          - 'null'
+        contract_custom_fields:
+          type: array
+          items:
+            type: object
+            additionalProperties:
+              oneOf:
+              - type: string
+              - type: boolean
+              - type: array
+                items: {}
           readOnly: true
         status:
           type: string
@@ -4471,33 +3653,8 @@ components:
           type: number
           format: double
           readOnly: true
-        withholding_info:
-          type:
-          - object
-          - 'null'
-          additionalProperties: {}
-          description: 'Withholding context for the invoice''s entity.
-
-
-            ``estimated_withholding_amount`` covers only the remaining amount due (null once
-
-            fully paid); ``withheld_to_date`` is the signed sum of posted withholding, so
-
-            actuals replace the estimate as receipts come in. Certificate-based schemes
-
-            estimate from the entity certificate''s rate (falling back to the scheme
-
-            default); rules-based schemes sum each line''s selected rate over the line
-
-            amount, scaled by the remaining-due proportion.'
-          readOnly: true
         contract_name:
           type: string
-          readOnly: true
-        attachments:
-          type: array
-          items:
-            $ref: '#/components/schemas/File'
           readOnly: true
         invoice_number:
           type: string
@@ -4539,42 +3696,11 @@ components:
           - string
           - 'null'
           format: date
-        migrated_journal_id:
-          type:
-          - integer
-          - 'null'
-          writeOnly: true
         voided_journal_entry_order:
           type:
           - integer
           - 'null'
           readOnly: true
-        contract_custom_fields:
-          type: array
-          items:
-            type: object
-            additionalProperties:
-              oneOf:
-              - type: string
-              - type: boolean
-              - type: array
-                items: {}
-          readOnly: true
-        department:
-          type:
-          - integer
-          - 'null'
-          writeOnly: true
-        department_name:
-          type:
-          - string
-          - 'null'
-          writeOnly: true
-        tags:
-          type: array
-          items:
-            type: integer
-          writeOnly: true
         last_modified_at:
           type: string
           format: date-time
@@ -4589,10 +3715,6 @@ components:
           - 'null'
           format: date-time
           readOnly: true
-        chat_uuid:
-          type: string
-          format: uuid
-          writeOnly: true
         search_vector:
           type:
           - string
@@ -4851,28 +3973,23 @@ components:
           type:
           - integer
           - 'null'
-          readOnly: true
         journal_entry:
           type:
           - integer
           - 'null'
-          readOnly: true
         ar_account:
           type:
           - integer
           - 'null'
-          readOnly: true
           description: Accounts Receivable account for this invoice. Populated for single-AR and migrated invoices. NULL for multi-AR invoices (aging uses ChartTransactions instead).
         voided_journal_entry:
           type:
           - integer
           - 'null'
-          readOnly: true
         entity_transfer_journal_entry:
           type:
           - integer
           - 'null'
-          readOnly: true
         contract:
           type:
           - integer
@@ -4901,6 +4018,72 @@ components:
           type:
           - integer
           - 'null'
+      required:
+      - amount_due
+      - amount_paid
+      - anrok_customer_id
+      - auto_sent_at
+      - avalara_connection_company
+      - avalara_connection_name
+      - client_email
+      - client_invoice_message
+      - client_name
+      - client_use_stripe_auto_bill
+      - contract_custom_fields
+      - contract_name
+      - created_at
+      - customer
+      - deleted_at
+      - due_date
+      - entity
+      - entity_currency
+      - entity_invoice_message
+      - entity_name
+      - id
+      - invoice_date
+      - is_deleted
+      - journal_entry_intercompany
+      - last_modified_at
+      - last_sent_at
+      - lines
+      - past_due_days
+      - payment_term_name
+      - search_text
+      - search_vector
+      - sent_date
+      - status
+      - stripe_connection_billing_portal_enabled
+      - stripe_connection_entity
+      - stripe_connection_name
+      - tax_rate_name
+      - tax_rate_value
+      - total_amount
+      - voided_journal_entry_order
+    PaginatedProductList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
     MarkPaid:
       type: object
       properties:
@@ -4932,104 +4115,30 @@ components:
           - 'null'
           items:
             $ref: '#/components/schemas/MarkPaidEmptyTransaction'
-    InvoiceReportResponse:
-      type: object
-      description: Output schema for invoice report responses.
-      properties:
-        count:
-          type: integer
-          description: Total rows before pagination
-        next:
-          type:
-          - string
-          - 'null'
-          description: Next page URL (null for datatable pagination)
-        previous:
-          type:
-          - string
-          - 'null'
-          description: Previous page URL
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/InvoiceReportResultRow'
-          description: Paginated result rows
-        engine_used:
-          allOf:
-          - $ref: '#/components/schemas/EngineUsedEnum'
-          description: 'Execution engine: ''postgres''
-
-
-            * `postgres` - postgres'
-        pivot_result_fields:
-          type: array
-          items:
-            type: string
-          description: Sorted list of pivot column names
-        totals_row:
-          type: object
-          additionalProperties: {}
-          description: Grand totals across all rows
-        pivot_value_mappings:
-          type: object
-          additionalProperties: {}
-          description: 'Mapping of pivot field -> {display_name: id} for drilldown'
-      required:
-      - count
-      - engine_used
-      - next
-      - previous
-      - results
-    CreditMemoTypeEnum:
-      enum:
-      - credit_memo
-      - overpayment
-      type: string
-      description: '* `credit_memo` - Credit Memo
-
-        * `overpayment` - Overpayment'
-    PaginatedProductList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/Product'
-    GetDefaultPaymentInput:
+    BulkApplyInvoicePaymentFilters:
       type: object
       properties:
-        posted_at:
-          type: string
+        entity:
+          type:
+          - integer
+          - 'null'
+        client:
+          type:
+          - integer
+          - 'null'
+        status:
+          type:
+          - string
+          - 'null'
+        max_date:
+          type:
+          - string
+          - 'null'
           format: date
-          description: Date when payment would be posted
-        transaction_amount:
+        search_query:
           type:
-          - number
+          - string
           - 'null'
-          format: double
-          description: Optional transaction amount
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-      required:
-      - posted_at
     BulkCreditMemo:
       type: object
       properties:
@@ -5062,198 +4171,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/AccountingCreditMemo'
-    MarkInvoicePaidAutoCreatedCreditMemo:
-      type: object
-      properties:
-        id:
-          type: integer
-        credit_memo_number:
-          type: string
-      required:
-      - credit_memo_number
-      - id
-    VoidCreditMemoRequest:
-      type: object
-      properties:
-        void_date:
-          type: string
-          format: date
-      required:
-      - void_date
-    VoidInvoiceRequest:
-      type: object
-      properties:
-        void_date:
-          type: string
-          format: date
-    PaginatedAccountingInvoiceListList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/AccountingInvoiceList'
-    MarkPaidDebitMemo:
-      type: object
-      properties:
-        debit_memo_id:
-          type: integer
-        amount:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        posted_at:
-          type: string
-          format: date
-      required:
-      - amount
-      - debit_memo_id
-      - posted_at
-    AccountingInvoicePayment:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        credit_memo:
-          type: string
-          readOnly: true
-        payment_transaction_bank_description:
-          type: string
-          readOnly: true
-        payment_journal_entry_order:
-          type: string
-          readOnly: true
-        payment_intercompany_journal:
-          type: string
-          readOnly: true
-        voided_journal_entry_order:
-          type: string
-          readOnly: true
-        withheld_amount:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: 'Tax withheld on this payment: sum of the payment''s own withholding GL legs.
-
-
-            Summed over the payment''s legs (not the invoice''s withholding records) so a
-
-            voided payment still shows what it originally withheld.'
-          readOnly: true
-        currency:
-          type: string
-          maxLength: 3
-        amount:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        payment_date:
-          type:
-          - string
-          - 'null'
-          format: date
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        voided_date:
-          type:
-          - string
-          - 'null'
-          format: date
-        source:
-          oneOf:
-          - $ref: '#/components/schemas/Source24dEnum'
-          - $ref: '#/components/schemas/BlankEnum'
-          - $ref: '#/components/schemas/NullEnum'
-        payment_type:
-          readOnly: true
-          description: 'Type of payment: credit memo application, bank transaction, or manual transaction
-
-
-            * `CREDIT_MEMO` - Credit Memo
-
-            * `BANK_TRANSACTION` - Bank Transaction
-
-            * `MANUAL_TRANSACTION` - Manual Transaction'
-          oneOf:
-          - $ref: '#/components/schemas/PaymentTypeEnum'
-          - $ref: '#/components/schemas/NullEnum'
-        external_id:
-          type:
-          - string
-          - 'null'
-          description: Stable upstream identifier for this payment (e.g. Stripe balance transaction 'btxn_...', Stripe credit note 'cn_...', or the mart's event external_id for customer-balance applications). Used as the natural dedup/idempotency key. Null for manually-entered payments.
-          maxLength: 256
-        last_modified_at:
-          type: string
-          format: date-time
-          readOnly: true
-        customer:
-          type: integer
-          readOnly: true
-        invoice:
-          type: integer
-        payment_journal_entry:
-          type:
-          - integer
-          - 'null'
-        payment_transaction:
-          type:
-          - integer
-          - 'null'
-        fx_gain_loss_realized_transaction:
-          type:
-          - integer
-          - 'null'
-        payment_term_discount_transaction:
-          type:
-          - integer
-          - 'null'
-        voided_journal_entry:
-          type:
-          - integer
-          - 'null'
-        payment_transactions:
-          type: array
-          items:
-            type: integer
-      required:
-      - created_at
-      - credit_memo
-      - customer
-      - external_id
-      - id
-      - invoice
-      - last_modified_at
-      - payment_intercompany_journal
-      - payment_journal_entry_order
-      - payment_transaction_bank_description
-      - payment_type
-      - voided_journal_entry_order
-      - withheld_amount
     InvoicePaymentSync:
       type: object
       properties:
@@ -5332,7 +4249,180 @@ components:
       - payment_type
       - source
       - voided_date
-    PatchedAccountingCreditMemo:
+    MarkInvoicePaidResponse:
+      type: object
+      description: '200 payload for the mark-invoice-paid endpoint.
+
+
+        The endpoint returns ids of the records it created rather than the invoice itself.
+
+        ``auto_created_credit_memos`` is only present when an overpayment produced one.'
+      properties:
+        journal_entry_ids:
+          type: array
+          items:
+            type: integer
+        payment_ids:
+          type: array
+          items:
+            type: integer
+        auto_created_credit_memos:
+          type: array
+          items:
+            $ref: '#/components/schemas/MarkInvoicePaidAutoCreatedCreditMemo'
+      required:
+      - journal_entry_ids
+      - payment_ids
+    MarkCreditMemoUsed:
+      type: object
+      description: Serializer for marking a credit memo as used with a transaction.
+      properties:
+        transaction_id:
+          type: integer
+        account_id:
+          type: integer
+        amount:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        payment_date:
+          type: string
+          format: date
+        memo:
+          type:
+          - string
+          - 'null'
+      required:
+      - account_id
+      - amount
+      - payment_date
+      - transaction_id
+    AccountingInvoiceJournalEntry:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        journal_entry:
+          type: integer
+          readOnly: true
+        journal_entry_order:
+          type: string
+          readOnly: true
+        journal_entry_date:
+          type: string
+          format: date
+          readOnly: true
+        journal_entry_memo:
+          type: string
+          readOnly: true
+        type:
+          allOf:
+          - $ref: '#/components/schemas/AccountingInvoiceJournalEntryTypeEnum'
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - journal_entry
+      - journal_entry_date
+      - journal_entry_memo
+      - journal_entry_order
+      - type
+    CreditMemoTypeEnum:
+      enum:
+      - credit_memo
+      - overpayment
+      type: string
+      description: '* `credit_memo` - Credit Memo
+
+        * `overpayment` - Overpayment'
+    GetDefaultPaymentOutput:
+      type: object
+      properties:
+        default_payment_amount:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        payment_term_discount_note:
+          type:
+          - string
+          - 'null'
+      required:
+      - default_payment_amount
+    EngineUsedEnum:
+      enum:
+      - postgres
+      type: string
+      description: '* `postgres` - postgres'
+    TermsEnum:
+      enum:
+      - custom
+      - net_5
+      - net_7
+      - net_10
+      - net_15
+      - net_20
+      - net_30
+      - net_40
+      - net_45
+      - net_60
+      - net_90
+      - net_105
+      - net_120
+      - due_on_receipt
+      type: string
+      description: '* `custom` - Custom
+
+        * `net_5` - Net 5
+
+        * `net_7` - Net 7
+
+        * `net_10` - Net 10
+
+        * `net_15` - Net 15
+
+        * `net_20` - Net 20
+
+        * `net_30` - Net 30
+
+        * `net_40` - Net 40
+
+        * `net_45` - Net 45
+
+        * `net_60` - Net 60
+
+        * `net_90` - Net 90
+
+        * `net_105` - Net 105
+
+        * `net_120` - Net 120
+
+        * `due_on_receipt` - Due on Receipt'
+    InvoiceReportResultRow:
+      type: object
+      description: Schema for a single result row (dimensions + aggregates + drilldown).
+      properties:
+        filter_params:
+          type: object
+          additionalProperties: {}
+          description: Filter parameters for drilldown navigation
+        group_id:
+          type: integer
+          description: Row identifier for AG Grid merging
+        id:
+          type: integer
+          description: Row identifier for AG Grid getRowId
+      required:
+      - filter_params
+      - group_id
+      - id
+    AccountingCreditMemo:
       type: object
       properties:
         id:
@@ -5545,41 +4635,395 @@ components:
           type:
           - integer
           - 'null'
-    InvoiceReportResultRow:
+      required:
+      - amount_remaining
+      - attachments
+      - client_email
+      - client_name
+      - contract_name
+      - created_at
+      - credit_account_name
+      - credit_account_number
+      - credit_memo_date
+      - customer
+      - deleted_at
+      - entity
+      - entity_currency
+      - entity_name
+      - id
+      - is_deleted
+      - last_modified_at
+      - lines
+      - payments
+      - search_text
+      - search_vector
+      - voided_date
+      - voided_journal_entry_order
+    PaymentStatusCdcEnum:
+      enum:
+      - draft
+      - open
+      - sent
+      - partial
+      - paid
+      - uncollectible
+      - voided
+      type: string
+      description: '* `draft` - Draft
+
+        * `open` - Open
+
+        * `sent` - Sent
+
+        * `partial` - Partially Paid
+
+        * `paid` - Paid
+
+        * `uncollectible` - Uncollectible
+
+        * `voided` - Voided'
+    Product:
       type: object
-      description: Schema for a single result row (dimensions + aggregates + drilldown).
       properties:
-        filter_params:
-          type: object
-          additionalProperties: {}
-          description: Filter parameters for drilldown navigation
-        group_id:
-          type: integer
-          description: Row identifier for AG Grid merging
         id:
           type: integer
-          description: Row identifier for AG Grid getRowId
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        department_name:
+          type: string
+          readOnly: true
+        invoice_account_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        revenue_account_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        ar_account_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        bad_debt_account_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        invoice_unbilled_account_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        tax_account_name:
+          type: string
+          readOnly: true
+        tags:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        product_uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        display_name:
+          type: string
+          readOnly: true
+        usage_group_count:
+          type: integer
+          readOnly: true
+          default: 0
+        usage_groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductUsageGroupSummary'
+          readOnly: true
+        product_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        product_name:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        product_description:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        tag_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        tag_group_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        currency:
+          type:
+          - string
+          - 'null'
+          maxLength: 3
+        price:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -100000000000000
+          exclusiveMaximum: 100000000000000
+        cost:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        exclude_from_mrr:
+          type: boolean
+        is_taxable:
+          type: boolean
+        is_renewable:
+          type: boolean
+        recognize_revenue:
+          type: boolean
+          description: If False, contract-sync skips the revenue-recognition waterfall for this product (no ContractSubscription / RevenueTransaction rows).
+        is_immediate_recognition:
+          type: boolean
+          description: When true, revenue for this product is recognized in full on the invoice finalization date instead of being amortized over the service period.  Used by the Stripe accrual JE waterfall.
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        stripe_product_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        avalara_item_id:
+          type:
+          - integer
+          - 'null'
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        avalara_item_data: {}
+        avalara_tax_code:
+          type:
+          - string
+          - 'null'
+          description: Avalara tax code (e.g., SW052000 for SAAS)
+          maxLength: 50
+        anrok_item_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        sphere_item_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        apply_dept_tag_to_invoice_journals:
+          type:
+          - boolean
+          - 'null'
+          description: Apply Department and Tag categorization to all lines on Invoice Journals
+        customer:
+          type: integer
+          readOnly: true
+        department:
+          type:
+          - integer
+          - 'null'
+        invoice_account:
+          type:
+          - integer
+          - 'null'
+        revenue_account:
+          type:
+          - integer
+          - 'null'
+        ar_account:
+          type:
+          - integer
+          - 'null'
+        bad_debt_account:
+          type:
+          - integer
+          - 'null'
+        invoice_unbilled_account:
+          type:
+          - integer
+          - 'null'
       required:
-      - filter_params
-      - group_id
+      - ar_account_name
+      - bad_debt_account_name
+      - created_at
+      - customer
+      - deleted_at
+      - department_name
+      - display_name
       - id
-    MarkPaidCreditMemo:
+      - invoice_account_name
+      - invoice_unbilled_account_name
+      - is_deleted
+      - last_modified_at
+      - product_uuid
+      - revenue_account_name
+      - tags
+      - tax_account_name
+      - usage_group_count
+      - usage_groups
+    InvoiceReportResponse:
+      type: object
+      description: Output schema for invoice report responses.
+      properties:
+        count:
+          type: integer
+          description: Total rows before pagination
+        next:
+          type:
+          - string
+          - 'null'
+          description: Next page URL (null for datatable pagination)
+        previous:
+          type:
+          - string
+          - 'null'
+          description: Previous page URL
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvoiceReportResultRow'
+          description: Paginated result rows
+        engine_used:
+          allOf:
+          - $ref: '#/components/schemas/EngineUsedEnum'
+          description: 'Execution engine: ''postgres''
+
+
+            * `postgres` - postgres'
+        pivot_result_fields:
+          type: array
+          items:
+            type: string
+          description: Sorted list of pivot column names
+        totals_row:
+          type: object
+          additionalProperties: {}
+          description: Grand totals across all rows
+        pivot_value_mappings:
+          type: object
+          additionalProperties: {}
+          description: 'Mapping of pivot field -> {display_name: id} for drilldown'
+      required:
+      - count
+      - engine_used
+      - next
+      - previous
+      - results
+    MarkPaidEmptyTransaction:
       type: object
       properties:
-        credit_memo_id:
+        account_id:
           type: integer
+        account_name:
+          type: string
         amount:
           type: number
           format: double
           exclusiveMinimum: -1000000000000000000
           exclusiveMaximum: 1000000000000000000
-        posted_at:
+        payment_date:
           type: string
           format: date
+        department_id:
+          type:
+          - integer
+          - 'null'
+        tag_ids:
+          type: array
+          items:
+            type: integer
+        memo:
+          type:
+          - string
+          - 'null'
+        external_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 256
+        currency:
+          type:
+          - string
+          - 'null'
+        amount_in_invoice_currency:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        amount_in_bill_currency:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        withholding_amount:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        withholding_tax_rate_id:
+          type:
+          - integer
+          - 'null'
       required:
+      - account_id
+      - account_name
       - amount
-      - credit_memo_id
-      - posted_at
+      - payment_date
+    BulkCreditMemoSearch:
+      type: object
+      properties:
+        credit_memos:
+          type: array
+          items:
+            $ref: '#/components/schemas/BulkCreditMemo'
+          maxItems: 10000
+          minItems: 1
+      required:
+      - credit_memos
     AccountingInvoice:
       type: object
       properties:
@@ -6152,25 +5596,223 @@ components:
       - voided_journal_entry
       - voided_journal_entry_order
       - withholding_info
-    BulkInvoiceSearch:
+    PaymentTypeEnum:
+      enum:
+      - CREDIT_MEMO
+      - BANK_TRANSACTION
+      - MANUAL_TRANSACTION
+      type: string
+      description: '* `CREDIT_MEMO` - Credit Memo
+
+        * `BANK_TRANSACTION` - Bank Transaction
+
+        * `MANUAL_TRANSACTION` - Manual Transaction'
+    BulkInvoice:
       type: object
       properties:
-        invoices:
+        invoice_number:
+          type: string
+      required:
+      - invoice_number
+    PaginatedAccountingInvoiceListList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
           type: array
           items:
-            $ref: '#/components/schemas/BulkInvoice'
-          maxItems: 10000
-          minItems: 1
-      required:
-      - invoices
-    AccountingInvoiceList:
+            $ref: '#/components/schemas/AccountingInvoiceList'
+    VoidCreditMemoRequest:
       type: object
-      description: 'Lightweight serializer for the invoice list endpoint.
+      properties:
+        void_date:
+          type: string
+          format: date
+      required:
+      - void_date
+    CalculatePaymentOutput:
+      type: object
+      properties:
+        total_due:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        applied_payments:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        applied_credits:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        applied_withholding:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        term_discounts:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        remaining_due:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+      required:
+      - applied_credits
+      - applied_payments
+      - applied_withholding
+      - remaining_due
+      - term_discounts
+      - total_due
+    File:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+        created_by_name:
+          type: string
+          readOnly: true
+        created_by_email:
+          type: string
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        name:
+          type: string
+        url:
+          type: string
+          readOnly: true
+        s3_content_type:
+          type:
+          - string
+          - 'null'
+        s3_content_length:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: 0
+        s3_path:
+          type: string
+        object_id:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: 0
+        app:
+          type: string
+          readOnly: true
+        model:
+          type: string
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+      required:
+      - app
+      - created_at
+      - created_by
+      - created_by_email
+      - created_by_name
+      - customer
+      - deleted_at
+      - id
+      - is_deleted
+      - last_modified_at
+      - model
+      - name
+      - s3_path
+      - url
+    MarkPaidCreditMemo:
+      type: object
+      properties:
+        credit_memo_id:
+          type: integer
+        amount:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        posted_at:
+          type: string
+          format: date
+      required:
+      - amount
+      - credit_memo_id
+      - posted_at
+    Source24dEnum:
+      enum:
+      - STRIPE
+      - MANUAL
+      type: string
+      description: '* `STRIPE` - Stripe
 
+        * `MANUAL` - Manual'
+    PricingModelEnum:
+      enum:
+      - unit_based
+      - fixed_fee
+      - percentage_based
+      - graduated_tiered
+      - volume_based
+      type: string
+      description: '* `unit_based` - Unit based pricing
 
-        Excludes heavy nested fields (emails, payments, attachments, payment_journal_entries)
+        * `fixed_fee` - Fixed fee pricing
 
-        that are only needed on the detail view. Keeps lines for the duplicate invoice action.'
+        * `percentage_based` - Percentage based pricing
+
+        * `graduated_tiered` - Graduated tiered pricing
+
+        * `volume_based` - Volume based pricing'
+    PatchedAccountingInvoice:
+      type: object
       properties:
         id:
           type: integer
@@ -6179,6 +5821,26 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/AccountingInvoiceLine'
+        emails:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          readOnly: true
+        payments:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountingInvoicePayment'
+          readOnly: true
+        related_journal_entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountingInvoiceJournalEntry'
+          readOnly: true
+        payment_journal_entries:
+          type: array
+          items:
+            type: integer
           readOnly: true
         journal_entry_intercompany:
           type: string
@@ -6198,16 +5860,10 @@ components:
         client_use_stripe_auto_bill:
           type: boolean
           readOnly: true
-        contract_custom_fields:
-          type: array
-          items:
-            type: object
-            additionalProperties:
-              oneOf:
-              - type: string
-              - type: boolean
-              - type: array
-                items: {}
+        public_invoice_payment_url:
+          type:
+          - string
+          - 'null'
           readOnly: true
         status:
           type: string
@@ -6244,8 +5900,33 @@ components:
           type: number
           format: double
           readOnly: true
+        withholding_info:
+          type:
+          - object
+          - 'null'
+          additionalProperties: {}
+          description: 'Withholding context for the invoice''s entity.
+
+
+            ``estimated_withholding_amount`` covers only the remaining amount due (null once
+
+            fully paid); ``withheld_to_date`` is the signed sum of posted withholding, so
+
+            actuals replace the estimate as receipts come in. Certificate-based schemes
+
+            estimate from the entity certificate''s rate (falling back to the scheme
+
+            default); rules-based schemes sum each line''s selected rate over the line
+
+            amount, scaled by the remaining-due proportion.'
+          readOnly: true
         contract_name:
           type: string
+          readOnly: true
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/File'
           readOnly: true
         invoice_number:
           type: string
@@ -6287,11 +5968,42 @@ components:
           - string
           - 'null'
           format: date
+        migrated_journal_id:
+          type:
+          - integer
+          - 'null'
+          writeOnly: true
         voided_journal_entry_order:
           type:
           - integer
           - 'null'
           readOnly: true
+        contract_custom_fields:
+          type: array
+          items:
+            type: object
+            additionalProperties:
+              oneOf:
+              - type: string
+              - type: boolean
+              - type: array
+                items: {}
+          readOnly: true
+        department:
+          type:
+          - integer
+          - 'null'
+          writeOnly: true
+        department_name:
+          type:
+          - string
+          - 'null'
+          writeOnly: true
+        tags:
+          type: array
+          items:
+            type: integer
+          writeOnly: true
         last_modified_at:
           type: string
           format: date-time
@@ -6306,6 +6018,10 @@ components:
           - 'null'
           format: date-time
           readOnly: true
+        chat_uuid:
+          type: string
+          format: uuid
+          writeOnly: true
         search_vector:
           type:
           - string
@@ -6564,23 +6280,28 @@ components:
           type:
           - integer
           - 'null'
+          readOnly: true
         journal_entry:
           type:
           - integer
           - 'null'
+          readOnly: true
         ar_account:
           type:
           - integer
           - 'null'
+          readOnly: true
           description: Accounts Receivable account for this invoice. Populated for single-AR and migrated invoices. NULL for multi-AR invoices (aging uses ChartTransactions instead).
         voided_journal_entry:
           type:
           - integer
           - 'null'
+          readOnly: true
         entity_transfer_journal_entry:
           type:
           - integer
           - 'null'
+          readOnly: true
         contract:
           type:
           - integer
@@ -6609,144 +6330,64 @@ components:
           type:
           - integer
           - 'null'
-      required:
-      - amount_due
-      - amount_paid
-      - anrok_customer_id
-      - auto_sent_at
-      - avalara_connection_company
-      - avalara_connection_name
-      - client_email
-      - client_invoice_message
-      - client_name
-      - client_use_stripe_auto_bill
-      - contract_custom_fields
-      - contract_name
-      - created_at
-      - customer
-      - deleted_at
-      - due_date
-      - entity
-      - entity_currency
-      - entity_invoice_message
-      - entity_name
-      - id
-      - invoice_date
-      - is_deleted
-      - journal_entry_intercompany
-      - last_modified_at
-      - last_sent_at
-      - lines
-      - past_due_days
-      - payment_term_name
-      - search_text
-      - search_vector
-      - sent_date
-      - status
-      - stripe_connection_billing_portal_enabled
-      - stripe_connection_entity
-      - stripe_connection_name
-      - tax_rate_name
-      - tax_rate_value
-      - total_amount
-      - voided_journal_entry_order
-    BulkCreateInvoices:
-      type: object
-      description: Serializer for bulk invoice creation. Accepts a list of invoice data.
-      properties:
-        invoices:
-          type: array
-          items:
-            type: object
-            additionalProperties: {}
-          description: List of invoice data dictionaries matching AccountingInvoiceSerializer structure
-          minItems: 1
-      required:
-      - invoices
-    CalculatePaymentOutput:
-      type: object
-      properties:
-        total_due:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        applied_payments:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        applied_credits:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        applied_withholding:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        term_discounts:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        remaining_due:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-      required:
-      - applied_credits
-      - applied_payments
-      - applied_withholding
-      - remaining_due
-      - term_discounts
-      - total_due
-    AccountingInvoiceJournalEntry:
+    NullEnum:
+      enum:
+      - null
+    ProductUsageGroupSummary:
       type: object
       properties:
         id:
           type: integer
           readOnly: true
-        journal_entry:
+        name:
+          type:
+          - string
+          - 'null'
+        pricing_model:
+          $ref: '#/components/schemas/PricingModelEnum'
+        unit_of_measure:
+          type:
+          - string
+          - 'null'
+        tier_count:
           type: integer
           readOnly: true
-        journal_entry_order:
-          type: string
-          readOnly: true
-        journal_entry_date:
-          type: string
-          format: date
-          readOnly: true
-        journal_entry_memo:
-          type: string
-          readOnly: true
-        type:
-          allOf:
-          - $ref: '#/components/schemas/AccountingInvoiceJournalEntryTypeEnum'
-          readOnly: true
-        created_at:
-          type: string
-          format: date-time
+          default: 0
+        tiers:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductUsageTierSummary'
           readOnly: true
       required:
-      - created_at
       - id
-      - journal_entry
-      - journal_entry_date
-      - journal_entry_memo
-      - journal_entry_order
-      - type
-    EmptyTransactionInput:
+      - tier_count
+      - tiers
+    CalculatePaymentInput:
       type: object
       properties:
+        transactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransactionPaymentInput'
+        credit_memos:
+          type: array
+          items:
+            $ref: '#/components/schemas/CreditMemoPaymentInput'
+        empty_transactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/EmptyTransactionInput'
+    TransactionPaymentInput:
+      type: object
+      properties:
+        transaction_id:
+          type: integer
         amount:
           type: number
           format: double
           exclusiveMinimum: -1000000000000000000
           exclusiveMaximum: 1000000000000000000
-        payment_date:
+        posted_at:
           type: string
           format: date
           description: Payment date for term discount calculation
@@ -6759,80 +6400,19 @@ components:
           exclusiveMaximum: 1000000000000000000
       required:
       - amount
-      - payment_date
-    VoidPayment:
-      type: object
-      properties:
-        void_date:
-          type:
-          - string
-          - 'null'
-          format: date
-    MarkInvoicePaidResponse:
-      type: object
-      description: '200 payload for the mark-invoice-paid endpoint.
-
-
-        The endpoint returns ids of the records it created rather than the invoice itself.
-
-        ``auto_created_credit_memos`` is only present when an overpayment produced one.'
-      properties:
-        journal_entry_ids:
-          type: array
-          items:
-            type: integer
-        payment_ids:
-          type: array
-          items:
-            type: integer
-        auto_created_credit_memos:
-          type: array
-          items:
-            $ref: '#/components/schemas/MarkInvoicePaidAutoCreatedCreditMemo'
-      required:
-      - journal_entry_ids
-      - payment_ids
-    MarkCreditMemoUsed:
-      type: object
-      description: Serializer for marking a credit memo as used with a transaction.
-      properties:
-        transaction_id:
-          type: integer
-        account_id:
-          type: integer
-        amount:
-          type: number
-          format: double
-          exclusiveMinimum: -1000000000000000000
-          exclusiveMaximum: 1000000000000000000
-        payment_date:
-          type: string
-          format: date
-        memo:
-          type:
-          - string
-          - 'null'
-      required:
-      - account_id
-      - amount
-      - payment_date
+      - posted_at
       - transaction_id
-    BulkApplyInvoicePayment:
+    BulkInvoiceSearch:
       type: object
       properties:
-        transaction_id:
-          type: integer
-        invoice_ids:
-          type:
-          - array
-          - 'null'
+        invoices:
+          type: array
           items:
-            type: integer
-        filters:
-          allOf:
-          - $ref: '#/components/schemas/BulkApplyInvoicePaymentFilters'
+            $ref: '#/components/schemas/BulkInvoice'
+          maxItems: 10000
+          minItems: 1
       required:
-      - transaction_id
+      - invoices
     ProductUsageTierSummary:
       type: object
       properties:
@@ -6876,6 +6456,426 @@ components:
       - price
       - pricing_type
       - to_quantity
+    PatchedProduct:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        is_deleted:
+          type: boolean
+          readOnly: true
+          default: false
+        deleted_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        department_name:
+          type: string
+          readOnly: true
+        invoice_account_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        revenue_account_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        ar_account_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        bad_debt_account_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        invoice_unbilled_account_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        tax_account_name:
+          type: string
+          readOnly: true
+        tags:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        product_uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        display_name:
+          type: string
+          readOnly: true
+        usage_group_count:
+          type: integer
+          readOnly: true
+          default: 0
+        usage_groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductUsageGroupSummary'
+          readOnly: true
+        product_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        product_name:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        product_description:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        tag_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        tag_group_ids:
+          type: array
+          items:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: -9223372036854775808
+            format: int64
+        currency:
+          type:
+          - string
+          - 'null'
+          maxLength: 3
+        price:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -100000000000000
+          exclusiveMaximum: 100000000000000
+        cost:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        exclude_from_mrr:
+          type: boolean
+        is_taxable:
+          type: boolean
+        is_renewable:
+          type: boolean
+        recognize_revenue:
+          type: boolean
+          description: If False, contract-sync skips the revenue-recognition waterfall for this product (no ContractSubscription / RevenueTransaction rows).
+        is_immediate_recognition:
+          type: boolean
+          description: When true, revenue for this product is recognized in full on the invoice finalization date instead of being amortized over the service period.  Used by the Stripe accrual JE waterfall.
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        stripe_product_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        avalara_item_id:
+          type:
+          - integer
+          - 'null'
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        avalara_item_data: {}
+        avalara_tax_code:
+          type:
+          - string
+          - 'null'
+          description: Avalara tax code (e.g., SW052000 for SAAS)
+          maxLength: 50
+        anrok_item_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        sphere_item_id:
+          type:
+          - string
+          - 'null'
+          maxLength: 250
+        apply_dept_tag_to_invoice_journals:
+          type:
+          - boolean
+          - 'null'
+          description: Apply Department and Tag categorization to all lines on Invoice Journals
+        customer:
+          type: integer
+          readOnly: true
+        department:
+          type:
+          - integer
+          - 'null'
+        invoice_account:
+          type:
+          - integer
+          - 'null'
+        revenue_account:
+          type:
+          - integer
+          - 'null'
+        ar_account:
+          type:
+          - integer
+          - 'null'
+        bad_debt_account:
+          type:
+          - integer
+          - 'null'
+        invoice_unbilled_account:
+          type:
+          - integer
+          - 'null'
+    AccountingInvoicePayment:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        credit_memo:
+          type: string
+          readOnly: true
+        payment_transaction_bank_description:
+          type: string
+          readOnly: true
+        payment_journal_entry_order:
+          type: string
+          readOnly: true
+        payment_intercompany_journal:
+          type: string
+          readOnly: true
+        voided_journal_entry_order:
+          type: string
+          readOnly: true
+        withheld_amount:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: 'Tax withheld on this payment: sum of the payment''s own withholding GL legs.
+
+
+            Summed over the payment''s legs (not the invoice''s withholding records) so a
+
+            voided payment still shows what it originally withheld.'
+          readOnly: true
+        currency:
+          type: string
+          maxLength: 3
+        amount:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        payment_date:
+          type:
+          - string
+          - 'null'
+          format: date
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        voided_date:
+          type:
+          - string
+          - 'null'
+          format: date
+        source:
+          oneOf:
+          - $ref: '#/components/schemas/Source24dEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        payment_type:
+          readOnly: true
+          description: 'Type of payment: credit memo application, bank transaction, or manual transaction
+
+
+            * `CREDIT_MEMO` - Credit Memo
+
+            * `BANK_TRANSACTION` - Bank Transaction
+
+            * `MANUAL_TRANSACTION` - Manual Transaction'
+          oneOf:
+          - $ref: '#/components/schemas/PaymentTypeEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        external_id:
+          type:
+          - string
+          - 'null'
+          description: Stable upstream identifier for this payment (e.g. Stripe balance transaction 'btxn_...', Stripe credit note 'cn_...', or the mart's event external_id for customer-balance applications). Used as the natural dedup/idempotency key. Null for manually-entered payments.
+          maxLength: 256
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        customer:
+          type: integer
+          readOnly: true
+        invoice:
+          type: integer
+        payment_journal_entry:
+          type:
+          - integer
+          - 'null'
+        payment_transaction:
+          type:
+          - integer
+          - 'null'
+        fx_gain_loss_realized_transaction:
+          type:
+          - integer
+          - 'null'
+        payment_term_discount_transaction:
+          type:
+          - integer
+          - 'null'
+        voided_journal_entry:
+          type:
+          - integer
+          - 'null'
+        payment_transactions:
+          type: array
+          items:
+            type: integer
+      required:
+      - created_at
+      - credit_memo
+      - customer
+      - external_id
+      - id
+      - invoice
+      - last_modified_at
+      - payment_intercompany_journal
+      - payment_journal_entry_order
+      - payment_transaction_bank_description
+      - payment_type
+      - voided_journal_entry_order
+      - withheld_amount
+    PaginatedInvoicePaymentSyncList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvoicePaymentSync'
+    AccountingCreditMemoPayment:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        payment_journal_entry_order:
+          type: string
+          readOnly: true
+        voided_journal_entry_order:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        invoice:
+          type: string
+          readOnly: true
+        currency:
+          type: string
+          maxLength: 3
+        amount:
+          type: number
+          format: double
+          exclusiveMinimum: -1000000000000000000
+          exclusiveMaximum: 1000000000000000000
+        payment_date:
+          type:
+          - string
+          - 'null'
+          format: date
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_modified_at:
+          type: string
+          format: date-time
+          readOnly: true
+        voided_date:
+          type:
+          - string
+          - 'null'
+          format: date
+        customer:
+          type: integer
+          readOnly: true
+        credit_memo:
+          type: integer
+        payment_journal_entry:
+          type: integer
+        payment_transaction:
+          type:
+          - integer
+          - 'null'
+        voided_journal_entry:
+          type:
+          - integer
+          - 'null'
+      required:
+      - created_at
+      - credit_memo
+      - customer
+      - id
+      - invoice
+      - last_modified_at
+      - payment_journal_entry
+      - payment_journal_entry_order
+      - voided_journal_entry_order
+    BlankEnum:
+      enum:
+      - ''
   securitySchemes:
     knoxApiToken:
       type: apiKey

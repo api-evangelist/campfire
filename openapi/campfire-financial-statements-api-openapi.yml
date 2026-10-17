@@ -988,28 +988,6 @@ components:
       - id
       - name
       - number
-    TrialBalanceResponse:
-      type: object
-      properties:
-        trial_balance:
-          $ref: '#/components/schemas/TrialBalanceData'
-        start_date:
-          type: string
-          format: date
-        end_date:
-          type: string
-          format: date
-        income_statement_start:
-          type: string
-          format: date
-        breakdown:
-          type: object
-          additionalProperties: {}
-      required:
-      - end_date
-      - income_statement_start
-      - start_date
-      - trial_balance
     TrialBalanceAccountBalance:
       type: object
       properties:
@@ -1035,6 +1013,28 @@ components:
             $ref: '#/components/schemas/TrialBalanceAccount'
       required:
       - accounts
+    TrialBalanceResponse:
+      type: object
+      properties:
+        trial_balance:
+          $ref: '#/components/schemas/TrialBalanceData'
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+        income_statement_start:
+          type: string
+          format: date
+        breakdown:
+          type: object
+          additionalProperties: {}
+      required:
+      - end_date
+      - income_statement_start
+      - start_date
+      - trial_balance
   securitySchemes:
     knoxApiToken:
       type: apiKey

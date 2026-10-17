@@ -186,7 +186,7 @@ paths:
           description: ''
 components:
   schemas:
-    PatchedWebhook:
+    Webhook:
       type: object
       properties:
         id:
@@ -220,6 +220,15 @@ components:
         customer:
           type: integer
           readOnly: true
+      required:
+      - active
+      - created_at
+      - customer
+      - id
+      - last_modified_at
+      - token
+      - url
+      - uuid
     WebhookEvent:
       type: object
       properties:
@@ -266,7 +275,7 @@ components:
       required:
       - id
       - name
-    Webhook:
+    PatchedWebhook:
       type: object
       properties:
         id:
@@ -300,15 +309,6 @@ components:
         customer:
           type: integer
           readOnly: true
-      required:
-      - active
-      - created_at
-      - customer
-      - id
-      - last_modified_at
-      - token
-      - url
-      - uuid
   securitySchemes:
     knoxApiToken:
       type: apiKey
