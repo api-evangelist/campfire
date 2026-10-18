@@ -27,5 +27,5 @@
     - connectors/applications/campfire
     vendor_link: https://campfire.ai/
     builder: Fivetran
-  status: pending-generation
+  status: not-a-workflow
   arazzo: null
